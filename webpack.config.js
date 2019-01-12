@@ -1,9 +1,9 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  entry: './src/app.es6',
+  entry: './src/qvault.es6',
   output: {
-    filename: './app.bundle.js'
+    filename: './qvault.bundle.js'
   },
   module: {
     rules: [
