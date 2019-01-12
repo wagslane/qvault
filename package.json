@@ -1,22 +1,19 @@
 {
-  "name": "electron-quick-start",
+  "name": "qvault",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A secure, multiply-redundant data store",
   "main": "main.js",
   "scripts": {
     "dev": "npx webpack --progress --config webpack.config.js && npm run start",
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/preston-wagner/Qvault",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Qvault",
+    "passwords",
+    "crypto"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Preston",
   "devDependencies": {
     "electron": "^4.0.1",
     "webpack-cli": "^3.2.1"
