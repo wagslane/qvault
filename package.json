@@ -4,6 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
+    "dev": "npx webpack --progress --config webpack.config.js && npm run start",
     "start": "electron ."
   },
   "repository": "https://github.com/electron/electron-quick-start",
@@ -17,6 +18,16 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^4.0.1"
+    "electron": "^4.0.1",
+    "webpack-cli": "^3.2.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.2.2",
+    "babel-loader": "^8.0.5",
+    "vue": "^2.5.22",
+    "vue-loader": "^15.5.1",
+    "vue-router": "^3.0.2",
+    "vue-template-compiler": "^2.5.22",
+    "webpack": "^4.28.4"
   }
 }
