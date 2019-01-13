@@ -33,6 +33,7 @@
     "babel-loader": "^8.0.5",
     "bip39": "^2.5.0",
     "bs58": "^4.0.1",
+    "eslint-config-prettier": "^3.4.0",
     "uuid": "^3.3.2",
     "vue": "^2.5.22",
     "vue-loader": "^15.5.1",

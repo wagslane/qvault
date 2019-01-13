@@ -2,7 +2,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   target: 'electron-main',
-  entry: ['babel-polyfill','./src/qvault.es6'],
+  entry: ['babel-polyfill', './src/qvault.es6'],
   output: {
     filename: './qvault.bundle.js'
   },
@@ -10,25 +10,19 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: "vue-loader"
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
         loader: 'babel-loader'
-      },{
+      },
+      {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader']
       },
       {
         test: /\.less/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          'less-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader', 'less-loader']
       }
     ]
   },

@@ -1,14 +1,13 @@
 module.exports = {
-  moduleFileExtensions: ["js", "jsx", "json", "vue"],
+  moduleFileExtensions: ['js', 'jsx', 'json', 'vue'],
   transform: {
-    "^.+\\.vue$": "vue-jest",
-    ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$":
-      "jest-transform-stub",
-    "^.+\\.js$": "babel-jest"
+    '^.+\\.vue$': 'vue-jest',
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+    '^.+\\.js$': 'babel-jest'
   },
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1"
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
-  snapshotSerializers: ["jest-serializer-vue"],
-  transformIgnorePatterns: ["<rootDir>/node_modules/"]
+  snapshotSerializers: ['jest-serializer-vue'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/']
 };
