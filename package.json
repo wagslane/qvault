@@ -4,7 +4,8 @@
   "description": "A secure, multiply-redundant data store",
   "main": "main.js",
   "scripts": {
-    "dev": "npx webpack --progress --config webpack.config.js && npm run start",
+    "build": "npx webpack --progress --config webpack.config.js",
+    "dev": "npm run build && npm run start",
     "start": "electron .",
     "test": "jest"
   },
@@ -27,9 +28,13 @@
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.2.3",
     "babel-loader": "^8.0.5",
     "bip39": "^2.5.0",
     "bs58": "^4.0.1",
+    "eslint": "^5.12.0",
+    "eslint-config-prettier": "^3.4.0",
     "vue": "^2.5.22",
     "vue-loader": "^15.5.1",
     "vue-router": "^3.0.2",
