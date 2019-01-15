@@ -18,8 +18,6 @@
   "author": "Preston",
   "devDependencies": {
     "babel-jest": "^23.6.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "electron": "^4.0.1",
     "eslint": "^5.12.0",
     "jest": "^23.6.0",
