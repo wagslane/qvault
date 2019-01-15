@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import 'babel-polyfill';
 
 import QvaultApp from './qvault.vue';
 
