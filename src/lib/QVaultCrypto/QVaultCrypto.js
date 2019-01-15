@@ -45,7 +45,7 @@ export function ValidatePassword(password) {
 
 // (string, int) => Promise(string)
 export function HashDoorKey(password, pin) {
-  return new Promise(function(resolve) {
+  return new Promise(function (resolve) {
     const hash = crypto.scryptSync(
       password + pin.toString(),
       scryptSalt,
@@ -58,7 +58,7 @@ export function HashDoorKey(password, pin) {
 
 // (string) => Promise(string)
 export function HashMasterKey(masterKey) {
-  return new Promise(function(resolve) {
+  return new Promise(function (resolve) {
     const hash = crypto.scryptSync(masterKey, scryptSalt, scryptKeyLen, scryptOptions);
     resolve(hash.toString(textFormat));
   });
@@ -91,9 +91,9 @@ function cipherString(key, data) {
   const keyCopy = new Buffer(key, textFormat).slice(0, 32);
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(cipherAlgo, keyCopy, iv);
-  const cipheredSecretSection = Buffer.concat([cipher.update(data, textFormat), cipher.final()]);
+  const cipheredSecretSection = Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
   const tag = cipher.getAuthTag();
-  return Buffer.concat([iv, tag, cipheredSecretSection]).toString(encodingFormat);
+  return Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
 // (string, string) => string
@@ -127,7 +127,7 @@ export function GetMasterKeyFromCardMnemonic(mnemonicArray, privateCode) {
   const mnemonicHex = bip39.mnemonicToEntropy(mnemonic);
   const mnemonicBytes = new Buffer(mnemonicHex, 'hex').slice(0, 16);
   const privateCodeBytes = bs58.decode(privateCode);
-  const allBytes = Buffer.concat([mnemonicBytes, privateCodeBytes]);
+  const allBytes = Buffer.concat([ mnemonicBytes, privateCodeBytes ]);
   if (allBytes.length !== masterKeyEntropyBytes) {
     return '';
   }
@@ -139,7 +139,7 @@ export function GetMasterKeyFromCardMnemonic(mnemonicArray, privateCode) {
 export function GetMasterKeyFromCardQR(base64QR, privateCode) {
   const qrBytes = Buffer.from(base64QR, encodingFormat);
   const privateCodeBytes = bs58.decode(privateCode);
-  const allBytes = Buffer.concat([qrBytes, privateCodeBytes]);
+  const allBytes = Buffer.concat([ qrBytes, privateCodeBytes ]);
   if (allBytes.length !== masterKeyEntropyBytes) {
     return '';
   }

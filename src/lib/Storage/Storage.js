@@ -7,12 +7,11 @@ var LOCAL_VAULT_PATH = '';
 
 const qvaultFileExtension = 'qvault';
 
-// () => Promise(filename, err), check if err is defined
-// The file data is saved in-memory globally in this module
-// use getters to access it
+export const SECRET_TYPE_CRYPTOCURRENCY = 'cryptocurrency';
+
 export async function LoadLocalVault() {
   let filenames = dialog.showOpenDialog({
-    filters: [{ name: 'Vaults', extensions: [qvaultFileExtension] }]
+    filters: [ { name: 'Vaults', extensions: [ qvaultFileExtension ] } ]
   });
 
   if (filenames === undefined) {
@@ -38,8 +37,6 @@ export async function LoadLocalVault() {
   return filenames[0];
 }
 
-// () => error
-// on success error == ''
 export function SaveLocalVault() {
   if (LOCAL_VAULT_PATH == '') {
     return 'No vault path is set';
@@ -51,14 +48,35 @@ export function SaveLocalVault() {
   }
 }
 
-// (string, string) => error
-// on success error == ''
-// A new secert is saved to in-memory vault
-export function NewSecret(type, secret) {
-  switch (type) {
-    case 'cryptocurrency':
-      VAULT_DATA.secrets.cryptocurrency[uuidv4()] = secret;
-      return '';
+export function NewSecretCryptocurrency(secret) {
+  VAULT_DATA.secrets[SECRET_TYPE_CRYPTOCURRENCY][uuidv4()] = secret;
+}
+
+export function UpdateSecret(uuid, secret) {
+  ensureSecrets();
+  if (!(uuid in VAULT_DATA.secrets[SECRET_TYPE_CRYPTOCURRENCY])) {
+    return "That secret doesn't exist";
   }
-  return 'Invalid type';
+  VAULT_DATA.secrets[SECRET_TYPE_CRYPTOCURRENCY][uuid] = secret;
+  return '';
+}
+
+export function DeleteSecret(uuid) {
+  ensureSecrets();
+  delete VAULT_DATA.secrets[SECRET_TYPE_CRYPTOCURRENCY][uuid];
+}
+
+export function GetSecretsCryptocurrency() {
+  ensureSecrets();
+  let copy = VAULT_DATA.secrets[SECRET_TYPE_CRYPTOCURRENCY];
+  return copy;
+}
+
+function ensureSecrets() {
+  if (!('secrets' in VAULT_DATA)) {
+    VAULT_DATA.secrets = {};
+  }
+  if (!(SECRET_TYPE_CRYPTOCURRENCY in VAULT_DATA.secrets)) {
+    VAULT_DATA.secrets[SECRET_TYPE_CRYPTOCURRENCY] = {};
+  }
 }
