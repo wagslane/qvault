@@ -34,7 +34,6 @@
     "bip39": "^2.5.0",
     "bs58": "^4.0.1",
     "eslint": "^5.12.0",
-    "eslint-config-prettier": "^3.4.0",
     "vue": "^2.5.22",
     "vue-loader": "^15.5.1",
     "vue-router": "^3.0.2",
