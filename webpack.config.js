@@ -1,15 +1,18 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  entry: './src/qvault.es6',
+  target: 'electron-main',
+  entry: {
+    qvault: './src/qvault.es6'
+  },
   output: {
-    filename: './qvault.bundle.js'
+    filename: './[name].bundle.js'
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: "vue-loader"
+        loader: 'vue-loader'
       },
       {
         test: /\.m?js$/,

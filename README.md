@@ -59,7 +59,7 @@ The file once written to disk will be a flat json file. Below the structure is d
 ```javascript
 {
 	// required
-	"username": "lane",
+	"version": "0.0.1",
 	// not required, a default is provided if this field is empty
 	"avatar": "base64 png image",
 	// The master key (128 bit random number) ciphered with a custom password

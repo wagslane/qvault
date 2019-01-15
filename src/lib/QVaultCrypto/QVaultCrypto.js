@@ -1,14 +1,14 @@
-const crypto = require("crypto");
-const bip39 = require("bip39");
-const bs58 = require("bs58");
+const crypto = require('crypto');
+const bip39 = require('bip39');
+const bs58 = require('bs58');
 
-const cipherAlgo = "aes-256-gcm";
-const encodingFormat = "base64";
-const textFormat = "utf8";
+const cipherAlgo = 'aes-256-gcm';
+const encodingFormat = 'base64';
+const textFormat = 'utf8';
 
 const masterKeyEntropyBytes = 24;
 
-const scryptSalt = "nosalt";
+const scryptSalt = 'nosalt';
 const scryptKeyLen = 128;
 const scryptCost = Math.pow(2, 17);
 const scryptBlockSize = 8;
@@ -23,29 +23,29 @@ const scryptOptions = {
 // At least: length 10, 1 upper, 1 lower, 1 number, 1 special char
 export function ValidatePassword(password) {
   if (password.length < 10) {
-    return "Password must have at least 10 characters";
+    return 'Password must have at least 10 characters';
   }
   if (!/[0-9]/.test(password)) {
-    return "Password must contain a number";
+    return 'Password must contain a number';
   }
   if (!/[!@#$%^&*]/.test(password)) {
-    return "Password must contain a special character";
+    return 'Password must contain a special character';
   }
   if (!/[a-z]/.test(password)) {
-    return "Password must contain a lowercase letter";
+    return 'Password must contain a lowercase letter';
   }
   if (!/[A-Z]/.test(password)) {
-    return "Password must contain a capital letter";
+    return 'Password must contain a capital letter';
   }
   if (!/^[a-zA-Z0-9!@#$%^&*]+$/.test(password)) {
-    return "Password can only contain letters, numbers, and the following characters: ! @ # $ % ^ & *";
+    return 'Password can only contain letters, numbers, and the following characters: ! @ # $ % ^ & *';
   }
-  return "";
+  return '';
 }
 
 // (string, int) => Promise(string)
 export function HashDoorKey(password, pin) {
-  return new Promise(function(resolve) {
+  return new Promise(function (resolve) {
     const hash = crypto.scryptSync(
       password + pin.toString(),
       scryptSalt,
@@ -58,13 +58,8 @@ export function HashDoorKey(password, pin) {
 
 // (string) => Promise(string)
 export function HashMasterKey(masterKey) {
-  return new Promise(function(resolve) {
-    const hash = crypto.scryptSync(
-      masterKey,
-      scryptSalt,
-      scryptKeyLen,
-      scryptOptions
-    );
+  return new Promise(function (resolve) {
+    const hash = crypto.scryptSync(masterKey, scryptSalt, scryptKeyLen, scryptOptions);
     resolve(hash.toString(textFormat));
   });
 }
@@ -87,10 +82,7 @@ export function CipherHashedMasterKey(hashedDoorKey, hashedMasterKey) {
 }
 
 // (string, string) => string
-export function DecipherHashedMasterKey(
-  hashedDoorKey,
-  cipheredHashedMasterKey
-) {
+export function DecipherHashedMasterKey(hashedDoorKey, cipheredHashedMasterKey) {
   return decipherString(hashedDoorKey, cipheredHashedMasterKey);
 }
 
@@ -99,14 +91,9 @@ function cipherString(key, data) {
   const keyCopy = new Buffer(key, textFormat).slice(0, 32);
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(cipherAlgo, keyCopy, iv);
-  const cipheredSecretSection = Buffer.concat([
-    cipher.update(data, textFormat),
-    cipher.final()
-  ]);
+  const cipheredSecretSection = Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
   const tag = cipher.getAuthTag();
-  return Buffer.concat([iv, tag, cipheredSecretSection]).toString(
-    encodingFormat
-  );
+  return Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
 // (string, string) => string
@@ -118,10 +105,7 @@ function decipherString(key, cipheredData) {
   const cipheredSecretSection = rawCiphered.slice(32);
   const decipher = crypto.createDecipheriv(cipherAlgo, keyCopy, iv);
   decipher.setAuthTag(tag);
-  return (
-    decipher.update(cipheredSecretSection, "binary", textFormat) +
-    decipher.final(textFormat)
-  );
+  return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
 }
 
 // () => string
@@ -133,19 +117,19 @@ export function GetNewMasterKey() {
 // returns '' if not valid
 export function GetMasterKeyFromCardMnemonic(mnemonicArray, privateCode) {
   if (mnemonicArray.length !== 12) {
-    return "";
+    return '';
   }
-  const mnemonic = mnemonicArray.join(" ");
+  const mnemonic = mnemonicArray.join(' ');
   const valid = bip39.validateMnemonic(mnemonic);
   if (!valid) {
-    return "";
+    return '';
   }
   const mnemonicHex = bip39.mnemonicToEntropy(mnemonic);
-  const mnemonicBytes = new Buffer(mnemonicHex, "hex").slice(0, 16);
+  const mnemonicBytes = new Buffer(mnemonicHex, 'hex').slice(0, 16);
   const privateCodeBytes = bs58.decode(privateCode);
-  const allBytes = Buffer.concat([mnemonicBytes, privateCodeBytes]);
+  const allBytes = Buffer.concat([ mnemonicBytes, privateCodeBytes ]);
   if (allBytes.length !== masterKeyEntropyBytes) {
-    return "";
+    return '';
   }
   return allBytes.toString(encodingFormat);
 }
@@ -155,9 +139,9 @@ export function GetMasterKeyFromCardMnemonic(mnemonicArray, privateCode) {
 export function GetMasterKeyFromCardQR(base64QR, privateCode) {
   const qrBytes = Buffer.from(base64QR, encodingFormat);
   const privateCodeBytes = bs58.decode(privateCode);
-  const allBytes = Buffer.concat([qrBytes, privateCodeBytes]);
+  const allBytes = Buffer.concat([ qrBytes, privateCodeBytes ]);
   if (allBytes.length !== masterKeyEntropyBytes) {
-    return "";
+    return '';
   }
   return allBytes.toString(encodingFormat);
 }
