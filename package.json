@@ -7,7 +7,7 @@
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "npm run build && npm run start",
     "start": "electron .",
-    "test": "jest"
+    "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill"
   },
   "repository": "https://github.com/preston-wagner/Qvault",
   "keywords": [
@@ -17,23 +17,20 @@
   ],
   "author": "Preston",
   "devDependencies": {
-    "babel-jest": "^23.6.0",
+    "chai": "^4.2.0",
     "electron": "^4.0.1",
     "eslint": "^5.12.0",
-    "jest": "^23.6.0",
-    "jest-serializer-vue": "^2.0.2",
-    "jest-transform-stub": "^1.0.0",
-    "vue-jest": "^3.0.2",
+    "mocha": "^5.2.0",
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.3",
+    "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.5",
     "bip39": "^2.5.0",
     "bs58": "^4.0.1",
-    "eslint": "^5.12.0",
     "vue": "^2.5.22",
     "vue-loader": "^15.5.1",
     "vue-router": "^3.0.2",
