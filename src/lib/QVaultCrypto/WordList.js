@@ -7777,4 +7777,4 @@ export const WordList = [
    "zoologist",
    "zoology",
    "zoom"
-]
+];
