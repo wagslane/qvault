@@ -8,16 +8,6 @@ const textFormat = 'utf8';
 
 const masterKeyEntropyBytes = 24;
 
-const scryptSalt = 'nosalt';
-const scryptKeyLen = 128;
-const scryptCost = Math.pow(2, 17);
-const scryptBlockSize = 8;
-const scryptOptions = {
-  cost: scryptCost,
-  blockSize: scryptBlockSize,
-  maxmem: scryptCost * scryptBlockSize * 256
-};
-
 // (string) => string
 // returns '' if no error, else an error message is returned
 // At least: length 10, 1 upper, 1 lower, 1 number, 1 special char
@@ -45,21 +35,27 @@ export function ValidatePassword(password) {
 
 // (string, int) => Promise(string)
 export function HashDoorKey(password, pin) {
-  return new Promise(function (resolve) {
-    const hash = crypto.scryptSync(
-      password + pin.toString(),
-      scryptSalt,
-      scryptKeyLen,
-      scryptOptions
-    );
-    resolve(hash.toString(textFormat));
-  });
+  return hashString(password + pin.toString());
 }
 
 // (string) => Promise(string)
 export function HashMasterKey(masterKey) {
+  return hashString(masterKey);
+}
+
+function hashString(data) {
+  const scryptSalt = 'nosalt';
+  const scryptKeyLen = 128;
+  const scryptCost = Math.pow(2, 17);
+  const scryptBlockSize = 8;
+  const scryptOptions = {
+    cost: scryptCost,
+    blockSize: scryptBlockSize,
+    maxmem: scryptCost * scryptBlockSize * 256
+  };
+
   return new Promise(function (resolve) {
-    const hash = crypto.scryptSync(masterKey, scryptSalt, scryptKeyLen, scryptOptions);
+    const hash = crypto.scryptSync(data, scryptSalt, scryptKeyLen, scryptOptions);
     resolve(hash.toString(textFormat));
   });
 }
@@ -86,9 +82,8 @@ export function DecipherHashedMasterKey(hashedDoorKey, cipheredHashedMasterKey) 
   return decipherString(hashedDoorKey, cipheredHashedMasterKey);
 }
 
-// (string, string) => string
 function cipherString(key, data) {
-  const keyCopy = new Buffer(key, textFormat).slice(0, 32);
+  const keyCopy = Buffer.from(key, textFormat).slice(0, 32);
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(cipherAlgo, keyCopy, iv);
   const cipheredSecretSection = Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
@@ -96,9 +91,8 @@ function cipherString(key, data) {
   return Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
-// (string, string) => string
 function decipherString(key, cipheredData) {
-  const keyCopy = new Buffer(key, textFormat).slice(0, 32);
+  const keyCopy = Buffer.from(key, textFormat).slice(0, 32);
   const rawCiphered = Buffer.from(cipheredData, encodingFormat);
   const iv = rawCiphered.slice(0, 16);
   const tag = rawCiphered.slice(16, 32);
@@ -125,7 +119,7 @@ export function GetMasterKeyFromCardMnemonic(mnemonicArray, privateCode) {
     return '';
   }
   const mnemonicHex = bip39.mnemonicToEntropy(mnemonic);
-  const mnemonicBytes = new Buffer(mnemonicHex, 'hex').slice(0, 16);
+  const mnemonicBytes = Buffer.from(mnemonicHex, 'hex').slice(0, 16);
   const privateCodeBytes = bs58.decode(privateCode);
   const allBytes = Buffer.concat([ mnemonicBytes, privateCodeBytes ]);
   if (allBytes.length !== masterKeyEntropyBytes) {
