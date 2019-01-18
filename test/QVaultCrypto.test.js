@@ -6,7 +6,8 @@ import {
   ValidatePassword,
   HashDoorKey,
   GetMasterKeyFromCardMnemonic,
-  GetMasterKeyFromCardQR
+  GetMasterKeyFromCardQR,
+  GeneratePassphrase
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
 
@@ -131,4 +132,11 @@ it('GetMasterKeyFromCardQRFail', () => {
   const randomMasterKey = GetNewMasterKey();
   expect(randomMasterKey.length).not.equal(masterKeyBadMnemonic.length);
   expect(randomMasterKey.length).not.equal(masterKeyBadPrivateCode.length);
+});
+
+it('GeneratePassphrase', () => {
+  const passphrase = GeneratePassphrase(5);
+  expect(passphrase.length).equal(5);
+  const passphrase2 = GeneratePassphrase(5);
+  expect(passphrase).not.equal(passphrase2);
 });

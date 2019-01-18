@@ -1,6 +1,9 @@
 const crypto = require('crypto');
 const bip39 = require('bip39');
 const bs58 = require('bs58');
+const randomNumber = require("random-number-csprng");
+
+import { WordList } from './WordList';
 
 const cipherAlgo = 'aes-256-gcm';
 const encodingFormat = 'base64';
@@ -41,6 +44,17 @@ export function HashDoorKey(password, pin) {
 // (string) => Promise(string)
 export function HashMasterKey(masterKey) {
   return hashString(masterKey);
+}
+
+
+// (int) => slice
+export function GeneratePassphrase(phraseLength) {
+  let phrase = [];
+  for (let i = 0; i < phraseLength; i++) {
+    let index = randomNumber(0, WordList.length - 1);
+    phrase.push(WordList[index]);
+  }
+  return phrase;
 }
 
 function hashString(data) {

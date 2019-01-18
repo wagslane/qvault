@@ -3,6 +3,10 @@
         "array-bracket-spacing": [
             "error",
             "always"
+        ],
+        "semi": [
+            "error",
+            "always"
         ]
     },
     "parserOptions": {
