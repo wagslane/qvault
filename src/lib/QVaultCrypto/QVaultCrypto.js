@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const randomNumber = require("random-number-csprng");
 const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-const bs58 = require('base-x')(BASE58);
 
 import { WordList } from './WordList';
 
