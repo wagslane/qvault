@@ -4,6 +4,7 @@ import {
   GenerateCharKey,
   GenerateMasterKey,
   PassKeyFromPassword,
+  CloudKeyFromMaster,
   CipherSecret,
   DecipherSecret,
 
@@ -44,12 +45,19 @@ it('GenerateMasterKey', () => {
   expect(key1).not.equal(key2);
 });
 
-it('deterministic hashes', async () => {
+it('Hashing', async () => {
   const hash1 = await PassKeyFromPassword('lanewagner');
   const hash2 = await PassKeyFromPassword('lanewagner');
   const hash3 = await PassKeyFromPassword('lanewagners');
   expect(hash1).equal(hash2);
   expect(hash1).not.equal(hash3);
+});
+
+it('Cloud Key Hash', async () => {
+  const masterKey = GenerateMasterKey();
+  const hash1 = await CloudKeyFromMaster(masterKey);
+  const hash2 = await PassKeyFromPassword(masterKey);
+  expect(hash1).not.equal(hash2);
 });
 
 it('cipher and decipher', () => {

@@ -10,6 +10,9 @@ const textFormat = 'utf8';
 
 const masterKeyEntropyBytes = 24;
 
+const longHashDifficulty = 17;
+const shortHashDifficulty = 10;
+
 // QR Key (256 bit, base64) = Encoded in the QR Card, generated in QVault factory
 // Char Key (15 chars, base58) = Back of the Q-Card, generated randomly by this app
 // Pass Key = Hash(password) or Hash(passphrase), used to cipher the Char Key for easy access
@@ -61,7 +64,7 @@ export async function GenerateCharKey() {
   let key = '';
   for (let i = 0; i < length; i++) {
     let index = await randomNumber(0, BASE58.length - 1);
-    key = key.concat(BASE58.charAt(index));
+    key += BASE58.charAt(index);
   }
   return key;
 }
@@ -71,26 +74,30 @@ export function GenerateMasterKey() {
   return crypto.randomBytes(masterKeyEntropyBytes).toString(encodingFormat);
 }
 
-// (string, int) => Promise(string)
+// (string) => Promise(string)
 export function PassKeyFromPassword(password) {
-  return hashString(password);
+  return hashString(password, longHashDifficulty);
 }
 
-// ([]string, int) => Promise(string)
+// ([]string) => Promise(string)
 export function PassKeyFromPassphrase(passphrase) {
-  return hashString(passphrase.toString());
+  return hashString(passphrase.toString(), longHashDifficulty);
 }
 
-// (string)) => Promise(string)
-// returns '' if not valid
+// string => Promise(string)
 export function GetDoorKeyNoQR(charKey) {
-  return hashString(charKey);
+  return hashString(charKey, longHashDifficulty);
 }
 
-// (string, string)) => Promise(string)
-// returns '' if not valid
+// (string, string) => Promise(string)
 export function GetDoorKeyQR(charKey, qrKey) {
-  return hashString(charKey + qrKey);
+  return hashString(charKey + qrKey, longHashDifficulty);
+}
+
+// string => Promise(string)
+export function CloudKeyFromMaster(masterKey) {
+  const cloudSalt = '-cloud-salt';
+  return hashString(masterKey + cloudSalt, shortHashDifficulty);
 }
 
 // (string, string) => string
@@ -125,10 +132,10 @@ export function DecipherSecret(masterKey, cipheredSecret) {
   return JSON.parse(deciphered);
 }
 
-function hashString(data) {
+function hashString(data, difficulty) {
   const scryptSalt = 'qvaultsalthopefullyusednowhereelse';
   const scryptKeyLen = 128;
-  const scryptCost = Math.pow(2, 17);
+  const scryptCost = Math.pow(2, difficulty);
   const scryptBlockSize = 8;
   const scryptOptions = {
     cost: scryptCost,
