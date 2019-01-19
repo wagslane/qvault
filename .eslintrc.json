@@ -3,6 +3,14 @@
         "array-bracket-spacing": [
             "error",
             "always"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "eol-last": [
+            "error",
+            "always"
         ]
     },
     "parserOptions": {
