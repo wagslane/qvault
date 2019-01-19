@@ -60,7 +60,11 @@ export async function GeneratePassphrase(phraseLength) {
 
 // () => Promise(string)
 export async function GenerateCharKey() {
+  // log2(58^15) = 88.9 bits entropy
+  // log2(58^20) = 117.2 bits entropy
+  // log2(58^25) = 146 bits entropy
   const length = 15;
+
   let key = '';
   for (let i = 0; i < length; i++) {
     let index = await randomNumber(0, BASE58.length - 1);

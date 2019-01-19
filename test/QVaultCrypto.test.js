@@ -12,7 +12,6 @@ import {
 import { expect } from 'chai';
 
 it('validate password', () => {
-  // truthy = "not valid" because the messages mean there was an error
   expect(ValidatePassword('somewordthatslong')).not.equal('');
   expect(ValidatePassword('somewordthatslong1')).not.equal('');
   expect(ValidatePassword('somewordthatslong@1')).not.equal('');
