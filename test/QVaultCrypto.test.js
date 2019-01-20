@@ -2,11 +2,10 @@ import {
   ValidatePassword,
   GeneratePassphrase,
   GenerateCharKey,
-  GenerateMasterKey,
   PassKeyFromPassword,
-  CloudKeyFromMaster,
-  CipherSecret,
-  DecipherSecret,
+  CipherSecrets,
+  DecipherSecrets,
+  GetMasterKeyNoQR,
 
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
@@ -38,12 +37,6 @@ it('GenerateCharKey', async () => {
   }
 });
 
-it('GenerateMasterKey', () => {
-  const key1 = GenerateMasterKey();
-  const key2 = GenerateMasterKey();
-  expect(key1).not.equal(key2);
-});
-
 it('Hashing', async () => {
   const hash1 = await PassKeyFromPassword('lanewagner');
   const hash2 = await PassKeyFromPassword('lanewagner');
@@ -52,23 +45,27 @@ it('Hashing', async () => {
   expect(hash1).not.equal(hash3);
 });
 
-it('Cloud Key Hash', async () => {
-  const masterKey = GenerateMasterKey();
-  const hash1 = await CloudKeyFromMaster(masterKey);
-  const hash2 = await PassKeyFromPassword(masterKey);
-  expect(hash1).not.equal(hash2);
+it('DoorKey Output', async () => {
+  const charKey = await GenerateCharKey();
+  const hash = await GetMasterKeyNoQR(charKey);
+  const buf = Buffer.from(hash, 'base64');
+  expect(buf.length).equal(32);
 });
 
 it('cipher and decipher', () => {
-  const mySecret = {
-    coin: 'BTC',
-    mnemonic: 'some random words that are super secret',
-    description: 'I love q-vault'
+  const mySecrets = {
+    cryptocurrency: {
+      someUUID: {
+        coin: 'BTC',
+        mnemonic: 'some random words that are super secret',
+        description: 'I love q-vault'
+      }
+    }
   };
-  const masterKey = GenerateMasterKey();
-  const ciphered = CipherSecret(masterKey, mySecret);
-  const deciphered = DecipherSecret(masterKey, ciphered);
-  expect(mySecret.coin).equal(deciphered.coin);
-  expect(mySecret.mnemonic).equal(deciphered.mnemonic);
-  expect(mySecret.description).equal(deciphered.description);
+  const masterKey = "fhdsbf7aisduifgsdifuagsdfgsdjhfgsdjhlfashdfg";
+  const ciphered = CipherSecrets(masterKey, mySecrets);
+  const deciphered = DecipherSecrets(masterKey, ciphered);
+  expect(mySecrets.cryptocurrency.someUUID.coin).equal(deciphered.cryptocurrency.someUUID.coin);
+  expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(deciphered.cryptocurrency.someUUID.mnemonic);
+  expect(mySecrets.cryptocurrency.someUUID.description).equal(deciphered.cryptocurrency.someUUID.description);
 });
