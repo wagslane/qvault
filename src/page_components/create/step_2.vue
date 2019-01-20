@@ -23,7 +23,7 @@
         this.$root.char_key = await GenerateCharKey();
       },
       save_step_2(){
-        this.$router.push({name: 'create_step_3'})
+        this.$router.push({name: 'create_step_3'});
       },
     },
   }
