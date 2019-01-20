@@ -1,4 +1,4 @@
-export const SupportedCoins = {
+export default SupportedCoins = {
   BTC: { image: 'example.png', name: 'Bitcoin' },
   XRP: { image: 'example.png', name: 'Ripple' },
   ETH: { image: 'example.png', name: 'Ethereum' },

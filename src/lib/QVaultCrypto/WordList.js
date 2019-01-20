@@ -1,4 +1,4 @@
-export const WordList = [
+export default [
     "the",
     "of",
     "and",
@@ -19999,4 +19999,4 @@ export const WordList = [
     "yan",
     "succeeding",
     "bizjournalshire"
-];
+]

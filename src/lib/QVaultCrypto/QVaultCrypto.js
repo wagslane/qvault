@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const randomNumber = require("random-number-csprng");
 const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
-import { WordList } from './WordList';
+import WordList from './WordList';
 
 const cipherAlgo = 'aes-256-gcm';
 const encodingFormat = 'base64';

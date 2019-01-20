@@ -13,5 +13,14 @@
 
   export default {
     router: router,
+    data(){
+      return {
+        qr_key: null,
+        char_key: null,
+        pass_key: null,
+        door_key: null,
+        master_key: null,
+      }
+    }
   }
 </script>
