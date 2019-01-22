@@ -31,7 +31,7 @@ export default {
       pass_key: null,
 
       secrets: null,
-      LOCAL_VAULT_PATH: null,
+      local_vault_path: null,
     };
   },
   asyncComputed:{
@@ -55,11 +55,11 @@ export default {
         filters: FILE_FILTERS,
       });
       this.CheckFileNames(filenames);
-      this.LOCAL_VAULT_PATH = filenames[0];
+      this.local_vault_path = filenames[0];
     },
     CreateLocalVault(){
       this.secrets = {};
-      fs.writeFile(this.LOCAL_VAULT_PATH, this.GetSavableVault());
+      fs.writeFile(this.local_vault_path, this.GetSavableVault());
     },
     LoadLocalVault() {
       assert(this.master_key, 'A master key must exist to load a vault');
@@ -74,7 +74,7 @@ export default {
         let data = fs.readFileSync(filenames[0], 'utf-8');
         let VAULT_DATA = JSON.parse(data);
         // assert(VAULT_DATA.version, "Selected vault doesn't contain a version"); // Doesn't matter yet
-        this.LOCAL_VAULT_PATH = filenames[0];
+        this.local_vault_path = filenames[0];
         this.secrets = decipherString(this.master_key, VAULT_DATA.secrets);
       } catch (err) {
         assert(false, "Couldn't read file");
@@ -85,14 +85,14 @@ export default {
       assert(this.secrets, 'No vault is open');
       assert(this.master_key, 'A master key must exist to save a vault');
       return JSON.stringify({
-        "version": "0.0.1",
+        "version": VERSION,
         "secrets": cipherString(this.master_key, this.secrets),
       });
     },
     SaveLocalVault() {
-      assert(this.LOCAL_VAULT_PATH, 'No vault path is set');
+      assert(this.local_vault_path, 'No vault path is set');
       try {
-        fs.writeFileSync(this.LOCAL_VAULT_PATH, this.GetSavableVault());
+        fs.writeFileSync(this.local_vault_path, this.GetSavableVault());
       } catch (err) {
         return err;
       }
