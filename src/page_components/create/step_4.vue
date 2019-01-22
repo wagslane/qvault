@@ -9,6 +9,7 @@
 
 <script>
   const { dialog } = require('electron').remote;
+  import fs from 'fs';
 
   export default {
     data(){
@@ -18,15 +19,29 @@
     },
     methods:{
       choose_location_dialogue(){
-        dialog.showSaveDialog({}, this.save_callback)
+        dialog.showSaveDialog(
+          {
+            filters: [{
+              name: 'Q-Vault archive',
+              extensions: ['qvault']
+            }],
+          },
+          this.save_callback
+        )
       },
       save_callback(filename, bookmark){
         this.filename = filename;
       },
       create_vault_file(){
-        //TODO: actually create the file
-        this.$router.push({name: 'create_step_5'});
+        fs.writeFile(this.filename, JSON.stringify({test: 'data'}), this.write_callback);
       },
-    }
+      write_callback(err){
+        if(err){
+          alert("An error ocurred creating the file "+ err.message)
+        } else {
+          this.$router.push({name: 'create_step_5'});
+        }
+      },
+    },
   }
 </script>
