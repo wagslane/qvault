@@ -3,7 +3,8 @@
     <div v-if="$root.char_key">
       <h2>Write the following characters on your Q-Card:</h2>
       <h3>{{$root.char_key}}</h3>
-      <button type="submit">Next</button>
+      <button @click.prevent="generate_key">Generate a new key</button>
+      <button class="btn-primary" type="submit">Next</button>
     </div>
     <div v-else>
       <h2>Generating encryption key, please wait...</h2>
