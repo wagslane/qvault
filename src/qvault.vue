@@ -8,19 +8,12 @@
   import VueRouter from 'vue-router';
 
   import routes from './routes.es6';
+  import storage from './mixins/storage.es6';
 
   export const router = new VueRouter({routes});
 
   export default {
     router: router,
-    data(){
-      return {
-        qr_key: null,
-        char_key: null,
-        pass_key: null,
-        door_key: null,
-        master_key: null,
-      }
-    }
+    mixins: [storage],
   }
 </script>
