@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 import Vue from 'vue';
 const { dialog } = require('electron').remote;
 
-import {GetMasterKeyNoQR, decipherString, GetMasterKeyQR} from '../lib/QVaultCrypto/QVaultCrypto';
+import {GetMasterKeyNoQR, DecipherSecrets, GetMasterKeyQR, CipherSecrets} from '../lib/QVaultCrypto/QVaultCrypto';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
 const VERSION = "0.0.1";
@@ -46,20 +46,14 @@ export default {
     },
   },
   methods: {
-    CheckFileNames(filenames){
-      assert(filenames, 'No file selected');
-      assert(filenames.length !== 1, 'Please select one file');
-    },
     SaveLocalVaultDialog(){
-      let filenames = dialog.showSaveDialog({
+      this.local_vault_path = dialog.showSaveDialog({
         filters: FILE_FILTERS,
       });
-      this.CheckFileNames(filenames);
-      this.local_vault_path = filenames[0];
     },
     CreateLocalVault(){
       this.secrets = {};
-      fs.writeFile(this.local_vault_path, this.GetSavableVault());
+      fs.writeFileSync(this.local_vault_path, this.GetSavableVault());
     },
     LoadLocalVault() {
       assert(this.master_key, 'A master key must exist to load a vault');
@@ -68,14 +62,15 @@ export default {
         filters: FILE_FILTERS
       });
 
-      this.CheckFileNames(filenames);
+      assert(filenames, 'No file selected');
+      assert(filenames.length !== 1, 'Please select only one file');
 
       try {
         let data = fs.readFileSync(filenames[0], 'utf-8');
         let VAULT_DATA = JSON.parse(data);
         // assert(VAULT_DATA.version, "Selected vault doesn't contain a version"); // Doesn't matter yet
         this.local_vault_path = filenames[0];
-        this.secrets = decipherString(this.master_key, VAULT_DATA.secrets);
+        this.secrets = DecipherSecrets(this.master_key, VAULT_DATA.secrets);
       } catch (err) {
         assert(false, "Couldn't read file");
       }
@@ -86,7 +81,7 @@ export default {
       assert(this.master_key, 'A master key must exist to save a vault');
       return JSON.stringify({
         "version": VERSION,
-        "secrets": cipherString(this.master_key, this.secrets),
+        "secrets": CipherSecrets(this.master_key, this.secrets),
       });
     },
     SaveLocalVault() {
