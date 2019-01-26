@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <router-link
-      :to="{name: 'create_step_2'}"
-      tag="button"
-    >
-      Use a Q-Card
-    </router-link>
-    <button
-      @click.prevent="skip_step_2"
-    >
-      Create without backup
-    </button>
+  <div class="modal">
+    <div class="content">
+      <h1 class="get-started">Key Backup</h1>
+      <h2>Create a new vault, or open one you've created before.</h2>
+      <button
+        @click.prevent="next = 'create_step_2'"
+        class="btn"
+        :class="{'btn-selected': next == 'create_step_2'}"
+      >Add Qvault Card</button>
+      <button
+        @click.prevent="next = 'create_step_3'"
+        class="btn"
+        :class="{'btn-selected': next == 'create_step_3'}"
+      >Create Without Backup</button>
+    </div>
+    <div class="bottom">
+      <router-link :to="{name: next}">Continue</router-link>
+    </div>
   </div>
 </template>
 
@@ -18,11 +24,14 @@
   import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
   export default {
-    methods: {
-      async skip_step_2(){
-        this.$root.char_key = await GenerateCharKey();
-        this.$router.push({name: 'create_step_3'});
-      },
+    data(){
+      return {
+        next: 'create_step_2',
+      }
+    },
+    async mounted(){
+      this.$root.char_key = null;
+      this.$root.char_key = await GenerateCharKey();
     },
   }
 </script>
