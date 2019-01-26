@@ -1,8 +1,31 @@
 <template>
-  <div>
-    <h1>Open a Vault or create a new one?</h1>
-    <router-link :to="{name: 'create_step_1'}">New</router-link>
-    <router-link :to="{name: 'load_local'}">Load from local</router-link>
-    <router-link :to="{name: 'load_cloud'}">Load from cloud</router-link>
+  <div class="modal">
+    <div class="content">
+      <h1 class="get-started">Get Started</h1>
+      <h2>Create a new vault, or open one you've created before.</h2>
+      <button
+        @click.prevent="next = 'create_step_1'"
+        class="btn"
+        :class="{'btn-selected': next == 'create_step_1'}"
+      >New</button>
+      <button
+        @click.prevent="next = 'load'"
+        class="btn"
+        :class="{'btn-selected': next == 'load'}"
+      >Open Existing Vault</button>
+    </div>
+    <div class="bottom">
+      <router-link :to="{name: next}">Continue</router-link>
+    </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data(){
+      return {
+        next: 'create_step_1',
+      }
+    }
+  }
+</script>

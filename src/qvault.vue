@@ -17,3 +17,7 @@
     mixins: [storage],
   }
 </script>
+
+<style lang="less">
+  @import './styles/styles.less';
+</style>
