@@ -6,7 +6,7 @@ import {
   CipherSecrets,
   DecipherSecrets,
   GetMasterKeyNoQR,
-
+  VaildateQRKey,
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
 
@@ -68,4 +68,9 @@ it('cipher and decipher', () => {
   expect(mySecrets.cryptocurrency.someUUID.coin).equal(deciphered.cryptocurrency.someUUID.coin);
   expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(deciphered.cryptocurrency.someUUID.mnemonic);
   expect(mySecrets.cryptocurrency.someUUID.description).equal(deciphered.cryptocurrency.someUUID.description);
+});
+
+it('Validate QRKey', () => {
+  expect(ValidateQRKey('FwV6QcIGt3izSTncwGZGo7WQY53Q2fOmKW6mhNRMgNs=')).equal(true);
+  expect(ValidateQRKey('FwV6QcIGt3izSTncwGZGY53Q2fOmKW6mhNRMgNs=')).equal(false);
 });
