@@ -119,7 +119,7 @@ export function DecipherSecrets(masterKey, cipheredSecrets) {
 }
 
 // (string) => bool
-export function ValidateQRKey(qrKey){
+export function ValidateQRKey(qrKey) {
   const keyBuf = Buffer.from(qrKey, encodingFormat);
   return keyBuf.length === 32;
 }
