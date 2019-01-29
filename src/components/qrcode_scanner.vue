@@ -43,10 +43,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.error {
-  font-weight: bold;
-  color: red;
-}
-</style>
