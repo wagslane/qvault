@@ -118,6 +118,12 @@ export function DecipherSecrets(masterKey, cipheredSecrets) {
   return JSON.parse(deciphered);
 }
 
+// (string) => bool
+export function ValidateQRKey(qrKey) {
+  const keyBuf = Buffer.from(qrKey, encodingFormat);
+  return keyBuf.length === 32;
+}
+
 function hashString(data, difficulty) {
   const scryptSalt = 'qvaultsalthopefullyusednowhereelse';
   const scryptKeyLenBytes = 32;
