@@ -1,17 +1,32 @@
 <template>
-  <form>
+  <form @submit.prevent="open">
     <h1>Unlock Vault</h1>
-    <input type="password" v-model="passphrase" required />
-    <button type="submit">Log in</button>
+    <button @click.prevent="$root.OpenLocalVault">
+      Choose Vault File
+    </button>
+    <div>{{$root.local_vault_path}}</div>
+    <input type="password" v-model="password" required />
+    <button
+      type="submit"
+      :disabled="!($root.local_vault_path && password)"
+    >Open</button>
   </form>
 </template>
 
 <script>
+  import assert from '../../lib/assert.es6';
+
   export default {
     data(){
       return {
-        passphrase: null,
+        password: null,
       }
-    }
+    },
+    methods: {
+      async open(){
+        await this.$root.LoadLocalVault(this.password);
+        this.$router.push({name: 'vault'});
+      },
+    },
   }
 </script>
