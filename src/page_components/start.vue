@@ -7,7 +7,7 @@
         @click.prevent="next = 'create_step_1'"
         class="btn"
         :class="{'btn-selected': next == 'create_step_1'}"
-      >New</button>
+      >Create New Vault</button>
       <button
         @click.prevent="next = 'load'"
         class="btn"
