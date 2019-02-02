@@ -21,16 +21,13 @@
     </form>
 
     <h2>Would you like to require that your QR Code is scanned each time you unlock the vault?</h2>
-    <router-link tag='span' :to="{name: 'create_step_2_5'}">
-      <button
-        class="btn"
-      >Yes</button>
+
+    <router-link class="btn" :to="{name: 'create_step_2_5'}">
+      Yes
     </router-link>
 
-    <router-link tag='span' :to="{name: 'create_step_3'}">
-      <button
-        class="btn"
-      >No (Less Secure)</button>
+    <router-link class="btn" :to="{name: 'create_step_3'}">
+      No (Less Secure)
     </router-link>
   </div>
 </template>

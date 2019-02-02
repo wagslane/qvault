@@ -6,11 +6,7 @@
     <p>Error: {{error}}</p>
     <QRScanner @scanned="handleQRKey"  />
 
-    <router-link tag='span' :to="{name: 'create_step_2'}">
-      <button
-        class="btn"
-      >Back</button>
-    </router-link>
+    <router-link class="btn" :to="{name: 'create_step_2'}">Back</router-link>
   </div>
 </template>
 
