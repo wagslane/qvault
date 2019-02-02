@@ -1,18 +1,21 @@
 <template>
-  <form @submit.prevent="save_step_3">
-    <h1>Create the vault key</h1>
-    <input
-      type="password"
-      placeholder="passphrase"
-      v-model="passphrase"
-      required
-    />
-    <span v-if="passphrase && passphrase_error">{{passphrase_error}}</span>
-    <button
-      type="submit"
-      v-if="passphrase && !passphrase_error"
-    >Next</button>
-  </form>
+  <div class="options-box">
+    <h1>Create a password</h1>
+    <form @submit.prevent="save_step_3">
+      <input
+        type="password"
+        placeholder="password"
+        v-model="password"
+        required
+      />
+      <span v-if="password && password_error">{{password_error}}</span>
+      <button
+        class="btn"
+        type="submit"
+        v-if="password && !password_error"
+      >Next</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -21,17 +24,17 @@
   export default {
     data(){
       return {
-        passphrase: null,
+        password: null,
       }
     },
     computed:{
-      passphrase_error(){
-        return ValidatePassword(this.passphrase);
+      password_error(){
+        return ValidatePassword(this.password);
       },
     },
     methods:{
       async save_step_3(){
-        this.$root.pass_key = await PassKeyFromPassword(this.passphrase);
+        this.$root.pass_key = await PassKeyFromPassword(this.password);
         this.$router.push({name: 'create_step_4'});
       },
     }

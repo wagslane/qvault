@@ -1,35 +1,44 @@
 <template>
-  <div>
+  <div class="options-box">
+    <h1>Create a Qcard backup</h1>
+    <h2>Backup your vault for safekeeping</h2>
     <form @submit.prevent="save_step_2">
+
       <div v-if="$root.char_key">
-        <h2>Write the following characters on your Q-Card:</h2>
-        <h3>{{$root.char_key}}</h3>
-        <button @click.prevent="generate_key">Generate a new key</button>
-        <button class="btn-primary" type="submit">Next</button>
+        <div class='highlight-box'>
+          <h3>Write the following characters on your Q-Card:</h3>
+          <div class='character-code-box'>
+            <div class= 'character-code-spacing'>
+              <span>{{$root.char_key}}</span>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div v-else>
         <h2>Generating encryption key, please wait...</h2>
       </div>
     </form>
 
-    <p>Key: {{qrKey}}</p>
-    <p>Error: {{error}}</p>
-    <QRScanner @scanned="handleQRKey"  />
+    <h2>Would you like to require that your QR Code is scanned each time you unlock the vault?</h2>
+    <router-link tag='span' :to="{name: 'create_step_2_5'}">
+      <button
+        class="btn"
+      >Yes</button>
+    </router-link>
+
+    <router-link tag='span' :to="{name: 'create_step_3'}">
+      <button
+        class="btn"
+      >No (Less Secure)</button>
+    </router-link>
   </div>
 </template>
 
 <script>
-  import {GenerateCharKey, ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../components/qrcode_scanner.vue'
+  import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
   export default {
-    data(){
-      return {
-        qrKey: '',
-        error: ''
-      }
-    },
-
     mounted(){
       this.generate_key();
     },
@@ -37,19 +46,6 @@
       async generate_key(){
         this.$root.char_key = await GenerateCharKey();
       },
-      save_step_2(){
-        this.$router.push({name: 'create_step_3'});
-      },
-      handleQRKey: function(qrKey) {
-        if (!ValidateQRKey(qrKey)){
-          this.error = `Error scanning qrKey: ${qrKey}`
-          return
-        }
-        this.qrKey = qrKey;
-      },
     },
-    components:{
-      QRScanner
-    }
   }
 </script>
