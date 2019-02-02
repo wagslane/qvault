@@ -21,17 +21,14 @@
 </template>
 
 <script>
-  import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-
   export default {
     data(){
       return {
         next: 'create_step_2',
       }
     },
-    async mounted(){
-      this.$root.char_key = null;
-      this.$root.char_key = await GenerateCharKey();
+    mounted(){
+      this.$root.GenerateCharKey();
     },
   }
 </script>

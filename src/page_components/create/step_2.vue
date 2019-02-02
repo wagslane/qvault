@@ -4,7 +4,7 @@
       <div v-if="$root.char_key">
         <h2>Write the following characters on your Q-Card:</h2>
         <h3>{{$root.char_key}}</h3>
-        <button @click.prevent="generate_key">Generate a new key</button>
+        <button @click.prevent="$root.GenerateCharKey">Generate a new key</button>
         <button class="btn-primary" type="submit">Next</button>
       </div>
       <div v-else>
@@ -12,9 +12,9 @@
       </div>
     </form>
 
-    <p>Key: {{qrKey}}</p>
-    <p>Error: {{error}}</p>
-    <QRScanner @scanned="handleQRKey"  />
+    <!--<p>Key: {{qrKey}}</p>-->
+    <!--<p>Error: {{error}}</p>-->
+    <!--<QRScanner @scanned="handleQRKey"  />-->
   </div>
 </template>
 
@@ -29,20 +29,13 @@
         error: ''
       }
     },
-
-    mounted(){
-      this.generate_key();
-    },
     methods:{
-      async generate_key(){
-        this.$root.char_key = await GenerateCharKey();
-      },
       save_step_2(){
         this.$router.push({name: 'create_step_3'});
       },
       handleQRKey: function(qrKey) {
         if (!ValidateQRKey(qrKey)){
-          this.error = `Error scanning qrKey: ${qrKey}`
+          this.error = `Error scanning qrKey: ${qrKey}`;
           return
         }
         this.qrKey = qrKey;
