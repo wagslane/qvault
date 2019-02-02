@@ -16,4 +16,3 @@
     </router-link>
   </div>
 </template>
-
