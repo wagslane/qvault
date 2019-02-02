@@ -34,6 +34,12 @@ module.exports = {
         ]
       },
       {
+        test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
+        use: [
+          'url-loader?name=assets/[name].[ext]',
+        ]
+      },
+      {
         test: /\.less/,
         use: [
           'vue-style-loader',

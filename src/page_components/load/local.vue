@@ -14,8 +14,6 @@
 </template>
 
 <script>
-  import assert from '../../lib/assert.es6';
-
   export default {
     data(){
       return {

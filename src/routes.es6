@@ -6,6 +6,10 @@ import create_step_3 from './page_components/create/step_3.vue';
 import create_step_4 from './page_components/create/step_4.vue';
 import create_step_5 from './page_components/create/step_5.vue';
 import create_step_6 from './page_components/create/step_6.vue';
+import load_local from './page_components/load/local.vue';
+import load_choose from './page_components/load/choose.vue';
+import vault from './page_components/vault/vault.vue';
+import vault_item from './page_components/vault/vault_item.vue';
 
 export default [
   {
@@ -61,4 +65,39 @@ export default [
       },
     ],
   },
+  {
+    path: '/load/',
+    component: route_wrapper,
+    children: [
+      {
+        path: '',
+        name: 'load',
+        redirect: {
+          name: 'load_choose',
+        },
+      },
+      {
+        path: 'choose',
+        component: load_choose,
+        name: 'load_choose',
+      },
+      {
+        path: 'local',
+        component: load_local,
+        name: 'load_local',
+      },
+    ],
+  },
+  {
+    path: '/vault/',
+    component: vault,
+    name: 'vault',
+    children: [
+      {
+        path: ':secret_uuid',
+        component: vault_item,
+        name: 'vault_item',
+      },
+    ],
+  }
 ];
