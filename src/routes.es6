@@ -2,6 +2,7 @@ import route_wrapper from './page_components/route_wrapper.vue';
 import start from './page_components/start.vue';
 import create_step_1 from './page_components/create/step_1.vue';
 import create_step_2 from './page_components/create/step_2.vue';
+import create_step_2_5 from './page_components/create/step_2_5.vue';
 import create_step_3 from './page_components/create/step_3.vue';
 import create_step_4 from './page_components/create/step_4.vue';
 import create_step_5 from './page_components/create/step_5.vue';
@@ -42,6 +43,11 @@ export default [
         path: 'step_2',
         component: create_step_2,
         name: 'create_step_2',
+      },
+      {
+        path: 'step_2_5',
+        component: create_step_2_5,
+        name: 'create_step_2_5',
       },
       {
         path: 'step_3',
