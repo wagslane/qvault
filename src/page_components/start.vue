@@ -1,31 +1,19 @@
 <template>
-  <div class="modal">
-    <div class="content">
-      <h1 class="get-started">Get Started</h1>
-      <h2>Create a new vault, or open one you've created before.</h2>
+  <div class="options-box">
+    <h1 class="get-started">Get Started</h1>
+    <h2>Create a new vault, or open one you've created before.</h2>
+
+    <router-link tag='span' :to="{name: 'create_step_1'}">
       <button
-        @click.prevent="next = 'create_step_1'"
         class="btn"
-        :class="{'btn-selected': next == 'create_step_1'}"
       >Create New Vault</button>
+    </router-link>
+
+    <router-link tag='span' :to="{name: 'load'}">
       <button
-        @click.prevent="next = 'load'"
         class="btn"
-        :class="{'btn-selected': next == 'load'}"
       >Open Existing Vault</button>
-    </div>
-    <div class="bottom">
-      <router-link :to="{name: next}">Continue</router-link>
-    </div>
+    </router-link>
   </div>
 </template>
 
-<script>
-  export default {
-    data(){
-      return {
-        next: 'create_step_1',
-      }
-    }
-  }
-</script>
