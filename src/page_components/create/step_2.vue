@@ -7,8 +7,8 @@
       <div v-if="$root.char_key">
         <div class='highlight-box'>
           <h3>Write the following characters on your Q-Card:</h3>
-          <div class='character-code-box'>
-            <div class= 'character-code-spacing'>
+          <div class='character-code'>
+            <div class= 'spacing'>
               <span>{{$root.char_key}}</span>
             </div>
           </div>
