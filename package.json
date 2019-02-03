@@ -12,9 +12,10 @@
   "author": "Q Vault",
   "main": "main.js",
   "scripts": {
-    "dist": "build",
+    "dist": "yarn build-prod && build",
+    "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
-    "dev": "npm run build && npm run start",
+    "dev": "yarn build && yarn start",
     "start": "electron .",
     "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill"
   },
@@ -23,6 +24,14 @@
     "productName": "QVault",
     "copyright": "Copyright © year QVault",
     "buildVersion": "1.0.0",
+    "files": [
+      "main.js",
+      "index.html",
+      "dist/*"
+    ],
+    "directories": {
+      "output": "release"
+    },
     "dmg": {
       "contents": [
         {
