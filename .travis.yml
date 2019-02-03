@@ -30,4 +30,5 @@ deploy:
 
 branches:
   only:
+  - prod
   - master
