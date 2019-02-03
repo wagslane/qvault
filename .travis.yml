@@ -18,7 +18,7 @@ script:
 
 deploy:
   provider: releases
-  api_key: $ENCRYPTED_GITHUB_TOKEN
+  api_key: $GH_TOKEN
   skip_cleanup: true
   on:
     tags: true
