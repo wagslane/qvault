@@ -15,7 +15,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "dist": "yarn build-prod && build",
+    "release": "yarn build-prod && build",
     "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
@@ -55,8 +55,8 @@
         "deb"
       ]
     },
-    "win": {
-      "target": "NSIS"
+    "nsis": {
+      "createDesktopShortcut": "always"
     }
   },
   "devDependencies": {
