@@ -34,6 +34,7 @@
     "directories": {
       "output": "release"
     },
+    "publish": "github",
     "dmg": {
       "contents": [
         {
