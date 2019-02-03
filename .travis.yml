@@ -18,6 +18,7 @@ matrix:
       language: generic
 
 cache:
+  yarn: true
   directories:
     - node_modules
     - $HOME/.cache/electron
