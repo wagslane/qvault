@@ -18,7 +18,8 @@ notifications:
   email: false
 
 script:
-- yarn test
+  - yarn install --dev
+  - yarn test
 
 deploy:
   provider: script
