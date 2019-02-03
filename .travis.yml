@@ -14,7 +14,7 @@ notifications:
   email: false
 
 script:
-  - yarn release
+  - yarn dist
 
 deploy:
   provider: releases

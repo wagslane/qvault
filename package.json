@@ -12,7 +12,7 @@
   "author": "Q Vault",
   "main": "main.js",
   "scripts": {
-    "release": "yarn build-prod && build",
+    "dist": "yarn build-prod && build",
     "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
