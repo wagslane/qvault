@@ -9,6 +9,10 @@ matrix:
     - os: linux
       dist: ubuntu
       sudo: required
+    - os: windows
+
+  ## Travis bug with nvs on windows: 
+  ## https://travis-ci.community/t/node-js-build-fails-with-no-obvious-error/961/10
   allow_failures:
     - os: windows
 
