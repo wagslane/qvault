@@ -9,7 +9,10 @@
     "passwords",
     "crypto"
   ],
-  "author": "Q Vault",
+  "author": {
+    "name": "Q Vault",
+    "email": "support@qvault.io"
+  },
   "main": "main.js",
   "scripts": {
     "dist": "yarn build-prod && build",

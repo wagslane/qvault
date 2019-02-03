@@ -5,10 +5,12 @@ node_js:
 
 matrix:
   include:
-  - os: osx
-  - os: linux
-    dist: ubuntu
-    sudo: required
+    - os: osx
+    - os: linux
+      dist: ubuntu
+      sudo: required
+  allow_failures:
+    - os: windows
 
 cache:
   yarn: true
