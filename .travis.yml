@@ -18,11 +18,13 @@ notifications:
   email: false
 
 script:
-- yarn test
+  - yarn test
 
 deploy:
   provider: script
-  script: yarn dist
+  script:
+    - yarn install --dev
+    - yarn dist
   on:
     branch: prod
 
