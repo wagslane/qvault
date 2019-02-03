@@ -5,7 +5,7 @@ node_js:
 
 matrix:
   include:
-  - os: windows
+  - os: osx
 
 cache:
   yarn: true
