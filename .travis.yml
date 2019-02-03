@@ -6,6 +6,9 @@ node_js:
 matrix:
   include:
   - os: osx
+  - os: linux
+    dist: ubuntu
+    sudo: required
 
 cache:
   yarn: true
@@ -22,8 +25,8 @@ deploy:
   api_key: $GH_TOKEN
   skip_cleanup: true
   on:
-    tags: true
+    branch: prod
 
 branches:
   only:
-  - lane
+  - master
