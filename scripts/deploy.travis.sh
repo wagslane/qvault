@@ -1,4 +1,4 @@
-if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+[ "$TRAVIS_OS_NAME" = linux ] &&
     docker run --rm \
     -e GH_TOKEN \
     -v ${PWD}:/project \
@@ -6,6 +6,6 @@ if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     -v ~/.cache/electron-builder:/root/.cache/electron-builder \
     electronuserland/builder:wine \
     /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn release --linux --win"
-else
+
+[ "$TRAVIS_OS_NAME" = macos ] &&
     yarn release
-fi
