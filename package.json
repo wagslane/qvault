@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A secure, redundant, and open source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -12,7 +12,7 @@
   "author": "Q Vault",
   "main": "main.js",
   "scripts": {
-    "dist": "yarn build-prod && build",
+    "release": "yarn build-prod && build",
     "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
@@ -23,7 +23,6 @@
     "appId": "io.qvault.app",
     "productName": "QVault",
     "copyright": "Copyright © year QVault",
-    "buildVersion": "1.0.0",
     "files": [
       "main.js",
       "index.html",
@@ -32,6 +31,7 @@
     "directories": {
       "output": "release"
     },
+    "publish": "github",
     "dmg": {
       "contents": [
         {
@@ -60,6 +60,7 @@
     "chai": "^4.2.0",
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
+    "electron-updater": "^4.0.6",
     "eslint": "^5.12.0",
     "mocha": "^5.2.0",
     "webpack-cli": "^3.2.1"
