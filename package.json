@@ -55,8 +55,8 @@
         "deb"
       ]
     },
-    "win": {
-      "target": "NSIS"
+    "nsis": {
+      "createDesktopShortcut": "always"
     }
   },
   "devDependencies": {
