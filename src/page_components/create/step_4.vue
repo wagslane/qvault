@@ -1,19 +1,42 @@
 <template>
-  <form @submit.prevent="create_vault_file">
-    <h1>Choose where you'll save your vault file:</h1>
-    <button class="btn" @click.prevent="$root.SaveLocalVaultDialog">Choose location</button>
-    <h3 v-if="$root.local_vault_path">{{$root.local_vault_path}}</h3>
-    <button class="btn" type="submit" v-if="$root.local_vault_path">Next</button>
-  </form>
+  <div class="options-box">
+    <StepProgress :filled="4" />
+    <h1>Scan your QR Code</h1>
+    <h2>Use 2nd factor encryption with your QR Code</h2>
+    <p>Key: {{qrKey}}</p>
+    <p>Error: {{error}}</p>
+    <QRScanner @scanned="handleQRKey"  />
+  </div>
 </template>
 
 <script>
+  import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+  import QRScanner from '../../components/qrcode_scanner.vue'
+  import StepProgress from '../../components/step_progress.vue'
+
   export default {
+    data(){
+      return {
+        qrKey: '',
+        error: ''
+      }
+    },
+
     methods:{
-      create_vault_file(){
-        this.$root.CreateLocalVault();
+      save_step_2(){
         this.$router.push({name: 'create_step_5'});
       },
+      handleQRKey: function(qrKey) {
+        if (!ValidateQRKey(qrKey)){
+          this.error = `Error scanning qrKey: ${qrKey}`
+          return
+        }
+        this.qrKey = qrKey;
+      },
     },
+    components:{
+      QRScanner,
+      StepProgress
+    }
   }
 </script>

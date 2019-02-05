@@ -1,63 +1,47 @@
 <template>
   <div class="options-box">
-    <h1>Create a password</h1>
-    <h2>This will be used to decrypt your vault each time.</h2>
-    <form @submit.prevent="save_step_3">
-      <div class="input-field">
-        <div class="description">Password</div>
-        <input
-          class="text"
-          type="password"
-          v-model="password"
-          required
-        />
+    <StepProgress :filled="3" />
+    <h1>Create a Qcard backup</h1>
+    <h2>Backup your vault for safekeeping</h2>
+    <form @submit.prevent="save_step_2">
+
+      <div v-if="$root.char_key">
+        <div class='highlight-box'>
+          <h3>Write the following characters on your Q-Card:</h3>
+          <div class='character-code'>
+            <div class= 'spacing'>
+              <span>{{$root.char_key}}</span>
+            </div>
+          </div>
+          <!--<button @click.prevent="$root.GenerateCharKey">Generate a new key</button>-->
+        </div>
       </div>
-      <div class="input-field">
-        <div class="description">Confirm</div>
-        <input
-          class="text"
-          type="password"
-          v-model="confirm"
-          required
-        />
+
+      <div v-else>
+        <h2>Generating encryption key, please wait...</h2>
       </div>
-      <h4 v-if="password && password_error">{{password_error}}</h4>
-      <button
-        class="btn"
-        type="submit"
-        v-if="password && !password_error"
-      >Next</button>
     </form>
+
+    <h2>Would you like to require that your QR Code is scanned each time you unlock the vault?</h2>
+
+    <router-link class="btn" :to="{name: 'create_step_4'}">
+      Yes
+    </router-link>
+
+    <router-link class="btn" :to="{name: 'create_step_5'}">
+      No (Less Secure)
+    </router-link>
   </div>
 </template>
 
+
 <script>
-  import {ValidatePassword, PassKeyFromPassword} from '../../lib/QVaultCrypto/QVaultCrypto';
+  import StepProgress from '../../components/step_progress.vue'
 
   export default {
-    data(){
-      return {
-        password: null,
-        confirm: null,
-      }
-    },
-    computed:{
-      password_error(){
-        let err = ValidatePassword(this.password);
-        if (err){
-          return err;
-        }
-        if (this.password !== this.confirm){
-          return 'Passwords don\'t match';
-        }
-        return '';
-      },
-    },
-    methods:{
-      async save_step_3(){
-        this.$root.pass_key = await PassKeyFromPassword(this.password);
-        this.$router.push({name: 'create_step_4'});
-      },
+    components:{
+      StepProgress
     }
   }
 </script>
+
