@@ -1,5 +1,6 @@
 <template>
   <div>
+    <HeaderBar title="Setup" />
     <StepProgress :filled="6" />
     <form @submit.prevent="create_vault_file">
       <h1>Choose where you'll save your vault file:</h1>
@@ -11,6 +12,7 @@
 </template>
 
 <script>
+  import HeaderBar from '../../components/header_bar.vue'
   import StepProgress from '../../components/step_progress.vue'
   export default {
     methods:{
@@ -20,6 +22,7 @@
       },
     },
     components:{
+      HeaderBar,
       StepProgress
     }
   }

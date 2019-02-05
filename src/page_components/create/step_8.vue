@@ -1,5 +1,6 @@
 <template>
   <div>
+    <HeaderBar title="Setup" />
     <StepProgress :filled="8" />
     <form @submit.prevent="create_account">
       <input type="email" v-model="email" placeholder="email" />
@@ -9,9 +10,11 @@
 </template>
 
 <script>
+  import HeaderBar from '../../components/header_bar.vue'
   import StepProgress from '../../components/step_progress.vue'
   export default {
     components:{
+      HeaderBar,
       StepProgress
     }
   }
