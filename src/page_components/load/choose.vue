@@ -1,7 +1,7 @@
 <template>
-  <div class="modal">
-    <div class="content">
-      <h1 class="get-started">Open</h1>
+  <div>
+    <HeaderBar title="Open" />
+    <div class="options-box">
       <h2>Open a local vault file, or download one from the cloud.</h2>
       <router-link
         class="btn"

@@ -13,10 +13,8 @@
 </template>
 
 <script>
-  import HeaderBar from '../../components/header_bar.vue'
   import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
   import QRScanner from '../../components/qrcode_scanner.vue'
-  import StepProgress from '../../components/step_progress.vue'
 
   export default {
     data(){
@@ -40,8 +38,6 @@
     },
     components:{
       QRScanner,
-      HeaderBar,
-      StepProgress
     }
   }
 </script>

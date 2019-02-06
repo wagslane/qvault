@@ -7,14 +7,3 @@
     <router-link class="btn" :to="{name: 'vault'}">No</router-link>
   </div>
 </template>
-
-<script>
-  import HeaderBar from '../../components/header_bar.vue'
-  import StepProgress from '../../components/step_progress.vue'
-  export default {
-    components:{
-      HeaderBar,
-      StepProgress
-    }
-  }
-</script>

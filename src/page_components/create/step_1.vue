@@ -16,15 +16,3 @@
     </div>
   </div>
 </template>
-
-<script>
-  import StepProgress from '../../components/step_progress.vue'
-  import HeaderBar from '../../components/header_bar.vue'
-
-  export default {
-    components:{
-      StepProgress,
-      HeaderBar
-    }
-  }
-</script>

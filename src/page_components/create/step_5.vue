@@ -3,8 +3,8 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <StepProgress :filled="5" />
-      <h1>Create a password</h1>
-      <h2>This will be used to decrypt your vault each time.</h2>
+      <h1>Create Vault Key</h1>
+      <h2>Select a security method and create your vault key.</h2>
       <form @submit.prevent="save_step_3">
         <div class="input-field">
           <div class="description">Password</div>
@@ -36,9 +36,7 @@
 </template>
 
 <script>
-  import HeaderBar from '../../components/header_bar.vue'
   import {ValidatePassword, PassKeyFromPassword} from '../../lib/QVaultCrypto/QVaultCrypto';
-  import StepProgress from '../../components/step_progress.vue'
 
   export default {
     data(){
@@ -65,9 +63,5 @@
         this.$router.push({name: 'create_step_6'});
       },
     },
-    components:{
-      HeaderBar,
-      StepProgress
-    }
   }
 </script>

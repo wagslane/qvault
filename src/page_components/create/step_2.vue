@@ -18,16 +18,9 @@
 </template>
 
 <script>
-  import HeaderBar from '../../components/header_bar.vue'
-  import StepProgress from '../../components/step_progress.vue'
-
   export default {
     mounted(){
       this.$root.GenerateCharKey();
     },
-    components:{
-      HeaderBar,
-      StepProgress
-    }
   }
 </script>
