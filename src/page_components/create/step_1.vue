@@ -13,6 +13,10 @@
       <router-link class="btn" :to="{name: 'load'}">
         Open Existing Vault
       </router-link>
+      <input
+        id="virtual"
+      />
+      <VirtualKeyboard inputID="virtual"/>
     </div>
   </div>
 </template>
