@@ -1,15 +1,19 @@
 <template>
-  <div class="options-box">
-    <StepProgress :filled="4" />
-    <h1>Scan your QR Code</h1>
-    <h2>Use 2nd factor encryption with your QR Code</h2>
-    <p>Key: {{qrKey}}</p>
-    <p>Error: {{error}}</p>
-    <QRScanner @scanned="handleQRKey"  />
+  <div>
+    <HeaderBar title="Setup" />
+    <div class="options-box">
+      <StepProgress :filled="4" />
+      <h1>Scan your QR Code</h1>
+      <h2>Use 2nd factor encryption with your QR Code</h2>
+      <p>Key: {{qrKey}}</p>
+      <p>Error: {{error}}</p>
+      <QRScanner @scanned="handleQRKey"  />
+    </div>
   </div>
 </template>
 
 <script>
+  import HeaderBar from '../../components/header_bar.vue'
   import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
   import QRScanner from '../../components/qrcode_scanner.vue'
   import StepProgress from '../../components/step_progress.vue'
@@ -36,6 +40,7 @@
     },
     components:{
       QRScanner,
+      HeaderBar,
       StepProgress
     }
   }
