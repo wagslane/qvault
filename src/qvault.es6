@@ -8,11 +8,11 @@ import QvaultApp from './qvault.vue';
 
 import HeaderBar from './components/header_bar.vue';
 import StepProgress from './components/step_progress.vue';
-import VirtualKeyboard from './components/virtual_keyboard.vue';
+import TextInput from './components/text_input.vue';
 
 Vue.component('HeaderBar', HeaderBar);
 Vue.component('StepProgress', StepProgress);
-Vue.component('VirtualKeyboard', VirtualKeyboard);
+Vue.component('TextInput', TextInput);
 
 window.QvaultApp = new Vue(QvaultApp);
 window.QvaultApp.$mount('#qvault');
