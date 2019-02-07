@@ -1,21 +1,42 @@
 <template>
-  <div>
+  <div class="container">
     <div class="sidebar">
       <input
         type="text"
+        class="search"
         placeholder="search"
       >
       <router-link
-        v-for="(secret, uuid) in secrets"
+        v-for="(box, uuid) in $root.secrets"
         :key="uuid"
-        :to="{name: 'vault_item', params: {secret_uuid: uuid}}"
+        :to="{name: 'vault_item', params: {box_uuid: uuid}}"
       >
-        {{secret.name}}
+        {{box.name}}
       </router-link>
-      <button></button>
+      <button
+        @click.prevent="add_box"
+        class="add_box"
+      >Add</button>
     </div>
     <div class="content">
       <router-view></router-view>
     </div>
   </div>
 </template>
+
+<script>
+  import moment from 'moment';
+
+  export default {
+    methods: {
+      add_box(){
+        let uuid = this.$root.CreateSecret({
+          name: 'Name',
+          secrets: [],
+          created: moment().format('YYYY-MM-DD'),
+        });
+        this.$router.push({name: 'vault_item', params: {secret_uuid: uuid}});
+      }
+    },
+  }
+</script>

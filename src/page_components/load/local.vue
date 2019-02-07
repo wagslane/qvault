@@ -21,7 +21,7 @@
       </div>
       <button
         type="submit"
-        v-if="!($root.local_vault_path && password)"
+        v-if="$root.local_vault_path && password"
         class="btn"
       >Open</button>
     </div>

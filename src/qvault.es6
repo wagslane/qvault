@@ -1,8 +1,10 @@
 import '@babel/polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueClipboard from 'vue-clipboard2';
 
 Vue.use(VueRouter);
+Vue.use(VueClipboard);
 
 import QvaultApp from './qvault.vue';
 
