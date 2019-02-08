@@ -2,12 +2,24 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <StepProgress :filled="6" />
       <form @submit.prevent="create_vault_file">
-        <h1>Choose where you'll save your vault file:</h1>
-        <button class="btn" @click.prevent="$root.SaveLocalVaultDialog">Choose location</button>
-        <h3 v-if="$root.local_vault_path">{{$root.local_vault_path}}</h3>
-        <button class="btn" type="submit" v-if="$root.local_vault_path">Next</button>
+        <div class="body">
+          <StepProgress :filled="6" />
+            <h1>Choose where you'll save your vault file:</h1>
+            <button class="btn" @click.prevent="$root.SaveLocalVaultDialog">Choose location</button>
+            <h3 v-if="$root.local_vault_path">{{$root.local_vault_path}}</h3>
+        </div>
+        <div class="footer">
+          <div class="back" @click="$router.go(-1)" />
+          <button
+                class="continue"
+                type="submit"
+                v-if="$root.local_vault_path"
+              >
+              <span>Continue</span>
+              <div class="continue-arrow" />
+            </button>
+        </div>
       </form>
     </div>
   </div>
