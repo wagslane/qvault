@@ -6,24 +6,16 @@
       <h1>Create Vault Key</h1>
       <h2>Select a security method and create your vault key.</h2>
       <form @submit.prevent="save_step_3">
-        <div class="input-field">
-          <div class="description">Password</div>
-          <input
-            class="text"
-            type="password"
-            v-model="password"
-            required
-          />
-        </div>
-        <div class="input-field">
-          <div class="description">Confirm</div>
-          <input
-            class="text"
-            type="password"
-            v-model="confirm"
-            required
-          />
-        </div>
+        <TextInput
+          v-model="password" 
+          keyboardID="password" 
+          description="Password" 
+          type="password"/>
+        <TextInput
+          v-model="confirm" 
+          keyboardID="confirm" 
+          description="Confirm" 
+          type="password"/>
         <h4 v-if="password && password_error">{{password_error}}</h4>
         <button
           class="btn"
