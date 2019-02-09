@@ -1,6 +1,7 @@
 body {
   background-color: #131617;
-  font-family: Roboto, sans-serif;	
+  font-family: Roboto, sans-serif;
+  margin: 0px;
 }
 
 h1, h2, h3, h4 {
@@ -41,6 +42,10 @@ h4 {
   margin-bottom: 12px;
 }
 
+button.btn {
+  width: 100%;
+}
+
 .btn {
   border: 2px solid rgba(255,255,255,0.5);
   border-radius: 5px;
@@ -75,7 +80,66 @@ h4 {
 .options-box {
   margin: auto;
   width: 50%;
-  padding: 10px;
+  border-radius: 10px;
+	background-color: #24272A;
+  box-shadow: 0 2px 94px 0 #000000;
+  overflow: hidden;
+
+  .body{
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+  
+  .footer {
+    height: 99px;
+    background-color: #1A1D1F;
+    overflow: auto;
+  }
+
+  .back {
+    margin-top: 40px;
+    margin-left: 37px;
+    float: left;
+    cursor: pointer;
+    transform: rotate(135deg);
+    box-sizing: border-box;
+    height: 12px;
+    width: 12px;
+    border-bottom: 1.5px solid #8C8E8F;
+    border-right: 1.5px solid #8C8E8F;
+  }
+
+  .continue {
+    margin-top: 30px;
+    margin-right: 37px;
+    float: right;
+    height: 29px;
+    color: #D8A22E;
+    font-family: Roboto;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: -0.04px;
+    line-height: 29px;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+
+  .continue-arrow {
+    margin-top: 2px;
+    margin-left: 9px;
+    float: right;
+    transform: rotate(135deg);
+    box-sizing: border-box;
+    height: 12px;
+    width: 12px;
+    border-top: 1.5px solid #D8A22E;
+    border-left: 1.5px solid #D8A22E;
+  }
 }
 
 .highlight-box{
@@ -106,42 +170,6 @@ h4 {
       line-height: 19px;
       text-align: center;
     }
-  }
-}
-
-.input-field {
-  padding-top: 17px;
-  margin: auto;
-  margin-bottom: 12px;
-  height: 59px;
-  width: 100%;
-  border-radius: 5px;
-  background-color: #1A1D1F;
-  letter-spacing: -0.04px;
-  color: #FFFFFF;
-  font-size: 16px;
-
-  .description {
-    height: 47px;
-    line-height: 47px;
-    display:inline-block;
-    text-align:center;
-    margin-left: 23px;
-    font-weight: 500;
-  }
-
-  .text {
-    padding-left: 5px;
-    margin-right: 5px;
-    float: right;
-    box-sizing: border-box;
-    height: 47px;
-    line-height: 47px;
-    width: 311px;
-    border: 2px solid #D8A22E;
-    border-radius: 2px;
-    font-weight: 300;
-    background-color: white;
   }
 }
 
