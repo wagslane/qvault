@@ -26,7 +26,8 @@
   export default{
     data(){
       return{
-        keyboardVisibility: "hidden"
+        keyboardVisibility: "hidden",
+        recentlyClosed: false
       }
     },
     props:{
@@ -49,7 +50,7 @@
     mounted: function(){
       this.keyboard = new Keyboard(`.${this.keyboardID}`, {
         preventMouseDownDefault: true,
-        theme: "simple-keyboard hg-theme-default hg-layout-default",
+        theme: "simple-keyboard hg-theme-default custom-theme",
         onKeyPress: btn => this.onKeyPress(btn),
         layout: {
           'default': [
@@ -75,12 +76,16 @@
           this.keyboardVisibility = "hidden"
           return
         }
+        if (this.recentlyClosed){
+          return
+        }
         this.keyboardVisibility = "visible"
         this.$refs.input.focus()
       },
       hide(){
-        console.log("blur")
         this.keyboardVisibility = "hidden"
+        this.recentlyClosed = true
+        setTimeout(() => this.recentlyClosed = false, 200);
       },
       onKeyPress(btn){
         if (btn === "{shift}"){
@@ -158,5 +163,33 @@
   left: 50%;
   margin-left: -400px;
   width:800px;
+}
+
+/*
+  Theme: custom-theme
+*/
+.simple-keyboard.custom-theme {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.simple-keyboard.custom-theme .hg-button {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.simple-keyboard.custom-theme .hg-button:active {
+  background: #1c4995;
+  color: white;
+}
+
+#root .simple-keyboard.custom-theme + .simple-keyboard-preview {
+  background: #1c4995;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="position">
     <svg class="step-progress" :height="circleHeight" :width="width">
       <line
         v-for="line in lines"
@@ -123,5 +123,8 @@ export default {
 svg {
   margin: auto;
   display: block;
+}
+.position {
+  margin-top: 30px;
 }
 </style>

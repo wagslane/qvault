@@ -2,12 +2,17 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <StepProgress :filled="4" />
-      <h1>Scan your QR Code</h1>
-      <h2>Use 2nd factor encryption with your QR Code</h2>
-      <p>Key: {{qrKey}}</p>
-      <p>Error: {{error}}</p>
-      <QRScanner @scanned="handleQRKey"  />
+      <div class="body">
+        <StepProgress :filled="4" />
+        <h1>Scan your QR Code</h1>
+        <h2>Use 2nd factor encryption with your QR Code</h2>
+        <p>Key: {{qrKey}}</p>
+        <p>Error: {{error}}</p>
+        <QRScanner @scanned="handleQRKey"  />
+      </div>
+      <div class="footer">
+        <div class="back" @click="$router.go(-1)" />
+      </div>
     </div>
   </div>
 </template>
