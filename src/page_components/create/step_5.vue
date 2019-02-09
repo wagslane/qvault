@@ -2,26 +2,34 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <StepProgress :filled="5" />
-      <h1>Create Vault Key</h1>
-      <h2>Select a security method and create your vault key.</h2>
       <form @submit.prevent="save_step_3">
-        <TextInput
-          v-model="password" 
-          keyboardID="password" 
-          description="Password" 
-          type="password"/>
-        <TextInput
-          v-model="confirm" 
-          keyboardID="confirm" 
-          description="Confirm" 
-          type="password"/>
-        <h4 v-if="password && password_error">{{password_error}}</h4>
-        <button
-          class="btn"
-          type="submit"
-          v-if="password && !password_error"
-        >Next</button>
+        <div class="body">
+          <StepProgress :filled="5" />
+          <h1>Create Vault Key</h1>
+          <h2>Select a security method and create your vault key.</h2>
+            <TextInput
+              v-model="password" 
+              keyboardID="password" 
+              description="Password" 
+              type="password"/>
+            <TextInput
+              v-model="confirm" 
+              keyboardID="confirm" 
+              description="Confirm" 
+              type="password"/>
+            <h4 v-if="password && password_error">{{password_error}}</h4>
+        </div>
+        <div class="footer">
+          <div class="back" @click="$router.go(-1)" />
+          <button
+              class="continue"
+              type="submit"
+              v-if="password && !password_error"
+            >
+            <span>Continue</span>
+            <div class="continue-arrow" />
+          </button>
+        </div>
       </form>
     </div>
   </div>
