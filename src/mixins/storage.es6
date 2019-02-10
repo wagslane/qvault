@@ -34,6 +34,7 @@ export default {
       qr_key: null,
       pass_key: null,
       qr_required: false,
+      loaded_vault: null,
 
       secrets: null,
       local_vault_path: null,
@@ -42,11 +43,21 @@ export default {
   
   methods: {
     ExistingVaultDialog(){
-      this.local_vault_path = dialog.showSaveDialog({
-        filters: FILE_FILTERS,
-        defaultPath: this.local_vault_path
+      let paths = dialog.showOpenDialog({
+        filters: FILE_FILTERS
       });
+      assert(paths.length === 1, "Invalid number of paths selected");
+      this.local_vault_path = paths[0];
       assert(this.local_vault_path, 'A vault file must be selected');
+      try {
+        let data = fs.readFileSync(this.local_vault_path, 'utf-8');
+        this.loaded_vault = JSON.parse(data);
+        assert(this.loaded_vault.version, 'Selected vault is corrupted');
+      } catch (err) {
+        this.loaded_vault  = null;
+        this.local_vault_path = null;
+        assert(false, err);
+      }
     },
 
     NewVaultDialog(){
@@ -73,27 +84,25 @@ export default {
       return await this.SaveLocalVault();
     },
 
-    async LoadLocalVault(password, qrKey) {
-      this.pass_key = await PassKeyFromPassword(password);
-      assert(this.local_vault_path, 'A vault file must be selected');
-
+    async UnlockVault(password, qrKey) {
+      assert(this.loaded_vault, 'A vault file must be loaded');
       try {
-        let data = fs.readFileSync(this.local_vault_path, 'utf-8');
-        let vaultData = JSON.parse(data);
-        this.char_key = await DecipherCharKey(this.pass_key, vaultData.key);
+        this.pass_key = await PassKeyFromPassword(password);
+        this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
         let master_key = '';
-        if (vaultData.qr_required){
+        if (this.loaded_vault.qr_required){
           this.qr_required = true;
           master_key = await GetMasterKeyQR(this.char_key, qrKey);
         } else {
           master_key = await GetMasterKeyNoQR(this.char_key);
         }
-        // assert(vaultData.version, "Selected vault doesn't contain a version"); // Doesn't matter yet
-        this.secrets = await DecipherSecrets(master_key, vaultData.secrets);
+        this.secrets = await DecipherSecrets(master_key, this.loaded_vault.secrets);
+        this.loaded_vault = null;
       } catch (err) {
         this.pass_key = null;
         this.char_key = null;
-        assert(false, err);
+        console.log(err);
+        assert(false, 'Invalid keys');
       }
     },
 
