@@ -41,7 +41,7 @@
     methods:{
       handleQRKey: function(qrKey) {
         if (!ValidateQRKey(qrKey)){
-          this.error = `Error scanning qrKey: ${qrKey}`
+          this.error = `Not a valid Q Card key`
           return
         }
         this.$root.CreateQrKey(qrKey);
