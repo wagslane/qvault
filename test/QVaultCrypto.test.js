@@ -31,7 +31,7 @@ it('GeneratePassphrase', async () => {
 it('GenerateCharKey', async () => {
   for (let i = 0; i < 25; i += 1) {
     let charKey = await GenerateCharKey();
-    expect(charKey.length).equal(15);
+    expect(charKey.length).equal(16);
     let charKey2 = await GenerateCharKey();
     expect(charKey).not.equal(charKey2);
   }
