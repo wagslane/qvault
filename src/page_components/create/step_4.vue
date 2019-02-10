@@ -18,6 +18,8 @@
         <p v-if="error">{{error}}</p>
 
         <QRScanner v-if="show" @scanned="handleQRKey"  />
+        <br />
+        <br />
       </div>
       <div class="footer">
         <div class="back" @click="$router.go(-1)" />
@@ -40,8 +42,12 @@
 
     methods:{
       handleQRKey: function(qrKey) {
+        if (qrKey.substring(0, 6) === 'ERROR:'){
+          this.error = qrKey
+          return
+        }
         if (!ValidateQRKey(qrKey)){
-          this.error = `Not a valid Q Card key`
+          this.error = `Not a valid QR key`
           return
         }
         this.$root.CreateQrKey(qrKey);
