@@ -5,14 +5,14 @@
       <div class="body">
         <StepProgress :filled="2" />
         <h1>Key Backup</h1>
-        <h2>Create a new vault, or open one you've created before.</h2>
+        <h2>Do you have a Q Card you can use to backup your vault access?</h2>
 
         <router-link class="btn" :to="{name: 'create_step_3'}">
-          Add Qvault Card
+          Add Q Card
         </router-link>
 
         <router-link class="btn" :to="{name: 'create_step_5'}">
-          Create Without Backup
+          Skip for now
         </router-link>
       </div>
 
@@ -26,7 +26,7 @@
 <script>
   export default {
     mounted(){
-      this.$root.GenerateCharKey();
+      this.$root.CreateCharKey();
     },
   }
 </script>

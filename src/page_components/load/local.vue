@@ -4,7 +4,7 @@
     <div class="options-box">
       <h1>Unlock Vault</h1>
       <button
-        @click.prevent="$root.OpenLocalVault"
+        @click.prevent="$root.ExistingVaultDialog"
         class="btn"
       >
         Choose Vault File

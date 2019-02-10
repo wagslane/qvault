@@ -16,28 +16,23 @@
                   <span>{{$root.char_key}}</span>
                 </div>
               </div>
-              <!--<button @click.prevent="$root.GenerateCharKey">Generate a new key</button>-->
             </div>
           </div>
 
           <div v-else>
-            <h2>Generating encryption key, please wait...</h2>
+            <h2>Generating backup key, please wait...</h2>
           </div>
         </form>
-
-        <h2>Would you like to require that your QR Code is scanned each time you unlock the vault?</h2>
-
-        <router-link class="btn" :to="{name: 'create_step_4'}">
-          Yes
-        </router-link>
-
-        <router-link class="btn" :to="{name: 'create_step_5'}">
-          No (Less Secure)
-        </router-link>
       </div>
 
       <div class="footer">
         <div class="back" @click="$router.go(-1)" />
+        <router-link v-if="$root.char_key" :to="{name: 'create_step_4'}">
+          <button class="continue">
+            <span>Continue</span>
+            <div class="continue-arrow" />
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
