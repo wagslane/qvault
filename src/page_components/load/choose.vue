@@ -16,7 +16,7 @@
         </div>
 
         <router-link class="btn" :to="{name: 'load_cloud_step_1'}">
-          Open Cloud Vault
+          Download Cloud Vault
         </router-link>
       </div>
       <div class="footer">

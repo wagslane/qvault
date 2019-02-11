@@ -101,7 +101,6 @@ export default {
       } catch (err) {
         this.pass_key = null;
         this.char_key = null;
-        console.log(err);
         assert(false, 'Invalid keys');
       }
     },
