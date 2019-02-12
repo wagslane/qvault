@@ -7,8 +7,9 @@ import create_step_5 from './page_components/create/step_5.vue';
 import create_step_6 from './page_components/create/step_6.vue';
 import create_step_7 from './page_components/create/step_7.vue';
 import create_step_8 from './page_components/create/step_8.vue';
-import load_local from './page_components/load/local.vue';
+import load_unlock from './page_components/load/unlock.vue';
 import load_choose from './page_components/load/choose.vue';
+import load_cloud_step_1 from './page_components/load/cloud/step_1.vue';
 import vault from './page_components/vault/vault.vue';
 import vault_item from './page_components/vault/vault_item.vue';
 
@@ -93,9 +94,26 @@ export default [
         name: 'load_choose',
       },
       {
-        path: 'local',
-        component: load_local,
-        name: 'load_local',
+        path: 'unlock',
+        component: load_unlock,
+        name: 'load_unlock',
+      },
+      {
+        path: '/cloud/',
+        component: route_wrapper,
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'step_1',
+            },
+          },
+          {
+            path: 'step_1',
+            component: load_cloud_step_1,
+            name: 'load_cloud_step_1',
+          },
+        ],
       },
     ],
   },

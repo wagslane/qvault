@@ -1,5 +1,6 @@
 import {
   ValidatePassword,
+  ValidatePassphrase,
   GeneratePassphrase,
   GenerateCharKey,
   PassKeyFromPassword,
@@ -19,19 +20,28 @@ it('validate password', () => {
   expect(ValidatePassword('somewordthatslonG@1')).equal('');
 });
 
+it('validate password', () => {
+  expect(ValidatePassphrase('three words evil')).not.equal('');
+  expect(ValidatePassphrase('three letters bad here')).not.equal('');
+
+  expect(ValidatePassphrase('four words good safe')).equal('');
+});
+
 it('GeneratePassphrase', async () => {
-  const passphrase = await GeneratePassphrase(5);
+  let passphrase = await GeneratePassphrase(5);
+  passphrase = passphrase.split(" ");
   expect(passphrase.length).equal(5);
   expect(passphrase[0] !== passphrase[1]);
   expect(passphrase[0] !== undefined);
-  const passphrase2 = await GeneratePassphrase(5);
+  let passphrase2 = await GeneratePassphrase(5);
+  passphrase2 = passphrase2.split(" ");
   expect(passphrase).not.equal(passphrase2);
 });
 
 it('GenerateCharKey', async () => {
   for (let i = 0; i < 25; i += 1) {
     let charKey = await GenerateCharKey();
-    expect(charKey.length).equal(15);
+    expect(charKey.length).equal(16);
     let charKey2 = await GenerateCharKey();
     expect(charKey).not.equal(charKey2);
   }
