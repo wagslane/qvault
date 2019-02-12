@@ -1,7 +1,7 @@
 import decode from 'jwt-decode';
 import "isomorphic-fetch";
 
-const jwt_key = 'jwt';
+var CLOUD_JWT = null;
 const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
 
 // All API calls will return a rejected promise on non-200 response codes
@@ -95,7 +95,7 @@ export async function upsertVault(vault) {
     return handled;
 }
 
-export async function getVault(vault) {
+export async function getVault() {
     if (!isLoggedIn()) {
         return Promise.reject('Not logged in');
     }
@@ -112,41 +112,21 @@ export async function getVault(vault) {
     return handled;
 }
 
-export async function verifyEmail(code) {
-    if (!isLoggedIn()) {
-        return Promise.reject('Not logged in');
-    }
-    const jwt = getToken();
-
-    const resp = await fetch(`${domain}/v1/users/verify`, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            Authorization: `Bearer ${jwt}`
-        },
-        body: JSON.stringify({
-            code
-        })
-    });
-    const handled = await handleResponse(resp);
-    return handled;
-}
-
 export function isLoggedIn() {
     const token = getToken();
     return isTokenValid(token);
 }
 
 export function setToken(token) {
-    localStorage.setItem(jwt_key, token);
+    CLOUD_JWT = token;
 }
 
 export function getToken() {
-    return localStorage.getItem(jwt_key);
+    return CLOUD_JWT;
 }
 
 export function deleteToken() {
-    localStorage.removeItem(jwt_key);
+    CLOUD_JWT = null;
 }
 
 function isTokenValid(token) {

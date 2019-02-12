@@ -42,7 +42,20 @@ export function ValidatePassword(password) {
   return '';
 }
 
-// (int) => Promise(slice)
+export function ValidatePassphrase(passphrase) {
+  let split = passphrase.split(" ");
+  if (split.length < 4){
+    return 'Passphrase must have at least four words';
+  }
+  for (let i = 0; i  < split.length; i++){
+    if (split[i].length < 4){
+      return 'Each word must have at least four letters';
+    }
+  }
+  return '';
+}
+
+// (int) => Promise(string)
 // log2(20000 ^ 5) = 71.5 bits entropy
 // log2(20000 ^ 6) = 85.7 bits entropy
 // log2(20000 ^ 7) = 100 bits entropy
@@ -52,7 +65,7 @@ export async function GeneratePassphrase(phraseLength) {
     let index = await randomNumber(0, WordList.length - 1);
     phrase.push(WordList[index]);
   }
-  return phrase;
+  return phrase.join(" ");
 }
 
 // () => Promise(string)
@@ -60,7 +73,7 @@ export async function GenerateCharKey() {
   // log2(58^15) = 88.9 bits entropy
   // log2(58^20) = 117.2 bits entropy
   // log2(58^25) = 146 bits entropy
-  const length = 15;
+  const length = 16;
 
   let key = '';
   for (let i = 0; i < length; i++) {
@@ -73,11 +86,6 @@ export async function GenerateCharKey() {
 // (string) => Promise(string)
 export function PassKeyFromPassword(password) {
   return hashString(password, longHashDifficulty);
-}
-
-// ([]string) => Promise(string)
-export function PassKeyFromPassphrase(passphrase) {
-  return hashString(passphrase.toString(), longHashDifficulty);
 }
 
 // string => Promise(string)
