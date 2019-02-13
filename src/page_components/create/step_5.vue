@@ -107,8 +107,8 @@
 
 <style>
 .tabs {
-	height: 43px;
-	width: 478px;
+  height: 43px;
+  width: 478px;
   margin: auto;
 }
 
@@ -118,9 +118,9 @@
   background-color: #080D0E;
   color: #858586;
   font-size: 12px;
-	letter-spacing: 0.6px;
-	line-height: 43px;
-	text-align: center;
+  letter-spacing: 0.6px;
+  line-height: 43px;
+  text-align: center;
   cursor: pointer;
 }
 
