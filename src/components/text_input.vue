@@ -31,6 +31,11 @@
       }
     },
     props:{
+      defaultValue:{
+        type: String,
+        required: false,
+        default: ''
+      },
       value:{
         type: String
       },
@@ -45,6 +50,12 @@
       keyboardID:{
         type: String,
         required: true
+      }
+    },
+    watch: { 
+      defaultValue: function(newGenerated) {
+        this.$refs.input.value = newGenerated;
+        this.$emit('input', this.$refs.input.value);
       }
     },
     mounted: function(){

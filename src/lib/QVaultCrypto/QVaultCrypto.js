@@ -43,14 +43,9 @@ export function ValidatePassword(password) {
 }
 
 export function ValidatePassphrase(passphrase) {
-  let split = passphrase.split(" ");
-  if (split.length < 4){
-    return 'Passphrase must have at least four words';
-  }
-  for (let i = 0; i  < split.length; i++){
-    if (split[i].length < 4){
-      return 'Each word must have at least four letters';
-    }
+  const minLength = 15;
+  if (passphrase.length < minLength){
+    return `Passphrase must have at least ${minLength} characters`;
   }
   return '';
 }

@@ -20,11 +20,11 @@ it('validate password', () => {
   expect(ValidatePassword('somewordthatslonG@1')).equal('');
 });
 
-it('validate password', () => {
-  expect(ValidatePassphrase('three words evil')).not.equal('');
-  expect(ValidatePassphrase('three letters bad here')).not.equal('');
+it('validate passphrase', () => {
+  expect(ValidatePassphrase('not fifteen')).not.equal('');
+  expect(ValidatePassphrase('short')).not.equal('');
 
-  expect(ValidatePassphrase('four words good safe')).equal('');
+  expect(ValidatePassphrase('five words od safe log')).equal('');
 });
 
 it('GeneratePassphrase', async () => {
