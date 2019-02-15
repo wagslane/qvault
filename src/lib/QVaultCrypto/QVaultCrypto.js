@@ -14,11 +14,12 @@ const shortHashDifficulty = 10;
 // QR Key (256 bit, base64) = Encoded in the QR Card, generated in QVault factory
 // Char Key (15 chars, base58) = Back of the Q-Card, generated randomly by this app
 // Pass Key (256 bit, base 64) = Hash(password) or Hash(passphrase), used to cipher the Char Key for easy access
-// Master Key (256 bit, base 64) = Hash(Char Key) OR Hash(Char Key + QR Key), used to cipher the master key
+
+// Secrets are ciphered using Cipher(Hash(Char Key), data) 
+// Or
+// Cipher(QRKey, Cipher(Hash(CharKey), data))
 
 // (string) => string
-// returns '' if no error, else an error message is returned
-// At least: length 10, 1 upper, 1 lower, 1 number, 1 special char
 // log2(70^12) = 73.6 bits of entropy 
 export function ValidatePassword(password) {
   if (password.length < 12) {
@@ -84,13 +85,8 @@ export function PassKeyFromPassword(password) {
 }
 
 // string => Promise(string)
-export function GetMasterKeyNoQR(charKey) {
+export function HashCharKey(charKey) {
   return hashString(charKey, longHashDifficulty);
-}
-
-// (string, string) => Promise(string)
-export function GetMasterKeyQR(charKey, qrKey) {
-  return hashString(charKey + qrKey, longHashDifficulty);
 }
 
 // string => Promise(string)
@@ -110,16 +106,27 @@ export function DecipherCharKey(passKey, cipheredCharKey) {
 }
 
 // (string, obj) => string
-export function CipherSecrets(masterKey, secrets) {
+export function CipherSecrets(hashedCharKey, secrets) {
   const secretsString = JSON.stringify(secrets);
-  return cipherString(masterKey, secretsString);
+  return cipherString(hashedCharKey, secretsString);
+}
+
+// (string, string) => string
+export function CipherSecretsQr(qrKey, cipheredSecrets){
+  return cipherString(qrKey, cipheredSecrets);
 }
 
 // (string, string) => obj
-export function DecipherSecrets(masterKey, cipheredSecrets) {
-  const deciphered = decipherString(masterKey, cipheredSecrets);
+export function DecipherSecrets(hashedCharKey, cipheredSecrets) {
+  const deciphered = decipherString(hashedCharKey, cipheredSecrets);
   return JSON.parse(deciphered);
 }
+
+// (string, string) => obj
+export function DecipherSecretsQr(qrKey, cipheredSecrets) {
+  return decipherString(qrKey, cipheredSecrets);
+}
+
 
 // (string) => bool
 export function ValidateQRKey(qrKey) {

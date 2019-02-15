@@ -69,7 +69,7 @@
             this.qrRequired = true
             return
           }
-          await this.$root.UnlockVault(this.password, null)
+          await this.$root.UnlockVaultPassword(this.password)
           this.$router.push({name: 'vault'});
         } catch (err) {
           this.error = err
@@ -85,7 +85,8 @@
           return
         }
         this.$root.CreateQrKey(qrKey);
-        await this.$root.UnlockVault(this.password, qrKey)
+        await this.$root.UnlockVaultQr(qrKey)
+        await this.$root.UnlockVaultPassword(this.password)
         this.$router.push({name: 'vault'});
       }
     }
