@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="sidebar" v-if="$root.secrets">
+  <div class="container" v-if="boxes">
+    <div class="sidebar">
       <input
         type="text"
         class="search"
@@ -8,38 +8,41 @@
       >
       <div class="boxes">
         <router-link
-          v-for="(box, uuid) in $root.secrets"
-          :key="uuid"
-          :to="{name: 'vault_item', params: {secret_uuid: uuid}}"
+          v-for="(box, box_uuid) in boxes"
+          :key="box_uuid"
+          :to="{name: 'vault_item', params: {box_uuid}}"
           class="box_link"
         >
           {{box.name}}
         </router-link>
       </div>
       <button
-        @click.prevent="add_box"
+        @click.prevent="CreateBox"
         class="add_box"
       >Add</button>
     </div>
     <div class="content">
       <router-view></router-view>
     </div>
+    <button @click.prevent="save">Save</button>
   </div>
 </template>
 
 <script>
-  import moment from 'moment';
-
   export default {
+    computed: {
+      boxes(){
+        return this.$root.secrets;
+      },
+    },
     methods: {
-      add_box(){
-        let uuid = this.$root.CreateSecret({
-          name: 'Name',
-          secrets: [],
-          created: moment().format('YYYY-MM-DD'),
-        });
-        this.$router.push({name: 'vault_item', params: {secret_uuid: uuid}});
-      }
+      CreateBox(){
+        let uuid = this.$root.CreateBox();
+        this.$router.push({name: 'vault_item', params: {box_uuid: uuid}});
+      },
+      async save(){
+        return await this.$root.SaveLocalVault();
+      },
     },
   }
 </script>

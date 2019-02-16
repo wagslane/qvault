@@ -1,6 +1,7 @@
 import uuidv4 from 'uuid/v4';
 import Vue from 'vue';
 
+
 import assert from '../lib/assert.es6';
 
 export default {
@@ -17,7 +18,10 @@ export default {
     CreateBox(){
       assert(this.secrets, 'No vault is open');
       let uuid = uuidv4();
-      let box = {};
+      let box = {
+        name: 'Name',
+        secrets: {},
+      };
       Vue.set(this.secrets, uuid, box);
       return uuid;
     },
@@ -27,6 +31,18 @@ export default {
       assert(uuid in this.secrets, `${uuid} is not a valid uuid`);
       return this.secrets[uuid];
     },
+
+    CreateSecret(box_uuid){
+      let box = this.GetBox(box_uuid);
+      let uuid = uuidv4();
+      let secret = {
+        name: null,
+        value: null,
+        created: Date.now(),
+      };
+      Vue.set(box.secrets, uuid, secret);
+      return uuid;
+    }
 
     // SetSecret(uuid, secret) {
     //   assert(this.secrets, 'No vault is open');

@@ -1,9 +1,15 @@
 <template>
   <form class="wrapper" v-if="box">
     <input v-model="box.name" placeholder="Name">
-    <button @click.prevent="add_secret">Add</button>
+    <button
+      @click.prevent="$root.CreateSecret(box_uuid)"
+    >Add</button>
     <hr />
-    <div v-for="secret in box.secrets" class="secret">
+    <div
+      v-for="(secret, secret_uuid) in box.secrets"
+      :key="secret_uuid"
+      class="secret"
+    >
       <input placeholder="name" v-model="secret.name">
       <input placeholder="value" v-model="secret.value">
       <!--<button v-clipboard:copy="secret.value">copy</button>-->
@@ -15,10 +21,10 @@
 <script>
   export default {
     computed: {
-      uuid(){ return this.$route.params.secret_uuid; },
+      box_uuid(){ return this.$route.params.box_uuid; },
       box(){
-        if(this.uuid){
-          return this.$root.GetSecret(this.uuid);
+        if(this.box_uuid){
+          return this.$root.GetBox(this.box_uuid);
         }
       },
     },
@@ -26,12 +32,6 @@
 //      copy_value(){
 //        document.execCommand("copy");
 //      },
-      add_secret(){
-        this.box.secrets.push({
-          name: '',
-          value: '',
-        })
-      },
     },
   }
 </script>
