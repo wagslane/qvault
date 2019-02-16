@@ -1,6 +1,4 @@
 import fs from 'fs';
-import uuidv4 from 'uuid/v4';
-import Vue from 'vue';
 const { dialog } = require('electron').remote;
 const pjson = require('../../package.json');
 
@@ -17,6 +15,8 @@ import {
   DecipherSecretsQr,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
+import secrets from './secrets.es6';
+
 const QVAULT_FILE_EXTENSION = 'qvault';
 const VERSION = pjson.version;
 const FILE_FILTERS = [
@@ -29,6 +29,10 @@ const FILE_FILTERS = [
 ];
 
 export default {
+  mixins: [
+    secrets,
+  ],
+
   data(){
     return {
       hashed_char_key: null,
@@ -37,7 +41,6 @@ export default {
       pass_key: null,
       qr_required: false,
       loaded_vault: null,
-      secrets: null,
       local_vault_path: null,
     };
   },
@@ -81,7 +84,7 @@ export default {
     },
 
     async CreateLocalVault(){
-      this.secrets = {};
+      this.InitializeSecrets();
       return await this.SaveLocalVault();
     },
 
@@ -140,29 +143,6 @@ export default {
         secrets: encrypted_secrets,
         qr_required: this.qr_required,
       });
-    },
-
-    CreateSecret(secret){
-      assert(this.secrets, 'No vault is open');
-      let uuid = uuidv4();
-      Vue.set(this.secrets, uuid, secret);
-      return uuid;
-    },
-
-    GetSecret(uuid) {
-      assert(this.secrets, 'No vault is open');
-      assert(uuid in this.secrets, `${uuid} is not a valid uuid`);
-      return this.secrets[uuid];
-    },
-
-    SetSecret(uuid, secret) {
-      assert(this.secrets, 'No vault is open');
-      Vue.set(this.secrets, uuid, secret);
-    },
-
-    DeleteSecret(uuid) {
-      assert(this.secrets, 'No vault is open');
-      Vue.delete(this.secrets, uuid);
     },
   },
 };
