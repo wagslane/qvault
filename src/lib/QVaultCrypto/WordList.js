@@ -19999,4 +19999,4 @@ export default [
     "yan",
     "succeeding",
     "bizjournalshire"
-]
+];

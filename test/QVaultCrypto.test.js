@@ -6,7 +6,9 @@ import {
   PassKeyFromPassword,
   CipherSecrets,
   DecipherSecrets,
-  GetMasterKeyNoQR,
+  CipherSecretsQr,
+  DecipherSecretsQr,
+  HashCharKey,
   ValidateQRKey,
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
@@ -20,11 +22,11 @@ it('validate password', () => {
   expect(ValidatePassword('somewordthatslonG@1')).equal('');
 });
 
-it('validate password', () => {
-  expect(ValidatePassphrase('three words evil')).not.equal('');
-  expect(ValidatePassphrase('three letters bad here')).not.equal('');
+it('validate passphrase', () => {
+  expect(ValidatePassphrase('not fifteen')).not.equal('');
+  expect(ValidatePassphrase('short')).not.equal('');
 
-  expect(ValidatePassphrase('four words good safe')).equal('');
+  expect(ValidatePassphrase('five words od safe log')).equal('');
 });
 
 it('GeneratePassphrase', async () => {
@@ -55,9 +57,9 @@ it('Hashing', async () => {
   expect(hash1).not.equal(hash3);
 });
 
-it('DoorKey Output', async () => {
+it('hash char key', async () => {
   const charKey = await GenerateCharKey();
-  const hash = await GetMasterKeyNoQR(charKey);
+  const hash = await HashCharKey(charKey);
   const buf = Buffer.from(hash, 'base64');
   expect(buf.length).equal(32);
 });
@@ -72,12 +74,20 @@ it('cipher and decipher', () => {
       }
     }
   };
-  const masterKey = "fhdsbf7aisduifgsdifuagsdfgsdjhfgsdjhlfashdfg";
-  const ciphered = CipherSecrets(masterKey, mySecrets);
-  const deciphered = DecipherSecrets(masterKey, ciphered);
+  const hashedCharKey = "fhdsbf7aisduifgsdifuagsdfgsdjhfgsdjhlfashdfg";
+  const qrKey = "fhdsbf7aisduifgsjifuagsdfgsdjhfgsdjhlfashdfg";
+  const ciphered = CipherSecrets(hashedCharKey, mySecrets);
+  const deciphered = DecipherSecrets(hashedCharKey, ciphered);
   expect(mySecrets.cryptocurrency.someUUID.coin).equal(deciphered.cryptocurrency.someUUID.coin);
   expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(deciphered.cryptocurrency.someUUID.mnemonic);
   expect(mySecrets.cryptocurrency.someUUID.description).equal(deciphered.cryptocurrency.someUUID.description);
+
+  const dualCiphered = CipherSecretsQr(qrKey, ciphered);
+  const unDualCiphered = DecipherSecretsQr(qrKey, dualCiphered);
+  const totallyUnciphered = DecipherSecrets(hashedCharKey, unDualCiphered);
+  expect(mySecrets.cryptocurrency.someUUID.coin).equal(totallyUnciphered.cryptocurrency.someUUID.coin);
+  expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(totallyUnciphered.cryptocurrency.someUUID.mnemonic);
+  expect(mySecrets.cryptocurrency.someUUID.description).equal(totallyUnciphered.cryptocurrency.someUUID.description);
 });
 
 it('Validate QRKey', () => {
