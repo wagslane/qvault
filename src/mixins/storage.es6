@@ -132,8 +132,8 @@ export default {
       let encrypted_secrets = await CipherSecrets(this.hashed_char_key, this.secrets);
       if (this.qr_required){
         assert(this.qr_key, 'A QR key must exist to save a vault');
-        encrypted_secrets = await CipherSecretsQr(this.qr_key, this.encrypted_secrets);
-      } 
+        encrypted_secrets = await CipherSecretsQr(this.qr_key, encrypted_secrets);
+      }
       return JSON.stringify({
         version: VERSION,
         key: cipheredCharKey,
