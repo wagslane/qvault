@@ -123,7 +123,7 @@ export default [
     name: 'vault',
     children: [
       {
-        path: ':secret_uuid',
+        path: ':box_uuid',
         component: vault_item,
         name: 'vault_item',
       },
