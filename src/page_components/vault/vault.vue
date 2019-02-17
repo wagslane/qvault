@@ -13,18 +13,20 @@
           :to="{name: 'vault_item', params: {box_uuid}}"
           class="box_link"
         >
+          <div class="aesthetic_rectangle"></div>
           {{box.name}}
         </router-link>
       </div>
       <button
         @click.prevent="CreateBox"
         class="add_box"
-      >Add</button>
+      >
+        <img src="../../img/plus-solid.svg" style="height: 22px" />
+      </button>
     </div>
     <div class="content">
       <router-view></router-view>
     </div>
-    <button @click.prevent="save">Save</button>
   </div>
 </template>
 
@@ -55,51 +57,68 @@
 
     .sidebar {
       width: 25%;
-      padding: 15px;
       background-color: #32373B;
       height: 100vh;
+
+      .search {
+        margin: 15px 15px 0px 15px;
+        width: ~'calc(100% - 30px)';
+        border-radius: 6px;
+        background-color: #080D0E;
+        color: white;
+        padding: 10px;
+        border: none;
+        height: 42px;
+        font-size: 14px;
+      }
+
+      .boxes {
+        height: ~'calc(100vh - 159px)';
+        overflow-y: auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        .box_link {
+          color: white;
+          padding: 22px;
+          display: block;
+          text-decoration: none;
+
+          .aesthetic_rectangle {
+            float: left;
+            height: 26px;
+            width: 26px;
+            border: 1px solid #979797;
+            border-radius: 5px;
+            margin-right: 12px;
+          }
+
+          &.router-link-active {
+            color: #D8A22E;
+            /*background-color: #181C1E;*//*color from mocks*/
+            background-color: #131617;/*actually matches background*/
+          }
+
+          &:nth-child(2n){
+            background-color: #252A2D;
+          }
+        }
+      }
+
+      .add_box {
+        width: 100%;
+        height: 75px;
+        text-align: center;
+        bottom: 100%;
+        background-color: #181C1E;
+        color: white;
+        border: none;
+        font-size: 35px;
+      }
     }
 
     .content {
       width: 75%;
     }
-  }
-
-  .boxes {
-    height: ~'calc(100vh - 174px)';
-    overflow-y: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
-
-    .box_link {
-      color: white;
-      padding: 22px;
-      display: block;
-
-      &.router-link-active {
-        color: #D8A22E;
-      }
-
-      &:nth-child(2n){
-        background-color: #181C1E;
-      }
-    }
-  }
-
-  .search {
-    width: 100%;
-    border-radius: 6px;
-    background-color: #080D0E;
-    color: white;
-    padding: 10px;
-  }
-
-  .add_box {
-    width: 100%;
-    height: 75px;
-    text-align: center;
-    bottom: 100%;
-    background-color: #181C1E;
-    color: white;
   }
 </style>
