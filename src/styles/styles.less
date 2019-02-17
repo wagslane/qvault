@@ -1,7 +1,15 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
   background-color: #131617;
   font-family: Roboto, sans-serif;
-  margin: 0px;
+  margin: 0;
 }
 
 h1, h2, h3, h4 {
@@ -81,7 +89,7 @@ button.btn {
   margin: auto;
   width: 50%;
   border-radius: 10px;
-	background-color: #24272A;
+  background-color: #24272A;
   box-shadow: 0 2px 94px 0 #000000;
   overflow: hidden;
 
@@ -113,6 +121,8 @@ button.btn {
     margin-top: 30px;
     margin-right: 37px;
     float: right;
+    width: 311px;
+    border-radius: 2px;
     height: 29px;
     color: #D8A22E;
     font-family: Roboto;
