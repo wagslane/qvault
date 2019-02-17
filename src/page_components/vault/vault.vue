@@ -20,12 +20,13 @@
       <button
         @click.prevent="CreateBox"
         class="add_box"
-      >+</button>
+      >
+        <img src="../../img/plus-solid.svg" style="height: 22px" />
+      </button>
     </div>
     <div class="content">
       <router-view></router-view>
     </div>
-    <button @click.prevent="save">Save</button>
   </div>
 </template>
 
@@ -60,8 +61,8 @@
       height: 100vh;
 
       .search {
-        margin: 15px;
-        width: calc(100% - 30px);
+        margin: 15px 15px 0px 15px;
+        width: ~'calc(100% - 30px)';
         border-radius: 6px;
         background-color: #080D0E;
         color: white;
@@ -72,7 +73,7 @@
       }
 
       .boxes {
-        height: ~'calc(100vh - 174px)';
+        height: ~'calc(100vh - 159px)';
         overflow-y: auto;
         margin-top: 15px;
         margin-bottom: 15px;
