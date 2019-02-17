@@ -115,7 +115,6 @@
 
     .save {
       padding: 10px;
-      float: right;
       font-size: 22px;
       margin: 10px;
       color: #8C8E8F;
