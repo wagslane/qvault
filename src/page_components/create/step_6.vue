@@ -10,7 +10,9 @@
             <h3 v-if="$root.local_vault_path">{{$root.local_vault_path}}</h3>
         </div>
         <div class="footer">
-          <div class="back" @click="$router.go(-1)" />
+          <div class="back" @click="$router.go(-1)">
+            <div class="icon" />
+          </div>
           <button
             class="continue"
             type="submit"

@@ -19,6 +19,11 @@
         </form>
         <QRScanner v-if="qrRequired" @scanned="handleQRKey"  />
       </div>
+      <div class="footer">
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
+      </div>
     </div>
   </div>
 </template>

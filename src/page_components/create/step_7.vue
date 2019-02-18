@@ -9,7 +9,9 @@
         <router-link class="btn" :to="{name: 'vault'}">No</router-link>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
       </div>
     </div>
   </div>

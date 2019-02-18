@@ -54,7 +54,9 @@
         </div>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
         <button
           class="continue"
           @click="save_step_5"

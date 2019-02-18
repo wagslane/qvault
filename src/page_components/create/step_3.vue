@@ -45,7 +45,9 @@
       <br />
       <br />
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
         <router-link v-if="$root.char_key" :to="{name: 'create_step_4'}">
           <button class="continue">
             <span>Continue</span>
