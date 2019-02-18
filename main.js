@@ -9,7 +9,7 @@ let mainWindow;
 function createWindow() {
   // Create the browser window.
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
-  mainWindow = new BrowserWindow({ width: width * .7, height: height * .8, icon: 'src/img/qvault-logo.ico' });
+  mainWindow = new BrowserWindow({ width: Math.round(width * .7), height: Math.round(height * .8), icon: 'src/img/qvault-logo.ico' });
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
