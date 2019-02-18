@@ -2,41 +2,62 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <div class="body">
-        <StepProgress :filled="8" />
-        <h1>Sign up for a Q Vault cloud storage account</h1>
-
-        <form v-if="!(userCreated)" @submit.prevent="create_account">
-          <TextInput
-              v-model="email"
+      <form @submit.prevent="click_continue">
+        <div class="body">
+          <StepProgress :filled="8" />
+          <h1>Sign up for a Q Vault cloud storage account</h1>
+          <div class="tabs">
+            <div 
+              class="tab tab-left"
+              @click="registerTabActive = true"
+              v-bind:class="{ 'tab-active': registerTabActive }">
+              Register
+            </div>
+            <div 
+              class="tab tab-right"
+              @click="registerTabActive = false"
+              v-bind:class="{ 'tab-active': !registerTabActive }">
+              Login
+            </div>
+          </div>
+          <br />
+          <br />
+          <div :style="{display: registerTabActive ? 'block' : 'none'}">
+            <TextInput
+              v-model="emailRegister"
               :active="true"
-              keyboardID="email" 
+              keyboardID="emailRegister" 
               description="Email" 
               type="email"/>
-          <button
-            class="btn"
-            type="submit"
-          >Register</button>
-        </form>
+            <p v-if="userCreated">
+              Please click the link in your email to verify your account, then login.
+            </p>
+          </div>
+          <div :style="{display: !registerTabActive ? 'block' : 'none'}">
+            <TextInput
+              v-model="emailLogin"
+              :active="true"
+              keyboardID="emailLogin" 
+              description="Email" 
+              type="email"/>
+          </div>
 
-        <p v-if="userCreated">
-          Please click the link in your email to verify your account, then log in below.
-        </p>
-        <p v-if="!userCreated">
-          Or login if you already have an account
-        </p>
-        <button
-          class="btn"
-          @click="login"
-        >Login</button>
-
-        <p> {{error}} </p>
-      </div>
-      <div class="footer">
-        <div class="back" @click="$router.go(-1)">
-          <div class="icon" />
+          <p> {{error}} </p>
         </div>
-      </div>
+        <div class="footer">
+          <div class="back" @click="$router.go(-1)">
+            <div class="icon" />
+          </div>
+          <button
+            class="continue"
+            type="submit"
+            v-if="emailRegister || emailLogin"
+          >
+            <span>Continue</span>
+            <div class="continue-arrow" />
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -48,23 +69,26 @@
   export default {
     data(){
       return {
-        email: null,
+        registerTabActive: true,
+        emailRegister: null,
+        emailLogin: null,
         userCreated: false,
         error: null,
         cloudKey: null
       }
     },
     methods: {
-      async create_account(){
-        try{
-          this.cloudKey = await DeriveCloudKey(this.$root.pass_key)
-          await createUser(this.email, this.cloudKey)
-          this.userCreated = true
-        } catch (err) {
-          this.error = err
+      async click_continue(){
+        if (registerTabActive){
+          try{
+            this.cloudKey = await DeriveCloudKey(this.$root.pass_key)
+            await createUser(this.email, this.cloudKey)
+            this.userCreated = true
+          } catch (err) {
+            this.error = err
+          }
+          return
         }
-      },
-      async login(){
         try{
           if (!this.cloudKey){
             this.cloudKey = await DeriveCloudKey(this.$root.pass_key)
