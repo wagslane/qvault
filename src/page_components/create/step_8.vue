@@ -8,7 +8,8 @@
 
         <form v-if="!(userCreated)" @submit.prevent="create_account">
           <TextInput
-              v-model="email" 
+              v-model="email"
+              :active="true"
               keyboardID="email" 
               description="Email" 
               type="email"/>

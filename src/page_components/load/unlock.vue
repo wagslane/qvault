@@ -6,7 +6,8 @@
         <h1>Unlock Vault</h1>
         <form v-if="!qrRequired" @submit.prevent="unlock">
           <TextInput
-            v-model="password" 
+            v-model="password"
+            :active="true"
             keyboardID="password" 
             description="password" 
             type="password"/>

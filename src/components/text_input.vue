@@ -50,15 +50,27 @@
       keyboardID:{
         type: String,
         required: true
+      },
+      active:{
+        type: Boolean
       }
     },
     watch: { 
-      defaultValue: function(newGenerated) {
-        this.$refs.input.value = newGenerated;
+      defaultValue: function(defaultValue) {
+        this.$refs.input.value = defaultValue;
         this.$emit('input', this.$refs.input.value);
+      },
+      active: function(active){
+        if (active){
+          this.$refs.input.focus();
+        }
       }
     },
     mounted: function(){
+      if (this.active){
+        this.$refs.input.focus();
+      }
+
       this.keyboard = new Keyboard(`.${this.keyboardID}`, {
         preventMouseDownDefault: true,
         theme: "simple-keyboard hg-theme-default custom-theme",
@@ -85,15 +97,20 @@
       toggle(){
         if (this.keyboardVisibility == "visible"){
           this.keyboardVisibility = "hidden"
+          console.log("visibility")
           return
         }
         if (this.recentlyClosed){
+          console.log("closed")
           return
         }
         this.keyboardVisibility = "visible"
         this.$refs.input.focus()
       },
       hide(){
+        if (this.keyboardVisibility == "hidden"){
+          return
+        }
         this.keyboardVisibility = "hidden"
         this.recentlyClosed = true
         setTimeout(() => this.recentlyClosed = false, 200);

@@ -7,7 +7,8 @@
         <h2>Download your vault from the Q Vault servers</h2>
         <form v-if="!qrRequired" @submit.prevent="load">
           <TextInput
-            v-model="email" 
+            v-model="email"
+            :active="true"
             keyboardID="email" 
             description="email" 
             type="email"/>
