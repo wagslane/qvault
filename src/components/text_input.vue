@@ -146,7 +146,6 @@
   border-radius: 5px;
   background-color: #1A1D1F;
   letter-spacing: -0.04px;
-  color: #FFFFFF;
   font-size: 16px;
   min-width: 450px;
 }
@@ -155,6 +154,7 @@
   height: 47px;
   line-height: 47px;
   display:inline-block;
+  color: #FFFFFF;
   text-align:center;
   font-weight: 500;
 }
@@ -178,6 +178,8 @@
   background-color: white;
   padding-left: 5px;
   outline: none;
+  color: #B3B3B3;
+  background-color: #0B0C0D;
 }
 
 .input-box:focus {
