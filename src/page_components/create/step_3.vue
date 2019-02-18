@@ -77,13 +77,14 @@
   height: 54px;
   border-radius: 5px;	
   background-color: #1A1D1F;
-  padding-top: 16px;
+  padding: 8px;
   color: rgba(255,255,255,0.7);
   font-size: 14px;
 }
 
 table{
   width: 100%;
+  height: 100%;
 }
 
 td{
