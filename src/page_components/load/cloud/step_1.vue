@@ -7,7 +7,8 @@
         <h2>Download your vault from the Q Vault servers</h2>
         <form v-if="!qrRequired" @submit.prevent="load">
           <TextInput
-            v-model="email" 
+            v-model="email"
+            :active="true"
             keyboardID="email" 
             description="email" 
             type="email"/>
@@ -25,7 +26,9 @@
         <QRScanner v-if="qrRequired" @scanned="handleQRKey"  />
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
         <button
           class="continue"
         >

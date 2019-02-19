@@ -8,7 +8,8 @@
 
         <form v-if="!(userCreated)" @submit.prevent="create_account">
           <TextInput
-              v-model="email" 
+              v-model="email"
+              :active="true"
               keyboardID="email" 
               description="Email" 
               type="email"/>
@@ -32,7 +33,9 @@
         <p> {{error}} </p>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
       </div>
     </div>
   </div>

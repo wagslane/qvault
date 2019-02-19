@@ -50,15 +50,27 @@
       keyboardID:{
         type: String,
         required: true
+      },
+      active:{
+        type: Boolean
       }
     },
     watch: { 
-      defaultValue: function(newGenerated) {
-        this.$refs.input.value = newGenerated;
+      defaultValue: function(defaultValue) {
+        this.$refs.input.value = defaultValue;
         this.$emit('input', this.$refs.input.value);
+      },
+      active: function(active){
+        if (active){
+          this.$refs.input.focus();
+        }
       }
     },
     mounted: function(){
+      if (this.active){
+        this.$refs.input.focus();
+      }
+
       this.keyboard = new Keyboard(`.${this.keyboardID}`, {
         preventMouseDownDefault: true,
         theme: "simple-keyboard hg-theme-default custom-theme",
@@ -85,15 +97,20 @@
       toggle(){
         if (this.keyboardVisibility == "visible"){
           this.keyboardVisibility = "hidden"
+          console.log("visibility")
           return
         }
         if (this.recentlyClosed){
+          console.log("closed")
           return
         }
         this.keyboardVisibility = "visible"
         this.$refs.input.focus()
       },
       hide(){
+        if (this.keyboardVisibility == "hidden"){
+          return
+        }
         this.keyboardVisibility = "hidden"
         this.recentlyClosed = true
         setTimeout(() => this.recentlyClosed = false, 200);
@@ -129,7 +146,6 @@
   border-radius: 5px;
   background-color: #1A1D1F;
   letter-spacing: -0.04px;
-  color: #FFFFFF;
   font-size: 16px;
   min-width: 450px;
 }
@@ -138,6 +154,7 @@
   height: 47px;
   line-height: 47px;
   display:inline-block;
+  color: #FFFFFF;
   text-align:center;
   font-weight: 500;
 }
@@ -161,6 +178,8 @@
   background-color: white;
   padding-left: 5px;
   outline: none;
+  color: #B3B3B3;
+  background-color: #0B0C0D;
 }
 
 .input-box:focus {

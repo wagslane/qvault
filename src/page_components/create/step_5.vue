@@ -26,7 +26,8 @@
           <TextInput
             v-model="password" 
             keyboardID="password" 
-            description="Password" 
+            description="Password"
+            :active="passwordTabActive"
             type="password"/>
           <TextInput
             v-model="confirm" 
@@ -40,6 +41,7 @@
             v-model="passphrase" 
             keyboardID="passphrase" 
             description="Passphrase"
+            :active="!passwordTabActive"
             :defaultValue="generated"
             type="text"/>
             <div
@@ -52,7 +54,9 @@
         </div>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
         <button
           class="continue"
           @click="save_step_5"
