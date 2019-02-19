@@ -4,7 +4,7 @@
     <div class="options-box">
       <form @submit.prevent="create_vault_file">
         <div class="body">
-          <StepProgress :filled="6" />
+          <StepProgress :filled="5" />
             <h1>Choose where you'll save your vault file:</h1>
             <button class="btn" @click.prevent="$root.NewVaultDialog">Choose location</button>
             <h3 v-if="$root.local_vault_path">{{$root.local_vault_path}}</h3>

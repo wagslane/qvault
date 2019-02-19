@@ -3,7 +3,7 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <div class="body">
-        <StepProgress :filled="5" />
+        <StepProgress :filled="4" />
         <h1>Create Vault Key</h1>
         <h2>Select a security method and create your vault key</h2>
         <div class="tabs">

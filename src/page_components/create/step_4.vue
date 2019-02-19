@@ -3,7 +3,7 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <div class="body">
-        <StepProgress :filled="4" />
+        <StepProgress :filled="3" />
         <h1>Second Factor Encryption</h1>
         <h2 v-if="!show">Would you like to require that your QR code is scanned each time you open your vault?</h2>
 

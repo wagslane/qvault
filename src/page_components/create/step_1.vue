@@ -3,7 +3,6 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <div class="body">
-        <StepProgress :filled="1" />
         <h1>Get Started</h1>
         <h2>Create a new vault, or open one you've created before.</h2>
 

@@ -3,7 +3,7 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <div class= "body">
-        <StepProgress :filled="3" />
+        <StepProgress :filled="2" />
         <h1>Create a Q Card backup</h1>
         <h2>Backup your vault for safekeeping</h2>
 
