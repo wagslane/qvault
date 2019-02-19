@@ -37,11 +37,11 @@
               keyboardID="emailLogin" 
               description="Email" 
               type="email"/>
-            <p v-if="userCreated">
+            <span class="form-error"  v-if="userCreated">
               Please click the link in your email to verify your account, then continue to login.
-            </p>
+            </span>
           </div>
-          <p> {{error}} </p>
+          <span class="form-error" > {{error}} </span>
           <br v-if="error"/>
           <br v-if="error"/>
           <router-link class="link" :to="{name: 'vault'}">I don't want to store a backup in the cloud</router-link>

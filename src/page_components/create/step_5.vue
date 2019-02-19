@@ -34,7 +34,7 @@
             keyboardID="confirm" 
             description="Confirm" 
             type="password"/>
-          <h4 v-if="password && password_error">{{password_error}}</h4>
+          <span class="form-error" v-if="password && password_error">{{password_error}}</span>
         </div>
         <div :style="{display: !passwordTabActive ? 'block' : 'none'}">
           <TextInput
@@ -50,7 +50,7 @@
             > 
               Generate Random 
             </div>
-          <h4 v-if="passphrase && passphrase_error">{{passphrase_error}}</h4>
+          <span class="form-error" v-if="passphrase && passphrase_error">{{passphrase_error}}</span>
         </div>
       </div>
       <div class="footer">

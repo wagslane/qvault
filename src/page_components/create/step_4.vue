@@ -15,7 +15,7 @@
           Skip for now
         </router-link>
 
-        <p v-if="error">{{error}}</p>
+        <span class="form-error" v-if="error">{{error}}</span>
 
         <QRScanner v-if="show" @scanned="handleQRKey"  />
         <br />
