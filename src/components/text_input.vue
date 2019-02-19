@@ -9,7 +9,6 @@
         v-bind:value="value"
         v-on:input="$emit('input', $event.target.value)"
         v-on:blur="hide"
-        required
       />
       <img class="keyboard-icon" v-on:click="toggle" height="40" src="../img/keyboard-icon.png">
     </div>

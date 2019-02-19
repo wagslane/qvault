@@ -5,3 +5,4 @@ dist
 .DS_Store
 release
 electron-builder.env
+test.rest

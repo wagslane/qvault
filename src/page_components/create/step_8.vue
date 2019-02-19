@@ -25,23 +25,22 @@
           <div :style="{display: registerTabActive ? 'block' : 'none'}">
             <TextInput
               v-model="emailRegister"
-              :active="true"
+              :active="registerTabActive"
               keyboardID="emailRegister" 
               description="Email" 
               type="email"/>
-            <p v-if="userCreated">
-              Please click the link in your email to verify your account, then login.
-            </p>
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
             <TextInput
               v-model="emailLogin"
-              :active="true"
+              :active="!registerTabActive"
               keyboardID="emailLogin" 
               description="Email" 
               type="email"/>
+            <p v-if="userCreated">
+              Please click the link in your email to verify your account, then continue to login.
+            </p>
           </div>
-
           <p> {{error}} </p>
         </div>
         <div class="footer">
@@ -79,25 +78,28 @@
     },
     methods: {
       async click_continue(){
-        if (registerTabActive){
+        if (this.registerTabActive){
           try{
-            this.cloudKey = await DeriveCloudKey(this.$root.pass_key)
-            await createUser(this.email, this.cloudKey)
-            this.userCreated = true
+            this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
+            await createUser(this.emailRegister, this.cloudKey);
+            this.userCreated = true;
+            this.registerTabActive = false;
+            this.emailLogin = this.emailRegister;
+            this.emailRegister = null;
           } catch (err) {
-            this.error = err
+            this.error = err;
           }
           return
         }
         try{
           if (!this.cloudKey){
-            this.cloudKey = await DeriveCloudKey(this.$root.pass_key)
+            this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
           }
-          let body = await authenticate(this.email, this.cloudKey)
-          setToken(body.jwt)
+          let body = await authenticate(this.emailLogin, this.cloudKey);
+          setToken(body.jwt);
           this.$router.push({name: 'vault'});
         } catch (err) {
-          this.error = err
+          this.error = err;
         }
       }
     }
