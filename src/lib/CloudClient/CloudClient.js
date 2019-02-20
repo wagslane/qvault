@@ -1,5 +1,5 @@
 import decode from 'jwt-decode';
-import "isomorphic-fetch";
+import fetch from 'cross-fetch';
 
 var CLOUD_JWT = null;
 const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
