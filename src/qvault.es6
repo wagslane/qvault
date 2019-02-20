@@ -1,7 +1,9 @@
 import '@babel/polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
+import VueScrollTo from 'vue-scrollto';
+ 
+Vue.use(VueScrollTo);
 Vue.use(VueRouter);
 
 import QvaultApp from './qvault.vue';
