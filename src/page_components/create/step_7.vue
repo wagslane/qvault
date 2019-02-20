@@ -3,7 +3,7 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <form @submit.prevent="click_continue">
-        <div class="body center">
+        <div class="body center-text">
           <StepProgress :filled="6" />
           <h1>Sign up for a Q Vault cloud storage account</h1>
           <div class="tabs">
@@ -110,21 +110,3 @@
     }
   }
 </script>
-
-<style lang="less" scoped>
-
-.center{
-  text-align: center;
-}
-
-.link{
-  color: #72767B;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.link:hover{
-  color: #D8A22E;
-}
-
-</style>

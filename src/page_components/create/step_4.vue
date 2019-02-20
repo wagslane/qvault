@@ -2,22 +2,17 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <div class="body">
+      <div class="body center-text">
         <StepProgress :filled="3" />
         <h1>Second Factor Encryption</h1>
-        <h2 v-if="!show">Would you like to require that your QR code is scanned each time you open your vault?</h2>
+        <h2>Scan the QR code on your Q Card to enable dual factor encryption</h2>
 
-        <div v-if="!show" class="btn" @click="show = true">
-          Yes
-        </div>
-
-        <router-link v-if="!show" class="btn" :to="{name: 'create_step_5'}">
-          Skip for now
-        </router-link>
-
+        <QRScanner @scanned="handleQRKey"  />
         <span class="form-error" v-if="error">{{error}}</span>
+        <br />
+        <br />
 
-        <QRScanner v-if="show" @scanned="handleQRKey"  />
+        <router-link class="link" :to="{name: 'create_step_5'}">Skip for now</router-link>
         <br />
         <br />
       </div>
@@ -37,15 +32,14 @@
   export default {
     data(){
       return {
-        error: null,
-        show: false
+        error: null
       }
     },
 
     methods:{
       handleQRKey: function(qrKey) {
         if (qrKey.substring(0, 6) === 'ERROR:'){
-          this.error = qrKey
+          this.error = "Couldn't find a camera on this device"
           return
         }
         if (!ValidateQRKey(qrKey)){

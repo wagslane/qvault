@@ -36,7 +36,7 @@
             type="password"/>
           <span class="form-error" v-if="password && password_error">{{password_error}}</span>
         </div>
-        <div :style="{display: !passwordTabActive ? 'block' : 'none'}">
+        <div class="center-text" :style="{display: !passwordTabActive ? 'block' : 'none'}">
           <TextInput
             v-model="passphrase" 
             keyboardID="passphrase" 
@@ -44,13 +44,11 @@
             :active="!passwordTabActive"
             :defaultValue="generated"
             type="text"/>
-            <div
-              class="btn"
-              @click="generatePassphrase" 
-            > 
-              Generate Random 
-            </div>
           <span class="form-error" v-if="passphrase && passphrase_error">{{passphrase_error}}</span>
+          <br/>
+          <span class="link" @click="generatePassphrase"> 
+            Generate Random Passphrase
+          </span>
         </div>
       </div>
       <div class="footer">

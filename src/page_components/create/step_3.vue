@@ -68,7 +68,7 @@
   border-radius: 5px;	
   background-color: #333739;
   box-shadow: 0 2px 14px 0 rgba(0,0,0,0.1);
-  padding-top: 36px;
+  padding-top: 24px;
 }
 
 .character-code{
