@@ -1,21 +1,24 @@
 import fs from 'fs';
-import uuidv4 from 'uuid/v4';
-import Vue from 'vue';
 const { dialog } = require('electron').remote;
+const pjson = require('../../package.json');
 
 import assert from '../lib/assert.es6';
 import {
   GenerateCharKey,
   PassKeyFromPassword,
-  GetMasterKeyNoQR,
   CipherSecrets,
   DecipherSecrets,
   CipherCharKey,
   DecipherCharKey,
+  HashCharKey,
+  CipherSecretsQr,
+  DecipherSecretsQr,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
+import secrets from './secrets.es6';
+
 const QVAULT_FILE_EXTENSION = 'qvault';
-const VERSION = "0.0.1";
+const VERSION = pjson.version;
 const FILE_FILTERS = [
   {
     name: 'Vaults',
@@ -26,68 +29,93 @@ const FILE_FILTERS = [
 ];
 
 export default {
+  mixins: [
+    secrets,
+  ],
+
   data(){
     return {
-      qr_key: null,
+      hashed_char_key: null,
       char_key: null,
+      qr_key: null,
       pass_key: null,
-
-      secrets: null,
+      qr_required: false,
+      loaded_vault: null,
       local_vault_path: null,
     };
   },
+  
   methods: {
-    async GenerateCharKey(){
-      this.$root.char_key = null;
-      this.$root.char_key = await GenerateCharKey();
-    },
-    SaveLocalVaultDialog(){
-      this.local_vault_path = dialog.showSaveDialog({
-        filters: FILE_FILTERS,
-      });
-    },
-    async CreateLocalVault(){
-      this.secrets = {};
-      return await this.SaveLocalVault();
-    },
-    OpenLocalVault(){
-      let filenames = dialog.showOpenDialog({
+    ExistingVaultDialog(){
+      let paths = dialog.showOpenDialog({
         filters: FILE_FILTERS
       });
-
-      assert(filenames, 'No file selected');
-      assert(filenames.length === 1, 'Please select only one file');
-
-      this.local_vault_path = filenames[0];
-    },
-    async LoadLocalVault(password) {
-      this.pass_key = await PassKeyFromPassword(password);
+      assert(paths.length === 1, "Invalid number of paths selected");
+      this.local_vault_path = paths[0];
       assert(this.local_vault_path, 'A vault file must be selected');
-
       try {
         let data = fs.readFileSync(this.local_vault_path, 'utf-8');
-        let VAULT_DATA = JSON.parse(data);
-        this.char_key = await DecipherCharKey(this.pass_key, VAULT_DATA.key);
-        let master_key = await GetMasterKeyNoQR(this.char_key);
-        // assert(VAULT_DATA.version, "Selected vault doesn't contain a version"); // Doesn't matter yet
-        this.secrets = await DecipherSecrets(master_key, VAULT_DATA.secrets);
+        this.loaded_vault = JSON.parse(data);
+        assert(this.loaded_vault.version, 'Selected vault is corrupted');
       } catch (err) {
+        this.loaded_vault  = null;
+        this.local_vault_path = null;
         assert(false, err);
       }
     },
-    async GetSavableVault(){
-      assert(this.secrets, 'No vault is open');
-      assert(this.pass_key, 'A pass key must exist to save a vault');
-      assert(this.char_key, 'A character key must exist to save a vault');
-      let master_key = await GetMasterKeyNoQR(this.char_key);
-      let key = await CipherCharKey(this.pass_key, this.char_key);
-      let encrypted_secrets = await CipherSecrets(master_key, this.secrets);
-      return JSON.stringify({
-        "version": VERSION,
-        "key": key,
-        "secrets": encrypted_secrets,
+
+    NewVaultDialog(){
+      this.local_vault_path = dialog.showSaveDialog({
+        filters: FILE_FILTERS,
+        defaultPath: `myvault.${QVAULT_FILE_EXTENSION}`
       });
+      assert(this.local_vault_path, 'A vault file must be selected');
     },
+
+    async CreateCharKey(){
+      this.char_key = await GenerateCharKey();
+      this.hashed_char_key = await HashCharKey(this.char_key);
+      return this.char_key;
+    },
+
+    CreateQrKey(qrKey){
+      this.qr_required = true;
+      this.qr_key = qrKey;
+    },
+
+    async CreateLocalVault(){
+      this.InitializeSecrets();
+      return await this.SaveLocalVault();
+    },
+
+    async UnlockVaultQr(qrKey){
+      assert(this.loaded_vault, 'A vault file must be loaded');
+      this.qr_required = true;
+      try {
+        this.secrets = await DecipherSecretsQr(qrKey, this.loaded_vault.secrets);
+      } catch (err) {
+        assert(false, 'Invalid QR code');
+      }
+    },
+
+    async UnlockVaultPassword(password) {
+      assert(this.loaded_vault, 'A vault file must be loaded');
+      try {
+        this.pass_key = await PassKeyFromPassword(password);
+        let char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
+        this.hashed_char_key = await HashCharKey(char_key);
+        if (!this.qr_required){
+          this.secrets = this.loaded_vault.secrets;
+        }
+        this.secrets = await DecipherSecrets(this.hashed_char_key, this.secrets);
+        this.loaded_vault = null;
+      } catch (err) {
+        this.pass_key = null;
+        this.char_key = null;
+        assert(false, "Invalid password");
+      }
+    },
+
     async SaveLocalVault() {
       assert(this.local_vault_path, 'No vault path is set');
       try {
@@ -97,24 +125,24 @@ export default {
         return err;
       }
     },
-    CreateSecret(secret){
+
+    async GetSavableVault(){
       assert(this.secrets, 'No vault is open');
-      let uuid = uuidv4();
-      Vue.set(this.secrets, uuid, secret);
-      return uuid;
-    },
-    GetSecret(uuid) {
-      assert(this.secrets, 'No vault is open');
-      assert(uuid in this.secrets, `${uuid} is not a valid uuid`);
-      return this.secrets[uuid];
-    },
-    SetSecret(uuid, secret) {
-      assert(this.secrets, 'No vault is open');
-      Vue.set(this.secrets, uuid, secret);
-    },
-    DeleteSecret(uuid) {
-      assert(this.secrets, 'No vault is open');
-      Vue.delete(this.secrets, uuid);
+      assert(this.pass_key, 'A pass key must exist to save a vault');
+      assert(this.char_key, 'A char key must exist to save a vault');
+      assert(this.hashed_char_key, 'A hashed character key must exist to save a vault');
+      let cipheredCharKey = await CipherCharKey(this.pass_key, this.char_key);
+      let encrypted_secrets = await CipherSecrets(this.hashed_char_key, this.secrets);
+      if (this.qr_required){
+        assert(this.qr_key, 'A QR key must exist to save a vault');
+        encrypted_secrets = await CipherSecretsQr(this.qr_key, encrypted_secrets);
+      }
+      return JSON.stringify({
+        version: VERSION,
+        key: cipheredCharKey,
+        secrets: encrypted_secrets,
+        qr_required: this.qr_required,
+      });
     },
   },
 };

@@ -4,17 +4,26 @@
       <div class="description">{{description}}</div>
       <input
         ref="input"
+        :id="keyboardID"
         class="input-box"
         :type="type"
         v-bind:value="value"
         v-on:input="$emit('input', $event.target.value)"
         v-on:blur="hide"
-        required
       />
-      <img class="keyboard-icon" v-on:click="toggle" height="40" src="../img/keyboard-icon.png">
+      <img v-scroll-to="{
+        el: '#'+keyboardID,
+        offset: -300,
+        }" class="keyboard-icon" 
+        v-on:click="toggle" 
+        height="40" 
+        src="../img/keyboard-icon.png"
+      >
     </div>
-    <div v-bind:style="{ visibility: keyboardVisibility }" class="keyboard">
-      <div :class="keyboardID"></div>
+    <div v-bind:style="{ visibility: keyboardVisibility }" class="keyboardContainer">
+      <div class="keyboard">
+        <div :class="keyboardID"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +40,11 @@
       }
     },
     props:{
+      defaultValue:{
+        type: String,
+        required: false,
+        default: ''
+      },
       value:{
         type: String
       },
@@ -45,9 +59,27 @@
       keyboardID:{
         type: String,
         required: true
+      },
+      active:{
+        type: Boolean
+      }
+    },
+    watch: { 
+      defaultValue: function(defaultValue) {
+        this.$refs.input.value = defaultValue;
+        this.$emit('input', this.$refs.input.value);
+      },
+      active: function(active){
+        if (active){
+          this.$refs.input.focus();
+        }
       }
     },
     mounted: function(){
+      if (this.active){
+        this.$refs.input.focus();
+      }
+
       this.keyboard = new Keyboard(`.${this.keyboardID}`, {
         preventMouseDownDefault: true,
         theme: "simple-keyboard hg-theme-default custom-theme",
@@ -83,6 +115,9 @@
         this.$refs.input.focus()
       },
       hide(){
+        if (this.keyboardVisibility == "hidden"){
+          return
+        }
         this.keyboardVisibility = "hidden"
         this.recentlyClosed = true
         setTimeout(() => this.recentlyClosed = false, 200);
@@ -118,7 +153,6 @@
   border-radius: 5px;
   background-color: #1A1D1F;
   letter-spacing: -0.04px;
-  color: #FFFFFF;
   font-size: 16px;
   min-width: 450px;
 }
@@ -127,6 +161,7 @@
   height: 47px;
   line-height: 47px;
   display:inline-block;
+  color: #FFFFFF;
   text-align:center;
   font-weight: 500;
 }
@@ -150,6 +185,8 @@
   background-color: white;
   padding-left: 5px;
   outline: none;
+  color: #B3B3B3;
+  background-color: #0B0C0D;
 }
 
 .input-box:focus {
@@ -157,39 +194,42 @@
   outline: none;
 }
 
-.keyboard{
+.keyboardContainer {
+  background-color: #aaaaaa;
   position: fixed;
+  width: 100%;
   bottom: 0px;
-  left: 50%;
-  margin-left: -400px;
-  width:800px;
+  left: 0px;
 }
 
-/*
-  Theme: custom-theme
-*/
+.keyboard{
+  max-width: 1000px;
+  background: none;
+  margin: 0 auto;
+}
+
 .simple-keyboard.custom-theme {
-  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 0;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.0);
 }
 
-.simple-keyboard.custom-theme .hg-button {
+.simple-keyboard.custom-theme .hg-row .hg-button {
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: #191919;
   color: white;
 }
 
 .simple-keyboard.custom-theme .hg-button:active {
-  background: #1c4995;
+  background: #D8A22E;
   color: white;
 }
 
 #root .simple-keyboard.custom-theme + .simple-keyboard-preview {
-  background: #1c4995;
+  background: #D8A22E;
 }
 </style>

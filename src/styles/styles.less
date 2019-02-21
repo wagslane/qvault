@@ -1,7 +1,16 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
   background-color: #131617;
   font-family: Roboto, sans-serif;
-  margin: 0px;
+  margin: 0;
+  padding-bottom: 280px !important; // For the keyboard
 }
 
 h1, h2, h3, h4 {
@@ -34,12 +43,13 @@ h3 {
   margin-bottom: 16px;
 }
 
-h4 {
-  font-size: 12px;
-  font-weight: 300;
+.form-error {
+	color: #4d4f51;
+	font-size: 12px;
+	font-weight: 300;
   letter-spacing: -0.03px;
-  line-height: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
+  display:inline-block;
 }
 
 button.btn {
@@ -71,8 +81,9 @@ button.btn {
   }
 
   &:hover {
-    background-color: #D8A22E;
-    color: #FFFFFF;
+    background-color: #1A1D1F;
+    border: 2px solid #D8A22E;
+    color: #D8A22E;
     text-decoration: none;
   }
 }
@@ -81,13 +92,14 @@ button.btn {
   margin: auto;
   width: 50%;
   border-radius: 10px;
-	background-color: #24272A;
+  background-color: #24272A;
   box-shadow: 0 2px 94px 0 #000000;
   overflow: hidden;
 
   .body{
     margin-left: 40px;
     margin-right: 40px;
+    padding-bottom: 20px;
   }
   
   .footer {
@@ -96,23 +108,30 @@ button.btn {
     overflow: auto;
   }
 
-  .back {
-    margin-top: 40px;
-    margin-left: 37px;
+  .back{
     float: left;
     cursor: pointer;
-    transform: rotate(135deg);
-    box-sizing: border-box;
-    height: 12px;
-    width: 12px;
-    border-bottom: 1.5px solid #8C8E8F;
-    border-right: 1.5px solid #8C8E8F;
+    margin-top: 40px;
+    margin-left: 37px;
+    width: 75px;
+
+    .icon {
+      transform: rotate(135deg);
+      box-sizing: border-box;
+      height: 12px;
+      width: 12px;
+      border-bottom: 1.5px solid #8C8E8F;
+      border-right: 1.5px solid #8C8E8F;
+    }
   }
 
   .continue {
+    text-align: right;
     margin-top: 30px;
     margin-right: 37px;
     float: right;
+    width: 311px;
+    border-radius: 2px;
     height: 29px;
     color: #D8A22E;
     font-family: Roboto;
@@ -142,37 +161,6 @@ button.btn {
   }
 }
 
-.highlight-box{
-  margin: auto;
-  width: 75%;
-  height: 166px;
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 5px;	
-  background-color: #333739;
-  box-shadow: 0 2px 14px 0 rgba(0,0,0,0.1);
-  padding-top: 36px;
-
-  .character-code{
-    margin: auto;
-    width: 80%;
-    height: 54px;
-    border-radius: 5px;	
-    background-color: #1A1D1F;
-    padding-top: 16px;
-
-    .spacing {
-      margin: auto;
-      height: 19px;
-      width: 90%;
-      color: rgba(255,255,255,0.7);
-      font-size: 14px;
-      letter-spacing: 25.19px;
-      line-height: 19px;
-      text-align: center;
-    }
-  }
-}
-
 .modal {
   border-radius: 10px;
   background-color: #24272A;
@@ -199,4 +187,52 @@ button.btn {
       text-decoration: none;
     }
   }
+}
+
+.tabs {
+  height: 43px;
+  width: 478px;
+  margin: auto;
+
+  .tab{
+    width: 50%;
+    height: 100%;
+    background-color: #080D0E;
+    color: #858586;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    line-height: 43px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  
+  .tab-left{
+    float: left;
+    border-radius: 21.5px 0px 0px 21.5px;
+  }
+  
+  .tab-right{
+    float: left;
+    border-radius: 0px 21.5px 21.5px 0px;
+  }
+  
+  .tab-active{
+    background-color: #CE9B2C;
+    color: #080D0E;
+  }
+}
+
+.link{
+  color: #72767B;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover{
+    color: #D8A22E;
+  }
+}
+
+.center-text{
+  text-align: center;
 }

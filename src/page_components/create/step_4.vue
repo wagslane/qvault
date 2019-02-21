@@ -2,16 +2,24 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <div class="body">
-        <StepProgress :filled="4" />
-        <h1>Scan your QR Code</h1>
-        <h2>Use 2nd factor encryption with your QR Code</h2>
-        <p>Key: {{qrKey}}</p>
-        <p>Error: {{error}}</p>
+      <div class="body center-text">
+        <StepProgress :filled="3" />
+        <h1>Second Factor Encryption</h1>
+        <h2>Scan the QR code on your Q Card to enable dual factor encryption</h2>
+
         <QRScanner @scanned="handleQRKey"  />
+        <span class="form-error" v-if="error">{{error}}</span>
+        <br />
+        <br />
+
+        <router-link class="link" :to="{name: 'create_step_5'}">Skip for now</router-link>
+        <br />
+        <br />
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)" />
+        <div class="back" @click="$router.go(-1)">
+          <div class="icon" />
+        </div>
       </div>
     </div>
   </div>
@@ -24,21 +32,22 @@
   export default {
     data(){
       return {
-        qrKey: '',
-        error: ''
+        error: null
       }
     },
 
     methods:{
-      save_step_2(){
-        this.$router.push({name: 'create_step_5'});
-      },
       handleQRKey: function(qrKey) {
-        if (!ValidateQRKey(qrKey)){
-          this.error = `Error scanning qrKey: ${qrKey}`
+        if (qrKey.substring(0, 6) === 'ERROR:'){
+          this.error = "Couldn't find a camera on this device"
           return
         }
-        this.qrKey = qrKey;
+        if (!ValidateQRKey(qrKey)){
+          this.error = `Not a valid QR key`
+          return
+        }
+        this.$root.CreateQrKey(qrKey);
+        this.$router.push({name: 'create_step_5'});
       },
     },
     components:{
