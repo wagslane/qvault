@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A secure, redundant, and open source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -56,7 +56,8 @@
       ]
     },
     "nsis": {
-      "createDesktopShortcut": "always"
+      "createDesktopShortcut": "always",
+      "license": "LICENSE.md"
     }
   },
   "devDependencies": {
@@ -74,9 +75,9 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.5",
+    "cross-fetch": "^3.0.1",
     "css-loader": "^2.1.0",
     "es6-promise": "^4.2.5",
-    "isomorphic-fetch": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
@@ -88,6 +89,7 @@
     "vue-loader": "^15.5.1",
     "vue-qrcode-reader": "^1.3.4",
     "vue-router": "^3.0.2",
+    "vue-scrollto": "^2.13.0",
     "vue-template-compiler": "^2.5.22",
     "webpack": "^4.28.4"
   }

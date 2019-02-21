@@ -3,7 +3,7 @@
     <HeaderBar title="Setup" />
     <div class="options-box">
       <div class="body">
-        <StepProgress :filled="5" />
+        <StepProgress :filled="4" />
         <h1>Create Vault Key</h1>
         <h2>Select a security method and create your vault key</h2>
         <div class="tabs">
@@ -34,9 +34,9 @@
             keyboardID="confirm" 
             description="Confirm" 
             type="password"/>
-          <h4 v-if="password && password_error">{{password_error}}</h4>
+          <span class="form-error" v-if="password && password_error">{{password_error}}</span>
         </div>
-        <div :style="{display: !passwordTabActive ? 'block' : 'none'}">
+        <div class="center-text" :style="{display: !passwordTabActive ? 'block' : 'none'}">
           <TextInput
             v-model="passphrase" 
             keyboardID="passphrase" 
@@ -44,13 +44,11 @@
             :active="!passwordTabActive"
             :defaultValue="generated"
             type="text"/>
-            <div
-              class="btn"
-              @click="generatePassphrase" 
-            > 
-              Generate Random 
-            </div>
-          <h4 v-if="passphrase && passphrase_error">{{passphrase_error}}</h4>
+          <span class="form-error" v-if="passphrase && passphrase_error">{{passphrase_error}}</span>
+          <br/>
+          <span class="link" @click="generatePassphrase"> 
+            Generate Random Passphrase
+          </span>
         </div>
       </div>
       <div class="footer">
@@ -117,39 +115,3 @@
     },
   }
 </script>
-
-<style>
-.tabs {
-  height: 43px;
-  width: 478px;
-  margin: auto;
-}
-
-.tab{
-  width: 50%;
-  height: 100%;
-  background-color: #080D0E;
-  color: #858586;
-  font-size: 12px;
-  letter-spacing: 0.6px;
-  line-height: 43px;
-  text-align: center;
-  cursor: pointer;
-}
-
-
-.tab-left{
-  float: left;
-  border-radius: 21.5px 0px 0px 21.5px;
-}
-
-.tab-right{
-  float: left;
-  border-radius: 0px 21.5px 21.5px 0px;
-}
-
-.tab-active{
-  background-color: #CE9B2C;
-  color: #080D0E;
-}
-</style>

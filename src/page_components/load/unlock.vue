@@ -12,7 +12,7 @@
             keyboardID="password" 
             description="password" 
             type="password"/>
-          <p>{{error}}</p>
+          <span class="form-error" >{{error}}</span>
           <button
             class="btn"
             type="submit"

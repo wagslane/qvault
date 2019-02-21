@@ -10,6 +10,7 @@ body {
   background-color: #131617;
   font-family: Roboto, sans-serif;
   margin: 0;
+  padding-bottom: 280px !important; // For the keyboard
 }
 
 h1, h2, h3, h4 {
@@ -42,12 +43,13 @@ h3 {
   margin-bottom: 16px;
 }
 
-h4 {
-  font-size: 12px;
-  font-weight: 300;
+.form-error {
+	color: #4d4f51;
+	font-size: 12px;
+	font-weight: 300;
   letter-spacing: -0.03px;
-  line-height: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
+  display:inline-block;
 }
 
 button.btn {
@@ -79,8 +81,9 @@ button.btn {
   }
 
   &:hover {
-    background-color: #D8A22E;
-    color: #FFFFFF;
+    background-color: #1A1D1F;
+    border: 2px solid #D8A22E;
+    color: #D8A22E;
     text-decoration: none;
   }
 }
@@ -96,6 +99,7 @@ button.btn {
   .body{
     margin-left: 40px;
     margin-right: 40px;
+    padding-bottom: 20px;
   }
   
   .footer {
@@ -183,4 +187,52 @@ button.btn {
       text-decoration: none;
     }
   }
+}
+
+.tabs {
+  height: 43px;
+  width: 478px;
+  margin: auto;
+
+  .tab{
+    width: 50%;
+    height: 100%;
+    background-color: #080D0E;
+    color: #858586;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    line-height: 43px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  
+  .tab-left{
+    float: left;
+    border-radius: 21.5px 0px 0px 21.5px;
+  }
+  
+  .tab-right{
+    float: left;
+    border-radius: 0px 21.5px 21.5px 0px;
+  }
+  
+  .tab-active{
+    background-color: #CE9B2C;
+    color: #080D0E;
+  }
+}
+
+.link{
+  color: #72767B;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover{
+    color: #D8A22E;
+  }
+}
+
+.center-text{
+  text-align: center;
 }

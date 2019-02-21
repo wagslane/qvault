@@ -6,7 +6,7 @@
         <h1>Load a Vault</h1>
         <h2>Open a local vault file, or download one from the cloud.</h2>
 
-        <p>{{error}}</p>
+        <span class="form-error" >{{error}}</span>
 
         <div
           @click.prevent="open"

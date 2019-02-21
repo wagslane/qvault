@@ -2,16 +2,16 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <div class="body">
-        <StepProgress :filled="2" />
+      <div class="body center-text">
+        <StepProgress :filled="1" />
         <h1>Key Backup</h1>
-        <h2>Do you have a Q Card you can use to backup your vault access?</h2>
+        <h2>Will you use a Q Card to backup your access and dual encrypt your vault?</h2>
 
         <router-link class="btn" :to="{name: 'create_step_3'}">
-          Add Q Card
+          Yes, use my Q Card
         </router-link>
 
-        <router-link class="btn" :to="{name: 'create_step_5'}">
+        <router-link class="link" :to="{name: 'create_step_5'}">
           Skip for now
         </router-link>
       </div>
