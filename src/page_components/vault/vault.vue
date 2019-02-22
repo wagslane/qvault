@@ -56,12 +56,12 @@
   .container {
     display: flex; /* or inline-flex */
     flex-direction: row;
-    height: 100vh;
+    height: ~'calc(100vh - 55px)';
 
     .sidebar {
       width: 25%;
       background-color: #32373B;
-      height: 100vh;
+      height: ~'calc(100vh - 55px)';
 
       .search {
         margin: 15px 15px 0px 15px;
@@ -76,7 +76,7 @@
       }
 
       .boxes {
-        height: ~'calc(100vh - 159px)';
+        height: ~'calc(100vh - 214px)';
         overflow-y: auto;
         margin-top: 15px;
         margin-bottom: 15px;
