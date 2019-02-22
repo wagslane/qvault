@@ -18,25 +18,24 @@
   }
 </script>
 
-<style scoped>
-.rectangle {
-	height: 55px;
-	width: 100%;
-	background-color: #080D0E;
+<style lang="less" scoped>
+  .rectangle {
+    height: 55px;
+    width: 100%;
+    background-color: #080D0E;
     color: #FFFFFF;
-	font-size: 20px;
-	font-weight: 300;
-	letter-spacing: 0.7px;
-	line-height: 55px;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.7px;
+    line-height: 55px;
     text-align: center;
-    margin-bottom: 50px;
-}
-img{
+  }
+  img{
     float: left;
     margin-top: 16px;
     margin-left: 18px;
-}
-.absolute{
+  }
+  .absolute{
     position: absolute;
-}
+  }
 </style>

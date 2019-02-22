@@ -1,31 +1,34 @@
 <template>
-  <div class="container" v-if="boxes">
-    <div class="sidebar">
-      <input
-        type="text"
-        class="search"
-        placeholder="search"
-      >
-      <div class="boxes">
-        <router-link
-          v-for="(box, box_uuid) in boxes"
-          :key="box_uuid"
-          :to="{name: 'vault_item', params: {box_uuid}}"
-          class="box_link"
+  <div>
+    <HeaderBar title="Vault" />
+    <div class="container" v-if="boxes">
+      <div class="sidebar">
+        <input
+          type="text"
+          class="search"
+          placeholder="search"
         >
-          <div class="aesthetic_rectangle"></div>
-          {{box.name}}
-        </router-link>
+        <div class="boxes">
+          <router-link
+            v-for="(box, box_uuid) in boxes"
+            :key="box_uuid"
+            :to="{name: 'vault_item', params: {box_uuid}}"
+            class="box_link"
+          >
+            <div class="aesthetic_rectangle"></div>
+            {{box.name}}
+          </router-link>
+        </div>
+        <button
+          @click.prevent="CreateBox"
+          class="add_box"
+        >
+          <img src="../../img/plus-solid.svg" style="height: 22px" />
+        </button>
       </div>
-      <button
-        @click.prevent="CreateBox"
-        class="add_box"
-      >
-        <img src="../../img/plus-solid.svg" style="height: 22px" />
-      </button>
-    </div>
-    <div class="content">
-      <router-view></router-view>
+      <div class="content">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
