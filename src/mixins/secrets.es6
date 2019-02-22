@@ -21,6 +21,7 @@ export default {
       let box = {
         name: 'Name',
         secrets: {},
+        created: Date.now(),
       };
       Vue.set(this.secrets, uuid, box);
       return uuid;

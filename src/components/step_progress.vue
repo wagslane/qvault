@@ -119,7 +119,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 svg {
   margin: auto;
   display: block;
