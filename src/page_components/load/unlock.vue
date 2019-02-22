@@ -52,7 +52,7 @@
     methods: {
       async unlock(){
         try{
-          await this.$root.UnlockVaultPassword(this.password)
+          await this.$root.UnlockVaultPassword(this.password);
           this.$router.push({name: 'vault'});
         } catch (err) {
           this.error = err;

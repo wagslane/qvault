@@ -102,8 +102,8 @@ export default {
       assert(this.loaded_vault, 'A vault file must be loaded');
       try {
         this.pass_key = await PassKeyFromPassword(password);
-        let char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
-        this.hashed_char_key = await HashCharKey(char_key);
+        this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
+        this.hashed_char_key = await HashCharKey(this.char_key);
         if (!this.qr_required){
           this.secrets = this.loaded_vault.secrets;
         }
@@ -121,6 +121,7 @@ export default {
       try {
         let content = await this.GetSavableVault();
         fs.writeFileSync(this.local_vault_path, content);
+        alert('Vault saved successfully!');
       } catch (err) {
         return err;
       }

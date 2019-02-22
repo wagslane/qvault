@@ -121,6 +121,7 @@
       background: transparent;
       border: 1px solid #7E8A95;
       border-radius: 6px;
+      cursor: pointer;
     }
   }
 </style>
