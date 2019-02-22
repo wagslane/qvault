@@ -20,11 +20,6 @@ export default [
     },
   },
   {
-    path: '/create_step_1/',
-    component: create_step_1,
-    name: 'create_step_1',
-  },
-  {
     path: '/create/',
     component: route_wrapper,
     children: [
