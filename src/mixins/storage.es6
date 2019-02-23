@@ -116,6 +116,23 @@ export default {
       }
     },
 
+    async UnlockVaultCharKey(char_key) {
+      assert(this.loaded_vault, 'A vault file must be loaded');
+      try {
+        this.char_key = char_key;
+        this.hashed_char_key = await HashCharKey(this.char_key);
+        if (!this.qr_required){
+          this.secrets = this.loaded_vault.secrets;
+        }
+        this.secrets = await DecipherSecrets(this.hashed_char_key, this.secrets);
+        this.loaded_vault = null;
+      } catch (err) {
+        this.pass_key = null;
+        this.char_key = null;
+        assert(false, "Invalid code");
+      }
+    },
+
     async SaveLocalVault() {
       assert(this.local_vault_path, 'No vault path is set');
       try {

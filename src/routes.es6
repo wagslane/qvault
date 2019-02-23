@@ -6,7 +6,9 @@ import create_step_4 from './page_components/create/step_4.vue';
 import create_step_5 from './page_components/create/step_5.vue';
 import create_step_6 from './page_components/create/step_6.vue';
 import create_step_7 from './page_components/create/step_7.vue';
-import load_unlock from './page_components/load/unlock.vue';
+import load_local_step_1 from './page_components/load/local/step_1.vue';
+import load_local_step_2 from './page_components/load/local/step_2.vue';
+import load_local_step_3 from './page_components/load/local/step_3.vue';
 import load_choose from './page_components/load/choose.vue';
 import load_cloud_step_1 from './page_components/load/cloud/step_1.vue';
 import vault from './page_components/vault/vault.vue';
@@ -83,11 +85,6 @@ export default [
         name: 'load_choose',
       },
       {
-        path: 'unlock',
-        component: load_unlock,
-        name: 'load_unlock',
-      },
-      {
         path: '/cloud/',
         component: route_wrapper,
         children: [
@@ -101,6 +98,33 @@ export default [
             path: 'step_1',
             component: load_cloud_step_1,
             name: 'load_cloud_step_1',
+          },
+        ],
+      },
+      {
+        path: '/local/',
+        component: route_wrapper,
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'step_1',
+            },
+          },
+          {
+            path: 'step_1',
+            component: load_local_step_1,
+            name: 'load_local_step_1',
+          },
+          {
+            path: 'step_2',
+            component: load_local_step_2,
+            name: 'load_local_step_2',
+          },
+          {
+            path: 'step_3',
+            component: load_local_step_3,
+            name: 'load_local_step_3',
           },
         ],
       },

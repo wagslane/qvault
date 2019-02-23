@@ -160,9 +160,9 @@
 .description {
   height: 47px;
   line-height: 47px;
-  display:inline-block;
+  display: inline-block;
   color: #FFFFFF;
-  text-align:center;
+  text-align: center;
   font-weight: 500;
 }
 
