@@ -2,9 +2,9 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <div class="body">
-        <h1>Unlock Vault</h1>
-        <form v-if="!qrRequired" @submit.prevent="unlock">
+      <form v-if="!qrRequired" @submit.prevent="unlock">
+        <div class="body center-text">
+          <h1>Unlock Vault</h1>
           <h2>Please enter your password or passphrase</h2>
           <TextInput
             v-model="password"
@@ -13,28 +13,36 @@
             description="password" 
             type="password"/>
           <span class="form-error" >{{error}}</span>
+          <br />
+          <router-link class="link" :to="{name: 'load_local_step_2'}">
+            Forgot password?
+          </router-link>
+          <div v-if="qrRequired">
+            <h2>Please scan your Q Card</h2>
+            <QRScanner @scanned="handleQRKey" />
+          </div>
+        </div>
+        <div class="footer">
+          <div class="back" @click="$router.go(-1)">
+            <div class="icon" />
+          </div>
           <button
-            class="btn"
+            class="continue"
             type="submit"
-          >Unlock</button>
-        </form>
-        <div v-if="qrRequired">
-          <h2>Please scan your Q Card</h2>
-          <QRScanner @scanned="handleQRKey" />
+            v-if="(password && !qrRequired)"
+          >
+            <span>Continue</span>
+            <div class="continue-arrow" />
+          </button>
         </div>
-      </div>
-      <div class="footer">
-        <div class="back" @click="$router.go(-1)">
-          <div class="icon" />
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-  import { ValidateQRKey } from '../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../components/qrcode_scanner.vue'
+  import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
+  import QRScanner from '../../../components/qrcode_scanner.vue'
 
   export default {
     data(){
