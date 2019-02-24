@@ -42,6 +42,7 @@ export default {
       qr_required: false,
       loaded_vault: null,
       local_vault_path: null,
+      qr_secrets: null
     };
   },
   
@@ -92,7 +93,7 @@ export default {
       assert(this.loaded_vault, 'A vault file must be loaded');
       this.qr_required = true;
       try {
-        this.secrets = await DecipherSecretsQr(qrKey, this.loaded_vault.secrets);
+        this.qr_secrets = await DecipherSecretsQr(qrKey, this.loaded_vault.secrets);
       } catch (err) {
         assert(false, 'Invalid QR code');
       }
@@ -104,10 +105,13 @@ export default {
         this.pass_key = await PassKeyFromPassword(password);
         this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
         this.hashed_char_key = await HashCharKey(this.char_key);
-        if (!this.qr_required){
-          this.secrets = this.loaded_vault.secrets;
+        let secrets = {};
+        if (this.qr_required){
+          secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
+        } else {
+          secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
         }
-        this.secrets = await DecipherSecrets(this.hashed_char_key, this.secrets);
+        this.LoadSecrets(secrets);
         this.loaded_vault = null;
       } catch (err) {
         this.pass_key = null;
@@ -121,10 +125,13 @@ export default {
       try {
         this.char_key = char_key;
         this.hashed_char_key = await HashCharKey(this.char_key);
-        if (!this.qr_required){
-          this.secrets = this.loaded_vault.secrets;
+        let secrets = {};
+        if (this.qr_required){
+          secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
+        } else {
+          secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
         }
-        this.secrets = await DecipherSecrets(this.hashed_char_key, this.secrets);
+        this.LoadSecrets(secrets);
         this.loaded_vault = null;
       } catch (err) {
         this.pass_key = null;
@@ -159,7 +166,7 @@ export default {
         version: VERSION,
         key: cipheredCharKey,
         secrets: encrypted_secrets,
-        qr_required: this.qr_required,
+        qr_required: this.qr_required
       });
     },
   },
