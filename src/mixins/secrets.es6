@@ -48,15 +48,22 @@ export default {
         this.secrets = {};
       }
       for (const box_key in new_secrets) {
+        // Insert missing boxes
         if (!(box_key in this.secrets)){
           this.secrets[box_key] = new_secrets[box_key];
           continue;
         }
         for (const secret_key in new_secrets[box_key]){
+          // Insert missing secrets
           if (!(secret_key in this.secrets[box_key])){
             this.secrets[box_key][secret_key] = new_secrets[box_key][secret_key];
             continue;
           }
+          // Ignore identical secrets
+          if (JSON.stringify(this.secrets[box_key][secret_key]) === JSON.stringify(new_secrets[box_key][secret_key])){
+            continue;
+          }
+          // Assign conflicts
           this.secrets[box_key][secret_key].conflict = new_secrets[box_key][secret_key];
         }
       }
