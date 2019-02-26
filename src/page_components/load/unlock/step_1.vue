@@ -14,7 +14,7 @@
             type="password"/>
           <span class="form-error" >{{error}}</span>
           <br />
-          <router-link class="link" :to="{name: 'load_local_step_2'}">
+          <router-link class="link" :to="{name: 'load_unlock_step_2'}">
             Forgot password?
           </router-link>
           <div v-if="qrRequired">
@@ -41,8 +41,9 @@
 </template>
 
 <script>
-  import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
+  import { ValidateQRKey, DeriveCloudKey, PassKeyFromPassword  } from '../../../lib/QVaultCrypto/QVaultCrypto';
   import QRScanner from '../../../components/qrcode_scanner.vue'
+  import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
 
   export default {
     data(){
@@ -61,10 +62,28 @@
       async unlock(){
         try{
           await this.$root.UnlockVaultPassword(this.password);
-          this.$router.push({name: 'vault'});
-        } catch (err) {
+        } catch(err){
           this.error = err;
+          return
         }
+        if (this.$root.email){
+          try{
+            let cloud_key = await DeriveCloudKey(this.$root.pass_key);
+            let body = await authenticate(this.$root.email, cloud_key);
+            setToken(body.jwt);
+            this.$root.loaded_vault = await getVault();
+          } catch(err){
+            this.error = err;
+            return
+          }
+          try{
+            await this.$root.UnlockVaultPassword(this.password);
+          } catch(err){
+            this.error = "Unable to unlock cloud vault";
+            return
+          }
+        }
+        this.$router.push({name: 'vault'});
       },
       async handleQRKey(qrKey) {
         if (qrKey.substring(0, 6) === 'ERROR:'){

@@ -102,6 +102,7 @@
           }
           let body = await authenticate(this.emailLogin, this.cloudKey);
           setToken(body.jwt);
+          this.$root.email = this.emailLogin;
           this.$router.push({name: 'vault'});
         } catch (err) {
           this.error = err;

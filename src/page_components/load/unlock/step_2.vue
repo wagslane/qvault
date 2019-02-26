@@ -44,7 +44,7 @@
       async unlock(){
         try{
           await this.$root.UnlockVaultCharKey(this.char_key);
-          this.$router.push({name: 'load_local_step_3'});
+          this.$router.push({name: 'load_unlock_step_3'});
         } catch (err) {
           this.error = err;
         }

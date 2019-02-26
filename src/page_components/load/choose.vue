@@ -13,8 +13,8 @@
           Open Local Vault
         </div>
 
-        <router-link class="link" :to="{name: 'load_cloud_step_1'}">
-          Download Cloud Vault
+        <router-link class="link" :to="{name: 'load_download'}">
+          Lost vault file? Download from cloud
         </router-link>
 
         <span class="form-error" >{{error}}</span>
@@ -39,7 +39,7 @@
       async open(){
         try{
           this.$root.ExistingVaultDialog()
-          this.$router.push({name: 'load_local_step_1'});
+          this.$router.push({name: 'load_unlock_step_1'});
         } catch (err) {
           this.error = err;
         }

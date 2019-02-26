@@ -97,7 +97,7 @@ export async function upsertVault(vault) {
 
 export async function getVault() {
     if (!isLoggedIn()) {
-        return Promise.reject('Not logged in');
+        throw 'Not logged in';
     }
     const jwt = getToken();
 
@@ -109,7 +109,10 @@ export async function getVault() {
         }
     });
     const handled = await handleResponse(resp);
-    return handled;
+    if (handled.length < 1){
+        throw 'No vaults found on server';
+    }
+    return handled[0].data;
 }
 
 export function isLoggedIn() {

@@ -6,11 +6,11 @@ import create_step_4 from './page_components/create/step_4.vue';
 import create_step_5 from './page_components/create/step_5.vue';
 import create_step_6 from './page_components/create/step_6.vue';
 import create_step_7 from './page_components/create/step_7.vue';
-import load_local_step_1 from './page_components/load/local/step_1.vue';
-import load_local_step_2 from './page_components/load/local/step_2.vue';
-import load_local_step_3 from './page_components/load/local/step_3.vue';
+import load_unlock_step_1 from './page_components/load/unlock/step_1.vue';
+import load_unlock_step_2 from './page_components/load/unlock/step_2.vue';
+import load_unlock_step_3 from './page_components/load/unlock/step_3.vue';
 import load_choose from './page_components/load/choose.vue';
-import load_cloud_step_1 from './page_components/load/cloud/step_1.vue';
+import load_download from './page_components/load/download.vue';
 import vault from './page_components/vault/vault.vue';
 import vault_item from './page_components/vault/vault_item.vue';
 
@@ -85,24 +85,12 @@ export default [
         name: 'load_choose',
       },
       {
-        path: '/cloud/',
-        component: route_wrapper,
-        children: [
-          {
-            path: '',
-            redirect: {
-              name: 'step_1',
-            },
-          },
-          {
-            path: 'step_1',
-            component: load_cloud_step_1,
-            name: 'load_cloud_step_1',
-          },
-        ],
+        path: 'download',
+        component: load_download,
+        name: 'load_download',
       },
       {
-        path: '/local/',
+        path: '/unlock/',
         component: route_wrapper,
         children: [
           {
@@ -113,18 +101,18 @@ export default [
           },
           {
             path: 'step_1',
-            component: load_local_step_1,
-            name: 'load_local_step_1',
+            component: load_unlock_step_1,
+            name: 'load_unlock_step_1',
           },
           {
             path: 'step_2',
-            component: load_local_step_2,
-            name: 'load_local_step_2',
+            component: load_unlock_step_2,
+            name: 'load_unlock_step_2',
           },
           {
             path: 'step_3',
-            component: load_local_step_3,
-            name: 'load_local_step_3',
+            component: load_unlock_step_3,
+            name: 'load_unlock_step_3',
           },
         ],
       },
