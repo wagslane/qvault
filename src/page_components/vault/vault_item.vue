@@ -30,13 +30,15 @@
       <!--<button v-clipboard:copy="secret.value">copy</button>-->
     </div>
     <button
-      @click.prevent="$root.SaveLocalVault()"
+      @click.prevent="save"
       class="save"
     >Save</button>
   </form>
 </template>
 
 <script>
+  import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
+
   export default {
     computed: {
       box_uuid(){ return this.$route.params.box_uuid; },
@@ -47,6 +49,23 @@
       },
     },
     methods: {
+      async save(){
+        await this.$root.SaveLocalVault();
+        if (this.$root.email){
+          if (!isLoggedIn()){
+            let cloudKey = await DeriveCloudKey(this.$root.pass_key);
+            let body = await authenticate(this.$root.email, cloudKey);
+            setToken(body.jwt);
+          }
+          try{
+            let vault = await this.$root.GetSavableVault();
+            await upsertVault(vault);
+            alert('Vault uploaded successfully!');
+          } catch (err){
+            alert(err);
+          }
+        }
+      },
 //      copy_value(){
 //        document.execCommand("copy");
 //      },
@@ -121,6 +140,7 @@
       background: transparent;
       border: 1px solid #7E8A95;
       border-radius: 6px;
+      cursor: pointer;
     }
   }
 </style>

@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .highlight-box{
   margin: auto;
   width: 75%;

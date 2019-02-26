@@ -42,6 +42,8 @@ export default {
       qr_required: false,
       loaded_vault: null,
       local_vault_path: null,
+      qr_secrets: null,
+      email: null
     };
   },
   
@@ -57,6 +59,7 @@ export default {
         let data = fs.readFileSync(this.local_vault_path, 'utf-8');
         this.loaded_vault = JSON.parse(data);
         assert(this.loaded_vault.version, 'Selected vault is corrupted');
+        this.email = this.loaded_vault.email;
       } catch (err) {
         this.loaded_vault  = null;
         this.local_vault_path = null;
@@ -92,7 +95,7 @@ export default {
       assert(this.loaded_vault, 'A vault file must be loaded');
       this.qr_required = true;
       try {
-        this.secrets = await DecipherSecretsQr(qrKey, this.loaded_vault.secrets);
+        this.qr_secrets = await DecipherSecretsQr(qrKey, this.loaded_vault.secrets);
       } catch (err) {
         assert(false, 'Invalid QR code');
       }
@@ -102,12 +105,15 @@ export default {
       assert(this.loaded_vault, 'A vault file must be loaded');
       try {
         this.pass_key = await PassKeyFromPassword(password);
-        let char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
-        this.hashed_char_key = await HashCharKey(char_key);
-        if (!this.qr_required){
-          this.secrets = this.loaded_vault.secrets;
+        this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
+        this.hashed_char_key = await HashCharKey(this.char_key);
+        let secrets = {};
+        if (this.qr_required){
+          secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
+        } else {
+          secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
         }
-        this.secrets = await DecipherSecrets(this.hashed_char_key, this.secrets);
+        this.LoadSecrets(secrets);
         this.loaded_vault = null;
       } catch (err) {
         this.pass_key = null;
@@ -116,14 +122,39 @@ export default {
       }
     },
 
+    async UnlockVaultCharKey(char_key) {
+      assert(this.loaded_vault, 'A vault file must be loaded');
+      try {
+        this.char_key = char_key;
+        this.hashed_char_key = await HashCharKey(this.char_key);
+        let secrets = {};
+        if (this.qr_required){
+          secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
+        } else {
+          secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
+        }
+        this.LoadSecrets(secrets);
+        this.loaded_vault = null;
+      } catch (err) {
+        this.pass_key = null;
+        this.char_key = null;
+        assert(false, "Invalid code");
+      }
+    },
+
     async SaveLocalVault() {
       assert(this.local_vault_path, 'No vault path is set');
       try {
         let content = await this.GetSavableVault();
-        fs.writeFileSync(this.local_vault_path, content);
+        this.SaveVault(content);
       } catch (err) {
         return err;
       }
+    },
+
+    async SaveVault(vault) {
+      fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
+      alert('Vault saved successfully!');
     },
 
     async GetSavableVault(){
@@ -137,12 +168,13 @@ export default {
         assert(this.qr_key, 'A QR key must exist to save a vault');
         encrypted_secrets = await CipherSecretsQr(this.qr_key, encrypted_secrets);
       }
-      return JSON.stringify({
+      return {
         version: VERSION,
         key: cipheredCharKey,
         secrets: encrypted_secrets,
         qr_required: this.qr_required,
-      });
+        email: this.email
+      };
     },
   },
 };

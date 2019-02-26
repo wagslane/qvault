@@ -1,14 +1,12 @@
 import uuidv4 from 'uuid/v4';
 import Vue from 'vue';
-
-
 import assert from '../lib/assert.es6';
 
 export default {
   data(){
     return {
       secrets: null,
-    }
+    };
   },
   methods:{
     InitializeSecrets(){
@@ -21,6 +19,7 @@ export default {
       let box = {
         name: 'Name',
         secrets: {},
+        created: Date.now(),
       };
       Vue.set(this.secrets, uuid, box);
       return uuid;
@@ -42,6 +41,32 @@ export default {
       };
       Vue.set(box.secrets, uuid, secret);
       return uuid;
+    },
+
+    LoadSecrets(new_secrets){
+      if (!this.secrets){
+        this.secrets = {};
+      }
+      for (const box_key in new_secrets) {
+        // Insert missing boxes
+        if (!(box_key in this.secrets)){
+          this.secrets[box_key] = new_secrets[box_key];
+          continue;
+        }
+        for (const secret_key in new_secrets[box_key]){
+          // Insert missing secrets
+          if (!(secret_key in this.secrets[box_key])){
+            this.secrets[box_key][secret_key] = new_secrets[box_key][secret_key];
+            continue;
+          }
+          // Ignore identical secrets
+          if (JSON.stringify(this.secrets[box_key][secret_key]) === JSON.stringify(new_secrets[box_key][secret_key])){
+            continue;
+          }
+          // Assign conflicts
+          this.secrets[box_key][secret_key].conflict = new_secrets[box_key][secret_key];
+        }
+      }
     }
 
     // SetSecret(uuid, secret) {
@@ -54,4 +79,4 @@ export default {
     //   Vue.delete(this.secrets, uuid);
     // },
   },
-}
+};

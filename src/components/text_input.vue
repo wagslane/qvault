@@ -1,24 +1,23 @@
 <template>
   <div>
-    <div class="input-field">
+    <div class="box">
       <div class="description">{{description}}</div>
+      <img v-scroll-to="{
+          el: '#'+keyboardID,
+          offset: -300,
+        }"
+        v-on:click="toggle" 
+        height="40" 
+        src="../img/keyboard-icon.png"
+      >
       <input
         ref="input"
         :id="keyboardID"
-        class="input-box"
         :type="type"
         v-bind:value="value"
         v-on:input="$emit('input', $event.target.value)"
         v-on:blur="hide"
       />
-      <img v-scroll-to="{
-        el: '#'+keyboardID,
-        offset: -300,
-        }" class="keyboard-icon" 
-        v-on:click="toggle" 
-        height="40" 
-        src="../img/keyboard-icon.png"
-      >
     </div>
     <div v-bind:style="{ visibility: keyboardVisibility }" class="keyboardContainer">
       <div class="keyboard">
@@ -146,8 +145,8 @@
   }
 </script>
 
-<style>
-.input-field {
+<style lang="less" scoped>
+.box {
   padding: 15px 25px;
   margin-bottom: 12px;
   border-radius: 5px;
@@ -155,43 +154,48 @@
   letter-spacing: -0.04px;
   font-size: 16px;
   min-width: 450px;
-}
+  display: flex;
 
-.description {
-  height: 47px;
-  line-height: 47px;
-  display:inline-block;
-  color: #FFFFFF;
-  text-align:center;
-  font-weight: 500;
-}
+  .description {
+    height: 47px;
+    line-height: 47px;
+    display: inline-block;
+    color: #FFFFFF;
+    text-align: left;
+    font-weight: 500;
+    margin-right: 20px;
+  }
 
-.keyboard-icon{
-  float: right;
-  margin-right:10px;
-  margin-top: 5px;
-  cursor: pointer;
-}
+  img {
+    margin-right:10px;
+    margin-top: 5px;
+    cursor: pointer;
+    margin-right: 20px;
+  }
 
-.input-box {
-  float: right;
-  box-sizing: border-box;
-  height: 47px;
-  line-height: 47px;
-  width: 311px;
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 2px;
-  font-weight: 300;
-  background-color: white;
-  padding-left: 5px;
-  outline: none;
-  color: #B3B3B3;
-  background-color: #0B0C0D;
-}
+  input {
+    flex: 1;
+    box-sizing: border-box;
+    height: 47px;
+    line-height: 47px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 2px;
+    font-weight: 300;
+    background-color: white;
+    padding-left: 5px;
+    outline: none;
+    color: #B3B3B3;
+    background-color: #0B0C0D;
+  }
 
-.input-box:focus {
-  border: 2px solid #D8A22E;
-  outline: none;
+  input:focus {
+    border: 2px solid #D8A22E;
+    outline: none;
+  }
+
+  span{
+    display: block;
+  }
 }
 
 .keyboardContainer {

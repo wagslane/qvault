@@ -1,40 +1,91 @@
 <template>
-  <div class="container" v-if="boxes">
-    <div class="sidebar">
-      <input
-        type="text"
-        class="search"
-        placeholder="search"
-      >
-      <div class="boxes">
-        <router-link
-          v-for="(box, box_uuid) in boxes"
-          :key="box_uuid"
-          :to="{name: 'vault_item', params: {box_uuid}}"
-          class="box_link"
+  <div>
+    <HeaderBar title="Vault" />
+    <div class="container" v-if="boxes">
+      <div class="sidebar">
+        <input
+          type="text"
+          class="search"
+          placeholder="search"
+          v-model="search"
         >
-          <div class="aesthetic_rectangle"></div>
-          {{box.name}}
-        </router-link>
+        <select
+          class="search"
+          v-model="sort"
+        >
+          <option value="created">Sort By Date Created</option>
+          <option value="name">Sort By Name</option>
+        </select>
+        <div class="boxes">
+          <router-link
+            v-for="sorted_box in sorted_boxes"
+            :key="sorted_box.uuid"
+            :to="{name: 'vault_item', params: {box_uuid: sorted_box.uuid}}"
+            class="box_link"
+          >
+            <div class="aesthetic_rectangle"></div>
+            {{sorted_box.name}}
+            <br />
+            <span class="created">{{sorted_box.created.format('YYYY-MM-DD')}}</span>
+          </router-link>
+        </div>
+        <button
+          @click.prevent="CreateBox"
+          class="add_box"
+        >
+          <img src="../../img/plus-solid.svg" style="height: 22px" />
+        </button>
       </div>
-      <button
-        @click.prevent="CreateBox"
-        class="add_box"
-      >
-        <img src="../../img/plus-solid.svg" style="height: 22px" />
-      </button>
-    </div>
-    <div class="content">
-      <router-view></router-view>
+      <div class="content">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import moment from 'moment';
+
+  function sort_box_by_key(key){
+    return function(a, b){
+      if(a[key] < b[key]) return -1;
+      if(a[key] > b[key]) return 1;
+      return 0;
+    }
+  }
+
   export default {
+    data(){
+      return {
+        'sort': 'name',
+        'search': null,
+      }
+    },
     computed: {
       boxes(){
         return this.$root.secrets;
+      },
+      sorted_boxes(){
+        let sorted_boxes = [];
+        for (let key in this.boxes) {
+          if (this.boxes.hasOwnProperty(key)) {
+            let box = this.boxes[key];
+            sorted_boxes.push({
+              uuid: key,
+              created: moment(box.created),
+              name: box.name,
+            });
+          }
+        }
+        if(this.search){
+          sorted_boxes = sorted_boxes.filter(
+            sorted_box => this.box_matches_search(sorted_box)
+          )
+        }
+        if(this.sort){
+          sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
+        }
+        return sorted_boxes;
       },
     },
     methods: {
@@ -45,6 +96,20 @@
       async save(){
         return await this.$root.SaveLocalVault();
       },
+      box_matches_search(sorted_box){
+        if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
+          return true;
+        }
+        let box = this.boxes[sorted_box.uuid];
+        for (let key in box.secrets) {
+          if (box.secrets.hasOwnProperty(key)) {
+            let secret = box.secrets[key];
+            if(secret.name.toLowerCase().includes(this.search.toLowerCase())){
+              return true;
+            }
+          }
+        }
+      }
     },
   }
 </script>
@@ -53,15 +118,15 @@
   .container {
     display: flex; /* or inline-flex */
     flex-direction: row;
-    height: 100vh;
+    height: ~'calc(100vh - 55px)';
 
     .sidebar {
       width: 25%;
       background-color: #32373B;
-      height: 100vh;
+      height: ~'calc(100vh - 55px)';
 
       .search {
-        margin: 15px 15px 0px 15px;
+        margin: 15px 15px 0 15px;
         width: ~'calc(100% - 30px)';
         border-radius: 6px;
         background-color: #080D0E;
@@ -73,7 +138,7 @@
       }
 
       .boxes {
-        height: ~'calc(100vh - 159px)';
+        height: ~'calc(100vh - 274px)';
         overflow-y: auto;
         margin-top: 15px;
         margin-bottom: 15px;
@@ -83,6 +148,11 @@
           padding: 22px;
           display: block;
           text-decoration: none;
+
+          .created {
+            color: #72767B;
+            font-size: 10px;
+          }
 
           .aesthetic_rectangle {
             float: left;
