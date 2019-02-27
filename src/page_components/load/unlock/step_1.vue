@@ -53,7 +53,7 @@
         qrRequired: false
       }
     },
-    mounted: function(){
+    mounted(){
       if (this.$root.loaded_vault.qr_required){
         this.qrRequired = true
       }

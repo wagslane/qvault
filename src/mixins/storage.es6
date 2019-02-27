@@ -1,5 +1,7 @@
 import fs from 'fs';
-const { dialog } = require('electron').remote;
+import { remote } from 'electron';
+const dialog = remote.dialog;
+const app = remote.app;
 const pjson = require('../../package.json');
 
 import assert from '../lib/assert.es6';
@@ -53,8 +55,12 @@ export default {
         filters: FILE_FILTERS
       });
       assert(paths.length === 1, "Invalid number of paths selected");
-      this.local_vault_path = paths[0];
-      assert(this.local_vault_path, 'A vault file must be selected');
+      assert(paths[0], 'A vault file must be selected');
+      this.LoadVault(paths[0]);
+    },
+
+    LoadVault(vault_path){
+      this.local_vault_path = vault_path;
       try {
         let data = fs.readFileSync(this.local_vault_path, 'utf-8');
         this.loaded_vault = JSON.parse(data);
@@ -154,6 +160,7 @@ export default {
 
     async SaveVault(vault) {
       fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
+      fs.writeFileSync(this.GetLastUsedVaultPath(), this.local_vault_path);
       alert('Vault saved successfully!');
     },
 
@@ -176,5 +183,14 @@ export default {
         email: this.email
       };
     },
+
+    LoadLastUsedVault(){
+      let vault_path = fs.readFileSync(this.GetLastUsedVaultPath(), 'utf-8');
+      this.LoadVault(vault_path);
+    },
+
+    GetLastUsedVaultPath(){
+      return `${app.getPath('userData')}/last_used_vault`;
+    }
   },
 };

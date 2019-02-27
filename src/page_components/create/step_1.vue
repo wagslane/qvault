@@ -17,3 +17,16 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    mounted(){
+      try{
+        this.$root.LoadLastUsedVault();
+        this.$router.push({name: 'load_unlock_step_1'});
+      } catch (err){
+        // do nothing if cache is empty
+      }
+    }
+  }
+</script>
