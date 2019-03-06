@@ -1,7 +1,7 @@
 <template>
-  <div class="rectangle">
+  <div class="rectangle" v-bind:style="position">
     <div class="absolute">
-        <img height="25" width="25" src="../img/qvault-logo.png">
+      <img height="25" width="25" src="../img/qvault-logo.png">
     </div>
     <span>{{title}}</span>
   </div>
@@ -10,10 +10,23 @@
 <script>
   export default {
     props: { 
-        title: {
-            type: String,
-            required: false
-        },
+      title: {
+        type: String,
+        required: false
+      },
+      fixed: {
+        type: Boolean,
+        default: false,
+        required: false
+      }
+    },
+    computed:{
+      position(){
+        if (this.fixed){
+          return { position: 'fixed' }
+        }
+        return {}
+      }
     }
   }
 </script>
