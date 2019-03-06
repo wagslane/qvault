@@ -13,12 +13,13 @@ export default {
       this.secrets = {};
     },
 
-    CreateBox(){
+    CreateBox(name, fields){
       assert(this.secrets, 'No vault is open');
       let uuid = uuidv4();
       let box = {
-        name: 'Name',
+        name,
         secrets: {},
+        fields,
         created: Date.now(),
       };
       Vue.set(this.secrets, uuid, box);
@@ -31,12 +32,16 @@ export default {
       return this.secrets[uuid];
     },
 
-    CreateSecret(box_uuid){
+    CreateSecret(box_uuid, name){
       let box = this.GetBox(box_uuid);
       let uuid = uuidv4();
+      let values = {};
+      for(let field of box.fields){
+        Vue.set(values, field, null);
+      }
       let secret = {
-        name: null,
-        value: null,
+        name,
+        values,
         created: Date.now(),
       };
       Vue.set(box.secrets, uuid, secret);
