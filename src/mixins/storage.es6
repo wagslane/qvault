@@ -184,6 +184,13 @@ export default {
       };
     },
 
+    ClearLastUsedVaultCache(){
+      let filepath = this.GetLastUsedVaultPath();
+      if (fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath);
+      }
+    },
+
     LoadLastUsedVault(){
       let vault_path = fs.readFileSync(this.GetLastUsedVaultPath(), 'utf-8');
       this.LoadVault(vault_path);
