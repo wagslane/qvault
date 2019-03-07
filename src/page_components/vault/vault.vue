@@ -118,14 +118,13 @@
   .container {
     display: flex; /* or inline-flex */
     flex-direction: row;
-    height: ~'calc(100vh - 55px)';
 
     .sidebar {
       width: 25%;
       background-color: #32373B;
       height: ~'calc(100vh - 55px)';
-      margin-top: 55px;
       position: fixed;
+      margin-top: 55px;
 
       .search {
         margin: 15px 15px 0 15px;
@@ -190,6 +189,8 @@
     }
 
     .content {
+      margin-top: 55px;
+      margin-left: 25%;
       width: 75%;
     }
   }
