@@ -40,6 +40,14 @@
 </script>
 
 <style lang="less" scoped>
+  .modal {
+    margin: 15px;
+    text-align: center;
+    color: white;
+  }
   .buttons {
+    .button {
+      display: inline-block;
+    }
   }
 </style>

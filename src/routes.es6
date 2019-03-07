@@ -13,6 +13,7 @@ import load_choose from './page_components/load/choose.vue';
 import load_download from './page_components/load/download.vue';
 import vault from './page_components/vault/vault.vue';
 import vault_item from './page_components/vault/vault_item.vue';
+import add_box from './page_components/vault/add_box.vue';
 
 export default [
   {
@@ -124,7 +125,12 @@ export default [
     name: 'vault',
     children: [
       {
-        path: ':box_uuid',
+        path: 'add',
+        component: add_box,
+        name: 'add_box',
+      },
+      {
+        path: 'item/:box_uuid',
         component: vault_item,
         name: 'vault_item',
       },

@@ -30,7 +30,7 @@
           </router-link>
         </div>
         <button
-          @click.prevent="CreateBox"
+          @click.prevent="$router.push({name: 'add_box'})"
           class="add_box"
         >
           <img src="../../img/plus-solid.svg" style="height: 22px" />
