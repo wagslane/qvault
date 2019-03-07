@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="footer">
-          <div class="back" @click="$router.go(-1)">
+          <div class="back" @click="back">
             <div class="icon" />
           </div>
           <button
@@ -53,7 +53,7 @@
         qrRequired: false
       }
     },
-    mounted: function(){
+    mounted(){
       if (this.$root.loaded_vault.qr_required){
         this.qrRequired = true
       }
@@ -98,6 +98,14 @@
         await this.$root.UnlockVaultQr(qrKey);
         this.qrRequired = false;
         this.error = '';
+      },
+      back(){
+        try{
+          this.$root.ClearLastUsedVaultCache();
+        } catch (err) {
+          // we don't care that much
+        }
+        this.$router.go(-1);
       }
     },
     components:{

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar title="Vault" />
+    <HeaderBar title="Vault" fixed/>
     <div class="container" v-if="boxes">
       <div class="sidebar">
         <input
@@ -124,6 +124,8 @@
       width: 25%;
       background-color: #32373B;
       height: ~'calc(100vh - 55px)';
+      margin-top: 55px;
+      position: fixed;
 
       .search {
         margin: 15px 15px 0 15px;

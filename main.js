@@ -9,13 +9,17 @@ let mainWindow;
 function createWindow() {
   // Create the browser window.
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
-  mainWindow = new BrowserWindow({ width: Math.round(width * .7), height: Math.round(height * .8), icon: 'src/img/qvault-icon.png' });
+  mainWindow = new BrowserWindow({ width: Math.round(width * .7), height: Math.round(height * .8), icon: 'src/img/qvault-icon.png', show: false });
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
 
   // Don't display the menu bar
   mainWindow.setMenu(null);
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
