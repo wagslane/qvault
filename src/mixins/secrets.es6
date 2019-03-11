@@ -49,6 +49,8 @@ export default {
     },
 
     LoadSecrets(new_secrets){
+      console.log('LoadSecrets');
+
       if (!this.secrets){
         this.secrets = {};
       }
@@ -56,14 +58,14 @@ export default {
         if(new_secrets.hasOwnProperty(box_key)){
           // Insert missing boxes
           if (!(box_key in this.secrets)){
-            this.secrets[box_key] = new_secrets[box_key];
+            Vue.set(this.secrets, box_key, new_secrets[box_key]);
             continue;
           }
           for (const secret_key in new_secrets[box_key]){
             if(new_secrets[box_key].hasOwnProperty(secret_key)) {
               // Insert missing secrets
               if (!(secret_key in this.secrets[ box_key ])) {
-                this.secrets[ box_key ][ secret_key ] = new_secrets[ box_key ][ secret_key ];
+                Vue.set(this.secrets[ box_key ], secret_key, new_secrets[ box_key ][ secret_key ]);
                 continue;
               }
               // Ignore identical secrets
@@ -71,7 +73,7 @@ export default {
                 continue;
               }
               // Assign conflicts
-              this.secrets[ box_key ][ secret_key ].conflict = new_secrets[ box_key ][ secret_key ];
+              Vue.set(this.secrets[ box_key ][ secret_key ], 'conflict', new_secrets[ box_key ][ secret_key ]);
             }
           }
         }

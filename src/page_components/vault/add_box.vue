@@ -7,6 +7,9 @@
         v-model="type"
         new_value="password"
       >Passwords</selectable_button>
+      <div class="bottom">
+        <a @click.prevent="add_box">Continue</a>
+      </div>
     </div>
   </div>
 </template>
@@ -20,8 +23,9 @@
     },
     methods: {
       add_box(){
+        let box_uuid;
         if(this.type==='password'){
-          $root.CreateBox(
+          box_uuid = this.$root.CreateBox(
             'Passwords',
             [
               'Issuer (Website, Wifi, Device)',
@@ -34,6 +38,7 @@
             ]
           )
         }
+        this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
       },
     },
   }

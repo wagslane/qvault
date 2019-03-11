@@ -33,6 +33,7 @@
     background-color: #42454A;
     margin: 20px;
     padding: 25px;
+    cursor: pointer;
 
     &.selected {
       color: #CE9B2C;

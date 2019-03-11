@@ -20,7 +20,7 @@
           <router-link
             v-for="sorted_box in sorted_boxes"
             :key="sorted_box.uuid"
-            :to="{name: 'vault_item', params: {box_uuid: sorted_box.uuid}}"
+            :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
           >
             <div class="aesthetic_rectangle"></div>
@@ -29,12 +29,12 @@
             <span class="created">{{sorted_box.created.format('YYYY-MM-DD')}}</span>
           </router-link>
         </div>
-        <button
-          @click.prevent="$router.push({name: 'add_box'})"
+        <router-link
+          :to="{name: 'add_box'}"
           class="add_box"
         >
           <img src="../../img/plus-solid.svg" style="height: 22px" />
-        </button>
+        </router-link>
       </div>
       <div class="content">
         <router-view></router-view>
@@ -89,10 +89,6 @@
       },
     },
     methods: {
-      CreateBox(){
-        let uuid = this.$root.CreateBox();
-        this.$router.push({name: 'vault_item', params: {box_uuid: uuid}});
-      },
       async save(){
         return await this.$root.SaveLocalVault();
       },
@@ -184,11 +180,15 @@
         color: white;
         border: none;
         font-size: 35px;
+        display: block;
+        line-height: 70px;
       }
     }
 
     .content {
       width: 75%;
+      max-height: ~'calc(100vh - 55px)';
+      overflow-y: scroll;
     }
   }
 </style>

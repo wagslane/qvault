@@ -11,8 +11,9 @@ import load_unlock_step_2 from './page_components/load/unlock/step_2.vue';
 import load_unlock_step_3 from './page_components/load/unlock/step_3.vue';
 import load_choose from './page_components/load/choose.vue';
 import load_download from './page_components/load/download.vue';
+
 import vault from './page_components/vault/vault.vue';
-import vault_item from './page_components/vault/vault_item.vue';
+import box from './page_components/vault/box.vue';
 import add_box from './page_components/vault/add_box.vue';
 
 export default [
@@ -130,9 +131,9 @@ export default [
         name: 'add_box',
       },
       {
-        path: 'item/:box_uuid',
-        component: vault_item,
-        name: 'vault_item',
+        path: 'box/:box_uuid',
+        component: box,
+        name: 'box',
       },
     ],
   }
