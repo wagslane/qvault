@@ -1,50 +1,49 @@
 <template>
-  <form class="wrapper" v-if="box">
-    <input
-      v-model="box.name"
-      placeholder="Name"
-      class="box_name"
-    >
-    <button
-      @click.prevent="$root.CreateSecret(box_uuid)"
-      class="add_secret"
-    >
-      <img src="../../img/plus-solid.svg" style="height: 22px" />
-    </button>
-    <hr />
-    <div
-      v-for="(secret, secret_uuid) in box.secrets"
-      :key="secret_uuid"
-      class="secret"
-    >
+  <div v-if="box">
+    <div class="wrapper">
       <input
-        placeholder="name"
-        v-model="secret.name"
-        class="secret_name"
+        v-model="box.name"
+        placeholder="Name"
+        class="box_name"
       >
-      <input
-        placeholder="value"
-        v-model="secret.value"
-        class="secret_value"
+      <button
+        @click.prevent="$root.CreateSecret(box_uuid)"
+        class="add_secret"
       >
-      <!--<button v-clipboard:copy="secret.value">copy</button>-->
+        <img src="../../img/plus-solid.svg" style="height: 22px" />
+      </button>
     </div>
+    <secret
+      v-for="secret_uuid in secret_uuids"
+      :key="secret_uuid"
+      :secret="box.secrets[secret_uuid]"
+      :fields="box.fields"
+    ></secret>
     <button
       @click.prevent="save"
       class="save"
     >Save</button>
-  </form>
+  </div>
 </template>
 
 <script>
   import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
+  import secret from './secret.vue';
 
   export default {
+    components: {
+      secret,
+    },
     computed: {
       box_uuid(){ return this.$route.params.box_uuid; },
       box(){
         if(this.box_uuid){
           return this.$root.GetBox(this.box_uuid);
+        }
+      },
+      secret_uuids(){
+        if(this.box){
+          return Object.keys(this.box.secrets);
         }
       },
     },
@@ -98,49 +97,18 @@
       border-radius: 6px;
       background: transparent;
       float: right;
-    }
-
-    hr {
-      box-sizing: border-box;
-      height: 2px;
-      border: 1px solid #2F3235;
-      margin: 10px;
-    }
-
-    .secret {
-      font-size: 18px;
-      margin-bottom: 10px;
-
-      .secret_name {
-        padding: 10px;
-        border: none;
-        border-radius: 6px;
-        background: transparent;
-        color: white;
-        width: ~'calc(50% - 15px)';
-        margin-right: 15px;
-      }
-
-      .secret_value {
-        padding: 10px;
-        border: 1px solid #7E8A95;
-        border-radius: 6px;
-        background: transparent;
-        color: #8C8E8F;
-        width: ~'calc(50% - 75px)';
-        margin-left: 15px;
-      }
-    }
-
-    .save {
-      padding: 10px;
-      font-size: 22px;
-      margin: 10px;
-      color: #8C8E8F;
-      background: transparent;
-      border: 1px solid #7E8A95;
-      border-radius: 6px;
       cursor: pointer;
     }
+  }
+
+  .save {
+    padding: 10px;
+    font-size: 22px;
+    margin: 25px;
+    color: #8C8E8F;
+    background: transparent;
+    border: 1px solid #7E8A95;
+    border-radius: 6px;
+    cursor: pointer;
   }
 </style>
