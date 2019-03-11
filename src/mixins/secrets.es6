@@ -13,12 +13,13 @@ export default {
       this.secrets = {};
     },
 
-    CreateBox(){
+    CreateBox(name, fields){
       assert(this.secrets, 'No vault is open');
       let uuid = uuidv4();
       let box = {
-        name: 'Name',
+        name,
         secrets: {},
+        fields,
         created: Date.now(),
       };
       Vue.set(this.secrets, uuid, box);
@@ -31,12 +32,16 @@ export default {
       return this.secrets[uuid];
     },
 
-    CreateSecret(box_uuid){
+    CreateSecret(box_uuid, name){
       let box = this.GetBox(box_uuid);
       let uuid = uuidv4();
+      let values = {};
+      for(let field of box.fields){
+        Vue.set(values, field, null);
+      }
       let secret = {
-        name: null,
-        value: null,
+        name,
+        values,
         created: Date.now(),
       };
       Vue.set(box.secrets, uuid, secret);
@@ -44,27 +49,33 @@ export default {
     },
 
     LoadSecrets(new_secrets){
+      console.log('LoadSecrets');
+
       if (!this.secrets){
         this.secrets = {};
       }
       for (const box_key in new_secrets) {
-        // Insert missing boxes
-        if (!(box_key in this.secrets)){
-          this.secrets[box_key] = new_secrets[box_key];
-          continue;
-        }
-        for (const secret_key in new_secrets[box_key]){
-          // Insert missing secrets
-          if (!(secret_key in this.secrets[box_key])){
-            this.secrets[box_key][secret_key] = new_secrets[box_key][secret_key];
+        if(new_secrets.hasOwnProperty(box_key)){
+          // Insert missing boxes
+          if (!(box_key in this.secrets)){
+            Vue.set(this.secrets, box_key, new_secrets[box_key]);
             continue;
           }
-          // Ignore identical secrets
-          if (JSON.stringify(this.secrets[box_key][secret_key]) === JSON.stringify(new_secrets[box_key][secret_key])){
-            continue;
+          for (const secret_key in new_secrets[box_key]){
+            if(new_secrets[box_key].hasOwnProperty(secret_key)) {
+              // Insert missing secrets
+              if (!(secret_key in this.secrets[ box_key ])) {
+                Vue.set(this.secrets[ box_key ], secret_key, new_secrets[ box_key ][ secret_key ]);
+                continue;
+              }
+              // Ignore identical secrets
+              if (JSON.stringify(this.secrets[ box_key ][ secret_key ]) === JSON.stringify(new_secrets[ box_key ][ secret_key ])) {
+                continue;
+              }
+              // Assign conflicts
+              Vue.set(this.secrets[ box_key ][ secret_key ], 'conflict', new_secrets[ box_key ][ secret_key ]);
+            }
           }
-          // Assign conflicts
-          this.secrets[box_key][secret_key].conflict = new_secrets[box_key][secret_key];
         }
       }
     }
