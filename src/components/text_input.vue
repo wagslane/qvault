@@ -35,7 +35,8 @@
     data(){
       return{
         keyboardVisibility: "hidden",
-        recentlyClosed: false
+        recentlyClosed: false,
+        bodyPaddingMax: 280
       }
     },
     props:{
@@ -104,21 +105,24 @@
     methods:{
       toggle(){
         if (this.keyboardVisibility == "visible"){
-          this.keyboardVisibility = "hidden"
-          return
+          this.keyboardVisibility = "hidden";
+          document.body.style.paddingBottom = '0px';
+          return;
         }
         if (this.recentlyClosed){
-          return
+          return;
         }
-        this.keyboardVisibility = "visible"
-        this.$refs.input.focus()
+        this.keyboardVisibility = "visible";
+        document.body.style.paddingBottom = `${this.bodyPaddingMax}px`;
+        this.$refs.input.focus();
       },
       hide(){
         if (this.keyboardVisibility == "hidden"){
-          return
+          return;
         }
-        this.keyboardVisibility = "hidden"
-        this.recentlyClosed = true
+        this.keyboardVisibility = "hidden";
+        document.body.style.paddingBottom = '0px';
+        this.recentlyClosed = true;
         setTimeout(() => this.recentlyClosed = false, 200);
       },
       onKeyPress(btn){

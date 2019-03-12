@@ -1,15 +1,31 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron');
 const electron = require('electron');
+const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
-  // Create the browser window.
+  // Remember the last window size/position or use defaults
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
-  mainWindow = new BrowserWindow({ width: Math.round(width * .7), height: Math.round(height * .8), icon: 'src/img/qvault-icon.png', show: false });
+  let mainWindowState = windowStateKeeper({
+    defaultWidth:  Math.round(width * .7),
+    defaultHeight: Math.round(height * .8)
+  });
+
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    backgroundColor: '#131617',
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    icon: 'src/img/qvault-icon.png', 
+    show: false 
+  });
+  mainWindowState.manage(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html');
@@ -19,6 +35,7 @@ function createWindow() {
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
+    mainWindow.focus();
   });
 
   // Open the DevTools.

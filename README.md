@@ -1,13 +1,55 @@
-# Qvault
+# Q Vault
+
+Q Vault is an open source secret manager. As such, feel free to contribute to the project or raise issues using the "issues" tab on github.
+
+## Contact
+
+The best way to get in contact with the developers is on the public discord server.
+
+Discord: [https://discord.gg/EEkFwbv](https://discord.gg/EEkFwbv)
+
+Twitter: [https://twitter.com/q_vault](https://twitter.com/q_vault)
+
+Facebook: [https://www.facebook.com/qvault](https://www.facebook.com/qvault)
+
+Instagram: [https://www.instagram.com/qvault.io](https://www.instagram.com/qvault.io)
 
 ## License
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
 
-## NVM
+## Node Version
 
 Set the correct node version:
 
 ```bash
 nvm use
 ```
+
+## Run Tests
+
+Mocha Chai
+
+```bash
+yarn test
+```
+
+## Run in development mode
+
+```bash
+yarn dev
+```
+
+## Build from source
+
+```bash
+yarn build
+```
+
+## Contributing
+
+Feel free to contribute by forking the repo and opening pull requests. Please ensure that your code passes the existing tests, and write tests to test your changes if applicable.
+
+We also use eslint, so make sure your code adheres to the rules defined in [.eslintrc.json](.eslintrc.json)
+
+All pull requests should be submitted to the "master" branch. Code in the "prod" branch is live in the latest release.
