@@ -29,7 +29,8 @@
     "files": [
       "main.js",
       "index.html",
-      "dist/*"
+      "dist/*",
+      "preload.js"
     ],
     "directories": {
       "output": "release"
