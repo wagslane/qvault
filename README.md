@@ -42,8 +42,11 @@ yarn dev
 
 ## Build from source
 
+It may give warnings about not being able to push to github. Ignore
+these warning as you are just building for yourself.
+
 ```bash
-yarn build
+yarn release
 ```
 
 ## Contributing
