@@ -1,14 +1,13 @@
 <template>
   <div class="modal">
-    <h1>Add Your First Box</h1>
-    <p>In QVault, a box is a category of items stored in your vault.</p>
+    <h1>Add A Box</h1>
+    <p>A box is a group of secrets stored in your vault.</p>
     <div class="buttons">
-      <selectable_button
-        v-model="type"
-        new_value="password"
-      >Passwords</selectable_button>
-      <div class="bottom">
-        <a @click.prevent="add_box">Continue</a>
+      <div
+        class="button"
+        v-on:click="add_box('password')"
+      >
+        Passwords
       </div>
     </div>
   </div>
@@ -16,15 +15,10 @@
 
 <script>
   export default {
-    data(){
-      return {
-        type: 'password',
-      }
-    },
     methods: {
-      add_box(){
+      add_box(type){
         let box_uuid;
-        if(this.type==='password'){
+        if(type === 'password'){
           box_uuid = this.$root.CreateBox(
             'Passwords',
             [
@@ -51,8 +45,25 @@
     color: white;
   }
   .buttons {
+
     .button {
       display: inline-block;
+      height: 110px;
+      width: 140px;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 14px;
+      color: #999B9C;
+      background-color: #42454A;
+      margin: 20px;
+      padding: 25px;
+      cursor: pointer;
+
+      &:hover {
+        color: #CE9B2C;
+        background-color: #080D0E;
+        border: 1px solid #CE9B2C;
+      }
     }
   }
 </style>
