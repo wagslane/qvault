@@ -10,7 +10,7 @@
         @click.prevent="$root.CreateSecret(box_uuid)"
         class="add_secret"
       >
-        <img src="../../img/plus-solid.svg" style="height: 22px" />
+        <plus_icon style="height: 22px"></plus_icon>
       </button>
     </div>
     <secret
@@ -29,10 +29,12 @@
 <script>
   import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
   import secret from './secret.vue';
+  import plus_icon from '../../img/plus-solid.svg';
 
   export default {
     components: {
       secret,
+      plus_icon,
     },
     computed: {
       box_uuid(){ return this.$route.params.box_uuid; },

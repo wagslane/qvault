@@ -33,7 +33,7 @@
           :to="{name: 'add_box'}"
           class="add_box"
         >
-          <img src="../../img/plus-solid.svg" style="height: 22px" />
+          <plus_icon style="height: 22px"></plus_icon>
         </router-link>
       </div>
       <div class="content">
@@ -45,6 +45,7 @@
 
 <script>
   import moment from 'moment';
+  import plus_icon from '../../img/plus-solid.svg';
 
   function sort_box_by_key(key){
     return function(a, b){
@@ -55,6 +56,9 @@
   }
 
   export default {
+    components: {
+      plus_icon,
+    },
     data(){
       return {
         'sort': 'name',
