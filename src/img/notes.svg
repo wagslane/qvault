@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
+    <title>Group 13</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="28" height="28" rx="4"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-13">
+            <polyline id="Path-2" stroke="#979797" fill-rule="nonzero" points="7 7 14 7 14 14"></polyline>
+            <g id="Group-11-Copy-2">
+                <g id="Group-16">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <rect stroke="#999B9C" x="0.5" y="0.5" width="27" height="27" rx="4"></rect>
+                    <path d="M30.5,6.5 L31,6.5 L30.5,6 L30.5,6.5 Z M30.5,27.5 L30.5,28 L31,27.5 L30.5,27.5 Z M6.5,27.5 L6,27.5 L6.5,28 L6.5,27.5 Z M6.5,14.0269119 L6.5,13.7781746 L6,13.7781746 L5.64644661,14.131728 L6.02081528,14.5060967 L6.5,14.0269119 Z M14.0269119,6.5 L14.5060967,6.02081528 L14.131728,5.64644661 L13.7781746,6 L13.7781746,6.5 L14.0269119,6.5 Z" id="Combined-Shape" stroke="#999B9C" fill-rule="nonzero" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
