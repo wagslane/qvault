@@ -8,17 +8,69 @@
         v-on:click="add_box('password')"
       >
         <password_icon></password_icon>
+        <br />
         Passwords
+      </div>
+      <div
+        class="button"
+        v-on:click="add_box('crypto')"
+      >
+        <crypto_icon></crypto_icon>
+        <br />
+        Crypto
+      </div>
+      <div
+        class="button"
+        v-on:click="add_box('financial')"
+      >
+        <fin_icon></fin_icon>
+        <br />
+        Financial
+      </div>
+      <br />
+      <div
+        class="button"
+        v-on:click="add_box('identity')"
+      >
+        <identity_icon></identity_icon>
+        <br />
+        Identity
+      </div>
+      <div
+        class="button"
+        v-on:click="add_box('notes')"
+      >
+        <notes_icon></notes_icon>
+        <br />
+        Notes
+      </div>
+      <div
+        class="button"
+        v-on:click="add_box('other')"
+      >
+        <other_icon></other_icon>
+        <br />
+        Other
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import crypto_icon from '../../img/crypto.svg';
+  import fin_icon from '../../img/fin.svg';
+  import identity_icon from '../../img/identity.svg';
+  import notes_icon from '../../img/notes.svg';
+  import other_icon from '../../img/other.svg';
   import password_icon from '../../img/password.svg';
 
   export default {
     components: {
+      crypto_icon,
+      fin_icon,
+      identity_icon,
+      notes_icon,
+      other_icon,
       password_icon,
     },
     methods: {
@@ -77,6 +129,8 @@
           rect {
             stroke: #999B9C;
           }
+
+          margin-bottom: 13px;
         }
 
         &:hover {
