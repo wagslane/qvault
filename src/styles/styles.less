@@ -10,7 +10,8 @@ body {
   background-color: #131617;
   font-family: Roboto, sans-serif;
   margin: 0;
-  padding-bottom: 280px !important; // For the keyboard
+  transition-duration: 0.6s;
+  transition-property: padding;
 }
 
 h1, h2, h3, h4 {
@@ -92,6 +93,8 @@ button.btn {
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+  min-width: 675px;
+  max-width: 900px;
   border-radius: 10px;
   background-color: #24272A;
   box-shadow: 0 2px 94px 0 #000000;
@@ -187,6 +190,7 @@ button.btn {
       letter-spacing: -0.04px;
       line-height: 29px;
       text-decoration: none;
+      cursor: pointer;
     }
   }
 }

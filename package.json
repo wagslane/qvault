@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A secure, redundant, and open source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -29,7 +29,8 @@
     "files": [
       "main.js",
       "index.html",
-      "dist/*"
+      "dist/*",
+      "preload.js"
     ],
     "directories": {
       "output": "release"
@@ -77,6 +78,7 @@
     "babel-loader": "^8.0.5",
     "cross-fetch": "^3.0.1",
     "css-loader": "^2.1.0",
+    "electron-window-state": "^5.0.3",
     "es6-promise": "^4.2.5",
     "jwt-decode": "^2.2.0",
     "less": "^3.9.0",

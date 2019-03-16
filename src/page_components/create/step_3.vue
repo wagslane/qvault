@@ -9,30 +9,14 @@
 
         <div v-if="$root.char_key">
           <div class='highlight-box'>
-            <h3>Write the following characters on your Q Card:</h3>
-            <div class='character-code'>
-              <table>
-                <tr>
-                  <td>{{$root.char_key[0]}}</td>
-                  <td>{{$root.char_key[1]}}</td>
-                  <td>{{$root.char_key[2]}}</td>
-                  <td>{{$root.char_key[3]}}</td>
-                  <td>{{$root.char_key[4]}}</td>
-                  <td>{{$root.char_key[5]}}</td>
-                  <td>{{$root.char_key[6]}}</td>
-                  <td>{{$root.char_key[7]}}</td>
-                </tr>
-                <tr>
-                  <td>{{$root.char_key[8]}}</td>
-                  <td>{{$root.char_key[9]}}</td>
-                  <td>{{$root.char_key[10]}}</td>
-                  <td>{{$root.char_key[11]}}</td>
-                  <td>{{$root.char_key[12]}}</td>
-                  <td>{{$root.char_key[13]}}</td>
-                  <td>{{$root.char_key[14]}}</td>
-                  <td>{{$root.char_key[15]}}</td>
-                </tr>
-              </table>
+            <h3>Write the following characters on your Q Card</h3>
+            <div class="flex">
+              <div v-for="word in split" class='character-code'>
+                <span v-for="char in word" class="spacing">
+                  <u v-if="/[A-Z]/.test(char)">{{char}}</u>
+                  <span v-else>{{ char }}</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -59,9 +43,25 @@
   </div>
 </template>
 
+<script>
+  export default {
+    computed:{
+      split(){
+        return [
+          this.$root.char_key.slice(0, 4),
+          this.$root.char_key.slice(4, 8),
+          this.$root.char_key.slice(8, 12),
+          this.$root.char_key.slice(12, 16)
+        ]
+      }
+    }
+  }
+</script>
+
 <style lang="less" scoped>
-.highlight-box{
+.highlight-box {
   margin: auto;
+  padding: 20px;
   width: 75%;
   height: 166px;
   border: 1px solid rgba(255,255,255,0.5);
@@ -71,23 +71,26 @@
   padding-top: 24px;
 }
 
-.character-code{
-  margin: auto;
-  width: 80%;
+.flex {
+  display: flex;
+}
+
+.character-code {
+  flex-grow: 1;
+  margin: 10px;
   height: 54px;
+  line-height: 54px;
   border-radius: 5px;	
   background-color: #1A1D1F;
-  padding: 8px;
   color: rgba(255,255,255,0.7);
   font-size: 14px;
-}
-
-table{
-  width: 100%;
-  height: 100%;
-}
-
-td{
   text-align: center;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.spacing {
+  margin-left: 3px;
+  margin-right: 3px;
 }
 </style>
