@@ -2,6 +2,7 @@
 const { app, BrowserWindow } = require('electron');
 const electron = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,6 +18,11 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    webPreferences:{
+      nodeIntegration: false,
+      contextIsolation: false, // We need to figure out how to enable this
+      preload: path.join(__dirname, 'preload.js')
+    },
     backgroundColor: '#131617',
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -39,7 +45,7 @@ function createWindow() {
   });
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

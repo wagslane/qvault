@@ -3,15 +3,13 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'sha256-YbQASqI7zxjWeeU9+fUSzrDrPyNLTYXq72YNGChE3Hw='; worker-src blob:" />
   <title>Q Vault</title>
 </head>
 
 <body>
   <div id="qvault"></div>
-
-  <script>
-    require('./dist/qvault.bundle.js');
-  </script>
+  <script>window.requireBundle();</script>
 </body>
 
 </html>
