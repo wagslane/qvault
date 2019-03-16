@@ -76,6 +76,31 @@
     methods: {
       add_box(type){
         let box_uuid;
+        if(type === 'crypto'){
+          box_uuid = this.$root.CreateBox(
+            'Crypto',
+            [
+              'Wallet name',
+              'Ticker',
+              'Key/Seed',
+              'Pin',
+              'Password',
+              'Notes',
+            ]
+          )
+        }
+        if(type === 'identity'){
+          box_uuid = this.$root.CreateBox(
+            'Identity',
+            [
+              'Type',
+              'ID Number',
+              'Issuer',
+              'Expiration Date',
+              'Notes',
+            ]
+          )
+        }
         if(type === 'password'){
           box_uuid = this.$root.CreateBox(
             'Passwords',
@@ -86,6 +111,14 @@
               'Username',
               'Email',
               'Link',
+              'Notes',
+            ]
+          )
+        }
+        if(type === 'notes'){
+          box_uuid = this.$root.CreateBox(
+            'Notes',
+            [
               'Notes',
             ]
           )
