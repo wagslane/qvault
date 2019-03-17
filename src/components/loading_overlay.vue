@@ -1,5 +1,10 @@
 <template>
-  <div class="screen" v-if="loading" />
+  <div class="screen" v-if="loading" >
+    <div class="center">
+      <p> {{title}} </p>
+      <img src="../img/loading.gif">
+    </div>
+  </div>
 </template>
 
 <script>
@@ -13,6 +18,11 @@
       func: {
         type: Function,
         required: true
+      },
+      title:{
+        type: String,
+        required: false,
+        default: ''
       }
     },
     async updated(){
@@ -35,12 +45,26 @@
 
 <style lang="less" scoped>
   .screen {
-    background: rgba(0,0,0,0.2) url("../img/loading.gif") center center no-repeat;
+    background: rgba(0,0,0,0.70);
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
+
+    .center{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      text-align: center;
+
+      p{
+        font-size: 36px;
+        color: #fff;
+      }
+    }
   }
 </style>

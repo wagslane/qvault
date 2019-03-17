@@ -33,7 +33,7 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay :func="download" ref="loader" />
+    <LoadingOverlay title="Downloading" :func="download" ref="loader" />
   </div>
 </template>
 
@@ -58,12 +58,23 @@
           setToken(body.jwt);
           this.$root.email = this.email;
           this.$root.loaded_vault = await getVault();
-          this.$root.NewVaultDialog();
-          this.$root.SaveVault(this.$root.loaded_vault);
-          this.$router.push({name: 'load_unlock_step_1'});
+          this.unlock();
         } catch (err) {
           this.error = err;
         }
+      },
+      async unlock(){
+        requestAnimationFrame(async () => {
+          requestAnimationFrame(async () => {
+            try{
+              this.$root.NewVaultDialog();
+              this.$root.SaveVault(this.$root.loaded_vault);
+              this.$router.push({name: 'load_unlock_step_1'});
+            } catch (err) {
+              this.error = err;
+            }
+          })
+        })
       }
     }
   }

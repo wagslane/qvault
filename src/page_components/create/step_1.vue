@@ -15,7 +15,7 @@
         </router-link>
       </div>
     </div>
-    <LoadingOverlay :func="open_existing" ref="loader" />
+    <LoadingOverlay title="Creating Vault" :func="open_existing" ref="loader" />
   </div>
 </template>
 

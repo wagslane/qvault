@@ -65,7 +65,7 @@
         </button>
       </div>
     </div>
-    <LoadingOverlay :func="save" ref="loader" />
+    <LoadingOverlay title="Applying Brute-Force Resistance" :func="save" ref="loader" />
   </div>
 </template>
 

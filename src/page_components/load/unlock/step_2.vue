@@ -29,7 +29,7 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay :func="unlock" ref="loader" />
+    <LoadingOverlay title="Unlocking Vault" :func="unlock" ref="loader" />
   </div>
 </template>
 
