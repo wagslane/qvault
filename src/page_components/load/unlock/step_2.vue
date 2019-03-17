@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form @submit.prevent="unlock">
+      <form @submit.prevent="$refs.loader.load">
         <div class="body">
           <h1>Restore Vault Access</h1>
           <h2>Please enter the code on the back of your Q Card</h2>
@@ -29,6 +29,7 @@
         </div>
       </form>
     </div>
+    <LoadingOverlay :func="unlock" ref="loader" />
   </div>
 </template>
 

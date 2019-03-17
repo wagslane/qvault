@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form @submit.prevent="load">
+      <form @submit.prevent="$refs.loader.load">
         <div class="body">
           <h1>Load From Cloud</h1>
           <h2>Download your vault from the Q Vault servers</h2>
@@ -33,6 +33,7 @@
         </div>
       </form>
     </div>
+    <LoadingOverlay :func="download" ref="loader" />
   </div>
 </template>
 
@@ -49,7 +50,7 @@
       }
     },
     methods: {
-      async load(){
+      async download(){
         try{
           let passKey = await PassKeyFromPassword(this.password);
           let cloudKey = await DeriveCloudKey(passKey);

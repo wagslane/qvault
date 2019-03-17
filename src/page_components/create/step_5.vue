@@ -57,7 +57,7 @@
         </div>
         <button
           class="continue"
-          @click="save_step_5"
+          @click="$refs.loader.load"
           v-if="(password && !password_error) || (passphrase && !passphrase_error)"
         >
           <span>Continue</span>
@@ -65,6 +65,7 @@
         </button>
       </div>
     </div>
+    <LoadingOverlay :func="save" ref="loader" />
   </div>
 </template>
 
@@ -101,7 +102,7 @@
       },
     },
     methods:{
-      async save_step_5(){
+      async save(){
         if (this.passwordTabActive){
           this.$root.pass_key = await PassKeyFromPassword(this.password);
         } else {

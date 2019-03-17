@@ -6,15 +6,16 @@
         <h1>Get Started</h1>
         <h2>Create a new vault, or open one you've created before</h2>
 
-        <router-link class="btn" :to="{name: 'create_step_2'}">
+        <div class="btn" @click="load">
           Create New Vault
-        </router-link>
+        </div>
 
-        <router-link class="btn" :to="{name: 'load'}">
+        <router-link class="btn" :to="{name: 'load_choose'}" >
           Open Existing Vault
         </router-link>
       </div>
     </div>
+    <LoadingOverlay :func="open_existing" ref="loader" />
   </div>
 </template>
 
@@ -26,6 +27,15 @@
         this.$router.push({name: 'load_unlock_step_1'});
       } catch (err){
         // do nothing if cache is empty
+      }
+    },
+    methods:{
+      async load(){
+        this.$refs.loader.load();
+      },
+      async open_existing(){
+        await this.$root.CreateCharKey();
+        this.$router.push({name: 'create_step_2'});
       }
     }
   }
