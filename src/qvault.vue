@@ -20,4 +20,5 @@
 
 <style lang="less">
   @import './styles/styles.less';
+  @import './styles/scrollbar.less';
 </style>
