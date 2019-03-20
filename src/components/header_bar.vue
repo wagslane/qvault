@@ -1,24 +1,18 @@
 <template>
   <div class="bar" v-bind:style="position">
-    <div>
-      <img 
-        class="img-left" 
-        height="25" 
-        width="25" 
-        src="../img/qvault-logo.png">
-    </div>
-    <div class="text">
-      <span>{{title}}</span>
-    </div>
-    <div>
-      <img
-        v-if="settings"
-        class="img-right"
-        height="25"
-        width="25"
-        src="../img/gear-icon.svg"
-        @click="$router.push({name: 'settings'})">
-    </div>
+    <img 
+      class="img-left" 
+      height="25" 
+      width="25" 
+      src="../img/qvault-logo.png">
+    <span>{{title}}</span>
+    <img
+      v-if="settings"
+      class="img-right"
+      height="25"
+      width="25"
+      src="../img/gear-icon.svg"
+      @click="$router.push({name: 'settings'})">
   </div>
 </template>
 
@@ -57,27 +51,25 @@
     width: 100%;
     background-color: #080D0E;
     line-height: 55px;
-    display: flex;
-    align-items: center;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.7px;
+    text-align: center;
+
+    img{
+      vertical-align: middle;
+      position: absolute;
+      top: 16px;
+    }
 
     .img-left{
-      margin-left: 20px;
-      float: left;
+      left: 20px;
     }
 
     .img-right{
-      margin-right: 20px;
-      float: right;
+      right: 20px;
       cursor: pointer;
-    }
-
-    .text{
-      flex: 1;
-      color: #FFFFFF;
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: 0.7px;
-      text-align: center;
     }
   }
 </style>
