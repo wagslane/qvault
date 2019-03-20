@@ -619,9 +619,9 @@
     to-fast-properties "^2.0.0"
 
 "@inceldes/cet@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@inceldes/cet/-/cet-1.0.0.tgz#b1efd290d71c68c330fe273c7dc1862239557931"
-  integrity sha512-CX65zYUWgHrys5rg88oeRBDyK5Z/LdZFbA1ulnLk2xm4e7GwdQkyJ8rfdSJf8vSn7aMbnD0jzmIkR1/DL8IoYw==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@inceldes/cet/-/cet-1.0.1.tgz#bb489ee92f0254244e055005615fb559fc2f7c4b"
+  integrity sha512-q3xotFwZqQebpOHCYhNOOa6Q4M1PHwYuAK0gSnPFjB/2C/mv0rluUbKD7cghuVeFoc6f3Tdwq3ioQ7LJnIHjwQ==
 
 "@types/node@^10.12.18":
   version "10.12.21"
