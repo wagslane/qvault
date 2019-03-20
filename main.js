@@ -24,6 +24,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     },
     frame: false,
+    titleBarStyle: 'hidden',
     backgroundColor: '#131617',
     x: mainWindowState.x,
     y: mainWindowState.y,
