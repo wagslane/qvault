@@ -49,8 +49,6 @@ export default {
     },
 
     LoadSecrets(new_secrets){
-      console.log('LoadSecrets');
-
       if (!this.secrets){
         this.secrets = {};
       }

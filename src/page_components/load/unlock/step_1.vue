@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form v-if="!qrRequired" @submit.prevent="unlock">
+      <form v-if="!qrRequired" @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Unlock Vault</h1>
           <h2>Please enter your password or passphrase</h2>
@@ -37,6 +37,7 @@
         </div>
       </form>
     </div>
+    <LoadingOverlay title="Unlocking Vault" :func="unlock" ref="loader" />
   </div>
 </template>
 
@@ -64,7 +65,7 @@
           await this.$root.UnlockVaultPassword(this.password);
         } catch(err){
           this.error = err;
-          return
+          return;
         }
         if (this.$root.email){
           try{
@@ -74,13 +75,13 @@
             this.$root.loaded_vault = await getVault();
           } catch(err){
             this.error = err;
-            return
+            return;
           }
           try{
             await this.$root.UnlockVaultPassword(this.password);
           } catch(err){
             this.error = "Unable to unlock cloud vault";
-            return
+            return;
           }
         }
         this.$router.push({name: 'vault'});

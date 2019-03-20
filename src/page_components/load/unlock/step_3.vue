@@ -57,7 +57,7 @@
         </div>
         <button
           class="continue"
-          @click="save"
+          @click="$refs.loader.load"
           v-if="(password && !password_error) || (passphrase && !passphrase_error)"
         >
           <span>Continue</span>
@@ -65,6 +65,7 @@
         </button>
       </div>
     </div>
+    <LoadingOverlay title="Applying Brute-Force Resistance" :func="save" ref="loader" />
   </div>
 </template>
 
