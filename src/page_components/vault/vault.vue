@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar title="Vault" fixed/>
+    <HeaderBar title="Vault" fixed settings />
     <div class="container" v-if="boxes">
       <div class="sidebar">
         <input

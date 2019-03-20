@@ -23,6 +23,8 @@ function createWindow() {
       contextIsolation: false, // We need to figure out how to enable this
       preload: path.join(__dirname, 'preload.js')
     },
+    frame: false,
+    titleBarStyle: 'hidden',
     backgroundColor: '#131617',
     x: mainWindowState.x,
     y: mainWindowState.y,
