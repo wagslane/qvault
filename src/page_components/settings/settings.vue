@@ -10,7 +10,7 @@
           Sign up for Q Vault storage account
         </router-link>
 
-        <router-link class="btn" :to="{name: 'load_download'}">
+        <router-link class="btn" :to="{name: 'settings_change_password'}">
           Change Password
         </router-link>
 

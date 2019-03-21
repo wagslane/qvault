@@ -18,6 +18,7 @@ import box from './page_components/vault/box.vue';
 import add_box from './page_components/vault/add_box.vue';
 
 import settings from './page_components/settings/settings.vue';
+import settings_change_password from './page_components/settings/change_password.vue';
 
 export default [
   {
@@ -142,10 +143,24 @@ export default [
   },
   {
     path: '/settings/',
-    component: settings,
-    name: 'settings',
+    component: route_wrapper,
     children: [
-
+      {
+        path: '',
+        redirect: {
+          name: 'settings',
+        },
+      },
+      {
+        path: 'settings',
+        component: settings,
+        name: 'settings',
+      },
+      {
+        path: 'change_password',
+        component: settings_change_password,
+        name: 'settings_change_password',
+      },
     ],
   }
 ];
