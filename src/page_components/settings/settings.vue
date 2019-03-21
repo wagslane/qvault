@@ -18,7 +18,7 @@
           Add or change Q Vault Card
         </router-link>
 
-        <router-link v-if="($root.email)" class="btn" :to="{name: 'load_download'}">
+        <router-link v-if="($root.email)" class="btn" :to="{name: 'settings_delete_account'}">
           Delete Q Vault storage account
         </router-link>
 

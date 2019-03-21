@@ -19,6 +19,7 @@ import add_box from './page_components/vault/add_box.vue';
 
 import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
+import settings_delete_account from './page_components/settings/delete_account.vue';
 
 export default [
   {
@@ -160,6 +161,11 @@ export default [
         path: 'change_password',
         component: settings_change_password,
         name: 'settings_change_password',
+      },
+      {
+        path: 'delete_account',
+        component: settings_delete_account,
+        name: 'settings_delete_account',
       },
     ],
   }
