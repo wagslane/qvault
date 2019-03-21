@@ -6,7 +6,7 @@
         <h1>Settings</h1>
         <h2>Manage your vault and account</h2>
 
-        <router-link v-if="(!$root.email)" class="btn" :to="{name: 'load_download'}">
+        <router-link v-if="(!$root.email)" class="btn" :to="{name: 'settings_signup'}">
           Sign up for Q Vault storage account
         </router-link>
 
