@@ -1,11 +1,11 @@
 <template>
   <div v-if="box">
     <div class="wrapper">
-      <input
-        v-model="box.name"
+      <div
+        v-text="box.name"
         placeholder="Name"
         class="box_name"
-      >
+      ></div>
       <button
         @click.prevent="$root.CreateSecret(box_uuid)"
         class="add_secret"
@@ -16,6 +16,7 @@
     <secret
       v-for="secret_uuid in secret_uuids"
       :key="secret_uuid"
+      :box_name="box.name"
       :secret="box.secrets[secret_uuid]"
       :fields="box.fields"
     ></secret>
@@ -89,6 +90,7 @@
       color: #8C8E8F;
       width: ~'calc(100% - 150px)';
       padding: 10px;
+      display: inline-block;
     }
 
     .add_secret {
