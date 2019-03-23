@@ -7,22 +7,16 @@
         <h1>Create a Q Card backup</h1>
         <h2>Backup your vault for safekeeping</h2>
 
-        <div v-if="$root.char_key">
-          <div class='highlight-box'>
-            <h3>Write the following characters on your Q Card</h3>
-            <div class="flex">
-              <div v-for="word in split" class='character-code'>
-                <span v-for="char in word" class="spacing">
-                  <u v-if="/[A-Z]/.test(char)">{{char}}</u>
-                  <span v-else>{{ char }}</span>
-                </span>
-              </div>
+        <div class='highlight-box'>
+          <h3>Write the following characters on your Q Card</h3>
+          <div class="flex">
+            <div v-for="word in split" class='character-code'>
+              <span v-for="char in word" class="spacing">
+                <u v-if="/[A-Z]/.test(char)">{{char}}</u>
+                <span v-else>{{ char }}</span>
+              </span>
             </div>
           </div>
-        </div>
-
-        <div v-else>
-          <h2>Generating backup key, please wait...</h2>
         </div>
       </div>
 

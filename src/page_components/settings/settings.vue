@@ -14,7 +14,7 @@
           Change Password
         </router-link>
 
-        <router-link class="btn" :to="{name: 'load_download'}">
+        <router-link class="btn" :to="{name: 'settings_change_qcard'}">
           Add or change Q Vault Card
         </router-link>
 
