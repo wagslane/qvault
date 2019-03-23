@@ -3,7 +3,7 @@
     class="wrapper"
   >
     <input
-      v-model="secret.name"
+      v-model="secret['Name']"
       placeholder="Name"
       class="box_name"
     >
@@ -19,10 +19,16 @@
 
 <script>
   export default {
-    props: [
-      'secret',
-      'fields',
-    ],
+    props: {
+      'secret': {
+        type: Object,
+        required: true,
+      },
+      'fields': {
+        type: Array,
+        required: true,
+      },
+    },
   }
 </script>
 

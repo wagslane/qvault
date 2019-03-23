@@ -89,6 +89,19 @@
             ]
           )
         }
+        if(type === 'financial'){
+          box_uuid = this.$root.CreateBox(
+            'Financial Institution',
+            [
+              'Institution Name',
+              'Routing Number',
+              'Payment Cards',
+              'Loans',
+              'Routing Number',
+              'Notes',
+            ]
+          )
+        }
         if(type === 'identity'){
           box_uuid = this.$root.CreateBox(
             'Identity',
@@ -119,6 +132,7 @@
           box_uuid = this.$root.CreateBox(
             'Notes',
             [
+              'Name',
               'Notes',
             ]
           )

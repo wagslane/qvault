@@ -35,15 +35,12 @@ export default {
     CreateSecret(box_uuid, name){
       let box = this.GetBox(box_uuid);
       let uuid = uuidv4();
-      let values = {};
-      for(let field of box.fields){
-        Vue.set(values, field, null);
-      }
       let secret = {
-        name,
-        values,
         created: Date.now(),
       };
+      for(let field of box.fields){
+        Vue.set(secret, field, null);
+      }
       Vue.set(box.secrets, uuid, secret);
       return uuid;
     },
