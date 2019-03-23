@@ -1,14 +1,4 @@
 <template>
-  <note_secret
-    v-if="box_name === 'Notes'"
-    :secret="secret"
-    :fields="fields"
-  ></note_secret>
-  <financial_secret
-    v-else-if="box_name === 'Financial Institution'"
-    :secret="secret"
-    :fields="fields"
-  ></financial_secret>
   <form
     v-else
     class="wrapper"
@@ -23,35 +13,78 @@
       v-for="field in fields"
       class="secret"
     >
-      <div class="secret_name">{{field}}</div>
+      <label class="secret_name">{{field.name}}</label>
       <input
+        v-if="field.type === String"
         placeholder="value"
-        v-model="secret[field]"
+        v-model="secret[field.name]"
         class="secret_value"
       >
+      <button
+        v-if="field.type === Array"
+        @click.prevent="add_to_sublist(field)"
+      ><plus_icon style="height: 22px"></plus_icon></button>
+      <div
+        v-if="field.type === Array"
+      >
+        <div
+          class="subfield"
+          v-for="subfield in field.subfields"
+        >
+          <label class="secret_name">{{subfield.name}}</label>
+          <input
+            v-if="subfield.type === String"
+            placeholder="value"
+            v-model="secret[field.name][subfield.name]"
+            class="secret_value"
+          >
+        </div>
+      </div>
       <!--<button v-clipboard:copy="secret[field]">copy</button>-->
     </div>
   </form>
 </template>
 
 <script>
-  import note_secret from './boxes/notes.vue';
-  import financial_secret from './boxes/financial.vue';
+  import Vue from 'vue';
+
+  import box_types from '../../consts/box_types.es6';
 
   export default {
-    components: {
-      note_secret,
-      financial_secret,
-    },
     props: {
-      'box_name': String,
-      'secret': {
+      'box': {
         type: Object,
         required: true,
       },
-      'fields': {
-        type: Array,
+      'secret_uuid': {
+        type: String,
         required: true,
+      },
+    },
+    computed: {
+      secret(){
+        return this.box.secrets[this.secret_uuid];
+      },
+      box_type(){
+        return box_types.find(box_type => box_type.name === this.box.name);
+      },
+      fields(){
+        if(this.box_type){
+          return this.box_type.fields;
+        }
+      },
+    },
+    methods: {
+      add_to_sublist(field){
+        let new_value = {};
+        for(let subfield of field.subfields){
+          let value = null;
+          if(subfield.type === Array){
+            value = [];
+          }
+          Vue.set(new_value, subfield.name, value)
+        }
+        this.secrets[field.name].push();
       },
     },
   }

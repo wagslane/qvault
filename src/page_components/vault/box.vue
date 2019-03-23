@@ -16,9 +16,8 @@
     <secret
       v-for="secret_uuid in secret_uuids"
       :key="secret_uuid"
-      :box_name="box.name"
-      :secret="box.secrets[secret_uuid]"
-      :fields="box.fields"
+      :secret_uuid="secret_uuid"
+      :box="box"
     ></secret>
     <button
       @click.prevent="save"
@@ -30,12 +29,10 @@
 <script>
   import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
   import secret from './secret.vue';
-  import plus_icon from '../../img/plus-solid.svg';
 
   export default {
     components: {
       secret,
-      plus_icon,
     },
     computed: {
       box_uuid(){ return this.$route.params.box_uuid; },

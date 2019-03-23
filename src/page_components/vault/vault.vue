@@ -45,7 +45,6 @@
 
 <script>
   import moment from 'moment';
-  import plus_icon from '../../img/plus-solid.svg';
 
   function sort_box_by_key(key){
     return function(a, b){
@@ -56,9 +55,6 @@
   }
 
   export default {
-    components: {
-      plus_icon,
-    },
     data(){
       return {
         'sort': 'name',

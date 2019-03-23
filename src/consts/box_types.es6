@@ -39,7 +39,7 @@ export default [
         type: String,
       },
       {
-        name: 'Institution Name',
+        name: 'Routing Number',
         type: String,
       },
       {
@@ -65,11 +65,64 @@ export default [
         ],
       },
       {
-        name: 'Key/Seed',
+        name: 'Loans',
+        type: Array,
+        subfields: [
+          {
+            name: 'Name',
+            type: String,
+          },
+          {
+            name: 'Loan Number',
+            type: String,
+          },
+          {
+            name: 'Due Date',
+            type: String,
+          },
+          {
+            name: 'Notes',
+            type: String,
+          },
+        ],
+      },
+      {
+        name: 'Account Numbers',
+        type: Array,
+        subfields: [
+          {
+            name: 'Name',
+            type: String,
+          },
+          {
+            name: 'Account Number',
+            type: String,
+          },
+          {
+            name: 'Notes',
+            type: String,
+          },
+        ],
+      },
+      {
+        name: 'Notes',
+        type: String,
+      },
+    ],
+    quick_access_fields: [
+      'Institution Name',
+    ],
+  },
+  {
+    name: 'Passwords',
+    fields: [
+      {
+        name: 'Issuer',
+        help_text: '(Website, Wifi, Device)',
         type: String,
       },
       {
-        name: 'PIN',
+        name: '2FA Secret',
         type: String,
       },
       {
@@ -77,9 +130,26 @@ export default [
         type: String,
       },
       {
+        name: 'Username',
+        type: String,
+      },
+      {
+        name: 'Email',
+        type: String,
+      },
+      {
+        name: 'Link',
+        type: String,
+      },
+      {
         name: 'Notes',
         type: String,
       },
+    ],
+    quick_access_fields: [
+      'Issuer',
+      'Username',
+      'Password',
     ],
   },
 ]

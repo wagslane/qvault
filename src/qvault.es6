@@ -12,9 +12,13 @@ import HeaderBar from './components/header_bar.vue';
 import StepProgress from './components/step_progress.vue';
 import TextInput from './components/text_input.vue';
 
+import plus_icon from './img/plus-solid.svg';
+
 Vue.component('HeaderBar', HeaderBar);
 Vue.component('StepProgress', StepProgress);
 Vue.component('TextInput', TextInput);
+
+Vue.component('plus_icon', plus_icon);
 
 window.QvaultApp = new Vue(QvaultApp);
 window.QvaultApp.$mount('#qvault');
