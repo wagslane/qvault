@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-
+import {authenticate, isLoggedIn, upsertVault} from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import {
   GenerateCharKey,
@@ -15,6 +15,7 @@ import {
   HashCharKey,
   CipherSecretsQr,
   DecipherSecretsQr,
+  DeriveCloudKey,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.es6';
@@ -182,6 +183,18 @@ export default {
         qr_required: this.qr_required,
         email: this.email
       };
+    },
+
+    async SaveCloudVaultIfEmail(){
+      if (this.email){
+        if (!isLoggedIn()){
+          let cloudKey = await DeriveCloudKey(this.pass_key);
+          let body = await authenticate(this.email, cloudKey);
+          setToken(body.jwt);
+        }
+        let vault = await this.GetSavableVault();
+        await upsertVault(vault);
+      }
     },
 
     ClearLastUsedVaultCache(){

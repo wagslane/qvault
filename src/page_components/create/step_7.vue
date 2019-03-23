@@ -5,7 +5,8 @@
       <form @submit.prevent="click_continue">
         <div class="body center-text">
           <StepProgress :filled="6" />
-          <h1>Sign up for a Q Vault cloud storage account</h1>
+          <h1>Cloud Backup Account</h1>
+          <h2>All vaults stored by us are encrypted locally to preserve your privacy</h2>
           <div class="tabs">
             <div 
               class="tab tab-left"

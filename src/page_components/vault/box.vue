@@ -50,20 +50,7 @@
     methods: {
       async save(){
         await this.$root.SaveLocalVault();
-        if (this.$root.email){
-          if (!isLoggedIn()){
-            let cloudKey = await DeriveCloudKey(this.$root.pass_key);
-            let body = await authenticate(this.$root.email, cloudKey);
-            setToken(body.jwt);
-          }
-          try{
-            let vault = await this.$root.GetSavableVault();
-            await upsertVault(vault);
-            alert('Vault uploaded successfully!');
-          } catch (err){
-            alert(err);
-          }
-        }
+        await this.$root.SaveCloudVaultIfEmail();
       },
 //      copy_value(){
 //        document.execCommand("copy");
