@@ -20,6 +20,8 @@
 </template>
 
 <script>
+  import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto'
+
   export default {
     mounted(){
       try{
@@ -34,7 +36,8 @@
         this.$refs.loader.load();
       },
       async open_existing(){
-        await this.$root.CreateCharKey();
+        this.$root.char_key = await GenerateCharKey();
+        this.$root.hashed_char_key = await HashCharKey(this.$root.char_key);
         this.$router.push({name: 'create_step_2'});
       }
     }

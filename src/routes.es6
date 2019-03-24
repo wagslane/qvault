@@ -21,7 +21,7 @@ import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
 import settings_delete_account from './page_components/settings/delete_account.vue';
 import settings_signup from './page_components/settings/signup.vue';
-import settings_change_qcard from './page_components/settings/change_qcard.vue';
+import settings_change_char_key from './page_components/settings/change_char_key.vue';
 
 export default [
   {
@@ -175,9 +175,9 @@ export default [
         name: 'settings_signup',
       },
       {
-        path: 'change_qcard',
-        component: settings_change_qcard,
-        name: 'settings_change_qcard',
+        path: 'change_char_key',
+        component: settings_change_char_key,
+        name: 'settings_change_char_key',
       },
     ],
   }
