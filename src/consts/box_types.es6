@@ -30,6 +30,7 @@ export default [
     quick_access_fields: [
       'Wallet Name',
     ],
+    header_field: 'Wallet Name',
   },
   {
     name: 'Financial Institution',
@@ -112,6 +113,7 @@ export default [
     quick_access_fields: [
       'Institution Name',
     ],
+    header_field: 'Institution Name',
   },
   {
     name: 'Passwords',
@@ -122,15 +124,11 @@ export default [
         type: String,
       },
       {
-        name: '2FA Secret',
+        name: 'Username',
         type: String,
       },
       {
         name: 'Password',
-        type: String,
-      },
-      {
-        name: 'Username',
         type: String,
       },
       {
@@ -139,6 +137,10 @@ export default [
       },
       {
         name: 'Link',
+        type: String,
+      },
+      {
+        name: '2FA Secret',
         type: String,
       },
       {
@@ -151,5 +153,6 @@ export default [
       'Username',
       'Password',
     ],
+    header_field: 'Issuer',
   },
 ]

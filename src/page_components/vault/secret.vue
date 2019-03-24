@@ -4,9 +4,10 @@
     class="wrapper"
   >
     <input
-      v-model="secret.name"
+      v-model="secret[box_type.header_field]"
       placeholder="Name"
       class="box_name"
+      readonly
     >
     <hr />
     <div
@@ -26,6 +27,7 @@
       ><plus_icon style="height: 22px"></plus_icon></button>
       <div
         v-if="field.type === Array"
+        v-for="subvalue in secret[field.name]"
       >
         <div
           class="subfield"
@@ -35,7 +37,7 @@
           <input
             v-if="subfield.type === String"
             placeholder="value"
-            v-model="secret[field.name][subfield.name]"
+            v-model="subvalue[subfield.name]"
             class="secret_value"
           >
         </div>
@@ -84,7 +86,7 @@
           }
           Vue.set(new_value, subfield.name, value)
         }
-        this.secrets[field.name].push();
+        this.secret[field.name].push(new_value);
       },
     },
   }
