@@ -3,8 +3,13 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class= "body">
-        <h1>Add a new 2FE QR Code</h1>
-        <h2>Add or change your Q Card QR Code</h2>
+        <h1 v-if="($root.qr_required)">
+          Change 2FE QR Code
+        </h1>
+        <h1 v-else>
+          Add 2FE QR Code
+        </h1>
+        <h2>Manage your card's QR Code</h2>
 
         <QRScanner @scanned="handleQRKey"  />
         <span class="form-error" v-if="error">{{error}}</span>
@@ -21,8 +26,8 @@
 </template>
 
 <script>
-  import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../components/qrcode_scanner.vue'
+  import {ValidateQRKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
+  import QRScanner from '../../../components/qrcode_scanner.vue'
 
   export default {
     data(){
