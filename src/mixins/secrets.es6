@@ -14,15 +14,18 @@ export default {
       this.secrets = {};
     },
 
-    CreateBox(name, fields){
+    CreateBox(name, type, fields){
       assert(this.secrets, 'No vault is open');
       let uuid = uuidv4();
       let box = {
         name,
+        type,
         secrets: {},
-        fields,
         created: Date.now(),
       };
+      if(fields){
+        Vue.set(box, 'fields', fields);
+      }
       Vue.set(this.secrets, uuid, box);
       return uuid;
     },

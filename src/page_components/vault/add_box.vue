@@ -5,7 +5,7 @@
     <div class="buttons">
       <div
         class="button"
-        v-on:click="add_box('password')"
+        v-on:click="add_box('Passwords')"
       >
         <password_icon></password_icon>
         <br />
@@ -13,7 +13,7 @@
       </div>
       <div
         class="button"
-        v-on:click="add_box('crypto')"
+        v-on:click="add_box('Cryptocurrency')"
       >
         <crypto_icon></crypto_icon>
         <br />
@@ -21,7 +21,7 @@
       </div>
       <div
         class="button"
-        v-on:click="add_box('financial')"
+        v-on:click="add_box('Financial Institution')"
       >
         <fin_icon></fin_icon>
         <br />
@@ -30,7 +30,7 @@
       <br />
       <div
         class="button"
-        v-on:click="add_box('identity')"
+        v-on:click="add_box('Identification')"
       >
         <identity_icon></identity_icon>
         <br />
@@ -38,7 +38,7 @@
       </div>
       <div
         class="button"
-        v-on:click="add_box('notes')"
+        v-on:click="add_box('Notes')"
       >
         <notes_icon></notes_icon>
         <br />
@@ -46,7 +46,7 @@
       </div>
       <div
         class="button"
-        v-on:click="add_box('other')"
+        v-on:click="add_box('Other')"
       >
         <other_icon></other_icon>
         <br />
@@ -75,68 +75,10 @@
     },
     methods: {
       add_box(type){
-        let box_uuid;
-        if(type === 'crypto'){
-          box_uuid = this.$root.CreateBox(
-            'Crypto',
-            [
-              'Wallet name',
-              'Ticker',
-              'Key/Seed',
-              'Pin',
-              'Password',
-              'Notes',
-            ]
-          )
-        }
-        if(type === 'financial'){
-          box_uuid = this.$root.CreateBox(
-            'Financial Institution',
-            [
-              'Institution Name',
-              'Routing Number',
-              'Payment Cards',
-              'Loans',
-              'Routing Number',
-              'Notes',
-            ]
-          )
-        }
-        if(type === 'identity'){
-          box_uuid = this.$root.CreateBox(
-            'Identity',
-            [
-              'Type',
-              'ID Number',
-              'Issuer',
-              'Expiration Date',
-              'Notes',
-            ]
-          )
-        }
-        if(type === 'password'){
-          box_uuid = this.$root.CreateBox(
-            'Passwords',
-            [
-              'Issuer (Website, Wifi, Device)',
-              '2FA Secret',
-              'Password',
-              'Username',
-              'Email',
-              'Link',
-              'Notes',
-            ]
-          )
-        }
-        if(type === 'notes'){
-          box_uuid = this.$root.CreateBox(
-            'Notes',
-            [
-              'Name',
-              'Notes',
-            ]
-          )
-        }
+        let box_uuid = this.$root.CreateBox(
+          type,
+          type,
+        );
         this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
       },
     },

@@ -68,7 +68,7 @@
         return this.box.secrets[this.secret_uuid];
       },
       box_type(){
-        return box_types.find(box_type => box_type.name === this.box.name);
+        return box_types.find(box_type => box_type.name === this.box.type);
       },
       fields(){
         if(this.box_type){
