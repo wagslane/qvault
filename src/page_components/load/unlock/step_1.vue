@@ -2,21 +2,23 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form v-if="!scanQr" @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Unlock Vault</h1>
           <h2>Please enter your password or passphrase</h2>
-          <TextInput
-            v-model="password"
-            :active="true"
-            keyboardID="password" 
-            description="password" 
-            type="password"/>
-          <span class="form-error" >{{error}}</span>
-          <br />
-          <router-link class="link" :to="{name: 'load_unlock_step_2'}">
-            Forgot password?
-          </router-link>
+          <div v-if="!scanQr">
+            <TextInput
+              v-model="password"
+              :active="true"
+              keyboardID="password" 
+              description="password" 
+              type="password"/>
+            <span class="form-error" >{{error}}</span>
+            <br />
+            <router-link class="link" :to="{name: 'load_unlock_step_2'}">
+              Forgot password?
+            </router-link>
+          </div>
           <div v-if="scanQr">
             <h2>Please scan your Q Card</h2>
             <QRScanner @scanned="handleQRKey" />

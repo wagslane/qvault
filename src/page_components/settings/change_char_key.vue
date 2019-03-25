@@ -68,7 +68,7 @@
         this.char_key = await GenerateCharKey();
         this.hashed_char_key = await HashCharKey(this.char_key);
       },
-      click_continue(){
+      async click_continue(){
         let old_char_key = this.$root.char_key;
         let old_hashed_char_key = this.$root.hashed_char_key;
         this.$root.char_key = this.char_key;
