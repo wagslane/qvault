@@ -31,7 +31,7 @@
       }
     },
     methods:{
-      handleQRKey: function(qrKey) {
+      async handleQRKey(qrKey) {
         if (qrKey.substring(0, 6) === 'ERROR:'){
           this.error = "Couldn't find a camera on this device";
           return;
@@ -40,7 +40,20 @@
           this.error = `Not a valid QR key`;
           return;
         }
-        this.$root.CreateQrKey(qrKey);
+
+        let old_qr_required = this.$root.qr_required;
+        let old_qr_key = this.$root.qr_key;
+        this.$root.qr_required = true;
+        this.$root.qr_key = qrKey;
+        try{
+          await this.$root.SaveLocalVault();
+          await this.$root.SaveCloudVaultIfEmail();
+        } catch (err){
+          this.error = err;
+          this.$root.qr_required = old_qr_required;
+          this.$root.qr_key = old_qr_key;
+          return;
+        }
         alert('QR Key changed successfully');
         this.$router.push({name: 'settings'});
       },

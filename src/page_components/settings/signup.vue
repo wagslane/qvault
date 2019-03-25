@@ -101,8 +101,18 @@
           setToken(body.jwt);
         } catch (err) {
           this.error = err;
+          return;
         }
+        let old_email = this.$root.email;
         this.$root.email = this.emailLogin;
+        try{
+          await this.$root.SaveLocalVault();
+          await this.$root.SaveCloudVaultIfEmail();
+        } catch (err){
+          this.error = err;
+          this.$root.email = old_email;
+          return;
+        }
         alert("Logged in successfully");
         this.$router.push({name: 'settings'});
       }

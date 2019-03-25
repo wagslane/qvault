@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form v-if="!qrRequired" @submit.prevent="$refs.loader.load">
+      <form v-if="!scanQr" @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Unlock Vault</h1>
           <h2>Please enter your password or passphrase</h2>
@@ -17,7 +17,7 @@
           <router-link class="link" :to="{name: 'load_unlock_step_2'}">
             Forgot password?
           </router-link>
-          <div v-if="qrRequired">
+          <div v-if="scanQr">
             <h2>Please scan your Q Card</h2>
             <QRScanner @scanned="handleQRKey" />
           </div>
@@ -29,7 +29,7 @@
           <button
             class="continue"
             type="submit"
-            v-if="(password && !qrRequired)"
+            v-if="(password && !scanQr)"
           >
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -51,13 +51,11 @@
       return {
         error: null,
         password: null,
-        qrRequired: false
+        scanQr: false
       }
     },
     mounted(){
-      if (this.$root.loaded_vault.qr_required){
-        this.qrRequired = true
-      }
+      this.scanQr = this.$root.qr_required;
     },
     methods: {
       async unlock(){
@@ -97,7 +95,7 @@
         }
         this.$root.CreateQrKey(qrKey);
         await this.$root.UnlockVaultQr(qrKey);
-        this.qrRequired = false;
+        this.scanQr = false;
         this.error = '';
       },
       back(){
@@ -106,6 +104,13 @@
         } catch (err) {
           // we don't care that much
         }
+        
+        // Clear all the loaded data
+        this.$root.loaded_vault = null;
+        this.$root.local_vault_path = null;
+        this.$root.email = null;
+        this.$root.qr_required = false;
+        
         this.$router.go(-1);
       }
     },
