@@ -8,7 +8,7 @@
   import VueRouter from 'vue-router';
   import routes from './routes.es6';
   import storage from './mixins/storage.es6';
-  import { Titlebar, Color } from '@inceldes/cet';
+  import { Titlebar, Color } from './lib/Titlebar';
   import electron from 'electron';
 
   new Titlebar({

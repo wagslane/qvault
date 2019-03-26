@@ -58,9 +58,8 @@
     text-align: center;
 
     img{
-      vertical-align: middle;
+      margin-top: 16px;
       position: absolute;
-      top: 16px;
     }
 
     .img-left{
