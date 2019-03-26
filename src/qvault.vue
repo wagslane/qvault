@@ -27,4 +27,5 @@
 <style lang="less">
   @import './styles/styles.less';
   @import './styles/scrollbar.less';
+  @import './styles/character_code.less';
 </style>

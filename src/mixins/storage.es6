@@ -6,7 +6,6 @@ const pjson = require('../../package.json');
 import {authenticate, isLoggedIn, upsertVault} from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import {
-  GenerateCharKey,
   PassKeyFromPassword,
   CipherSecrets,
   DecipherSecrets,
@@ -80,12 +79,6 @@ export default {
         defaultPath: `myvault.${QVAULT_FILE_EXTENSION}`
       });
       assert(this.local_vault_path, 'A vault file must be selected');
-    },
-
-    async CreateCharKey(){
-      this.char_key = await GenerateCharKey();
-      this.hashed_char_key = await HashCharKey(this.char_key);
-      return this.char_key;
     },
 
     CreateQrKey(qrKey){

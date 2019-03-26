@@ -21,6 +21,8 @@ import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
 import settings_delete_account from './page_components/settings/delete_account.vue';
 import settings_signup from './page_components/settings/signup.vue';
+import settings_change_char_key from './page_components/settings/change_char_key.vue';
+import settings_change_qr_code from './page_components/settings/change_qr_code.vue';
 
 export default [
   {
@@ -172,6 +174,16 @@ export default [
         path: 'signup',
         component: settings_signup,
         name: 'settings_signup',
+      },
+      {
+        path: 'change_char_key',
+        component: settings_change_char_key,
+        name: 'settings_change_char_key',
+      },
+      {
+        path: 'change_qr_code',
+        component: settings_change_qr_code,
+        name: 'settings_change_qr_code',
       },
     ],
   }

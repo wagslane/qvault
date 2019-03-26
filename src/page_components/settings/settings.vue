@@ -14,8 +14,12 @@
           Change Password
         </router-link>
 
-        <router-link class="btn" :to="{name: 'load_download'}">
-          Add or change Q Vault Card
+        <router-link class="btn" :to="{name: 'settings_change_char_key'}">
+          Add or Change Q Card Backup Key
+        </router-link>
+
+        <router-link class="btn" :to="{name: 'settings_change_qr_code'}">
+          Add or Change Q Card QR Code
         </router-link>
 
         <router-link v-if="($root.email)" class="btn" :to="{name: 'settings_delete_account'}">
