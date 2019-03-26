@@ -33,7 +33,7 @@
           :to="{name: 'add_box'}"
           class="add_box"
         >
-          <img src="../../img/plus-solid.svg" style="height: 22px" />
+          <plus_icon style="height: 22px"></plus_icon>
         </router-link>
       </div>
       <div class="content">

@@ -1,23 +1,23 @@
 <template>
   <div v-if="box">
     <div class="wrapper">
-      <input
-        v-model="box.name"
+      <div
+        v-text="box.name"
         placeholder="Name"
         class="box_name"
-      >
+      ></div>
       <button
         @click.prevent="$root.CreateSecret(box_uuid)"
         class="add_secret"
       >
-        <img src="../../img/plus-solid.svg" style="height: 22px" />
+        <plus_icon style="height: 22px"></plus_icon>
       </button>
     </div>
     <secret
       v-for="secret_uuid in secret_uuids"
       :key="secret_uuid"
-      :secret="box.secrets[secret_uuid]"
-      :fields="box.fields"
+      :secret_uuid="secret_uuid"
+      :box="box"
     ></secret>
     <button
       @click.prevent="save"
@@ -74,6 +74,7 @@
       color: #8C8E8F;
       width: ~'calc(100% - 150px)';
       padding: 10px;
+      display: inline-block;
     }
 
     .add_secret {
