@@ -1,8 +1,8 @@
 <template>
   <div>
-    <HeaderBar title="Vault" fixed settings />
+    <HeaderBar title="Vault" settings />
     <div class="container" v-if="boxes">
-      <div class="sidebar">
+      <div class="sidebar" v-bind:style="{ height: `calc(100vh - ${content_height}px)` }">
         <input
           type="text"
           class="search"
@@ -36,7 +36,7 @@
           <plus_icon style="height: 22px"></plus_icon>
         </router-link>
       </div>
-      <div class="content">
+      <div class="content" v-bind:style="{ height: `calc(100vh - ${content_height}px)` }">
         <router-view></router-view>
       </div>
     </div>
@@ -45,6 +45,7 @@
 
 <script>
   import moment from 'moment';
+  import {type} from 'os';
 
   function sort_box_by_key(key){
     return function(a, b){
@@ -64,6 +65,13 @@
     computed: {
       boxes(){
         return this.$root.secrets;
+      },
+      content_height(){
+        const header_bar_height = 55;
+        if (type() === 'Darwin'){
+          return header_bar_height + 22;
+        }
+        return header_bar_height + 32;
       },
       sorted_boxes(){
         let sorted_boxes = [];
@@ -116,11 +124,10 @@
     flex-direction: row;
 
     .sidebar {
-      width: 25%;
       background-color: #32373B;
-      height: ~'calc(100vh - 55px)';
-      position: fixed;
-      margin-top: 55px;
+      position: relative;
+      flex-grow: 1;
+      flex-basis: 0;
 
       .search {
         margin: 15px 15px 0 15px;
@@ -135,10 +142,12 @@
       }
 
       .boxes {
-        height: ~'calc(100vh - 274px)';
+        bottom: 90px;
+        right: 0;
+        left: 0;
+        top: 129px;
+        position: absolute;
         overflow-y: auto;
-        margin-top: 15px;
-        margin-bottom: 15px;
 
         .box_link {
           color: white;
@@ -173,10 +182,12 @@
       }
 
       .add_box {
-        width: 100%;
         height: 75px;
         text-align: center;
-        bottom: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background-color: #181C1E;
         color: white;
         border: none;
@@ -187,10 +198,8 @@
     }
 
     .content {
-      margin-top: 55px;
-      margin-left: 25%;
-      width: 75%;
-      max-height: ~'calc(100vh - 55px)';
+      flex-grow: 3;
+      flex-basis: 0;
       overflow-y: scroll;
     }
   }
