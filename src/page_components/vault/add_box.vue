@@ -44,14 +44,14 @@
         <br />
         Notes
       </div>
-      <div
-        class="button"
-        v-on:click="add_box('Other')"
-      >
-        <other_icon></other_icon>
-        <br />
-        Other
-      </div>
+      <!--<div-->
+        <!--class="button"-->
+        <!--v-on:click="add_box('Other')"-->
+      <!--&gt;-->
+        <!--<other_icon></other_icon>-->
+        <!--<br />-->
+        <!--Other-->
+      <!--</div>-->
     </div>
   </div>
 </template>
