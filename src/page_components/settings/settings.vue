@@ -15,15 +15,15 @@
         </router-link>
 
         <router-link class="btn" :to="{name: 'settings_change_char_key'}">
-          Add or Change Q Card Backup Key
+          Manage Backup Key
         </router-link>
 
-        <router-link class="btn" :to="{name: 'settings_change_qr_code'}">
-          Add or Change Q Card QR Code
+        <router-link class="btn" :to="{name: 'settings_qrcode_choose'}">
+          Manage Two Factor Encryption
         </router-link>
 
         <router-link v-if="($root.email)" class="btn" :to="{name: 'settings_delete_account'}">
-          Delete Q Vault storage account
+          Delete Cloud Storage Account
         </router-link>
 
       </div>

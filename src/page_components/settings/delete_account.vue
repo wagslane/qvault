@@ -57,6 +57,7 @@
         deleteToken();
         alert("Account deleted successfully");
         this.$root.email = '';
+        await this.$root.SaveLocalVault();
         this.$router.push({name: 'settings'});
       }
     },

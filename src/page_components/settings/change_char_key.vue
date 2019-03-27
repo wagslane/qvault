@@ -17,6 +17,8 @@
             </div>
           </div>
         </div>
+        <span class="form-error" v-if="error">{{error}}</span>
+        <br />
       </div>
       <div class="footer">
         <div class="back" @click="$router.go(-1)">
@@ -41,7 +43,8 @@
     data(){
       return {
         char_key: null,
-        hashed_char_key: null
+        hashed_char_key: null,
+        error: null
       }
     },
     computed:{
@@ -65,9 +68,20 @@
         this.char_key = await GenerateCharKey();
         this.hashed_char_key = await HashCharKey(this.char_key);
       },
-      click_continue(){
+      async click_continue(){
+        let old_char_key = this.$root.char_key;
+        let old_hashed_char_key = this.$root.hashed_char_key;
         this.$root.char_key = this.char_key;
         this.$root.hashed_char_key = this.hashed_char_key;
+        try{
+          await this.$root.SaveLocalVault();
+          await this.$root.SaveCloudVaultIfEmail();
+        } catch (err){
+          this.error = err;
+          this.$root.char_key = old_char_key;
+          this.$root.hashed_char_key = old_hashed_char_key;
+          return;
+        }
         alert('code changed successfully');
         this.$router.push({name: 'settings'});
       }

@@ -66,6 +66,7 @@ export default {
         this.loaded_vault = JSON.parse(data);
         assert(this.loaded_vault.version, 'Selected vault is corrupted');
         this.email = this.loaded_vault.email;
+        this.qr_required = this.loaded_vault.qr_required;
       } catch (err) {
         this.loaded_vault  = null;
         this.local_vault_path = null;

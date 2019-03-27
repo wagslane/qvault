@@ -618,11 +618,6 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@inceldes/cet@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@inceldes/cet/-/cet-1.0.1.tgz#bb489ee92f0254244e055005615fb559fc2f7c4b"
-  integrity sha512-q3xotFwZqQebpOHCYhNOOa6Q4M1PHwYuAK0gSnPFjB/2C/mv0rluUbKD7cghuVeFoc6f3Tdwq3ioQ7LJnIHjwQ==
-
 "@types/node@^10.12.18":
   version "10.12.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.21.tgz#7e8a0c34cf29f4e17a36e9bd0ea72d45ba03908e"

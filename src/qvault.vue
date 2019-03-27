@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TitleBar />
     <router-view></router-view>
   </div>
 </template>
@@ -8,19 +9,17 @@
   import VueRouter from 'vue-router';
   import routes from './routes.es6';
   import storage from './mixins/storage.es6';
-  import { Titlebar, Color } from '@inceldes/cet';
   import electron from 'electron';
-
-  new Titlebar({
-    backgroundColor: Color.fromHex('#2F3235'),
-    menu: null
-  });
+  import TitleBar from './components/title_bar.vue'
 
   export const router = new VueRouter({routes});
 
   export default {
     router: router,
     mixins: [storage],
+    components: {
+      TitleBar
+    },
   }
 </script>
 

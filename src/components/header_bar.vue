@@ -1,45 +1,38 @@
 <template>
-  <div class="bar" v-bind:style="position">
+  <div class="bar">
     <img 
-      class="img-left" 
+      class="img img-left" 
       height="25" 
       width="25" 
       src="../img/qvault-logo.png">
     <span>{{title}}</span>
-    <img
+    <gearIcon 
       v-if="settings"
-      class="img-right"
+      class="img img-right"
       height="25"
       width="25"
       src="../img/gear-icon.svg"
-      @click="$router.push({name: 'settings'})">
+      @click="$router.push({name: 'settings'})"
+    />
   </div>
 </template>
 
 <script>
+  import gearIcon from '../img/gear-icon.svg';
+
   export default {
+    components:{
+      gearIcon
+    },
     props: { 
       title: {
         type: String,
-        required: false
-      },
-      fixed: {
-        type: Boolean,
-        default: false,
         required: false
       },
       settings: {
         type: Boolean,
         default: false,
         required: false
-      }
-    },
-    computed:{
-      position(){
-        if (this.fixed){
-          return { position: 'fixed' }
-        }
-        return {}
       }
     }
   }
@@ -57,10 +50,9 @@
     letter-spacing: 0.7px;
     text-align: center;
 
-    img{
-      vertical-align: middle;
+    .img{
+      margin-top: 16px;
       position: absolute;
-      top: 16px;
     }
 
     .img-left{
