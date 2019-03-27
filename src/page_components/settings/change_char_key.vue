@@ -2,29 +2,46 @@
   <div>
     <HeaderBar title="Settings" />
     <div class="options-box">
-      <div class= "body">
+      <div class="body">
         <h1>Get a new backup code</h1>
         <h2>Add or change your Q Card code</h2>
 
-        <div class='highlight-box'>
+        <div class="highlight-box">
           <h3>Write the following characters on your Q Card</h3>
           <div class="flex">
-            <div v-for="(word, i) in split" :key="i" class='character-code'>
-              <span v-for="(char, j) in word" :key="j" class="spacing">
-                <u v-if="/[A-Z]/.test(char)">{{char}}</u>
+            <div
+              v-for="(word, i) in split"
+              :key="i"
+              class="character-code"
+            >
+              <span
+                v-for="(char, j) in word"
+                :key="j"
+                class="spacing"
+              >
+                <u v-if="/[A-Z]/.test(char)">{{ char }}</u>
                 <span v-else>{{ char }}</span>
               </span>
             </div>
           </div>
         </div>
-        <span class="form-error" v-if="error">{{error}}</span>
-        <br />
+        <span
+          v-if="error"
+          class="form-error"
+        >{{ error }}</span>
+        <br>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)">
+        <div
+          class="back"
+          @click="$router.go(-1)"
+        >
           <div class="icon" />
         </div>
-        <div v-if="$root.char_key" @click="click_continue">
+        <div
+          v-if="$root.char_key"
+          @click="click_continue"
+        >
           <button class="continue">
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -32,12 +49,16 @@
         </div>
       </div>
     </div>
-    <LoadingOverlay title="Creating New Code" :func="generate_key" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Creating New Code"
+      :func="generate_key"
+    />
   </div>
 </template>
 
 <script>
-  import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto'
+  import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
   export default {
     data(){
@@ -45,7 +66,7 @@
         char_key: null,
         hashed_char_key: null,
         error: null
-      }
+      };
     },
     computed:{
       split(){
@@ -86,5 +107,5 @@
         this.$router.push({name: 'settings'});
       }
     }
-  }
+  };
 </script>

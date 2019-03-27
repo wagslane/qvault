@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Settings" />
     <div class="options-box">
-      <div class= "body">
+      <div class="body">
         <h1 v-if="($root.qr_required)">
           Change 2FE QR Code
         </h1>
@@ -11,13 +11,19 @@
         </h1>
         <h2>Manage your card's QR Code</h2>
 
-        <QRScanner @scanned="handleQRKey"  />
-        <span class="form-error" v-if="error">{{error}}</span>
-        <br />
-        <br />
+        <QRScanner @scanned="handleQRKey" />
+        <span
+          v-if="error"
+          class="form-error"
+        >{{ error }}</span>
+        <br>
+        <br>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)">
+        <div
+          class="back"
+          @click="$router.go(-1)"
+        >
           <div class="icon" />
         </div>
       </div>
@@ -27,13 +33,16 @@
 
 <script>
   import {ValidateQRKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../../components/qrcode_scanner.vue'
+  import QRScanner from '../../../components/qrcode_scanner.vue';
 
   export default {
+    components:{
+      QRScanner,
+    },
     data(){
       return {
         error: null
-      }
+      };
     },
     methods:{
       async handleQRKey(qrKey) {
@@ -62,9 +71,6 @@
         alert('QR Key changed successfully');
         this.$router.push({name: 'settings'});
       },
-    },
-    components:{
-      QRScanner,
     }
-  }
+  };
 </script>

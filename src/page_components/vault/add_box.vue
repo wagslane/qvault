@@ -1,56 +1,59 @@
 <template>
-  <div id="add_box" class="modal">
+  <div
+    id="add_box"
+    class="modal"
+  >
     <h1>Add A Box</h1>
     <p>A box is a group of secrets stored in your vault.</p>
     <div class="buttons">
       <div
         class="button"
-        v-on:click="add_box('Passwords')"
+        @click="add_box('Passwords')"
       >
-        <password_icon></password_icon>
-        <br />
+        <password_icon />
+        <br>
         Passwords
       </div>
       <div
         class="button"
-        v-on:click="add_box('Cryptocurrency')"
+        @click="add_box('Cryptocurrency')"
       >
-        <crypto_icon></crypto_icon>
-        <br />
+        <crypto_icon />
+        <br>
         Crypto
       </div>
       <div
         class="button"
-        v-on:click="add_box('Financial Institution')"
+        @click="add_box('Financial Institution')"
       >
-        <fin_icon></fin_icon>
-        <br />
+        <fin_icon />
+        <br>
         Financial
       </div>
-      <br />
+      <br>
       <div
         class="button"
-        v-on:click="add_box('Identification')"
+        @click="add_box('Identification')"
       >
-        <identity_icon></identity_icon>
-        <br />
+        <identity_icon />
+        <br>
         Identity
       </div>
       <div
         class="button"
-        v-on:click="add_box('Notes')"
+        @click="add_box('Notes')"
       >
-        <notes_icon></notes_icon>
-        <br />
+        <notes_icon />
+        <br>
         Notes
       </div>
       <!--<div-->
-        <!--class="button"-->
-        <!--v-on:click="add_box('Other')"-->
+      <!--class="button"-->
+      <!--v-on:click="add_box('Other')"-->
       <!--&gt;-->
-        <!--<other_icon></other_icon>-->
-        <!--<br />-->
-        <!--Other-->
+      <!--<other_icon></other_icon>-->
+      <!--<br />-->
+      <!--Other-->
       <!--</div>-->
     </div>
   </div>
@@ -61,7 +64,6 @@
   import fin_icon from '../../img/fin.svg';
   import identity_icon from '../../img/identity.svg';
   import notes_icon from '../../img/notes.svg';
-  import other_icon from '../../img/other.svg';
   import password_icon from '../../img/password.svg';
 
   export default {
@@ -70,7 +72,6 @@
       fin_icon,
       identity_icon,
       notes_icon,
-      other_icon,
       password_icon,
     },
     methods: {
@@ -82,7 +83,7 @@
         this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
       },
     },
-  }
+  };
 </script>
 
 <style lang="less">

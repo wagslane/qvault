@@ -1,27 +1,33 @@
 <template>
   <div>
     <div class="box">
-      <div class="description">{{description}}</div>
-      <img v-scroll-to="{
+      <div class="description">
+        {{ description }}
+      </div>
+      <img
+        v-scroll-to="{
           el: '#'+keyboardID,
           offset: -300,
         }"
-        v-on:click="toggle" 
         height="40" 
-        src="../img/keyboard-icon.png"
+        src="../img/keyboard-icon.png" 
+        @click="toggle"
       >
       <input
-        ref="input"
         :id="keyboardID"
+        ref="input"
         :type="type"
-        v-bind:value="value"
-        v-on:input="$emit('input', $event.target.value)"
-        v-on:blur="hide"
-      />
+        :value="value"
+        @input="$emit('input', $event.target.value)"
+        @blur="hide"
+      >
     </div>
-    <div v-bind:style="{ visibility: keyboardVisibility }" class="keyboardContainer">
+    <div
+      :style="{ visibility: keyboardVisibility }"
+      class="keyboardContainer"
+    >
       <div class="keyboard">
-        <div :class="keyboardID"></div>
+        <div :class="keyboardID" />
       </div>
     </div>
   </div>
@@ -32,13 +38,6 @@
   import "simple-keyboard/build/css/index.css";
 
   export default{
-    data(){
-      return{
-        keyboardVisibility: "hidden",
-        recentlyClosed: false,
-        bodyPaddingMax: 280
-      }
-    },
     props:{
       defaultValue:{
         type: String,
@@ -63,6 +62,13 @@
       active:{
         type: Boolean
       }
+    },
+    data(){
+      return{
+        keyboardVisibility: "hidden",
+        recentlyClosed: false,
+        bodyPaddingMax: 280
+      };
     },
     watch: { 
       defaultValue: function(defaultValue) {
@@ -136,17 +142,17 @@
         }
         if (btn === "{bksp}"){
           if (this.$refs.input.value.length > 0){
-            this.$refs.input.value = this.$refs.input.value.slice(0, -1)
+            this.$refs.input.value = this.$refs.input.value.slice(0, -1);
           }
         } else if (btn === "{space}"){
-          this.$refs.input.value += " "
+          this.$refs.input.value += " ";
         } else {
-          this.$refs.input.value += btn
+          this.$refs.input.value += btn;
         }
         this.$emit('input', this.$refs.input.value);
       }
     }
-  }
+  };
 </script>
 
 <style lang="less" scoped>

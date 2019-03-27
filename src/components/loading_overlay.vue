@@ -1,7 +1,10 @@
 <template>
-  <div class="screen" v-if="loading" >
+  <div
+    v-if="loading"
+    class="screen"
+  >
     <div class="center">
-      <p> {{title}} </p>
+      <p> {{ title }} </p>
       <img src="../img/loading.gif">
     </div>
   </div>
@@ -9,11 +12,6 @@
 
 <script>
   export default {
-    data(){
-      return {
-        loading: false
-      }
-    },
     props: { 
       func: {
         type: Function,
@@ -25,14 +23,19 @@
         default: ''
       }
     },
+    data(){
+      return {
+        loading: false
+      };
+    },
     async updated(){
       if (this.loading){
         requestAnimationFrame(async () => {
           requestAnimationFrame(async () => {
             await this.func();
             this.loading = false;
-          })
-        })
+          });
+        });
       }
     },
     methods:{
@@ -40,7 +43,7 @@
         this.loading = true;
       }
     }
-  }
+  };
 </script>
 
 <style lang="less" scoped>

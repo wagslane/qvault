@@ -4,8 +4,9 @@
       class="img img-left" 
       height="25" 
       width="25" 
-      src="../img/qvault-logo.png">
-    <span>{{title}}</span>
+      src="../img/qvault-logo.png"
+    >
+    <span>{{ title }}</span>
     <gearIcon 
       v-if="settings"
       class="img img-right"
@@ -27,7 +28,8 @@
     props: { 
       title: {
         type: String,
-        required: false
+        required: false,
+        default: ''
       },
       settings: {
         type: Boolean,
@@ -35,7 +37,7 @@
         required: false
       }
     }
-  }
+  };
 </script>
 
 <style lang="less" scoped>

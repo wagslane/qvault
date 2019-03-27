@@ -9,19 +9,23 @@
           <TextInput
             v-model="char_key"
             :active="true"
-            keyboardID="char_key" 
+            keyboard-i-d="char_key" 
             description="Code" 
-            type="char_key"/>
-          <span class="form-error" >{{error}}</span>
+            type="char_key" 
+          />
+          <span class="form-error">{{ error }}</span>
         </div>
         <div class="footer">
-          <div class="back" @click="$router.go(-1)">
+          <div
+            class="back"
+            @click="$router.go(-1)"
+          >
             <div class="icon" />
           </div>
           <button
+            v-if="(char_key && !error)"
             class="continue"
             type="submit"
-            v-if="(char_key && !error)"
           >
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -29,7 +33,11 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay title="Unlocking Vault" :func="unlock" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Unlocking Vault"
+      :func="unlock"
+    />
   </div>
 </template>
 
@@ -39,7 +47,7 @@
       return {
         error: null,
         char_key: null
-      }
+      };
     },
     methods: {
       async unlock(){
@@ -51,5 +59,5 @@
         }
       }
     }
-  }
+  };
 </script>

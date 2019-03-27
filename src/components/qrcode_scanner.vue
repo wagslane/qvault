@@ -1,17 +1,18 @@
 <template>
   <div>
-    <qrcode-stream @decode="onDecode" @init="onInit"/>
+    <qrcode-stream
+      @decode="onDecode"
+      @init="onInit"
+    />
   </div>
 </template>
 
 <script>
-import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
+import { QrcodeStream } from "vue-qrcode-reader";
 
 export default {
   components: {
     QrcodeStream,
-    QrcodeDropZone,
-    QrcodeCapture
   },
 
   methods: {

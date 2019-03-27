@@ -6,15 +6,23 @@
         <h1>Remove 2FE</h1>
         <h2>Are you sure? Scanning a QR code will no longer be required to access your vault.</h2>
 
-        <div class="btn" @click="delete_2fe">
+        <div
+          class="btn"
+          @click="delete_2fe"
+        >
           Yes, remove 2FE
         </div>
 
-        <span class="form-error" v-if="error">{{error}}</span>
-
+        <span
+          v-if="error"
+          class="form-error"
+        >{{ error }}</span>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)">
+        <div
+          class="back"
+          @click="$router.go(-1)"
+        >
           <div class="icon" />
         </div>
       </div>
@@ -27,7 +35,7 @@
     data(){
       return {
         error: null
-      }
+      };
     },
     methods:{
       async delete_2fe(){
@@ -49,5 +57,5 @@
         this.$router.push({name: 'settings'});
       }
     },
-  }
+  };
 </script>

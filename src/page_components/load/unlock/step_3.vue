@@ -8,64 +8,88 @@
         <div class="tabs">
           <div 
             class="tab tab-left"
+            :class="{ 'tab-active': passwordTabActive }"
             @click="passwordTabActive = true"
-            v-bind:class="{ 'tab-active': passwordTabActive }">
+          >
             Password
           </div>
           <div 
             class="tab tab-right"
+            :class="{ 'tab-active': !passwordTabActive }"
             @click="passwordTabActive = false"
-            v-bind:class="{ 'tab-active': !passwordTabActive }">
+          >
             Passphrase
           </div>
         </div>
-        <br />
-        <br />
+        <br>
+        <br>
         <div :style="{display: passwordTabActive ? 'block' : 'none'}">
           <TextInput
             v-model="password" 
-            keyboardID="password" 
+            keyboard-i-d="password" 
             description="Password"
             :active="passwordTabActive"
-            type="password"/>
+            type="password" 
+          />
           <TextInput
             v-model="confirm" 
-            keyboardID="confirm" 
+            keyboard-i-d="confirm" 
             description="Confirm" 
-            type="password"/>
-          <span class="form-error" v-if="password && password_error">{{password_error}}</span>
+            type="password"
+          />
+          <span
+            v-if="password && password_error"
+            class="form-error"
+          >{{ password_error }}</span>
         </div>
-        <div class="center-text" :style="{display: !passwordTabActive ? 'block' : 'none'}">
+        <div
+          class="center-text"
+          :style="{display: !passwordTabActive ? 'block' : 'none'}"
+        >
           <TextInput
             v-model="passphrase" 
-            keyboardID="passphrase" 
+            keyboard-i-d="passphrase" 
             description="Passphrase"
             :active="!passwordTabActive"
-            :defaultValue="generated"
-            type="text"/>
-          <span class="form-error" v-if="passphrase && passphrase_error">{{passphrase_error}}</span>
-          <br/>
-          <span class="link" @click="generatePassphrase"> 
+            :default-value="generated"
+            type="text" 
+          />
+          <span
+            v-if="passphrase && passphrase_error"
+            class="form-error"
+          >{{ passphrase_error }}</span>
+          <br>
+          <span
+            class="link"
+            @click="generatePassphrase"
+          > 
             Generate Random Passphrase
           </span>
         </div>
-        <span class="form-error">{{saveError}}</span>
+        <span class="form-error">{{ saveError }}</span>
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)">
+        <div
+          class="back"
+          @click="$router.go(-1)"
+        >
           <div class="icon" />
         </div>
         <button
+          v-if="(password && !password_error) || (passphrase && !passphrase_error)"
           class="continue"
           @click="$refs.loader.load"
-          v-if="(password && !password_error) || (passphrase && !passphrase_error)"
         >
           <span>Continue</span>
           <div class="continue-arrow" />
         </button>
       </div>
     </div>
-    <LoadingOverlay title="Applying Brute-Force Resistance" :func="save" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Applying Brute-Force Resistance"
+      :func="save"
+    />
   </div>
 </template>
 
@@ -81,7 +105,7 @@
         confirm: null,
         generated: '',
         saveError: null
-      }
+      };
     },
     computed:{
       password_error(){
@@ -110,7 +134,7 @@
           this.$root.pass_key = await PassKeyFromPassword(this.passphrase);
         }
         try{
-          this.$root.SaveLocalVault()
+          this.$root.SaveLocalVault();
         } catch (err){
           saveError = err;
         }
@@ -120,5 +144,5 @@
         this.generated = await GeneratePassphrase(5);
       }
     },
-  }
+  };
 </script>

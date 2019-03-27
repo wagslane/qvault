@@ -2,15 +2,15 @@
   <div v-if="box">
     <div class="wrapper">
       <div
-        v-text="box.name"
         placeholder="Name"
         class="box_name"
-      ></div>
+        v-text="box.name"
+      />
       <button
-        @click.prevent="$root.CreateSecret(box_uuid)"
         class="add_secret"
+        @click.prevent="$root.CreateSecret(box_uuid)"
       >
-        <plus_icon style="height: 22px"></plus_icon>
+        <plus_icon style="height: 22px" />
       </button>
     </div>
     <secret
@@ -18,11 +18,13 @@
       :key="secret_uuid"
       :secret_uuid="secret_uuid"
       :box="box"
-    ></secret>
+    />
     <button
-      @click.prevent="save"
       class="save"
-    >Save</button>
+      @click.prevent="save"
+    >
+      Save
+    </button>
   </div>
 </template>
 
@@ -40,11 +42,13 @@
         if(this.box_uuid){
           return this.$root.GetBox(this.box_uuid);
         }
+        return {};
       },
       secret_uuids(){
         if(this.box){
           return Object.keys(this.box.secrets);
         }
+        return [];
       },
     },
     methods: {
@@ -56,7 +60,7 @@
 //        document.execCommand("copy");
 //      },
     },
-  }
+  };
 </script>
 
 <style lang="less" scoped>

@@ -1,6 +1,5 @@
 <template>
   <form
-    v-else
     class="wrapper"
   >
     <input
@@ -9,37 +8,42 @@
       class="box_name"
       readonly
     >
-    <hr />
+    <hr>
     <div
-      v-for="field in fields"
+      v-for="(i, field) in fields"
+      :key="i"
       class="secret"
     >
-      <label class="secret_name">{{field.name}}</label>
+      <label class="secret_name">{{ field.name }}</label>
       <input
         v-if="field.type === String"
-        placeholder="value"
         v-model="secret[field.name]"
+        placeholder="value"
         class="secret_value"
       >
-      <button
-        v-if="field.type === Array"
-        @click.prevent="add_to_sublist(field)"
-      ><plus_icon style="height: 22px"></plus_icon></button>
-      <div
-        v-if="field.type === Array"
-        v-for="subvalue in secret[field.name]"
-      >
-        <div
-          class="subfield"
-          v-for="subfield in field.subfields"
+      <div v-if="field.type === Array">
+        <button
+          @click.prevent="add_to_sublist(field)"
         >
-          <label class="secret_name">{{subfield.name}}</label>
-          <input
-            v-if="subfield.type === String"
-            placeholder="value"
-            v-model="subvalue[subfield.name]"
-            class="secret_value"
+          <plus_icon style="height: 22px" />
+        </button>
+        <div
+          v-for="(j, subvalue) in secret[field.name]"
+          :key="j"
+        >
+          <div
+            v-for="(k,subfield) in field.subfields"
+            :key="k"
+            class="subfield"
           >
+            <label class="secret_name">{{ subfield.name }}</label>
+            <input
+              v-if="subfield.type === String"
+              v-model="subvalue[subfield.name]"
+              placeholder="value"
+              class="secret_value"
+            >
+          </div>
         </div>
       </div>
       <!--<button v-clipboard:copy="secret[field]">copy</button>-->
@@ -58,7 +62,7 @@
         type: Object,
         required: true,
       },
-      'secret_uuid': {
+      'secretUuid': {
         type: String,
         required: true,
       },
@@ -74,6 +78,7 @@
         if(this.box_type){
           return this.box_type.fields;
         }
+        return [];
       },
     },
     methods: {
@@ -84,12 +89,12 @@
           if(subfield.type === Array){
             value = [];
           }
-          Vue.set(new_value, subfield.name, value)
+          Vue.set(new_value, subfield.name, value);
         }
         this.secret[field.name].push(new_value);
       },
     },
-  }
+  };
 </script>
 
 <style lang="less" scoped>

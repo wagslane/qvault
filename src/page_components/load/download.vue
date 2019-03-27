@@ -9,31 +9,40 @@
           <TextInput
             v-model="email"
             :active="true"
-            keyboardID="email" 
+            keyboard-i-d="email" 
             description="email" 
-            type="email"/>
+            type="email"
+          />
           <TextInput
             v-model="password" 
-            keyboardID="password" 
+            keyboard-i-d="password" 
             description="password" 
-            type="password"/>
-          <span class="form-error" >{{error}}</span>
+            type="password"
+          />
+          <span class="form-error">{{ error }}</span>
         </div>
         <div class="footer">
-          <div class="back" @click="$router.go(-1)">
+          <div
+            class="back"
+            @click="$router.go(-1)"
+          >
             <div class="icon" />
           </div>
           <button
-              type="submit"
-              class="continue"
-            >
+            type="submit"
+            class="continue"
+          >
             <span>Download</span>
             <div class="continue-arrow" />
           </button>
         </div>
       </form>
     </div>
-    <LoadingOverlay title="Downloading" :func="download" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Downloading"
+      :func="download"
+    />
   </div>
 </template>
 
@@ -47,7 +56,7 @@
         email: null,
         password: null,
         error: null
-      }
+      };
     },
     methods: {
       async download(){
@@ -73,9 +82,9 @@
             } catch (err) {
               this.error = err;
             }
-          })
-        })
+          });
+        });
       }
     }
-  }
+  };
 </script>

@@ -1,14 +1,34 @@
 <template>
-  <div v-if="is_mac" class="title-bar mac" />
-  <div v-else class="title-bar win">
-    <button @click="close" class="title-btn close">
+  <div
+    v-if="is_mac"
+    class="title-bar mac"
+  />
+  <div
+    v-else
+    class="title-bar win"
+  >
+    <button
+      class="title-btn close"
+      @click="close"
+    >
       <svg><polygon points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1" /></svg>
     </button>
-    <button @click="max" class="title-btn">
+    <button
+      class="title-btn"
+      @click="max"
+    >
       <svg><path d="M0,0v10h10V0H0z M9,9H1V1h8V9z" /></svg>
     </button>
-    <button @click="min" class="title-btn">
-      <svg><rect x="0" y="50%" width="10.2" height="1" /></svg>
+    <button
+      class="title-btn"
+      @click="min"
+    >
+      <svg><rect
+        x="0"
+        y="50%"
+        width="10.2"
+        height="1"
+      /></svg>
     </button>
   </div>
 </template>
@@ -41,7 +61,7 @@
         window.close();
       }
     }
-  }
+  };
 </script>
 
 <style lang="less" scoped>

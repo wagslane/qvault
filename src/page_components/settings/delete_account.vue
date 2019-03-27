@@ -6,18 +6,27 @@
         <h1>Delete you cloud account</h1>
         <h2>Are you sure? Account deletion is permanent</h2>
 
-        <div class="btn" @click="load">
+        <div
+          class="btn"
+          @click="load"
+        >
           Yes, delete my account
         </div>
-
       </div>
       <div class="footer">
-        <div class="back" @click="$router.go(-1)">
+        <div
+          class="back"
+          @click="$router.go(-1)"
+        >
           <div class="icon" />
         </div>
       </div>
     </div>
-    <LoadingOverlay title="Deleting Account" :func="delete_account" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Deleting Account"
+      :func="delete_account"
+    />
   </div>
 </template>
 
@@ -29,7 +38,7 @@
     data(){
       return {
         error: null
-      }
+      };
     },
     methods:{
       async load(){
@@ -48,7 +57,7 @@
         }
 
         try{
-          await deleteUser()
+          await deleteUser();
         } catch (err){
           this.error = err;
           return;
@@ -61,5 +70,5 @@
         this.$router.push({name: 'settings'});
       }
     },
-  }
+  };
 </script>

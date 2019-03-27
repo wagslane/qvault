@@ -1,20 +1,33 @@
 <template>
   <div>
-    <HeaderBar title="Vault" settings />
-    <div class="container" v-if="boxes">
-      <div class="sidebar" v-bind:style="{ height: `calc(100vh - ${content_height}px)` }">
+    <HeaderBar
+      title="Vault"
+      settings
+    />
+    <div
+      v-if="boxes"
+      class="container"
+    >
+      <div
+        class="sidebar"
+        :style="{ height: `calc(100vh - ${content_height}px)` }"
+      >
         <input
+          v-model="search"
           type="text"
           class="search"
           placeholder="search"
-          v-model="search"
         >
         <select
-          class="search"
           v-model="sort"
+          class="search"
         >
-          <option value="created">Sort By Date Created</option>
-          <option value="name">Sort By Name</option>
+          <option value="created">
+            Sort By Date Created
+          </option>
+          <option value="name">
+            Sort By Name
+          </option>
         </select>
         <div class="boxes">
           <router-link
@@ -23,21 +36,24 @@
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
           >
-            <div class="aesthetic_rectangle"></div>
-            {{sorted_box.name}}
-            <br />
-            <span class="created">{{sorted_box.created.format('YYYY-MM-DD')}}</span>
+            <div class="aesthetic_rectangle" />
+            {{ sorted_box.name }}
+            <br>
+            <span class="created">{{ sorted_box.created.format('YYYY-MM-DD') }}</span>
           </router-link>
         </div>
         <router-link
           :to="{name: 'add_box'}"
           class="add_box"
         >
-          <plus_icon style="height: 22px"></plus_icon>
+          <plus_icon style="height: 22px" />
         </router-link>
       </div>
-      <div class="content" v-bind:style="{ height: `calc(100vh - ${content_height}px)` }">
-        <router-view></router-view>
+      <div
+        class="content"
+        :style="{ height: `calc(100vh - ${content_height}px)` }"
+      >
+        <router-view />
       </div>
     </div>
   </div>
@@ -52,7 +68,7 @@
       if(a[key] < b[key]) return -1;
       if(a[key] > b[key]) return 1;
       return 0;
-    }
+    };
   }
 
   export default {
@@ -60,7 +76,7 @@
       return {
         'sort': 'name',
         'search': null,
-      }
+      };
     },
     computed: {
       boxes(){
@@ -88,7 +104,7 @@
         if(this.search){
           sorted_boxes = sorted_boxes.filter(
             sorted_box => this.box_matches_search(sorted_box)
-          )
+          );
         }
         if(this.sort){
           sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
@@ -115,7 +131,7 @@
         }
       }
     },
-  }
+  };
 </script>
 
 <style lang="less" scoped>

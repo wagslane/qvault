@@ -10,12 +10,16 @@
             <TextInput
               v-model="password"
               :active="true"
-              keyboardID="password" 
+              keyboard-i-d="password" 
               description="password" 
-              type="password"/>
-            <span class="form-error" >{{error}}</span>
-            <br />
-            <router-link class="link" :to="{name: 'load_unlock_step_2'}">
+              type="password" 
+            />
+            <span class="form-error">{{ error }}</span>
+            <br>
+            <router-link
+              class="link"
+              :to="{name: 'load_unlock_step_2'}"
+            >
               Forgot password?
             </router-link>
           </div>
@@ -25,13 +29,16 @@
           </div>
         </div>
         <div class="footer">
-          <div class="back" @click="back">
+          <div
+            class="back"
+            @click="back"
+          >
             <div class="icon" />
           </div>
           <button
+            v-if="(password && !scanQr)"
             class="continue"
             type="submit"
-            v-if="(password && !scanQr)"
           >
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -39,22 +46,29 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay title="Unlocking Vault" :func="unlock" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Unlocking Vault"
+      :func="unlock"
+    />
   </div>
 </template>
 
 <script>
   import { ValidateQRKey, DeriveCloudKey, PassKeyFromPassword  } from '../../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../../components/qrcode_scanner.vue'
+  import QRScanner from '../../../components/qrcode_scanner.vue';
   import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
 
   export default {
+    components:{
+      QRScanner,
+    },
     data(){
       return {
         error: null,
         password: null,
         scanQr: false
-      }
+      };
     },
     mounted(){
       this.scanQr = this.$root.qr_required;
@@ -89,11 +103,11 @@
       async handleQRKey(qrKey) {
         if (qrKey.substring(0, 6) === 'ERROR:'){
           this.error = qrKey;
-          return
+          return;
         }
         if (!ValidateQRKey(qrKey)){
           this.error = `Not a valid QR key`;
-          return
+          return;
         }
         this.$root.CreateQrKey(qrKey);
         await this.$root.UnlockVaultQr(qrKey);
@@ -115,9 +129,6 @@
         
         this.$router.go(-1);
       }
-    },
-    components:{
-      QRScanner,
     }
-  }
+  };
 </script>

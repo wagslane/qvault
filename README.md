@@ -56,3 +56,28 @@ Feel free to contribute by forking the repo and opening pull requests. Please en
 We also use eslint, so make sure your code adheres to the rules defined in [.eslintrc.json](.eslintrc.json)
 
 All pull requests should be submitted to the "master" branch. Code in the "prod" branch is live in the latest release.
+
+## Recommended VS Code settings
+
+```json
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "javascript.format.enable": false,
+  "eslint.validate": [
+      {
+          "language": "vue",
+          "autoFix": true
+      },
+      {
+          "language": "html",
+          "autoFix": true
+      },
+      {
+          "language": "javascript",
+          "autoFix": true
+      }
+  ],
+  "eslint.autoFixOnSave": true
+}
+```

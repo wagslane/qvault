@@ -11,10 +11,14 @@
             <TextInput
               v-model="old_password"
               :active="true"
-              keyboardID="old_password" 
+              keyboard-i-d="old_password" 
               description="Old Password" 
-              type="password"/>
-            <span class="form-error" v-if="error">{{error}}</span>
+              type="password"
+            />
+            <span
+              v-if="error"
+              class="form-error"
+            >{{ error }}</span>
           </div>
 
           <div v-if="matched">
@@ -22,58 +26,81 @@
             <div class="tabs">
               <div 
                 class="tab tab-left"
+                :class="{ 'tab-active': passwordTabActive }"
                 @click="passwordTabActive = true"
-                v-bind:class="{ 'tab-active': passwordTabActive }">
+              >
                 Password
               </div>
               <div 
                 class="tab tab-right"
+                :class="{ 'tab-active': !passwordTabActive }"
                 @click="passwordTabActive = false"
-                v-bind:class="{ 'tab-active': !passwordTabActive }">
+              >
                 Passphrase
               </div>
             </div>
-            <br />
-            <br />
+            <br>
+            <br>
             <div :style="{display: passwordTabActive ? 'block' : 'none'}">
               <TextInput
                 v-model="password" 
-                keyboardID="password" 
+                keyboard-i-d="password" 
                 description="Password"
                 :active="passwordTabActive"
-                type="password"/>
+                type="password"
+              />
               <TextInput
                 v-model="confirm" 
-                keyboardID="confirm" 
+                keyboard-i-d="confirm" 
                 description="Confirm" 
-                type="password"/>
-              <span class="form-error" v-if="password && password_invalid">{{password_invalid}}</span>
+                type="password"
+              />
+              <span
+                v-if="password && password_invalid"
+                class="form-error"
+              >{{ password_invalid }}</span>
             </div>
-            <div class="center-text" :style="{display: !passwordTabActive ? 'block' : 'none'}">
+            <div
+              class="center-text"
+              :style="{display: !passwordTabActive ? 'block' : 'none'}"
+            >
               <TextInput
                 v-model="passphrase" 
-                keyboardID="passphrase" 
+                keyboard-i-d="passphrase" 
                 description="Passphrase"
                 :active="!passwordTabActive"
-                :defaultValue="generated"
-                type="text"/>
-              <span class="form-error" v-if="passphrase && passphrase_invalid">{{passphrase_invalid}}</span>
-              <br/>
-              <span class="link" @click="generatePassphrase"> 
+                :default-value="generated"
+                type="text"
+              />
+              <span
+                v-if="passphrase && passphrase_invalid"
+                class="form-error"
+              >{{ passphrase_invalid }}</span>
+              <br>
+              <span
+                class="link"
+                @click="generatePassphrase"
+              > 
                 Generate Random Passphrase
               </span>
             </div>
-            <span class="form-error" v-if="cloud_error">{{cloud_error}}</span>
+            <span
+              v-if="cloud_error"
+              class="form-error"
+            >{{ cloud_error }}</span>
           </div>
         </div>
         <div class="footer">
-          <div class="back" @click="$router.go(-1)">
+          <div
+            class="back"
+            @click="$router.go(-1)"
+          >
             <div class="icon" />
           </div>
           <button
+            v-if="(password && !password_invalid) || (passphrase && !passphrase_invalid) || (!matched && old_password)"
             class="continue"
             type="submit"
-            v-if="(password && !password_invalid) || (passphrase && !passphrase_invalid) || (!matched && old_password)"
           >
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -81,7 +108,11 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay :title="loading_title" :func="save" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      :title="loading_title"
+      :func="save"
+    />
   </div>
 </template>
 
@@ -101,7 +132,7 @@
         password: null,
         confirm: null,
         generated: ''
-      }
+      };
     },
     computed:{
       loading_title(){
@@ -183,5 +214,5 @@
         this.generated = await GeneratePassphrase(5);
       }
     },
-  }
+  };
 </script>

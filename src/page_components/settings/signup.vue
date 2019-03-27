@@ -9,50 +9,60 @@
           <div class="tabs">
             <div 
               class="tab tab-left"
+              :class="{ 'tab-active': registerTabActive }"
               @click="registerTabActive = true"
-              v-bind:class="{ 'tab-active': registerTabActive }">
+            >
               Register
             </div>
             <div 
               class="tab tab-right"
+              :class="{ 'tab-active': !registerTabActive }"
               @click="registerTabActive = false"
-              v-bind:class="{ 'tab-active': !registerTabActive }">
+            >
               Login
             </div>
           </div>
-          <br />
-          <br />
+          <br>
+          <br>
           <div :style="{display: registerTabActive ? 'block' : 'none'}">
             <TextInput
               v-model="emailRegister"
               :active="registerTabActive"
-              keyboardID="emailRegister" 
+              keyboard-i-d="emailRegister" 
               description="Email" 
-              type="email"/>
+              type="email"
+            />
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
             <TextInput
               v-model="emailLogin"
               :active="!registerTabActive"
-              keyboardID="emailLogin" 
+              keyboard-i-d="emailLogin" 
               description="Email" 
-              type="email"/>
-            <span class="form-error"  v-if="userCreated">
+              type="email"
+            />
+            <span
+              v-if="userCreated"
+              class="form-error"
+            >
               Please click the link in your email to verify your account, then continue to login.
             </span>
           </div>
-          <span class="form-error" > {{error}} </span>
-          <br />
-          <br />
+          <span class="form-error"> {{ error }} </span>
+          <br>
+          <br>
         </div>
         <div class="footer">
-          <div class="back" @click="$router.go(-1)">
+          <div
+            class="back"
+            @click="$router.go(-1)"
+          >
             <div class="icon" />
           </div>
           <button
+            v-if="emailRegister || emailLogin"
             class="continue"
             type="submit"
-            v-if="emailRegister || emailLogin"
           >
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -76,7 +86,7 @@
         userCreated: false,
         error: null,
         cloudKey: null
-      }
+      };
     },
     methods: {
       async click_continue(){
@@ -117,5 +127,5 @@
         this.$router.push({name: 'settings'});
       }
     }
-  }
+  };
 </script>
