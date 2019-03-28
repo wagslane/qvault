@@ -119,7 +119,7 @@ export default {
       } catch (err) {
         this.pass_key = null;
         this.char_key = null;
-        assert(false, "Invalid password");
+        throw new Error(err);
       }
     },
 

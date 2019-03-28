@@ -78,7 +78,7 @@ export default {
       try{
         await this.$root.UnlockVaultPassword(this.password);
       } catch(err){
-        this.error = err;
+        this.error = 'Invalid Password';
         return;
       }
       if (this.$root.email){
