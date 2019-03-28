@@ -61,7 +61,6 @@ All pull requests should be submitted to the "master" branch. Code in the "prod"
 
 ```json
 {
-    "editor.tabSize": 2,
     "editor.formatOnSave": false,
     "files.eol": "\n",
     "eslint.validate": [
