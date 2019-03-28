@@ -4,8 +4,16 @@
     <div class="options-box">
       <div class="body">
         <StepProgress :filled="4" />
-        <h1>Create Vault Key</h1>
-        <h2>Select a security method and create your vault key</h2>
+        <h1>Create a Password</h1>
+        <h2>
+          You will use this password each time you unlock your vault. 
+          If you forget it, you can only regain access if you have enabled a 
+          <a
+            href="https://amazon.com"
+            class="link"
+          >Q Card</a>
+          on this vault
+        </h2>
         <div class="tabs">
           <div 
             class="tab tab-left"
@@ -25,6 +33,10 @@
         <br>
         <br>
         <div :style="{display: passwordTabActive ? 'block' : 'none'}">
+          <h4>
+            A password must contain 12 characters, 
+            including uppercase, lowercase, a number and special character
+          </h4>
           <TextInput
             v-model="password" 
             keyboard-i-d="password" 
@@ -47,6 +59,10 @@
           class="center-text"
           :style="{display: !passwordTabActive ? 'block' : 'none'}"
         >
+          <h4>
+            A passphrase must contain at least 15 characters. 
+            You may generate a random passphrase if you wish.
+          </h4>
           <TextInput
             v-model="passphrase" 
             keyboard-i-d="passphrase" 

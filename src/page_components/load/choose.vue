@@ -50,7 +50,6 @@ export default {
         this.error = err;
       }
     },
-
   },
 };
 </script>

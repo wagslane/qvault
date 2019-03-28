@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueScrollTo from 'vue-scrollto';
+import {shell} from 'electron';
  
 Vue.use(VueScrollTo);
 Vue.use(VueRouter);
@@ -19,8 +20,15 @@ Vue.component('HeaderBar', HeaderBar);
 Vue.component('StepProgress', StepProgress);
 Vue.component('TextInput', TextInput);
 Vue.component('LoadingOverlay', LoadingOverlay);
-
 Vue.component('plus_icon', plus_icon);
+
+// Open all http links in external browsers
+document.addEventListener('click', function (event) {
+  if (event.target.tagName === 'A' && event.target.href.startsWith('http')) {
+    event.preventDefault();
+    shell.openExternal(event.target.href);
+  }
+});
 
 window.QvaultApp = new Vue(QvaultApp);
 window.QvaultApp.$mount('#qvault');

@@ -4,11 +4,11 @@
     <div class="options-box">
       <div class="body">
         <StepProgress :filled="2" />
-        <h1>Create a Q Card backup</h1>
-        <h2>Backup your vault for safekeeping</h2>
+        <h1>Q Card Restore Code</h1>
+        <h2>This code can be used to restore access to your vault if you forget your password</h2>
 
         <div class="highlight-box">
-          <h3>Write the following characters on your Q Card</h3>
+          <h3>Write the case-sensitive code in the boxes on your pair of Q Cards</h3>
           <div class="flex">
             <div
               v-for="(word, i) in split"
