@@ -1,6 +1,6 @@
 <template>
   <form
-    v-else
+    v-if="secret"
     class="wrapper"
   >
     <input
@@ -53,17 +53,9 @@
   import box_types from '../../consts/box_types.es6';
 
   export default {
-    props: {
-      'box': {
-        type: Object,
-        required: true,
-      },
-      'secret_uuid': {
-        type: String,
-        required: true,
-      },
-    },
     computed: {
+      secret_uuid(){ return this.$route.params.secret_uuid; },
+      box(){ return this.$parent.box; },
       secret(){
         return this.box.secrets[this.secret_uuid];
       },

@@ -7,18 +7,13 @@
         class="box_name"
       ></div>
       <button
-        @click.prevent="$root.CreateSecret(box_uuid)"
+        @click.prevent="add_secret"
         class="add_secret"
       >
         <plus_icon style="height: 22px"></plus_icon>
       </button>
     </div>
-    <secret
-      v-for="secret_uuid in secret_uuids"
-      :key="secret_uuid"
-      :secret_uuid="secret_uuid"
-      :box="box"
-    ></secret>
+    <router-view></router-view>
     <button
       @click.prevent="save"
       class="save"
@@ -41,16 +36,15 @@
           return this.$root.GetBox(this.box_uuid);
         }
       },
-      secret_uuids(){
-        if(this.box){
-          return Object.keys(this.box.secrets);
-        }
-      },
     },
     methods: {
       async save(){
         await this.$root.SaveLocalVault();
         await this.$root.SaveCloudVaultIfEmail();
+      },
+      add_secret(){
+        let secret_uuid = this.$root.CreateSecret(this.box_uuid);
+        this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
       },
 //      copy_value(){
 //        document.execCommand("copy");
