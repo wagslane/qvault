@@ -19,25 +19,25 @@
 </template>
 
 <script>
-  import gearIcon from '../img/gear-icon.svg';
+import gearIcon from '../img/gear-icon.svg';
 
-  export default {
-    components:{
-      gearIcon
+export default {
+  components:{
+    gearIcon
+  },
+  props: { 
+    title: {
+      type: String,
+      required: false,
+      default: ''
     },
-    props: { 
-      title: {
-        type: String,
-        required: false,
-        default: ''
-      },
-      settings: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
+    settings: {
+      type: Boolean,
+      default: false,
+      required: false
     }
-  };
+  }
+};
 </script>
 
 <style lang="less" scoped>

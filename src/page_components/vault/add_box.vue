@@ -60,30 +60,30 @@
 </template>
 
 <script>
-  import crypto_icon from '../../img/crypto.svg';
-  import fin_icon from '../../img/fin.svg';
-  import identity_icon from '../../img/identity.svg';
-  import notes_icon from '../../img/notes.svg';
-  import password_icon from '../../img/password.svg';
+import crypto_icon from '../../img/crypto.svg';
+import fin_icon from '../../img/fin.svg';
+import identity_icon from '../../img/identity.svg';
+import notes_icon from '../../img/notes.svg';
+import password_icon from '../../img/password.svg';
 
-  export default {
-    components: {
-      crypto_icon,
-      fin_icon,
-      identity_icon,
-      notes_icon,
-      password_icon,
+export default {
+  components: {
+    crypto_icon,
+    fin_icon,
+    identity_icon,
+    notes_icon,
+    password_icon,
+  },
+  methods: {
+    add_box(type){
+      let box_uuid = this.$root.CreateBox(
+        type,
+        type,
+      );
+      this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
     },
-    methods: {
-      add_box(type){
-        let box_uuid = this.$root.CreateBox(
-          type,
-          type,
-        );
-        this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style lang="less">

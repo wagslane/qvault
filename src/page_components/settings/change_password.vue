@@ -117,102 +117,102 @@
 </template>
 
 <script>
-  import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
-  import {updateUserPassword} from '../../lib/CloudClient/CloudClient';
-  import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {updateUserPassword} from '../../lib/CloudClient/CloudClient';
+import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
-  export default {
-    data(){
-      return {
-        matched: false,
-        passwordTabActive: true,
-        old_password: null,
-        error: null,
-        passphrase: null,
-        password: null,
-        confirm: null,
-        generated: ''
-      };
+export default {
+  data(){
+    return {
+      matched: false,
+      passwordTabActive: true,
+      old_password: null,
+      error: null,
+      passphrase: null,
+      password: null,
+      confirm: null,
+      generated: ''
+    };
+  },
+  computed:{
+    loading_title(){
+      return this.matched ? "Updating" : "Validating";
     },
-    computed:{
-      loading_title(){
-        return this.matched ? "Updating" : "Validating";
-      },
-      password_invalid(){
-        let err = ValidatePassword(this.password);
-        if (err){
-          return err;
-        }
-        if (this.password !== this.confirm){
-          return 'Passwords don\'t match';
-        }
-        return '';
-      },
-      passphrase_invalid(){
-        let err = ValidatePassphrase(this.passphrase);
-        if (err){
-          return err;
-        }
-        return '';
-      },
+    password_invalid(){
+      let err = ValidatePassword(this.password);
+      if (err){
+        return err;
+      }
+      if (this.password !== this.confirm){
+        return 'Passwords don\'t match';
+      }
+      return '';
     },
-    methods:{
-      async reset(){
-        this.matched = false;
-        this.old_password = null;
-        this.passphrase = null;
-        this.password = null;
-        this.confirm = null;
-        this.generated = '';
-      },
-      async save(){
-        if (!this.matched){
-          let confirm_key = await PassKeyFromPassword(this.old_password);
-          if (confirm_key === this.$root.pass_key){
-            this.matched = true;
-          } else {
-            this.error = "Invalid password";
-            this.reset();
-          }
-          return;
-        }
-
-        let new_pass_key = '';
-        if (this.passwordTabActive){
-          new_pass_key = await PassKeyFromPassword(this.password);
+    passphrase_invalid(){
+      let err = ValidatePassphrase(this.passphrase);
+      if (err){
+        return err;
+      }
+      return '';
+    },
+  },
+  methods:{
+    async reset(){
+      this.matched = false;
+      this.old_password = null;
+      this.passphrase = null;
+      this.password = null;
+      this.confirm = null;
+      this.generated = '';
+    },
+    async save(){
+      if (!this.matched){
+        let confirm_key = await PassKeyFromPassword(this.old_password);
+        if (confirm_key === this.$root.pass_key){
+          this.matched = true;
         } else {
-          new_pass_key = await PassKeyFromPassword(this.passphrase);
+          this.error = "Invalid password";
+          this.reset();
         }
+        return;
+      }
 
-        if (this.$root.email){
-          try{
-            let old_pass_key = await PassKeyFromPassword(this.old_password);
-            let old_cloud_key = await DeriveCloudKey(old_pass_key);
-            let new_cloud_key = await DeriveCloudKey(new_pass_key);
-            await updateUserPassword(old_cloud_key, new_cloud_key);
-          } catch (err){
-            this.error = err;
-            this.reset();
-            return;
-          }
-        }
+      let new_pass_key = '';
+      if (this.passwordTabActive){
+        new_pass_key = await PassKeyFromPassword(this.password);
+      } else {
+        new_pass_key = await PassKeyFromPassword(this.passphrase);
+      }
 
-        let old_pass_key = this.$root.pass_key;
-        this.$root.pass_key = new_pass_key;
+      if (this.$root.email){
         try{
-          await this.$root.SaveLocalVault();
-          await this.$root.SaveCloudVaultIfEmail();
+          let old_pass_key = await PassKeyFromPassword(this.old_password);
+          let old_cloud_key = await DeriveCloudKey(old_pass_key);
+          let new_cloud_key = await DeriveCloudKey(new_pass_key);
+          await updateUserPassword(old_cloud_key, new_cloud_key);
         } catch (err){
           this.error = err;
-          this.$root.pass_key = old_pass_key;
           this.reset();
           return;
         }
-        this.$router.push({name: 'settings'});
-      },
-      async generatePassphrase(){
-        this.generated = await GeneratePassphrase(5);
       }
+
+      let old_pass_key = this.$root.pass_key;
+      this.$root.pass_key = new_pass_key;
+      try{
+        await this.$root.SaveLocalVault();
+        await this.$root.SaveCloudVaultIfEmail();
+      } catch (err){
+        this.error = err;
+        this.$root.pass_key = old_pass_key;
+        this.reset();
+        return;
+      }
+      this.$router.push({name: 'settings'});
     },
-  };
+    async generatePassphrase(){
+      this.generated = await GeneratePassphrase(5);
+    }
+  },
+};
 </script>

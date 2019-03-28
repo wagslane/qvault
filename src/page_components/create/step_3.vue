@@ -52,16 +52,16 @@
 </template>
 
 <script>
-  export default {
-    computed:{
-      split(){
-        return [
-          this.$root.char_key.slice(0, 4),
-          this.$root.char_key.slice(4, 8),
-          this.$root.char_key.slice(8, 12),
-          this.$root.char_key.slice(12, 16)
-        ];
-      }
+export default {
+  computed:{
+    split(){
+      return [
+        this.$root.char_key.slice(0, 4),
+        this.$root.char_key.slice(4, 8),
+        this.$root.char_key.slice(8, 12),
+        this.$root.char_key.slice(12, 16)
+      ];
     }
-  };
+  }
+};
 </script>

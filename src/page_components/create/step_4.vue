@@ -37,31 +37,31 @@
 </template>
 
 <script>
-  import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../components/qrcode_scanner.vue';
+import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import QRScanner from '../../components/qrcode_scanner.vue';
 
-  export default {
-    components:{
-      QRScanner,
+export default {
+  components:{
+    QRScanner,
+  },
+  data(){
+    return {
+      error: null
+    };
+  },
+  methods:{
+    handleQRKey: function(qrKey) {
+      if (qrKey.substring(0, 6) === 'ERROR:'){
+        this.error = "Couldn't find a camera on this device";
+        return;
+      }
+      if (!ValidateQRKey(qrKey)){
+        this.error = `Not a valid QR key`;
+        return;
+      }
+      this.$root.CreateQrKey(qrKey);
+      this.$router.push({name: 'create_step_5'});
     },
-    data(){
-      return {
-        error: null
-      };
-    },
-    methods:{
-      handleQRKey: function(qrKey) {
-        if (qrKey.substring(0, 6) === 'ERROR:'){
-          this.error = "Couldn't find a camera on this device";
-          return;
-        }
-        if (!ValidateQRKey(qrKey)){
-          this.error = `Not a valid QR key`;
-          return;
-        }
-        this.$root.CreateQrKey(qrKey);
-        this.$router.push({name: 'create_step_5'});
-      },
-    }
-  };
+  }
+};
 </script>

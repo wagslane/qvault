@@ -60,78 +60,78 @@
 </template>
 
 <script>
-  import moment from 'moment';
-  import {type} from 'os';
+import moment from 'moment';
+import {type} from 'os';
 
-  function sort_box_by_key(key){
-    return function(a, b){
-      if(a[key] < b[key]) return -1;
-      if(a[key] > b[key]) return 1;
-      return 0;
+function sort_box_by_key(key){
+  return function(a, b){
+    if(a[key] < b[key]) return -1;
+    if(a[key] > b[key]) return 1;
+    return 0;
+  };
+}
+
+export default {
+  data(){
+    return {
+      'sort': 'name',
+      'search': null,
     };
-  }
-
-  export default {
-    data(){
-      return {
-        'sort': 'name',
-        'search': null,
-      };
+  },
+  computed: {
+    boxes(){
+      return this.$root.secrets;
     },
-    computed: {
-      boxes(){
-        return this.$root.secrets;
-      },
-      content_height(){
-        const header_bar_height = 55;
-        if (type() === 'Darwin'){
-          return header_bar_height + 22;
-        }
-        return header_bar_height + 32;
-      },
-      sorted_boxes(){
-        let sorted_boxes = [];
-        for (let key in this.boxes) {
-          if (this.boxes.hasOwnProperty(key)) {
-            let box = this.boxes[key];
-            sorted_boxes.push({
-              uuid: key,
-              created: moment(box.created),
-              name: box.name,
-            });
-          }
-        }
-        if(this.search){
-          sorted_boxes = sorted_boxes.filter(
-            sorted_box => this.box_matches_search(sorted_box)
-          );
-        }
-        if(this.sort){
-          sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
-        }
-        return sorted_boxes;
-      },
+    content_height(){
+      const header_bar_height = 55;
+      if (type() === 'Darwin'){
+        return header_bar_height + 22;
+      }
+      return header_bar_height + 32;
     },
-    methods: {
-      async save(){
-        return await this.$root.SaveLocalVault();
-      },
-      box_matches_search(sorted_box){
-        if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
-          return true;
+    sorted_boxes(){
+      let sorted_boxes = [];
+      for (let key in this.boxes) {
+        if (this.boxes.hasOwnProperty(key)) {
+          let box = this.boxes[key];
+          sorted_boxes.push({
+            uuid: key,
+            created: moment(box.created),
+            name: box.name,
+          });
         }
-        let box = this.boxes[sorted_box.uuid];
-        for (let key in box.secrets) {
-          if (box.secrets.hasOwnProperty(key)) {
-            let secret = box.secrets[key];
-            if(secret.name.toLowerCase().includes(this.search.toLowerCase())){
-              return true;
-            }
+      }
+      if(this.search){
+        sorted_boxes = sorted_boxes.filter(
+          sorted_box => this.box_matches_search(sorted_box)
+        );
+      }
+      if(this.sort){
+        sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
+      }
+      return sorted_boxes;
+    },
+  },
+  methods: {
+    async save(){
+      return await this.$root.SaveLocalVault();
+    },
+    box_matches_search(sorted_box){
+      if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
+        return true;
+      }
+      let box = this.boxes[sorted_box.uuid];
+      for (let key in box.secrets) {
+        if (box.secrets.hasOwnProperty(key)) {
+          let secret = box.secrets[key];
+          if(secret.name.toLowerCase().includes(this.search.toLowerCase())){
+            return true;
           }
         }
       }
-    },
-  };
+    }
+  },
+};
 </script>
 
 <style lang="less" scoped>

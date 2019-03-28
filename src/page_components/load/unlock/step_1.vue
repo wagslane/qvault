@@ -55,80 +55,80 @@
 </template>
 
 <script>
-  import { ValidateQRKey, DeriveCloudKey, PassKeyFromPassword  } from '../../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../../components/qrcode_scanner.vue';
-  import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
+import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
+import QRScanner from '../../../components/qrcode_scanner.vue';
+import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
 
-  export default {
-    components:{
-      QRScanner,
-    },
-    data(){
-      return {
-        error: null,
-        password: null,
-        scanQr: false
-      };
-    },
-    mounted(){
-      this.scanQr = this.$root.qr_required;
-    },
-    methods: {
-      async unlock(){
+export default {
+  components:{
+    QRScanner,
+  },
+  data(){
+    return {
+      error: null,
+      password: null,
+      scanQr: false
+    };
+  },
+  mounted(){
+    this.scanQr = this.$root.qr_required;
+  },
+  methods: {
+    async unlock(){
+      try{
+        await this.$root.UnlockVaultPassword(this.password);
+      } catch(err){
+        this.error = err;
+        return;
+      }
+      if (this.$root.email){
         try{
-          await this.$root.UnlockVaultPassword(this.password);
+          let cloud_key = await DeriveCloudKey(this.$root.pass_key);
+          let body = await authenticate(this.$root.email, cloud_key);
+          setToken(body.jwt);
+          this.$root.loaded_vault = await getVault();
         } catch(err){
           this.error = err;
           return;
         }
-        if (this.$root.email){
-          try{
-            let cloud_key = await DeriveCloudKey(this.$root.pass_key);
-            let body = await authenticate(this.$root.email, cloud_key);
-            setToken(body.jwt);
-            this.$root.loaded_vault = await getVault();
-          } catch(err){
-            this.error = err;
-            return;
-          }
-          try{
-            await this.$root.UnlockVaultPassword(this.password);
-          } catch(err){
-            this.error = "Unable to unlock cloud vault";
-            return;
-          }
-        }
-        this.$router.push({name: 'vault'});
-      },
-      async handleQRKey(qrKey) {
-        if (qrKey.substring(0, 6) === 'ERROR:'){
-          this.error = qrKey;
-          return;
-        }
-        if (!ValidateQRKey(qrKey)){
-          this.error = `Not a valid QR key`;
-          return;
-        }
-        this.$root.CreateQrKey(qrKey);
-        await this.$root.UnlockVaultQr(qrKey);
-        this.scanQr = false;
-        this.error = '';
-      },
-      back(){
         try{
-          this.$root.ClearLastUsedVaultCache();
-        } catch (err) {
-          // we don't care that much
+          await this.$root.UnlockVaultPassword(this.password);
+        } catch(err){
+          this.error = "Unable to unlock cloud vault";
+          return;
         }
-        
-        // Clear all the loaded data
-        this.$root.loaded_vault = null;
-        this.$root.local_vault_path = null;
-        this.$root.email = null;
-        this.$root.qr_required = false;
-        
-        this.$router.go(-1);
       }
+      this.$router.push({name: 'vault'});
+    },
+    async handleQRKey(qrKey) {
+      if (qrKey.substring(0, 6) === 'ERROR:'){
+        this.error = qrKey;
+        return;
+      }
+      if (!ValidateQRKey(qrKey)){
+        this.error = `Not a valid QR key`;
+        return;
+      }
+      this.$root.CreateQrKey(qrKey);
+      await this.$root.UnlockVaultQr(qrKey);
+      this.scanQr = false;
+      this.error = '';
+    },
+    back(){
+      try{
+        this.$root.ClearLastUsedVaultCache();
+      } catch (err) {
+        // we don't care that much
+      }
+        
+      // Clear all the loaded data
+      this.$root.loaded_vault = null;
+      this.$root.local_vault_path = null;
+      this.$root.email = null;
+      this.$root.qr_required = false;
+        
+      this.$router.go(-1);
     }
-  };
+  }
+};
 </script>

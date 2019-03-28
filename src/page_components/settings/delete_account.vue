@@ -31,44 +31,44 @@
 </template>
 
 <script>
-  import {deleteUser, authenticate, isLoggedIn, setToken, deleteToken} from '../../lib/CloudClient/CloudClient';
-  import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {deleteUser, authenticate, isLoggedIn, setToken, deleteToken} from '../../lib/CloudClient/CloudClient';
+import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
-  export default {
-    data(){
-      return {
-        error: null
-      };
+export default {
+  data(){
+    return {
+      error: null
+    };
+  },
+  methods:{
+    async load(){
+      this.$refs.loader.load();
     },
-    methods:{
-      async load(){
-        this.$refs.loader.load();
-      },
-      async delete_account(){
-        try{
-          if (!isLoggedIn()){
-            let cloudKey = await DeriveCloudKey(this.pass_key);
-            let body = await authenticate(this.email, cloudKey);
-            setToken(body.jwt);
-          }
-        } catch (err){
-          this.error = err;
-          return;
+    async delete_account(){
+      try{
+        if (!isLoggedIn()){
+          let cloudKey = await DeriveCloudKey(this.pass_key);
+          let body = await authenticate(this.email, cloudKey);
+          setToken(body.jwt);
         }
-
-        try{
-          await deleteUser();
-        } catch (err){
-          this.error = err;
-          return;
-        }
-
-        deleteToken();
-        alert("Account deleted successfully");
-        this.$root.email = '';
-        await this.$root.SaveLocalVault();
-        this.$router.push({name: 'settings'});
+      } catch (err){
+        this.error = err;
+        return;
       }
-    },
-  };
+
+      try{
+        await deleteUser();
+      } catch (err){
+        this.error = err;
+        return;
+      }
+
+      deleteToken();
+      alert("Account deleted successfully");
+      this.$root.email = '';
+      await this.$root.SaveLocalVault();
+      this.$router.push({name: 'settings'});
+    }
+  },
+};
 </script>

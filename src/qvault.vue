@@ -6,21 +6,20 @@
 </template>
 
 <script>
-  import VueRouter from 'vue-router';
-  import routes from './routes.es6';
-  import storage from './mixins/storage.es6';
-  import electron from 'electron';
-  import TitleBar from './components/title_bar.vue';
+import VueRouter from 'vue-router';
+import routes from './routes.es6';
+import storage from './mixins/storage.es6';
+import TitleBar from './components/title_bar.vue';
 
-  export const router = new VueRouter({routes});
+export const router = new VueRouter({routes});
 
-  export default {
-    router: router,
-    components: {
-      TitleBar
-    },
-    mixins: [ storage ],
-  };
+export default {
+  router: router,
+  components: {
+    TitleBar
+  },
+  mixins: [ storage ],
+};
 </script>
 
 <style lang="less">

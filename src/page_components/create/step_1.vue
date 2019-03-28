@@ -30,26 +30,26 @@
 </template>
 
 <script>
-  import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
-  export default {
-    mounted(){
-      try{
-        this.$root.LoadLastUsedVault();
-        this.$router.push({name: 'load_unlock_step_1'});
-      } catch (err){
-        // do nothing if cache is empty
-      }
-    },
-    methods:{
-      async load(){
-        this.$refs.loader.load();
-      },
-      async open_existing(){
-        this.$root.char_key = await GenerateCharKey();
-        this.$root.hashed_char_key = await HashCharKey(this.$root.char_key);
-        this.$router.push({name: 'create_step_2'});
-      }
+export default {
+  mounted(){
+    try{
+      this.$root.LoadLastUsedVault();
+      this.$router.push({name: 'load_unlock_step_1'});
+    } catch (err){
+      // do nothing if cache is empty
     }
-  };
+  },
+  methods:{
+    async load(){
+      this.$refs.loader.load();
+    },
+    async open_existing(){
+      this.$root.char_key = await GenerateCharKey();
+      this.$root.hashed_char_key = await HashCharKey(this.$root.char_key);
+      this.$router.push({name: 'create_step_2'});
+    }
+  }
+};
 </script>

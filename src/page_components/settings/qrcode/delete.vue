@@ -31,31 +31,31 @@
 </template>
 
 <script>
-  export default {
-    data(){
-      return {
-        error: null
-      };
-    },
-    methods:{
-      async delete_2fe(){
-        let old_qr_required = this.$root.qr_required;
-        let old_qr_key = this.$root.qr_key;
-        this.$root.qr_required = false;
-        this.$root.qr_key = null;
+export default {
+  data(){
+    return {
+      error: null
+    };
+  },
+  methods:{
+    async delete_2fe(){
+      let old_qr_required = this.$root.qr_required;
+      let old_qr_key = this.$root.qr_key;
+      this.$root.qr_required = false;
+      this.$root.qr_key = null;
 
-        try{
-          await this.$root.SaveLocalVault();
-          await this.$root.SaveCloudVaultIfEmail();
-        } catch (err){
-          this.$root.qr_required = old_qr_required;
-          this.$root.qr_key = old_qr_key;
-          return;
-        }
-
-        alert("2FE removed successfully");
-        this.$router.push({name: 'settings'});
+      try{
+        await this.$root.SaveLocalVault();
+        await this.$root.SaveCloudVaultIfEmail();
+      } catch (err){
+        this.$root.qr_required = old_qr_required;
+        this.$root.qr_key = old_qr_key;
+        return;
       }
-    },
-  };
+
+      alert("2FE removed successfully");
+      this.$router.push({name: 'settings'});
+    }
+  },
+};
 </script>

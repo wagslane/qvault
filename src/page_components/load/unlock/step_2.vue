@@ -42,22 +42,22 @@
 </template>
 
 <script>
-  export default {
-    data(){
-      return {
-        error: null,
-        char_key: null
-      };
-    },
-    methods: {
-      async unlock(){
-        try{
-          await this.$root.UnlockVaultCharKey(this.char_key);
-          this.$router.push({name: 'load_unlock_step_3'});
-        } catch (err) {
-          this.error = err;
-        }
+export default {
+  data(){
+    return {
+      error: null,
+      char_key: null
+    };
+  },
+  methods: {
+    async unlock(){
+      try{
+        await this.$root.UnlockVaultCharKey(this.char_key);
+        this.$router.push({name: 'load_unlock_step_3'});
+      } catch (err) {
+        this.error = err;
       }
     }
-  };
+  }
+};
 </script>

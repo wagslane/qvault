@@ -38,12 +38,12 @@
 </template>
 
 <script>
-  export default {
-    methods:{
-      create_vault_file(){
-        this.$root.CreateLocalVault();
-        this.$router.push({name: 'create_step_7'});
-      },
+export default {
+  methods:{
+    create_vault_file(){
+      this.$root.CreateLocalVault();
+      this.$router.push({name: 'create_step_7'});
     },
-  };
+  },
+};
 </script>

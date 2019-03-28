@@ -11,39 +11,39 @@
 </template>
 
 <script>
-  export default {
-    props: { 
-      func: {
-        type: Function,
-        required: true
-      },
-      title:{
-        type: String,
-        required: false,
-        default: ''
-      }
+export default {
+  props: { 
+    func: {
+      type: Function,
+      required: true
     },
-    data(){
-      return {
-        loading: false
-      };
-    },
-    async updated(){
-      if (this.loading){
-        requestAnimationFrame(async () => {
-          requestAnimationFrame(async () => {
-            await this.func();
-            this.loading = false;
-          });
-        });
-      }
-    },
-    methods:{
-      load(){
-        this.loading = true;
-      }
+    title:{
+      type: String,
+      required: false,
+      default: ''
     }
-  };
+  },
+  data(){
+    return {
+      loading: false
+    };
+  },
+  async updated(){
+    if (this.loading){
+      requestAnimationFrame(async () => {
+        requestAnimationFrame(async () => {
+          await this.func();
+          this.loading = false;
+        });
+      });
+    }
+  },
+  methods:{
+    load(){
+      this.loading = true;
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

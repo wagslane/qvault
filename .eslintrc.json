@@ -15,6 +15,10 @@
         "eol-last": [
             "error",
             "always"
+        ],
+        "indent": [
+            "error",
+            2
         ]
     },
     "parserOptions": {
@@ -23,6 +27,8 @@
         "allowImportExportEverywhere": true
     },
     "env": {
-        "es6": true
+        "es6": true,
+        "node": true,
+        "mocha": true
     }
 }

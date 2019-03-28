@@ -47,44 +47,44 @@
 </template>
 
 <script>
-  import { DeriveCloudKey, PassKeyFromPassword } from '../../lib/QVaultCrypto/QVaultCrypto';
-  import { authenticate, setToken, getVault } from '../../lib/CloudClient/CloudClient';
+import { DeriveCloudKey, PassKeyFromPassword } from '../../lib/QVaultCrypto/QVaultCrypto';
+import { authenticate, setToken, getVault } from '../../lib/CloudClient/CloudClient';
 
-  export default {
-    data(){
-      return {
-        email: null,
-        password: null,
-        error: null
-      };
-    },
-    methods: {
-      async download(){
-        try{
-          let passKey = await PassKeyFromPassword(this.password);
-          let cloudKey = await DeriveCloudKey(passKey);
-          let body = await authenticate(this.email, cloudKey);
-          setToken(body.jwt);
-          this.$root.email = this.email;
-          this.$root.loaded_vault = await getVault();
-          this.unlock();
-        } catch (err) {
-          this.error = err;
-        }
-      },
-      async unlock(){
-        requestAnimationFrame(async () => {
-          requestAnimationFrame(async () => {
-            try{
-              this.$root.NewVaultDialog();
-              this.$root.SaveVault(this.$root.loaded_vault);
-              this.$router.push({name: 'load_unlock_step_1'});
-            } catch (err) {
-              this.error = err;
-            }
-          });
-        });
+export default {
+  data(){
+    return {
+      email: null,
+      password: null,
+      error: null
+    };
+  },
+  methods: {
+    async download(){
+      try{
+        let passKey = await PassKeyFromPassword(this.password);
+        let cloudKey = await DeriveCloudKey(passKey);
+        let body = await authenticate(this.email, cloudKey);
+        setToken(body.jwt);
+        this.$root.email = this.email;
+        this.$root.loaded_vault = await getVault();
+        this.unlock();
+      } catch (err) {
+        this.error = err;
       }
+    },
+    async unlock(){
+      requestAnimationFrame(async () => {
+        requestAnimationFrame(async () => {
+          try{
+            this.$root.NewVaultDialog();
+            this.$root.SaveVault(this.$root.loaded_vault);
+            this.$router.push({name: 'load_unlock_step_1'});
+          } catch (err) {
+            this.error = err;
+          }
+        });
+      });
     }
-  };
+  }
+};
 </script>

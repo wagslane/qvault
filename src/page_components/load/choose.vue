@@ -35,22 +35,22 @@
 </template>
 
 <script>
-  export default {
-    data(){
-      return {
-        error: null,
-      };
+export default {
+  data(){
+    return {
+      error: null,
+    };
+  },
+  methods: {
+    async open(){
+      try{
+        this.$root.ExistingVaultDialog();
+        this.$router.push({name: 'load_unlock_step_1'});
+      } catch (err) {
+        this.error = err;
+      }
     },
-    methods: {
-      async open(){
-        try{
-          this.$root.ExistingVaultDialog();
-          this.$router.push({name: 'load_unlock_step_1'});
-        } catch (err) {
-          this.error = err;
-        }
-      },
 
-    },
-  };
+  },
+};
 </script>

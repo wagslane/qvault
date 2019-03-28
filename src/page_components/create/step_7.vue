@@ -83,47 +83,47 @@
 </template>
 
 <script>
-  import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-  import {createUser, authenticate, setToken} from '../../lib/CloudClient/CloudClient';
+import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {createUser, authenticate, setToken} from '../../lib/CloudClient/CloudClient';
 
-  export default {
-    data(){
-      return {
-        registerTabActive: true,
-        emailRegister: null,
-        emailLogin: null,
-        userCreated: false,
-        error: null,
-        cloudKey: null
-      };
-    },
-    methods: {
-      async click_continue(){
-        if (this.registerTabActive){
-          try{
-            this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
-            await createUser(this.emailRegister, this.cloudKey);
-            this.userCreated = true;
-            this.registerTabActive = false;
-            this.emailLogin = this.emailRegister;
-            this.emailRegister = null;
-          } catch (err) {
-            this.error = err;
-          }
-          return;
-        }
+export default {
+  data(){
+    return {
+      registerTabActive: true,
+      emailRegister: null,
+      emailLogin: null,
+      userCreated: false,
+      error: null,
+      cloudKey: null
+    };
+  },
+  methods: {
+    async click_continue(){
+      if (this.registerTabActive){
         try{
-          if (!this.cloudKey){
-            this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
-          }
-          let body = await authenticate(this.emailLogin, this.cloudKey);
-          setToken(body.jwt);
-          this.$root.email = this.emailLogin;
-          this.$router.push({name: 'vault'});
+          this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
+          await createUser(this.emailRegister, this.cloudKey);
+          this.userCreated = true;
+          this.registerTabActive = false;
+          this.emailLogin = this.emailRegister;
+          this.emailRegister = null;
         } catch (err) {
           this.error = err;
         }
+        return;
+      }
+      try{
+        if (!this.cloudKey){
+          this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
+        }
+        let body = await authenticate(this.emailLogin, this.cloudKey);
+        setToken(body.jwt);
+        this.$root.email = this.emailLogin;
+        this.$router.push({name: 'vault'});
+      } catch (err) {
+        this.error = err;
       }
     }
-  };
+  }
+};
 </script>

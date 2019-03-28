@@ -34,34 +34,34 @@
 </template>
 
 <script>
-  import {remote} from 'electron';
-  import {type} from 'os';
+import {remote} from 'electron';
+import {type} from 'os';
 
-  export default {
-    computed:{
-      is_mac(){
-        return type() === 'Darwin';
+export default {
+  computed:{
+    is_mac(){
+      return type() === 'Darwin';
+    }
+  },
+  methods:{
+    min(){
+      const window = remote.getCurrentWindow();
+      window.minimize(); 
+    },
+    max(){
+      const window = remote.getCurrentWindow();
+      if (!window.isMaximized()) {
+        window.maximize();
+      } else {
+        window.unmaximize();
       }
     },
-    methods:{
-      min(){
-        const window = remote.getCurrentWindow();
-        window.minimize(); 
-      },
-      max(){
-        const window = remote.getCurrentWindow();
-        if (!window.isMaximized()) {
-          window.maximize();
-        } else {
-          window.unmaximize();
-        }
-      },
-      close(){
-        const window = remote.getCurrentWindow();
-        window.close();
-      }
+    close(){
+      const window = remote.getCurrentWindow();
+      window.close();
     }
-  };
+  }
+};
 </script>
 
 <style lang="less" scoped>

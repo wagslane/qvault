@@ -20,7 +20,8 @@
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
     "start": "electron .",
-    "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill"
+    "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "build": {
     "appId": "io.qvault.app",

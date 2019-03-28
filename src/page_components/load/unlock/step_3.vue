@@ -94,55 +94,55 @@
 </template>
 
 <script>
-  import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../../lib/QVaultCrypto/QVaultCrypto';
+import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../../lib/QVaultCrypto/QVaultCrypto';
 
-  export default {
-    data(){
-      return {
-        passwordTabActive: true,
-        passphrase: null,
-        password: null,
-        confirm: null,
-        generated: '',
-        saveError: null
-      };
-    },
-    computed:{
-      password_error(){
-        let err = ValidatePassword(this.password);
-        if (err){
-          return err;
-        }
-        if (this.password !== this.confirm){
-          return 'Passwords don\'t match';
-        }
-        return '';
-      },
-      passphrase_error(){
-        let err = ValidatePassphrase(this.passphrase);
-        if (err){
-          return err;
-        }
-        return '';
-      },
-    },
-    methods:{
-      async save(){
-        if (this.passwordTabActive){
-          this.$root.pass_key = await PassKeyFromPassword(this.password);
-        } else {
-          this.$root.pass_key = await PassKeyFromPassword(this.passphrase);
-        }
-        try{
-          this.$root.SaveLocalVault();
-        } catch (err){
-          saveError = err;
-        }
-        this.$router.push({name: 'vault'});
-      },
-      async generatePassphrase(){
-        this.generated = await GeneratePassphrase(5);
+export default {
+  data(){
+    return {
+      passwordTabActive: true,
+      passphrase: null,
+      password: null,
+      confirm: null,
+      generated: '',
+      saveError: null
+    };
+  },
+  computed:{
+    password_error(){
+      let err = ValidatePassword(this.password);
+      if (err){
+        return err;
       }
+      if (this.password !== this.confirm){
+        return 'Passwords don\'t match';
+      }
+      return '';
     },
-  };
+    passphrase_error(){
+      let err = ValidatePassphrase(this.passphrase);
+      if (err){
+        return err;
+      }
+      return '';
+    },
+  },
+  methods:{
+    async save(){
+      if (this.passwordTabActive){
+        this.$root.pass_key = await PassKeyFromPassword(this.password);
+      } else {
+        this.$root.pass_key = await PassKeyFromPassword(this.passphrase);
+      }
+      try{
+        this.$root.SaveLocalVault();
+      } catch (err){
+        this.saveError = err;
+      }
+      this.$router.push({name: 'vault'});
+    },
+    async generatePassphrase(){
+      this.generated = await GeneratePassphrase(5);
+    }
+  },
+};
 </script>
