@@ -16,6 +16,8 @@ import load_download from './page_components/load/download.vue';
 import vault from './page_components/vault/vault.vue';
 import box from './page_components/vault/box.vue';
 import add_box from './page_components/vault/add_box.vue';
+import secret from './page_components/vault/secret.vue';
+import secret_list from './page_components/vault/secret_list.vue';
 
 import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
@@ -143,7 +145,24 @@ export default [
       {
         path: 'box/:box_uuid',
         component: box,
-        name: 'box',
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'secret_list',
+            },
+          },
+          {
+            path: 'list',
+            component: secret_list,
+            name: 'box',
+          },
+          {
+            path: 'secret/:secret_uuid',
+            component: secret,
+            name: 'secret',
+          },
+        ],
       },
     ],
   },
