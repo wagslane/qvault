@@ -32,24 +32,16 @@
   .secret_preview {
     display: flex;
     flex-direction: row;
-
-    > input {
-      flex-grow: 2;
-    }
+    margin-left: -15px;
 
     > a {
-      flex-grow: 1;
       color: white;
       text-decoration: none;
       font-size: 2em;
       text-align: center;
-      padding-left: 15px;
-      padding-right: 15px;
       display: inline-block;
+      width: 42px;
+      margin-left: 15px;
     }
-  }
-
-  .secret_value {
-
   }
 </style>
