@@ -4,8 +4,9 @@
       class="img img-left" 
       height="25" 
       width="25" 
-      src="../img/qvault-logo.png">
-    <span>{{title}}</span>
+      src="../img/qvault-logo.png"
+    >
+    <span>{{ title }}</span>
     <gearIcon 
       v-if="settings"
       class="img img-right"
@@ -18,24 +19,25 @@
 </template>
 
 <script>
-  import gearIcon from '../img/gear-icon.svg';
+import gearIcon from '../img/gear-icon.svg';
 
-  export default {
-    components:{
-      gearIcon
+export default {
+  components:{
+    gearIcon
+  },
+  props: { 
+    title: {
+      type: String,
+      required: false,
+      default: ''
     },
-    props: { 
-      title: {
-        type: String,
-        required: false
-      },
-      settings: {
-        type: Boolean,
-        default: false,
-        required: false
-      }
+    settings: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   }
+};
 </script>
 
 <style lang="less" scoped>

@@ -1,26 +1,25 @@
 <template>
   <div>
     <TitleBar />
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
 <script>
-  import VueRouter from 'vue-router';
-  import routes from './routes.es6';
-  import storage from './mixins/storage.es6';
-  import electron from 'electron';
-  import TitleBar from './components/title_bar.vue'
+import VueRouter from 'vue-router';
+import routes from './routes.es6';
+import storage from './mixins/storage.es6';
+import TitleBar from './components/title_bar.vue';
 
-  export const router = new VueRouter({routes});
+export const router = new VueRouter({routes});
 
-  export default {
-    router: router,
-    mixins: [storage],
-    components: {
-      TitleBar
-    },
-  }
+export default {
+  router: router,
+  components: {
+    TitleBar
+  },
+  mixins: [ storage ],
+};
 </script>
 
 <style lang="less">

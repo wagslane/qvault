@@ -1,46 +1,49 @@
 <template>
-  <div class="screen" v-if="loading" >
+  <div
+    v-if="loading"
+    class="screen"
+  >
     <div class="center">
-      <p> {{title}} </p>
+      <p> {{ title }} </p>
       <img src="../img/loading.gif">
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    data(){
-      return {
-        loading: false
-      }
+export default {
+  props: { 
+    func: {
+      type: Function,
+      required: true
     },
-    props: { 
-      func: {
-        type: Function,
-        required: true
-      },
-      title:{
-        type: String,
-        required: false,
-        default: ''
-      }
-    },
-    async updated(){
-      if (this.loading){
+    title:{
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
+  data(){
+    return {
+      loading: false
+    };
+  },
+  async updated(){
+    if (this.loading){
+      requestAnimationFrame(async () => {
         requestAnimationFrame(async () => {
-          requestAnimationFrame(async () => {
-            await this.func();
-            this.loading = false;
-          })
-        })
-      }
-    },
-    methods:{
-      load(){
-        this.loading = true;
-      }
+          await this.func();
+          this.loading = false;
+        });
+      });
+    }
+  },
+  methods:{
+    load(){
+      this.loading = true;
     }
   }
+};
 </script>
 
 <style lang="less" scoped>

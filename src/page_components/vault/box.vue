@@ -2,15 +2,15 @@
   <div v-if="box">
     <div class="wrapper">
       <div
-        v-text="box.name"
         placeholder="Name"
         class="box_name"
-      ></div>
+        v-text="box.name"
+      />
       <button
-        @click.prevent="$root.CreateSecret(box_uuid)"
         class="add_secret"
+        @click.prevent="$root.CreateSecret(box_uuid)"
       >
-        <plus_icon style="height: 22px"></plus_icon>
+        <plus_icon style="height: 22px" />
       </button>
     </div>
     <secret
@@ -18,45 +18,48 @@
       :key="secret_uuid"
       :secret_uuid="secret_uuid"
       :box="box"
-    ></secret>
+    />
     <button
-      @click.prevent="save"
       class="save"
-    >Save</button>
+      @click.prevent="save"
+    >
+      Save
+    </button>
   </div>
 </template>
 
 <script>
-  import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
-  import secret from './secret.vue';
+import secret from './secret.vue';
 
-  export default {
-    components: {
-      secret,
+export default {
+  components: {
+    secret,
+  },
+  computed: {
+    box_uuid(){ return this.$route.params.box_uuid; },
+    box(){
+      if(this.box_uuid){
+        return this.$root.GetBox(this.box_uuid);
+      }
+      return {};
     },
-    computed: {
-      box_uuid(){ return this.$route.params.box_uuid; },
-      box(){
-        if(this.box_uuid){
-          return this.$root.GetBox(this.box_uuid);
-        }
-      },
-      secret_uuids(){
-        if(this.box){
-          return Object.keys(this.box.secrets);
-        }
-      },
+    secret_uuids(){
+      if(this.box){
+        return Object.keys(this.box.secrets);
+      }
+      return [];
     },
-    methods: {
-      async save(){
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
-      },
-//      copy_value(){
-//        document.execCommand("copy");
-//      },
+  },
+  methods: {
+    async save(){
+      await this.$root.SaveLocalVault();
+      await this.$root.SaveCloudVaultIfEmail();
     },
-  }
+    //      copy_value(){
+    //        document.execCommand("copy");
+    //      },
+  },
+};
 </script>
 
 <style lang="less" scoped>

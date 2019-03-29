@@ -1,4 +1,4 @@
-export default SupportedCoins = {
+export let SupportedCoins = {
   BTC: { image: 'example.png', name: 'Bitcoin' },
   XRP: { image: 'example.png', name: 'Ripple' },
   ETH: { image: 'example.png', name: 'Ethereum' },
