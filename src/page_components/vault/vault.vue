@@ -216,7 +216,7 @@ export default {
     .content {
       flex-grow: 3;
       flex-basis: 0;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
 </style>
