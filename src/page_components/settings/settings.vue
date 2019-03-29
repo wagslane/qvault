@@ -6,29 +6,48 @@
         <h1>Settings</h1>
         <h2>Manage your vault and account</h2>
 
-        <router-link v-if="(!$root.email)" class="btn" :to="{name: 'settings_signup'}">
+        <router-link
+          v-if="(!$root.email)"
+          class="btn"
+          :to="{name: 'settings_signup'}"
+        >
           Sign up for Q Vault storage account
         </router-link>
 
-        <router-link class="btn" :to="{name: 'settings_change_password'}">
+        <router-link
+          class="btn"
+          :to="{name: 'settings_change_password'}"
+        >
           Change Password
         </router-link>
 
-        <router-link class="btn" :to="{name: 'settings_change_char_key'}">
+        <router-link
+          class="btn"
+          :to="{name: 'settings_change_char_key'}"
+        >
           Manage Backup Key
         </router-link>
 
-        <router-link class="btn" :to="{name: 'settings_qrcode_choose'}">
+        <router-link
+          class="btn"
+          :to="{name: 'settings_qrcode_choose'}"
+        >
           Manage Two Factor Encryption
         </router-link>
 
-        <router-link v-if="($root.email)" class="btn" :to="{name: 'settings_delete_account'}">
+        <router-link
+          v-if="($root.email)"
+          class="btn"
+          :to="{name: 'settings_delete_account'}"
+        >
           Delete Cloud Storage Account
         </router-link>
-
       </div>
       <div class="footer">
-        <div class="back" @click="$router.push({name: 'vault'})">
+        <div
+          class="back"
+          @click="$router.push({name: 'vault'})"
+        >
           <div class="icon" />
         </div>
       </div>

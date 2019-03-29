@@ -257,4 +257,4 @@ export default [
     ],
     header_field: 'Name',
   },
-]
+];

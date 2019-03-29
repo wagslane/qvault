@@ -10,12 +10,16 @@
             <TextInput
               v-model="password"
               :active="true"
-              keyboardID="password" 
+              keyboard-i-d="password" 
               description="password" 
-              type="password"/>
-            <span class="form-error" >{{error}}</span>
-            <br />
-            <router-link class="link" :to="{name: 'load_unlock_step_2'}">
+              type="password" 
+            />
+            <span class="form-error">{{ error }}</span>
+            <br>
+            <router-link
+              class="link"
+              :to="{name: 'load_unlock_step_2'}"
+            >
               Forgot password?
             </router-link>
           </div>
@@ -25,13 +29,16 @@
           </div>
         </div>
         <div class="footer">
-          <div class="back" @click="back">
+          <div
+            class="back"
+            @click="back"
+          >
             <div class="icon" />
           </div>
           <button
+            v-if="(password && !scanQr)"
             class="continue"
             type="submit"
-            v-if="(password && !scanQr)"
           >
             <span>Continue</span>
             <div class="continue-arrow" />
@@ -39,85 +46,89 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay title="Unlocking Vault" :func="unlock" ref="loader" />
+    <LoadingOverlay
+      ref="loader"
+      title="Unlocking Vault"
+      :func="unlock"
+    />
   </div>
 </template>
 
 <script>
-  import { ValidateQRKey, DeriveCloudKey, PassKeyFromPassword  } from '../../../lib/QVaultCrypto/QVaultCrypto';
-  import QRScanner from '../../../components/qrcode_scanner.vue'
-  import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
+import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
+import QRScanner from '../../../components/qrcode_scanner.vue';
+import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
 
-  export default {
-    data(){
-      return {
-        error: null,
-        password: null,
-        scanQr: false
+export default {
+  components:{
+    QRScanner,
+  },
+  data(){
+    return {
+      error: null,
+      password: null,
+      scanQr: false
+    };
+  },
+  mounted(){
+    this.scanQr = this.$root.qr_required;
+  },
+  methods: {
+    async unlock(){
+      try{
+        await this.$root.UnlockVaultPassword(this.password);
+      } catch(err){
+        this.error = err;
+        return;
       }
-    },
-    mounted(){
-      this.scanQr = this.$root.qr_required;
-    },
-    methods: {
-      async unlock(){
+      if (this.$root.email){
         try{
-          await this.$root.UnlockVaultPassword(this.password);
+          let cloud_key = await DeriveCloudKey(this.$root.pass_key);
+          let body = await authenticate(this.$root.email, cloud_key);
+          setToken(body.jwt);
+          this.$root.loaded_vault = await getVault();
         } catch(err){
           this.error = err;
           return;
         }
-        if (this.$root.email){
-          try{
-            let cloud_key = await DeriveCloudKey(this.$root.pass_key);
-            let body = await authenticate(this.$root.email, cloud_key);
-            setToken(body.jwt);
-            this.$root.loaded_vault = await getVault();
-          } catch(err){
-            this.error = err;
-            return;
-          }
-          try{
-            await this.$root.UnlockVaultPassword(this.password);
-          } catch(err){
-            this.error = "Unable to unlock cloud vault";
-            return;
-          }
-        }
-        this.$router.push({name: 'vault'});
-      },
-      async handleQRKey(qrKey) {
-        if (qrKey.substring(0, 6) === 'ERROR:'){
-          this.error = qrKey;
-          return
-        }
-        if (!ValidateQRKey(qrKey)){
-          this.error = `Not a valid QR key`;
-          return
-        }
-        this.$root.CreateQrKey(qrKey);
-        await this.$root.UnlockVaultQr(qrKey);
-        this.scanQr = false;
-        this.error = '';
-      },
-      back(){
         try{
-          this.$root.ClearLastUsedVaultCache();
-        } catch (err) {
-          // we don't care that much
+          await this.$root.UnlockVaultPassword(this.password);
+        } catch(err){
+          this.error = "Unable to unlock cloud vault";
+          return;
         }
-        
-        // Clear all the loaded data
-        this.$root.loaded_vault = null;
-        this.$root.local_vault_path = null;
-        this.$root.email = null;
-        this.$root.qr_required = false;
-        
-        this.$router.go(-1);
       }
+      this.$router.push({name: 'vault'});
     },
-    components:{
-      QRScanner,
+    async handleQRKey(qrKey) {
+      if (qrKey.substring(0, 6) === 'ERROR:'){
+        this.error = qrKey;
+        return;
+      }
+      if (!ValidateQRKey(qrKey)){
+        this.error = `Not a valid QR key`;
+        return;
+      }
+      this.$root.CreateQrKey(qrKey);
+      await this.$root.UnlockVaultQr(qrKey);
+      this.scanQr = false;
+      this.error = '';
+    },
+    back(){
+      try{
+        this.$root.ClearLastUsedVaultCache();
+      } catch (err) {
+        // we don't care that much
+      }
+        
+      // Clear all the loaded data
+      this.$root.loaded_vault = null;
+      this.$root.local_vault_path = null;
+      this.$root.email = null;
+      this.$root.qr_required = false;
+        
+      this.$router.go(-1);
     }
   }
+};
 </script>

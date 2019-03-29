@@ -1,20 +1,33 @@
 <template>
   <div>
-    <HeaderBar title="Vault" settings />
-    <div class="container" v-if="boxes">
-      <div class="sidebar" v-bind:style="{ height: `calc(100vh - ${content_height}px)` }">
+    <HeaderBar
+      title="Vault"
+      settings
+    />
+    <div
+      v-if="boxes"
+      class="container"
+    >
+      <div
+        class="sidebar"
+        :style="{ height: `calc(100vh - ${content_height}px)` }"
+      >
         <input
+          v-model="search"
           type="text"
           class="search"
           placeholder="search"
-          v-model="search"
         >
         <select
-          class="search"
           v-model="sort"
+          class="search"
         >
-          <option value="created">Sort By Date Created</option>
-          <option value="name">Sort By Name</option>
+          <option value="created">
+            Sort By Date Created
+          </option>
+          <option value="name">
+            Sort By Name
+          </option>
         </select>
         <div class="boxes">
           <router-link
@@ -23,99 +36,102 @@
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
           >
-            <div class="aesthetic_rectangle"></div>
-            {{sorted_box.name}}
-            <br />
-            <span class="created">{{sorted_box.created.format('YYYY-MM-DD')}}</span>
+            <div class="aesthetic_rectangle" />
+            {{ sorted_box.name }}
+            <br>
+            <span class="created">{{ sorted_box.created.format('YYYY-MM-DD') }}</span>
           </router-link>
         </div>
         <router-link
           :to="{name: 'add_box'}"
           class="add_box"
         >
-          <plus_icon style="height: 22px"></plus_icon>
+          <plus_icon style="height: 22px" />
         </router-link>
       </div>
-      <div class="content" v-bind:style="{ height: `calc(100vh - ${content_height}px)` }">
-        <router-view></router-view>
+      <div
+        class="content"
+        :style="{ height: `calc(100vh - ${content_height}px)` }"
+      >
+        <router-view />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import moment from 'moment';
-  import {type} from 'os';
+import moment from 'moment';
+import {type} from 'os';
 
-  function sort_box_by_key(key){
-    return function(a, b){
-      if(a[key] < b[key]) return -1;
-      if(a[key] > b[key]) return 1;
-      return 0;
+function sort_box_by_key(key){
+  return function(a, b){
+    if(a[key] < b[key]) return -1;
+    if(a[key] > b[key]) return 1;
+    return 0;
+  };
+}
+
+export default {
+  data(){
+    return {
+      'sort': 'name',
+      'search': null,
+    };
+  },
+  computed: {
+    boxes(){
+      return this.$root.secrets;
+    },
+    content_height(){
+      const header_bar_height = 55;
+      if (type() === 'Darwin'){
+        return header_bar_height + 22;
+      }
+      return header_bar_height + 32;
+    },
+    sorted_boxes(){
+      let sorted_boxes = [];
+      for (let key in this.boxes) {
+        if (this.boxes.hasOwnProperty(key)) {
+          let box = this.boxes[key];
+          sorted_boxes.push({
+            uuid: key,
+            created: moment(box.created),
+            name: box.name,
+          });
+        }
+      }
+      if(this.search){
+        sorted_boxes = sorted_boxes.filter(
+          sorted_box => this.box_matches_search(sorted_box)
+        );
+      }
+      if(this.sort){
+        sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
+      }
+      return sorted_boxes;
+    },
+  },
+  methods: {
+    async save(){
+      return await this.$root.SaveLocalVault();
+    },
+    box_matches_search(sorted_box){
+      if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
+        return true;
+      }
+      let box = this.boxes[sorted_box.uuid];
+      for (let key in box.secrets) {
+        if (box.secrets.hasOwnProperty(key)) {
+          let secret = box.secrets[key];
+          if(secret.name.toLowerCase().includes(this.search.toLowerCase())){
+            return true;
+          }
+        }
+      }
     }
-  }
-
-  export default {
-    data(){
-      return {
-        'sort': 'name',
-        'search': null,
-      }
-    },
-    computed: {
-      boxes(){
-        return this.$root.secrets;
-      },
-      content_height(){
-        const header_bar_height = 55;
-        if (type() === 'Darwin'){
-          return header_bar_height + 22;
-        }
-        return header_bar_height + 32;
-      },
-      sorted_boxes(){
-        let sorted_boxes = [];
-        for (let key in this.boxes) {
-          if (this.boxes.hasOwnProperty(key)) {
-            let box = this.boxes[key];
-            sorted_boxes.push({
-              uuid: key,
-              created: moment(box.created),
-              name: box.name,
-            });
-          }
-        }
-        if(this.search){
-          sorted_boxes = sorted_boxes.filter(
-            sorted_box => this.box_matches_search(sorted_box)
-          )
-        }
-        if(this.sort){
-          sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
-        }
-        return sorted_boxes;
-      },
-    },
-    methods: {
-      async save(){
-        return await this.$root.SaveLocalVault();
-      },
-      box_matches_search(sorted_box){
-        if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
-          return true;
-        }
-        let box = this.boxes[sorted_box.uuid];
-        for (let key in box.secrets) {
-          if (box.secrets.hasOwnProperty(key)) {
-            let secret = box.secrets[key];
-            if(secret.name.toLowerCase().includes(this.search.toLowerCase())){
-              return true;
-            }
-          }
-        }
-      }
-    },
-  }
+  },
+};
 </script>
 
 <style lang="less" scoped>

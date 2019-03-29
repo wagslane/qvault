@@ -1,152 +1,158 @@
 <template>
   <div>
     <div class="box">
-      <div class="description">{{description}}</div>
-      <img v-scroll-to="{
+      <div class="description">
+        {{ description }}
+      </div>
+      <img
+        v-scroll-to="{
           el: '#'+keyboardID,
           offset: -300,
         }"
-        v-on:click="toggle" 
         height="40" 
-        src="../img/keyboard-icon.png"
+        src="../img/keyboard-icon.png" 
+        @click="toggle"
       >
       <input
-        ref="input"
         :id="keyboardID"
+        ref="input"
         :type="type"
-        v-bind:value="value"
-        v-on:input="$emit('input', $event.target.value)"
-        v-on:blur="hide"
-      />
+        :value="value"
+        @input="$emit('input', $event.target.value)"
+        @blur="hide"
+      >
     </div>
-    <div v-bind:style="{ visibility: keyboardVisibility }" class="keyboardContainer">
+    <div
+      :style="{ visibility: keyboardVisibility }"
+      class="keyboardContainer"
+    >
       <div class="keyboard">
-        <div :class="keyboardID"></div>
+        <div :class="keyboardID" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Keyboard from "simple-keyboard";
-  import "simple-keyboard/build/css/index.css";
+import Keyboard from "simple-keyboard";
+import "simple-keyboard/build/css/index.css";
 
-  export default{
-    data(){
-      return{
-        keyboardVisibility: "hidden",
-        recentlyClosed: false,
-        bodyPaddingMax: 280
-      }
+export default{
+  props:{
+    defaultValue:{
+      type: String,
+      required: false,
+      default: ''
     },
-    props:{
-      defaultValue:{
-        type: String,
-        required: false,
-        default: ''
-      },
-      value:{
-        type: String
-      },
-      description:{
-        type: String,
-        required: true
-      },
-      type:{
-        type: String,
-        required: true
-      },
-      keyboardID:{
-        type: String,
-        required: true
-      },
-      active:{
-        type: Boolean
-      }
+    value:{
+      type: String
     },
-    watch: { 
-      defaultValue: function(defaultValue) {
-        this.$refs.input.value = defaultValue;
-        this.$emit('input', this.$refs.input.value);
-      },
-      active: function(active){
-        if (active){
-          this.$refs.input.focus();
-        }
-      }
+    description:{
+      type: String,
+      required: true
     },
-    mounted: function(){
-      if (this.active){
+    type:{
+      type: String,
+      required: true
+    },
+    keyboardID:{
+      type: String,
+      required: true
+    },
+    active:{
+      type: Boolean
+    }
+  },
+  data(){
+    return{
+      keyboardVisibility: "hidden",
+      recentlyClosed: false,
+      bodyPaddingMax: 280
+    };
+  },
+  watch: { 
+    defaultValue: function(defaultValue) {
+      this.$refs.input.value = defaultValue;
+      this.$emit('input', this.$refs.input.value);
+    },
+    active: function(active){
+      if (active){
         this.$refs.input.focus();
-      }
-
-      this.keyboard = new Keyboard(`.${this.keyboardID}`, {
-        preventMouseDownDefault: true,
-        theme: "simple-keyboard hg-theme-default custom-theme",
-        onKeyPress: btn => this.onKeyPress(btn),
-        layout: {
-          'default': [
-            '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-            'q w e r t y u i o p [ ] \\',
-            'a s d f g h j k l ; \'',
-            '{shift} z x c v b n m , . /',
-            '{space}'
-          ],
-          'shift': [
-            '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-            'Q W E R T Y U I O P { } |',
-            'A S D F G H J K L : "',
-            '{shift} Z X C V B N M < > ?',
-            '{space}'
-          ]
-        }
-      });
-    },
-    methods:{
-      toggle(){
-        if (this.keyboardVisibility == "visible"){
-          this.keyboardVisibility = "hidden";
-          document.body.style.paddingBottom = '0px';
-          return;
-        }
-        if (this.recentlyClosed){
-          return;
-        }
-        this.keyboardVisibility = "visible";
-        document.body.style.paddingBottom = `${this.bodyPaddingMax}px`;
-        this.$refs.input.focus();
-      },
-      hide(){
-        if (this.keyboardVisibility == "hidden"){
-          return;
-        }
-        this.keyboardVisibility = "hidden";
-        document.body.style.paddingBottom = '0px';
-        this.recentlyClosed = true;
-        setTimeout(() => this.recentlyClosed = false, 200);
-      },
-      onKeyPress(btn){
-        if (btn === "{shift}"){
-          let currentLayout = this.keyboard.options.layoutName;
-          let shiftToggle = currentLayout === "default" ? "shift" : "default";
-          this.keyboard.setOptions({
-            layoutName: shiftToggle
-          });
-          return;
-        }
-        if (btn === "{bksp}"){
-          if (this.$refs.input.value.length > 0){
-            this.$refs.input.value = this.$refs.input.value.slice(0, -1)
-          }
-        } else if (btn === "{space}"){
-          this.$refs.input.value += " "
-        } else {
-          this.$refs.input.value += btn
-        }
-        this.$emit('input', this.$refs.input.value);
       }
     }
+  },
+  mounted: function(){
+    if (this.active){
+      this.$refs.input.focus();
+    }
+
+    this.keyboard = new Keyboard(`.${this.keyboardID}`, {
+      preventMouseDownDefault: true,
+      theme: "simple-keyboard hg-theme-default custom-theme",
+      onKeyPress: btn => this.onKeyPress(btn),
+      layout: {
+        'default': [
+          '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+          'q w e r t y u i o p [ ] \\',
+          'a s d f g h j k l ; \'',
+          '{shift} z x c v b n m , . /',
+          '{space}'
+        ],
+        'shift': [
+          '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+          'Q W E R T Y U I O P { } |',
+          'A S D F G H J K L : "',
+          '{shift} Z X C V B N M < > ?',
+          '{space}'
+        ]
+      }
+    });
+  },
+  methods:{
+    toggle(){
+      if (this.keyboardVisibility == "visible"){
+        this.keyboardVisibility = "hidden";
+        document.body.style.paddingBottom = '0px';
+        return;
+      }
+      if (this.recentlyClosed){
+        return;
+      }
+      this.keyboardVisibility = "visible";
+      document.body.style.paddingBottom = `${this.bodyPaddingMax}px`;
+      this.$refs.input.focus();
+    },
+    hide(){
+      if (this.keyboardVisibility == "hidden"){
+        return;
+      }
+      this.keyboardVisibility = "hidden";
+      document.body.style.paddingBottom = '0px';
+      this.recentlyClosed = true;
+      setTimeout(() => this.recentlyClosed = false, 200);
+    },
+    onKeyPress(btn){
+      if (btn === "{shift}"){
+        let currentLayout = this.keyboard.options.layoutName;
+        let shiftToggle = currentLayout === "default" ? "shift" : "default";
+        this.keyboard.setOptions({
+          layoutName: shiftToggle
+        });
+        return;
+      }
+      if (btn === "{bksp}"){
+        if (this.$refs.input.value.length > 0){
+          this.$refs.input.value = this.$refs.input.value.slice(0, -1);
+        }
+      } else if (btn === "{space}"){
+        this.$refs.input.value += " ";
+      } else {
+        this.$refs.input.value += btn;
+      }
+      this.$emit('input', this.$refs.input.value);
+    }
   }
+};
 </script>
 
 <style lang="less" scoped>

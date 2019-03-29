@@ -2,55 +2,49 @@
   <div v-if="box">
     <div class="wrapper">
       <div
-        v-text="box.name"
         placeholder="Name"
         class="box_name"
-      ></div>
+        v-text="box.name"
+      />
       <button
-        @click.prevent="add_secret"
         class="add_secret"
+        @click.prevent="add_secret"
       >
-        <plus_icon style="height: 22px"></plus_icon>
+        <plus_icon style="height: 22px" />
       </button>
     </div>
-    <router-view></router-view>
+    <router-view />
     <button
-      @click.prevent="save"
       class="save"
-    >Save</button>
+      @click.prevent="save"
+    >
+      Save
+    </button>
   </div>
 </template>
 
 <script>
-  import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
-  import secret from './secret.vue';
-
-  export default {
-    components: {
-      secret,
+export default {
+  computed: {
+    box_uuid(){ return this.$route.params.box_uuid; },
+    box(){
+      if(this.box_uuid){
+        return this.$root.GetBox(this.box_uuid);
+      }
+      return {};
     },
-    computed: {
-      box_uuid(){ return this.$route.params.box_uuid; },
-      box(){
-        if(this.box_uuid){
-          return this.$root.GetBox(this.box_uuid);
-        }
-      },
+  },
+  methods: {
+    async save(){
+      await this.$root.SaveLocalVault();
+      await this.$root.SaveCloudVaultIfEmail();
     },
-    methods: {
-      async save(){
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
-      },
-      add_secret(){
-        let secret_uuid = this.$root.CreateSecret(this.box_uuid);
-        this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
-      },
-//      copy_value(){
-//        document.execCommand("copy");
-//      },
+    add_secret(){
+      let secret_uuid = this.$root.CreateSecret(this.box_uuid);
+      this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
     },
-  }
+  },
+};
 </script>
 
 <style lang="less" scoped>

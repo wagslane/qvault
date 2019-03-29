@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import {authenticate, isLoggedIn, upsertVault} from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, upsertVault, setToken } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import {
   PassKeyFromPassword,
