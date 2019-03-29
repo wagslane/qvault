@@ -48,7 +48,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Unlocking Vault"
       :func="unlock"
     />
   </div>

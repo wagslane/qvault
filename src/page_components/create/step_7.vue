@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <form @submit.prevent="click_continue">
+      <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <StepProgress :filled="6" />
           <h1>Cloud Backup Account</h1>
@@ -79,6 +79,11 @@
         </div>
       </form>
     </div>
+    <LoadingOverlay
+      ref="loader"
+      title="Registering"
+      :func="click_continue"
+    />
   </div>
 </template>
 
@@ -119,6 +124,8 @@ export default {
         let body = await authenticate(this.emailLogin, this.cloudKey);
         setToken(body.jwt);
         this.$root.email = this.emailLogin;
+        await this.$root.SaveLocalVault();
+        await this.$root.SaveCloudVaultIfEmail();
         this.$router.push({name: 'vault'});
       } catch (err) {
         this.error = err;

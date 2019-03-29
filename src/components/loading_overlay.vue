@@ -4,7 +4,6 @@
     class="screen"
   >
     <div class="center">
-      <p> {{ title }} </p>
       <img src="../img/loading.gif">
     </div>
   </div>
@@ -16,11 +15,6 @@ export default {
     func: {
       type: Function,
       required: true
-    },
-    title:{
-      type: String,
-      required: false,
-      default: ''
     }
   },
   data(){
@@ -48,7 +42,7 @@ export default {
 
 <style lang="less" scoped>
   .screen {
-    background: rgba(0,0,0,0.70);
+    background: rgba(0,0,0,0.50);
     width: 100%;
     height: 100%;
     position: fixed;
@@ -63,11 +57,6 @@ export default {
       -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
       text-align: center;
-
-      p{
-        font-size: 36px;
-        color: #fff;
-      }
     }
   }
 </style>

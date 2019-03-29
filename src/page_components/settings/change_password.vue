@@ -110,7 +110,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      :title="loading_title"
       :func="save"
     />
   </div>
