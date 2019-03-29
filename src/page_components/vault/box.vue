@@ -8,17 +8,12 @@
       />
       <button
         class="add_secret"
-        @click.prevent="$root.CreateSecret(box_uuid)"
+        @click.prevent="add_secret"
       >
         <plus_icon style="height: 22px" />
       </button>
     </div>
-    <secret
-      v-for="secret_uuid in secret_uuids"
-      :key="secret_uuid"
-      :secret_uuid="secret_uuid"
-      :box="box"
-    />
+    <router-view />
     <button
       class="save"
       @click.prevent="save"
@@ -29,12 +24,7 @@
 </template>
 
 <script>
-import secret from './secret.vue';
-
 export default {
-  components: {
-    secret,
-  },
   computed: {
     box_uuid(){ return this.$route.params.box_uuid; },
     box(){
@@ -43,21 +33,16 @@ export default {
       }
       return {};
     },
-    secret_uuids(){
-      if(this.box){
-        return Object.keys(this.box.secrets);
-      }
-      return [];
-    },
   },
   methods: {
     async save(){
       await this.$root.SaveLocalVault();
       await this.$root.SaveCloudVaultIfEmail();
     },
-    //      copy_value(){
-    //        document.execCommand("copy");
-    //      },
+    add_secret(){
+      let secret_uuid = this.$root.CreateSecret(this.box_uuid);
+      this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
+    },
   },
 };
 </script>
