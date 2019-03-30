@@ -66,6 +66,7 @@
 import moment from 'moment';
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg';
+import {heightMac, heightWin} from '../../consts/title_bar.es6';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -92,9 +93,9 @@ export default {
     content_height(){
       const header_bar_height = 55;
       if (type() === 'Darwin'){
-        return header_bar_height + 22;
+        return header_bar_height + heightMac;
       }
-      return header_bar_height + 32;
+      return header_bar_height + heightWin;
     },
     sorted_boxes(){
       let sorted_boxes = [];

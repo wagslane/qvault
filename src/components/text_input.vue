@@ -4,23 +4,27 @@
       <div class="description">
         {{ description }}
       </div>
-      <img
-        v-scroll-to="{
-          el: '#'+keyboardID,
-          offset: -300,
-        }"
-        height="40" 
-        src="../img/keyboard-icon.png" 
-        @click="toggle"
-      >
-      <input
-        :id="keyboardID"
-        ref="input"
-        :type="type"
-        :value="value"
-        @input="$emit('input', $event.target.value)"
-        @blur="hide"
-      >
+      <div class="input-wrap">
+        <span
+          class="icon"
+          @click="toggle"
+        >
+          <KeyboardIcon
+            v-scroll-to="{
+              el: '#'+keyboardID,
+              offset: -300,
+            }"
+          />
+        </span>
+        <input
+          :id="keyboardID"
+          ref="input"
+          :type="type"
+          :value="value"
+          @input="$emit('input', $event.target.value)"
+          @blur="hide"
+        >
+      </div>
     </div>
     <div
       :style="{ visibility: keyboardVisibility }"
@@ -35,9 +39,13 @@
 
 <script>
 import Keyboard from "simple-keyboard";
+import KeyboardIcon from '../img/keyboard-icon.svg';
 import "simple-keyboard/build/css/index.css";
 
 export default{
+  components:{
+    KeyboardIcon
+  },
   props:{
     defaultValue:{
       type: String,
@@ -113,14 +121,14 @@ export default{
     toggle(){
       if (this.keyboardVisibility == "visible"){
         this.keyboardVisibility = "hidden";
-        document.body.style.paddingBottom = '0px';
+        document.getElementById("body-contents").style.paddingBottom = '0px';
         return;
       }
       if (this.recentlyClosed){
         return;
       }
       this.keyboardVisibility = "visible";
-      document.body.style.paddingBottom = `${this.bodyPaddingMax}px`;
+      document.getElementById("body-contents").style.paddingBottom = `${this.bodyPaddingMax}px`;
       this.$refs.input.focus();
     },
     hide(){
@@ -128,7 +136,7 @@ export default{
         return;
       }
       this.keyboardVisibility = "hidden";
-      document.body.style.paddingBottom = '0px';
+      document.getElementById("body-contents").style.paddingBottom = '0px';
       this.recentlyClosed = true;
       setTimeout(() => this.recentlyClosed = false, 200);
     },
@@ -177,31 +185,53 @@ export default{
     margin-right: 20px;
   }
 
-  img {
-    margin-right:10px;
-    margin-top: 5px;
-    cursor: pointer;
-    margin-right: 20px;
-  }
-
-  input {
+  .input-wrap{
+    display: flex;
+    flex-direction: row;
     flex: 1;
-    box-sizing: border-box;
-    height: 47px;
-    line-height: 47px;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 2px;
-    font-weight: 300;
-    background-color: white;
-    padding-left: 5px;
-    outline: none;
-    color: #B3B3B3;
-    background-color: #0B0C0D;
 
-    &:focus {
-      border: 2px solid #D8A22E;
-      outline: none;
+    .icon{
+      background-color: #24272A;
+      cursor: pointer;
+      height: 47px;
+      border-radius: 2px 0px 0px 2px;
+      border: 1px solid #808080;
+      border-right: 0px;
+
+      svg {
+        margin-top: 10px;
+        margin-left: 13.5px;
+        margin-right: 13.5px;
+
+        path {
+          fill: #fff;
+        }
+      }
+
+      &:hover{
+        background-color: #42454A;
+      }
     }
+
+      input {
+        flex: 1;
+        box-sizing: border-box;
+        height: 47px;
+        line-height: 47px;
+        border: 1px solid #808080;
+        border-radius: 0px 2px 2px 0px;
+        font-weight: 300;
+        background-color: white;
+        padding-left: 5px;
+        outline: none;
+        color: #B3B3B3;
+        background-color: #0B0C0D;
+
+        &:focus {
+          border: 2px solid #D8A22E;
+          outline: none;
+        }
+      }
   }
 
   span{
