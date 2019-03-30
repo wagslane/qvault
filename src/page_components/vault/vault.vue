@@ -46,7 +46,7 @@
           :to="{name: 'add_box'}"
           class="add-box"
         >
-          <PlusBox class="plus-box" />
+          <PlusBox />
           <span>
             Add New Box
           </span>
@@ -216,16 +216,36 @@ export default {
         font-size: 14px;
         display: block;
         text-decoration: none;
+        color: #808080;
 
-        .plus-box{
+        svg{
           margin-right: 16px;
           vertical-align: middle;
+
+          path {
+            fill: #808080;
+          }
+          rect {
+            stroke: #808080;
+          }
         }
 
         span{
           line-height: 75px;
-          color: white;
-          opacity: 0.5;
+        }
+
+        &:hover {
+          color: #CE9B2C;
+          background-color: #080D0E;
+
+          svg {
+            path {
+              fill: #CE9B2C;
+            }
+            rect {
+              stroke: #CE9B2C;
+            }
+          }
         }
       }
     }
