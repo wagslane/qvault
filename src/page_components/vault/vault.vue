@@ -44,9 +44,12 @@
         </div>
         <router-link
           :to="{name: 'add_box'}"
-          class="add_box"
+          class="add-box"
         >
-          <PlusBox style="plus_box" />
+          <PlusBox class="plus-box" />
+          <span>
+            Add New Box
+          </span>
         </router-link>
       </div>
       <div
@@ -201,7 +204,7 @@ export default {
         }
       }
 
-      .add_box {
+      .add-box {
         height: 75px;
         text-align: center;
         position: absolute;
@@ -209,14 +212,20 @@ export default {
         right: 0;
         bottom: 0;
         background-color: #181C1E;
-        color: white;
         border: none;
         font-size: 14px;
         display: block;
-        line-height: 75px;
+        text-decoration: none;
 
-        .plus_box{
-          margin-top: 24.5px;
+        .plus-box{
+          margin-right: 16px;
+          vertical-align: middle;
+        }
+
+        span{
+          line-height: 75px;
+          color: white;
+          opacity: 0.5;
         }
       }
     }
