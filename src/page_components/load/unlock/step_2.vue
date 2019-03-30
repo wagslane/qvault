@@ -35,7 +35,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Unlocking Vault"
       :func="unlock"
     />
   </div>
@@ -55,7 +54,7 @@ export default {
         await this.$root.UnlockVaultCharKey(this.char_key);
         this.$router.push({name: 'load_unlock_step_3'});
       } catch (err) {
-        this.error = err;
+        this.error = "Invalid Code";
       }
     }
   }

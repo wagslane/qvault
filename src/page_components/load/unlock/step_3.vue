@@ -87,7 +87,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Applying Brute-Force Resistance"
       :func="save"
     />
   </div>

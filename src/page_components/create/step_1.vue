@@ -23,7 +23,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Creating Vault"
       :func="open_existing"
     />
   </div>

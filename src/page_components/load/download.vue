@@ -40,7 +40,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Downloading"
       :func="download"
     />
   </div>

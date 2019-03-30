@@ -4,8 +4,12 @@
     <div class="options-box">
       <div class="body center-text">
         <StepProgress :filled="3" />
-        <h1>Second Factor Encryption</h1>
-        <h2>Scan the QR code on your Q Card to enable dual factor encryption</h2>
+        <h1>Two Factor Encryption</h1>
+        <h2>Scan the QR code on your Q Card to enable 2FE</h2>
+        <h3>
+          2FE is hyper-secure. 
+          It requires that your QR Code is scanned to open your vault.
+        </h3>
 
         <QRScanner @scanned="handleQRKey" />
         <span

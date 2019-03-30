@@ -51,7 +51,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Creating New Code"
       :func="generate_key"
     />
   </div>

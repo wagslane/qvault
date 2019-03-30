@@ -24,7 +24,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Deleting Account"
       :func="delete_account"
     />
   </div>

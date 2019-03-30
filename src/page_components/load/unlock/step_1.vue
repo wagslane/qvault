@@ -48,7 +48,6 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      title="Unlocking Vault"
       :func="unlock"
     />
   </div>
@@ -78,7 +77,7 @@ export default {
       try{
         await this.$root.UnlockVaultPassword(this.password);
       } catch(err){
-        this.error = err;
+        this.error = 'Invalid Password';
         return;
       }
       if (this.$root.email){

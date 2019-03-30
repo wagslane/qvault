@@ -23,7 +23,7 @@ function createWindow() {
       contextIsolation: false, // We need to figure out how to enable this
       preload: path.join(__dirname, 'preload.js')
     },
-    frame: true,
+    frame: false,
     titleBarStyle: 'hidden',
     backgroundColor: '#131617',
     x: mainWindowState.x,
@@ -47,7 +47,7 @@ function createWindow() {
   });
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

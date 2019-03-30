@@ -46,7 +46,7 @@
           :to="{name: 'add_box'}"
           class="add_box"
         >
-          <plus_icon style="height: 22px" />
+          <PlusBox style="plus_box" />
         </router-link>
       </div>
       <div
@@ -62,6 +62,7 @@
 <script>
 import moment from 'moment';
 import {type} from 'os';
+import PlusBox from '../../img/plus-box.svg';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -72,6 +73,9 @@ function sort_box_by_key(key){
 }
 
 export default {
+  components:{
+    PlusBox
+  },
   data(){
     return {
       'sort': 'name',
@@ -207,16 +211,20 @@ export default {
         background-color: #181C1E;
         color: white;
         border: none;
-        font-size: 35px;
+        font-size: 14px;
         display: block;
-        line-height: 70px;
+        line-height: 75px;
+
+        .plus_box{
+          margin-top: 24.5px;
+        }
       }
     }
 
     .content {
       flex-grow: 3;
       flex-basis: 0;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
 </style>

@@ -18,6 +18,21 @@ Instagram: [https://www.instagram.com/qvault.io](https://www.instagram.com/qvaul
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
 
+## Linting
+
+Q Vault uses eslint and all pull requests must pass the eslint tests specified in travis.yml.
+To run the linting tests:
+
+```bash
+yarn lint
+```
+
+To try to autofix the repo:
+
+```bash
+yarn lint-fix
+```
+
 ## Node Version
 
 Set the correct node version:
