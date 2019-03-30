@@ -2,6 +2,7 @@
   <div class="secret secret_preview">
     <input
       v-for="quick_access_field in box_type.quick_access_fields"
+      :key="quick_access_field"
       v-model="secret[quick_access_field]"
       :placeholder="quick_access_field"
       class="secret_value"
@@ -16,14 +17,26 @@
 </template>
 
 <script>
-  export default {
-    props: [
-      'box_uuid',
-      'secret_uuid',
-      'secret',
-      'box_type',
-    ],
-  }
+export default {
+  props: {
+    boxUuid:{
+      type: String,
+      required: true
+    },
+    secretUuid:{
+      type: String,
+      required: true
+    },
+    secret:{
+      type: String,
+      required: true
+    },
+    boxType:{
+      type: String,
+      required: true
+    }
+  },
+};
 </script>
 
 <style lang="less" scoped>

@@ -45,7 +45,8 @@ export default{
       default: ''
     },
     value:{
-      type: String
+      type: String,
+      default: ''
     },
     description:{
       type: String,
