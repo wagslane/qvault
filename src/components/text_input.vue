@@ -197,11 +197,11 @@ export default{
     outline: none;
     color: #B3B3B3;
     background-color: #0B0C0D;
-  }
 
-  input:focus {
-    border: 2px solid #D8A22E;
-    outline: none;
+    &:focus {
+      border: 2px solid #D8A22E;
+      outline: none;
+    }
   }
 
   span{
