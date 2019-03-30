@@ -54,7 +54,6 @@
 
 <script>
 import Vue from 'vue';
-
 import box_types from '../../consts/box_types.es6';
 
 export default {

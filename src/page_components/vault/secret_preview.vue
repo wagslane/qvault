@@ -1,7 +1,7 @@
 <template>
   <div class="secret secret_preview">
     <input
-      v-for="quick_access_field in box_type.quick_access_fields"
+      v-for="quick_access_field in boxType.quick_access_fields"
       :key="quick_access_field"
       v-model="secret[quick_access_field]"
       :placeholder="quick_access_field"
@@ -9,7 +9,7 @@
       readonly
     >
     <router-link
-      :to="{name: 'secret', params: {box_uuid: box_uuid, secret_uuid: secret_uuid}}"
+      :to="{name: 'secret', params: {box_uuid: boxUuid, secret_uuid: secretUuid}}"
     >
       >
     </router-link>
@@ -28,11 +28,11 @@ export default {
       required: true
     },
     secret:{
-      type: String,
+      type: Object,
       required: true
     },
     boxType:{
-      type: String,
+      type: Object,
       required: true
     }
   },

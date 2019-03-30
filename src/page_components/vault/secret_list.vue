@@ -3,17 +3,16 @@
     <secret_preview
       v-for="secret_uuid in secret_uuids"
       :key="secret_uuid"
-      :box_uuid="box_uuid"
-      :secret_uuid="secret_uuid"
+      :box-uuid="box_uuid"
+      :secret-uuid="secret_uuid"
       :secret="box.secrets[secret_uuid]"
-      :box_type="box_type"
+      :box-type="box_type"
     />
   </div>
 </template>
 
 <script>
 import box_types from '../../consts/box_types.es6';
-
 import secret_preview from './secret_preview.vue';
 
 export default {
