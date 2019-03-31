@@ -1,75 +1,50 @@
 <template>
   <div v-if="box">
     <div class="wrapper">
-      <input
-        v-model="box.name"
+      <div
         placeholder="Name"
         class="box_name"
-      >
+        v-text="box.name"
+      />
       <button
-        @click.prevent="$root.CreateSecret(box_uuid)"
         class="add_secret"
+        @click.prevent="add_secret"
       >
-        <img src="../../img/plus-solid.svg" style="height: 22px" />
+        <plus_icon style="height: 22px" />
       </button>
     </div>
-    <secret
-      v-for="secret_uuid in secret_uuids"
-      :key="secret_uuid"
-      :secret="box.secrets[secret_uuid]"
-      :fields="box.fields"
-    ></secret>
+    <router-view />
     <button
-      @click.prevent="save"
       class="save"
-    >Save</button>
+      @click.prevent="save"
+    >
+      Save
+    </button>
   </div>
 </template>
 
 <script>
-  import {authenticate, isLoggedIn, upsertVault} from '../../lib/CloudClient/CloudClient';
-  import secret from './secret.vue';
-
-  export default {
-    components: {
-      secret,
+export default {
+  computed: {
+    box_uuid(){ return this.$route.params.box_uuid; },
+    box(){
+      if(this.box_uuid){
+        return this.$root.GetBox(this.box_uuid);
+      }
+      return {};
     },
-    computed: {
-      box_uuid(){ return this.$route.params.box_uuid; },
-      box(){
-        if(this.box_uuid){
-          return this.$root.GetBox(this.box_uuid);
-        }
-      },
-      secret_uuids(){
-        if(this.box){
-          return Object.keys(this.box.secrets);
-        }
-      },
+  },
+  methods: {
+    async save(){
+      await this.$root.SaveLocalVault();
+      await this.$root.SaveCloudVaultIfEmail();
     },
-    methods: {
-      async save(){
-        await this.$root.SaveLocalVault();
-        if (this.$root.email){
-          if (!isLoggedIn()){
-            let cloudKey = await DeriveCloudKey(this.$root.pass_key);
-            let body = await authenticate(this.$root.email, cloudKey);
-            setToken(body.jwt);
-          }
-          try{
-            let vault = await this.$root.GetSavableVault();
-            await upsertVault(vault);
-            alert('Vault uploaded successfully!');
-          } catch (err){
-            alert(err);
-          }
-        }
-      },
-//      copy_value(){
-//        document.execCommand("copy");
-//      },
+    add_secret(){
+      let secret_uuid = this.$root.CreateSecret(this.box_uuid);
+      this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
     },
-  }
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -87,6 +62,7 @@
       color: #8C8E8F;
       width: ~'calc(100% - 150px)';
       padding: 10px;
+      display: inline-block;
     }
 
     .add_secret {

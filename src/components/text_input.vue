@@ -1,152 +1,167 @@
 <template>
   <div>
     <div class="box">
-      <div class="description">{{description}}</div>
-      <img v-scroll-to="{
-          el: '#'+keyboardID,
-          offset: -300,
-        }"
-        v-on:click="toggle" 
-        height="40" 
-        src="../img/keyboard-icon.png"
-      >
-      <input
-        ref="input"
-        :id="keyboardID"
-        :type="type"
-        v-bind:value="value"
-        v-on:input="$emit('input', $event.target.value)"
-        v-on:blur="hide"
-      />
+      <div class="description">
+        {{ description }}
+      </div>
+      <div class="input-wrap">
+        <span
+          class="icon"
+          @click="toggle"
+        >
+          <KeyboardIcon
+            v-scroll-to="{
+              el: '#'+keyboardID,
+              offset: -300,
+            }"
+          />
+        </span>
+        <input
+          :id="keyboardID"
+          ref="input"
+          :type="type"
+          :value="value"
+          @input="$emit('input', $event.target.value)"
+          @blur="hide"
+        >
+      </div>
     </div>
-    <div v-bind:style="{ visibility: keyboardVisibility }" class="keyboardContainer">
+    <div
+      :style="{ visibility: keyboardVisibility }"
+      class="keyboardContainer"
+    >
       <div class="keyboard">
-        <div :class="keyboardID"></div>
+        <div :class="keyboardID" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Keyboard from "simple-keyboard";
-  import "simple-keyboard/build/css/index.css";
+import Keyboard from "simple-keyboard";
+import KeyboardIcon from '../img/keyboard-icon.svg';
+import "simple-keyboard/build/css/index.css";
 
-  export default{
-    data(){
-      return{
-        keyboardVisibility: "hidden",
-        recentlyClosed: false,
-        bodyPaddingMax: 280
-      }
+export default{
+  components:{
+    KeyboardIcon
+  },
+  props:{
+    defaultValue:{
+      type: String,
+      required: false,
+      default: ''
     },
-    props:{
-      defaultValue:{
-        type: String,
-        required: false,
-        default: ''
-      },
-      value:{
-        type: String
-      },
-      description:{
-        type: String,
-        required: true
-      },
-      type:{
-        type: String,
-        required: true
-      },
-      keyboardID:{
-        type: String,
-        required: true
-      },
-      active:{
-        type: Boolean
-      }
+    value:{
+      type: String,
+      default: ''
     },
-    watch: { 
-      defaultValue: function(defaultValue) {
-        this.$refs.input.value = defaultValue;
-        this.$emit('input', this.$refs.input.value);
-      },
-      active: function(active){
-        if (active){
-          this.$refs.input.focus();
-        }
-      }
+    description:{
+      type: String,
+      required: true
     },
-    mounted: function(){
-      if (this.active){
+    type:{
+      type: String,
+      required: true
+    },
+    keyboardID:{
+      type: String,
+      required: true
+    },
+    active:{
+      type: Boolean
+    }
+  },
+  data(){
+    return{
+      keyboardVisibility: "hidden",
+      recentlyClosed: false,
+      bodyPaddingMax: 280
+    };
+  },
+  watch: { 
+    defaultValue: function(defaultValue) {
+      this.$refs.input.value = defaultValue;
+      this.$emit('input', this.$refs.input.value);
+    },
+    active: function(active){
+      if (active){
         this.$refs.input.focus();
-      }
-
-      this.keyboard = new Keyboard(`.${this.keyboardID}`, {
-        preventMouseDownDefault: true,
-        theme: "simple-keyboard hg-theme-default custom-theme",
-        onKeyPress: btn => this.onKeyPress(btn),
-        layout: {
-          'default': [
-            '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-            'q w e r t y u i o p [ ] \\',
-            'a s d f g h j k l ; \'',
-            '{shift} z x c v b n m , . /',
-            '{space}'
-          ],
-          'shift': [
-            '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-            'Q W E R T Y U I O P { } |',
-            'A S D F G H J K L : "',
-            '{shift} Z X C V B N M < > ?',
-            '{space}'
-          ]
-        }
-      });
-    },
-    methods:{
-      toggle(){
-        if (this.keyboardVisibility == "visible"){
-          this.keyboardVisibility = "hidden";
-          document.body.style.paddingBottom = '0px';
-          return;
-        }
-        if (this.recentlyClosed){
-          return;
-        }
-        this.keyboardVisibility = "visible";
-        document.body.style.paddingBottom = `${this.bodyPaddingMax}px`;
-        this.$refs.input.focus();
-      },
-      hide(){
-        if (this.keyboardVisibility == "hidden"){
-          return;
-        }
-        this.keyboardVisibility = "hidden";
-        document.body.style.paddingBottom = '0px';
-        this.recentlyClosed = true;
-        setTimeout(() => this.recentlyClosed = false, 200);
-      },
-      onKeyPress(btn){
-        if (btn === "{shift}"){
-          let currentLayout = this.keyboard.options.layoutName;
-          let shiftToggle = currentLayout === "default" ? "shift" : "default";
-          this.keyboard.setOptions({
-            layoutName: shiftToggle
-          });
-          return;
-        }
-        if (btn === "{bksp}"){
-          if (this.$refs.input.value.length > 0){
-            this.$refs.input.value = this.$refs.input.value.slice(0, -1)
-          }
-        } else if (btn === "{space}"){
-          this.$refs.input.value += " "
-        } else {
-          this.$refs.input.value += btn
-        }
-        this.$emit('input', this.$refs.input.value);
       }
     }
+  },
+  mounted: function(){
+    if (this.active){
+      this.$refs.input.focus();
+    }
+
+    this.keyboard = new Keyboard(`.${this.keyboardID}`, {
+      preventMouseDownDefault: true,
+      theme: "simple-keyboard hg-theme-default custom-theme",
+      onKeyPress: btn => this.onKeyPress(btn),
+      layout: {
+        'default': [
+          '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+          'q w e r t y u i o p [ ] \\',
+          'a s d f g h j k l ; \'',
+          '{shift} z x c v b n m , . /',
+          '{space}'
+        ],
+        'shift': [
+          '~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+          'Q W E R T Y U I O P { } |',
+          'A S D F G H J K L : "',
+          '{shift} Z X C V B N M < > ?',
+          '{space}'
+        ]
+      }
+    });
+  },
+  methods:{
+    toggle(){
+      if (this.keyboardVisibility == "visible"){
+        this.keyboardVisibility = "hidden";
+        document.getElementById("body-contents").style.paddingBottom = '0px';
+        return;
+      }
+      if (this.recentlyClosed){
+        return;
+      }
+      this.keyboardVisibility = "visible";
+      document.getElementById("body-contents").style.paddingBottom = `${this.bodyPaddingMax}px`;
+      this.$refs.input.focus();
+    },
+    hide(){
+      if (this.keyboardVisibility == "hidden"){
+        return;
+      }
+      this.keyboardVisibility = "hidden";
+      document.getElementById("body-contents").style.paddingBottom = '0px';
+      this.recentlyClosed = true;
+      setTimeout(() => this.recentlyClosed = false, 200);
+    },
+    onKeyPress(btn){
+      if (btn === "{shift}"){
+        let currentLayout = this.keyboard.options.layoutName;
+        let shiftToggle = currentLayout === "default" ? "shift" : "default";
+        this.keyboard.setOptions({
+          layoutName: shiftToggle
+        });
+        return;
+      }
+      if (btn === "{bksp}"){
+        if (this.$refs.input.value.length > 0){
+          this.$refs.input.value = this.$refs.input.value.slice(0, -1);
+        }
+      } else if (btn === "{space}"){
+        this.$refs.input.value += " ";
+      } else {
+        this.$refs.input.value += btn;
+      }
+      this.$emit('input', this.$refs.input.value);
+    }
   }
+};
 </script>
 
 <style lang="less" scoped>
@@ -170,31 +185,53 @@
     margin-right: 20px;
   }
 
-  img {
-    margin-right:10px;
-    margin-top: 5px;
-    cursor: pointer;
-    margin-right: 20px;
-  }
-
-  input {
+  .input-wrap{
+    display: flex;
+    flex-direction: row;
     flex: 1;
-    box-sizing: border-box;
-    height: 47px;
-    line-height: 47px;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 2px;
-    font-weight: 300;
-    background-color: white;
-    padding-left: 5px;
-    outline: none;
-    color: #B3B3B3;
-    background-color: #0B0C0D;
-  }
 
-  input:focus {
-    border: 2px solid #D8A22E;
-    outline: none;
+    .icon{
+      background-color: #24272A;
+      cursor: pointer;
+      height: 47px;
+      border-radius: 2px 0px 0px 2px;
+      border: 1px solid #808080;
+      border-right: 0px;
+
+      svg {
+        margin-top: 10px;
+        margin-left: 13.5px;
+        margin-right: 13.5px;
+
+        path {
+          fill: #fff;
+        }
+      }
+
+      &:hover{
+        background-color: #42454A;
+      }
+    }
+
+      input {
+        flex: 1;
+        box-sizing: border-box;
+        height: 47px;
+        line-height: 47px;
+        border: 1px solid #808080;
+        border-radius: 0px 2px 2px 0px;
+        font-weight: 300;
+        background-color: white;
+        padding-left: 5px;
+        outline: none;
+        color: #B3B3B3;
+        background-color: #0B0C0D;
+
+        &:focus {
+          border: 2px solid #D8A22E;
+          outline: none;
+        }
+      }
   }
 
   span{

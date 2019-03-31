@@ -3,10 +3,9 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-
+import { authenticate, isLoggedIn, upsertVault, setToken } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import {
-  GenerateCharKey,
   PassKeyFromPassword,
   CipherSecrets,
   DecipherSecrets,
@@ -15,6 +14,7 @@ import {
   HashCharKey,
   CipherSecretsQr,
   DecipherSecretsQr,
+  DeriveCloudKey,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.es6';
@@ -66,6 +66,7 @@ export default {
         this.loaded_vault = JSON.parse(data);
         assert(this.loaded_vault.version, 'Selected vault is corrupted');
         this.email = this.loaded_vault.email;
+        this.qr_required = this.loaded_vault.qr_required;
       } catch (err) {
         this.loaded_vault  = null;
         this.local_vault_path = null;
@@ -79,12 +80,6 @@ export default {
         defaultPath: `myvault.${QVAULT_FILE_EXTENSION}`
       });
       assert(this.local_vault_path, 'A vault file must be selected');
-    },
-
-    async CreateCharKey(){
-      this.char_key = await GenerateCharKey();
-      this.hashed_char_key = await HashCharKey(this.char_key);
-      return this.char_key;
     },
 
     CreateQrKey(qrKey){
@@ -124,7 +119,7 @@ export default {
       } catch (err) {
         this.pass_key = null;
         this.char_key = null;
-        assert(false, "Invalid password");
+        throw new Error(err);
       }
     },
 
@@ -182,6 +177,18 @@ export default {
         qr_required: this.qr_required,
         email: this.email
       };
+    },
+
+    async SaveCloudVaultIfEmail(){
+      if (this.email){
+        if (!isLoggedIn()){
+          let cloudKey = await DeriveCloudKey(this.pass_key);
+          let body = await authenticate(this.email, cloudKey);
+          setToken(body.jwt);
+        }
+        let vault = await this.GetSavableVault();
+        await upsertVault(vault);
+      }
     },
 
     ClearLastUsedVaultCache(){

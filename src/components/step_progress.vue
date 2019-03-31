@@ -1,6 +1,10 @@
 <template>
   <div class="position">
-    <svg class="step-progress" :height="circleHeight" :width="width">
+    <svg
+      class="step-progress"
+      :height="circleHeight"
+      :width="width"
+    >
       <line
         v-for="line in lines"
         :key="line.x1+line.x2+line.y1+line.y2"
@@ -9,7 +13,7 @@
         :x2="line.x2"
         :y2="line.y2"
         :style="line.style"
-      ></line>
+      />
       <circle
         v-for="circle in circles"
         :key="circle.cx+circle.cy"
@@ -19,13 +23,20 @@
         :stroke="circle.stroke"
         :stroke-width="circle.stroke_width"
         :fill="circle.fill"
-      ></circle>
+      />
     </svg>
   </div>
 </template>
 
 <script>
 export default {
+
+  props: {
+    filled: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       circleRadius: 7.5,
@@ -107,13 +118,6 @@ export default {
       return (
         (this.width - this.circleRadius * 2) / (this.filled + this.empty() - 1)
       );
-    }
-  },
-
-  props: {
-    filled: {
-      type: Number,
-      required: true
     }
   }
 };

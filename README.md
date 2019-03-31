@@ -18,6 +18,21 @@ Instagram: [https://www.instagram.com/qvault.io](https://www.instagram.com/qvaul
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
 
+## Linting
+
+Q Vault uses eslint and all pull requests must pass the eslint tests specified in travis.yml.
+To run the linting tests:
+
+```bash
+yarn lint
+```
+
+To try to autofix the repo:
+
+```bash
+yarn lint-fix
+```
+
 ## Node Version
 
 Set the correct node version:
@@ -56,3 +71,23 @@ Feel free to contribute by forking the repo and opening pull requests. Please en
 We also use eslint, so make sure your code adheres to the rules defined in [.eslintrc.json](.eslintrc.json)
 
 All pull requests should be submitted to the "master" branch. Code in the "prod" branch is live in the latest release.
+
+## Recommended VS Code settings
+
+```json
+{
+    "editor.formatOnSave": false,
+    "files.eol": "\n",
+    "eslint.validate": [
+        {
+            "language": "vue",
+            "autoFix": true
+        },
+        {
+            "language": "javascript",
+            "autoFix": true
+        }
+    ],
+    "eslint.autoFixOnSave": true
+}
+```

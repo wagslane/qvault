@@ -16,9 +16,17 @@ import load_download from './page_components/load/download.vue';
 import vault from './page_components/vault/vault.vue';
 import box from './page_components/vault/box.vue';
 import add_box from './page_components/vault/add_box.vue';
+import secret from './page_components/vault/secret.vue';
+import secret_list from './page_components/vault/secret_list.vue';
 
 import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
+import settings_delete_account from './page_components/settings/delete_account.vue';
+import settings_signup from './page_components/settings/signup.vue';
+import settings_change_char_key from './page_components/settings/change_char_key.vue';
+import settings_qrcode_choose from './page_components/settings/qrcode/choose.vue';
+import settings_qrcode_add_or_change from './page_components/settings/qrcode/add_or_change.vue';
+import settings_qrcode_delete from './page_components/settings/qrcode/delete.vue';
 
 export default [
   {
@@ -137,7 +145,24 @@ export default [
       {
         path: 'box/:box_uuid',
         component: box,
-        name: 'box',
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'secret_list',
+            },
+          },
+          {
+            path: 'list',
+            component: secret_list,
+            name: 'box',
+          },
+          {
+            path: 'secret/:secret_uuid',
+            component: secret,
+            name: 'secret',
+          },
+        ],
       },
     ],
   },
@@ -160,6 +185,48 @@ export default [
         path: 'change_password',
         component: settings_change_password,
         name: 'settings_change_password',
+      },
+      {
+        path: 'delete_account',
+        component: settings_delete_account,
+        name: 'settings_delete_account',
+      },
+      {
+        path: 'signup',
+        component: settings_signup,
+        name: 'settings_signup',
+      },
+      {
+        path: 'change_char_key',
+        component: settings_change_char_key,
+        name: 'settings_change_char_key',
+      },
+      {
+        path: '/qrcode/',
+        component: route_wrapper,
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'choose',
+            },
+          },
+          {
+            path: 'choose',
+            component: settings_qrcode_choose,
+            name: 'settings_qrcode_choose',
+          },
+          {
+            path: 'add_or_change',
+            component: settings_qrcode_add_or_change,
+            name: 'settings_qrcode_add_or_change',
+          },
+          {
+            path: 'delete',
+            component: settings_qrcode_delete,
+            name: 'settings_qrcode_delete',
+          },
+        ],
       },
     ],
   }

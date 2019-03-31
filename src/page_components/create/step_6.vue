@@ -2,38 +2,40 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <form @submit.prevent="create_vault_file">
-        <div class="body">
-          <StepProgress :filled="5" />
-            <h1>Choose where you'll save your vault file:</h1>
-            <button class="btn" @click.prevent="$root.NewVaultDialog">Choose location</button>
-            <h3 v-if="$root.local_vault_path">{{$root.local_vault_path}}</h3>
+      <div class="body">
+        <StepProgress :filled="5" />
+        <h1>Choose where to save your vault file</h1>
+        <button
+          class="btn"
+          @click.prevent="open"
+        >
+          Choose location
+        </button>
+      </div>
+      <div class="footer">
+        <div
+          class="back"
+          @click="$router.go(-1)"
+        >
+          <div class="icon" />
         </div>
-        <div class="footer">
-          <div class="back" @click="$router.go(-1)">
-            <div class="icon" />
-          </div>
-          <button
-            class="continue"
-            type="submit"
-            v-if="$root.local_vault_path"
-          >
-            <span>Continue</span>
-            <div class="continue-arrow" />
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    methods:{
-      create_vault_file(){
+export default {
+  methods:{
+    async open(){
+      try{
+        this.$root.NewVaultDialog();
         this.$root.CreateLocalVault();
         this.$router.push({name: 'create_step_7'});
-      },
-    },
+      } catch (err) {
+        this.error = err;
+      }
+    }
   }
+};
 </script>
