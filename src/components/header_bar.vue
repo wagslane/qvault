@@ -51,6 +51,7 @@ export default {
     font-weight: 300;
     letter-spacing: 0.7px;
     text-align: center;
+    position: relative;
 
     .img{
       margin-top: 16px;

@@ -44,9 +44,12 @@
         </div>
         <router-link
           :to="{name: 'add_box'}"
-          class="add_box"
+          class="add-box"
         >
-          <PlusBox style="plus_box" />
+          <PlusBox />
+          <span>
+            Add New Box
+          </span>
         </router-link>
       </div>
       <div
@@ -63,6 +66,7 @@
 import moment from 'moment';
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg';
+import {heightMac, heightWin} from '../../consts/title_bar.es6';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -89,9 +93,9 @@ export default {
     content_height(){
       const header_bar_height = 55;
       if (type() === 'Darwin'){
-        return header_bar_height + 22;
+        return header_bar_height + heightMac;
       }
-      return header_bar_height + 32;
+      return header_bar_height + heightWin;
     },
     sorted_boxes(){
       let sorted_boxes = [];
@@ -201,7 +205,7 @@ export default {
         }
       }
 
-      .add_box {
+      .add-box {
         height: 75px;
         text-align: center;
         position: absolute;
@@ -209,14 +213,40 @@ export default {
         right: 0;
         bottom: 0;
         background-color: #181C1E;
-        color: white;
         border: none;
         font-size: 14px;
         display: block;
-        line-height: 75px;
+        text-decoration: none;
+        color: #808080;
 
-        .plus_box{
-          margin-top: 24.5px;
+        svg{
+          margin-right: 16px;
+          vertical-align: middle;
+
+          path {
+            fill: #808080;
+          }
+          rect {
+            stroke: #808080;
+          }
+        }
+
+        span{
+          line-height: 75px;
+        }
+
+        &:hover {
+          color: #CE9B2C;
+          background-color: #080D0E;
+
+          svg {
+            path {
+              fill: #CE9B2C;
+            }
+            rect {
+              stroke: #CE9B2C;
+            }
+          }
         }
       }
     }

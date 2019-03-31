@@ -84,10 +84,6 @@ All pull requests should be submitted to the "master" branch. Code in the "prod"
             "autoFix": true
         },
         {
-            "language": "html",
-            "autoFix": true
-        },
-        {
             "language": "javascript",
             "autoFix": true
         }

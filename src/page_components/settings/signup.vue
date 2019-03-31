@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Settings" />
     <div class="options-box">
-      <form @submit.prevent="click_continue">
+      <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Cloud Backup Account</h1>
           <h2>All vaults stored by us are encrypted locally to preserve your privacy</h2>
@@ -70,6 +70,11 @@
         </div>
       </form>
     </div>
+    <LoadingOverlay
+      ref="loader"
+      title="Registering"
+      :func="click_continue"
+    />
   </div>
 </template>
 

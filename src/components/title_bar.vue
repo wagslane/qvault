@@ -1,11 +1,13 @@
 <template>
   <div
     v-if="is_mac"
-    class="title-bar mac"
+    class="title-bar"
+    :style="{height: `${heightMac}px`}"
   />
   <div
     v-else
     class="title-bar win"
+    :style="{height: `${heightWin}px`}"
   >
     <button
       class="title-btn close"
@@ -36,11 +38,18 @@
 <script>
 import {remote} from 'electron';
 import {type} from 'os';
+import {heightMac, heightWin} from '../consts/title_bar.es6';
 
 export default {
   computed:{
     is_mac(){
       return type() === 'Darwin';
+    },
+    heightMac(){
+      return heightMac;
+    },
+    heightWin(){
+      return heightWin;
     }
   },
   methods:{
@@ -73,13 +82,7 @@ export default {
     margin: 0px;
   }
 
-  .mac {
-    height: 22px; 
-  }
-
   .win {
-    height: 32px; 
-
     .title-btn{
       -webkit-app-region: no-drag;
       margin: 0;
