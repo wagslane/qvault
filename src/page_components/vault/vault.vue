@@ -198,10 +198,6 @@ export default {
             /*background-color: #181C1E;*//*color from mocks*/
             background-color: #131617;/*actually matches background*/
           }
-
-          &:nth-child(2n){
-            background-color: #252A2D;
-          }
         }
       }
 
