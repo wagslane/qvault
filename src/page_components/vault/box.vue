@@ -1,19 +1,21 @@
 <template>
   <div v-if="box">
     <div class="wrapper">
-      <div
-        placeholder="Name"
-        class="box_name"
-        v-text="box.name"
-      />
-      <button
-        class="add_secret"
-        @click.prevent="add_secret"
-      >
-        <plus_icon style="height: 22px" />
-      </button>
+      <div class="header">
+        <div
+          placeholder="Name"
+          class="box_name"
+          v-text="box.name"
+        />
+        <button
+          class="add_secret"
+          @click.prevent="add_secret"
+        >
+          <plus_icon />
+        </button>
+      </div>
+      <router-view />
     </div>
-    <router-view />
     <button
       class="save"
       @click.prevent="save"
@@ -52,7 +54,13 @@ export default {
     border-radius: 6px;
     background-color: #080D0E;
     margin: 25px;
-    padding: 15px;
+    padding-left: 27px;
+    padding-right: 27px;
+    padding-bottom: 27px;
+
+    .header{
+      border-bottom: 1px solid #2F3235;
+    }
 
     .box_name {
       font-size: 22px;
@@ -61,19 +69,18 @@ export default {
       background: transparent;
       color: #8C8E8F;
       width: ~'calc(100% - 150px)';
-      padding: 10px;
       display: inline-block;
+      height: 60px;
+      line-height: 60px;
     }
 
     .add_secret {
-      color: white;
-      font-size: 22px;
-      padding: 10px;
       border: none;
-      border-radius: 6px;
       background: transparent;
       float: right;
       cursor: pointer;
+      margin-top: 20px;
+      outline: none;
     }
   }
 

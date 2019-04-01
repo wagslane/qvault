@@ -1,7 +1,6 @@
 <template>
   <form
     v-if="secret"
-    class="wrapper"
   >
     <input
       v-model="secret[box_type.header_field]"

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper secret_list">
+  <div>
     <secret_preview
       v-for="secret_uuid in secret_uuids"
       :key="secret_uuid"

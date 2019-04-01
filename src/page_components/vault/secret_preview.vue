@@ -1,5 +1,5 @@
 <template>
-  <div class="secret secret-preview">
+  <div class="secret-preview">
     <span class="name">
       {{ secret[boxType.quick_access_name] }}
     </span>
@@ -48,14 +48,13 @@ export default {
   .secret-preview {
     display: flex;
     flex-direction: row;
-    margin-left: -15px;
+    margin-top: 15px;
 
     .name{
-      padding: 10px;
       color: white;
-      margin-left: 15px;
-      margin-right: 15px;
       display: inline-block;
+      height: 45px;
+      line-height: 45px;
     }
 
     .value{
@@ -64,7 +63,7 @@ export default {
       border-radius: 6px;
       background: transparent;
       color: #8C8E8F;
-      margin-left: 15px;
+      margin-left: 30px;
       flex-grow: 1;
       flex-basis: 200px;
     }
