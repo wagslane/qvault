@@ -27,9 +27,8 @@ export default [
         type: String,
       },
     ],
-    quick_access_fields: [
-      'Wallet Name',
-    ],
+    quick_access_name: "Wallet Name",
+    quick_access_secret: "Key/Seed",
     header_field: 'Wallet Name',
   },
   {
@@ -110,9 +109,8 @@ export default [
         type: String,
       },
     ],
-    quick_access_fields: [
-      'Institution Name',
-    ],
+    quick_access_name: "Institution Name",
+    quick_access_secret: "Routing Number",
     header_field: 'Institution Name',
   },
   {
@@ -141,9 +139,8 @@ export default [
         type: String,
       },
     ],
-    quick_access_fields: [
-      'Type',
-    ],
+    quick_access_name: "Type",
+    quick_access_secret: "ID Number",
     header_field: 'Type',
   },
   {
@@ -179,11 +176,8 @@ export default [
         type: String,
       },
     ],
-    quick_access_fields: [
-      'Issuer',
-      'Username',
-      'Password',
-    ],
+    quick_access_name: "Issuer",
+    quick_access_secret: "Password",
     header_field: 'Issuer',
   },
   {
@@ -235,9 +229,8 @@ export default [
         type: String,
       },
     ],
-    quick_access_fields: [
-      'Name',
-    ],
+    quick_access_name: "Name",
+    quick_access_secret: "Connection String",
     header_field: 'Name',
   },
   {
@@ -252,9 +245,8 @@ export default [
         type: 'textarea',
       },
     ],
-    quick_access_fields: [
-      'Name',
-    ],
+    quick_access_name: "Name",
+    quick_access_secret: "Notes",
     header_field: 'Name',
   },
 ];
