@@ -112,6 +112,8 @@ export default {
   },
   methods: {
     async resend(){
+      this.userCreated = false;
+      this.error = null;
       try{
         this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
         await resendRegistrationEmail(this.emailLogin, this.cloudKey);
@@ -121,6 +123,8 @@ export default {
       }
     },
     async click_continue(){
+      this.error = null;
+      this.userCreated = false;
       if (this.registerTabActive){
         try{
           this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
