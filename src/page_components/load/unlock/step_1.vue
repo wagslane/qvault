@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     async unlock(){
+      this.error = null;
       try{
         await this.$root.UnlockVaultPassword(this.password);
       } catch(err){
