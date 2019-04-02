@@ -28,7 +28,7 @@ export default [
       },
     ],
     quick_access_name: "Wallet Name",
-    quick_access_secret: "Key/Seed",
+    quick_access_secrets: [ "Password", "Key/Seed" ],
     header_field: 'Wallet Name',
   },
   {
@@ -110,7 +110,7 @@ export default [
       },
     ],
     quick_access_name: "Institution Name",
-    quick_access_secret: "Routing Number",
+    quick_access_secrets: [ "Routing Number" ],
     header_field: 'Institution Name',
   },
   {
@@ -140,7 +140,7 @@ export default [
       },
     ],
     quick_access_name: "Type",
-    quick_access_secret: "ID Number",
+    quick_access_secrets: [ "Issuer", "ID Number" ],
     header_field: 'Type',
   },
   {
@@ -177,7 +177,7 @@ export default [
       },
     ],
     quick_access_name: "Issuer",
-    quick_access_secret: "Password",
+    quick_access_secrets: [ "Username", "Password" ],
     header_field: 'Issuer',
   },
   {
@@ -230,7 +230,7 @@ export default [
       },
     ],
     quick_access_name: "Name",
-    quick_access_secret: "Connection String",
+    quick_access_secrets: [ "Hostname", "Connection String" ],
     header_field: 'Name',
   },
   {
@@ -246,7 +246,7 @@ export default [
       },
     ],
     quick_access_name: "Name",
-    quick_access_secret: "Notes",
+    quick_access_secrets: [ "Notes" ],
     header_field: 'Name',
   },
 ];

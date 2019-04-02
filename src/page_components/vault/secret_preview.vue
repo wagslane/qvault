@@ -1,10 +1,12 @@
 <template>
   <div class="secret-preview">
     <span class="name">
-      {{ secret[boxType.quick_access_name] }}
+      {{ quickAccessName }}
     </span>
     <input
-      v-model="secret[boxType.quick_access_secret]"
+      v-for="(fieldname, i) in definedQuickAccessSecrets"
+      :key="i"
+      v-model="secret[fieldname]"
       class="value"
       readonly
     >
@@ -39,6 +41,22 @@ export default {
       required: true
     }
   },
+  computed: {
+    quickAccessName(){
+      if(this.secret[this.boxType.quick_access_name]){
+        return this.secret[this.boxType.quick_access_name];
+      }
+      return "Unnamed Secret";
+    },
+    definedQuickAccessSecrets(){
+      return this.boxType.quick_access_secrets.filter((fieldname) => {
+        if (this.secret[fieldname]){
+          return true;
+        }
+        return false;
+      });
+    }
+  }
 };
 </script>
 
@@ -55,6 +73,7 @@ export default {
       display: inline-block;
       height: 45px;
       line-height: 45px;
+      flex-grow: 1;
     }
 
     .value{
@@ -64,7 +83,7 @@ export default {
       background: transparent;
       color: #8C8E8F;
       margin-left: 30px;
-      flex-grow: 1;
+      flex-grow: 2;
       flex-basis: 200px;
     }
 
