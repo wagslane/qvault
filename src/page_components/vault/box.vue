@@ -11,7 +11,7 @@
           class="add_secret"
           @click.prevent="add_secret"
         >
-          <plus_icon />
+          <PlusIcon />
         </button>
       </div>
       <router-view />
@@ -26,7 +26,12 @@
 </template>
 
 <script>
+import PlusIcon from '../../img/plus-solid.svg';
+
 export default {
+  components:{
+    PlusIcon
+  },
   computed: {
     box_uuid(){ return this.$route.params.box_uuid; },
     box(){
@@ -45,7 +50,7 @@ export default {
       let secret_uuid = this.$root.CreateSecret(this.box_uuid);
       this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
     },
-  },
+  }
 };
 </script>
 
@@ -81,6 +86,14 @@ export default {
       cursor: pointer;
       margin-top: 20px;
       outline: none;
+
+      &:hover{
+        svg{
+          path{
+            fill: #D8A22E
+          }
+        }
+      }
     }
   }
 

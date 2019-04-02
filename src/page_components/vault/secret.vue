@@ -25,7 +25,7 @@
         <button
           @click.prevent="add_to_sublist(field)"
         >
-          <plus_icon style="height: 22px" />
+          <PlusIcon />
         </button>
         <div
           v-for="(subvalue, j) in secret[field.name]"
@@ -54,8 +54,12 @@
 <script>
 import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
+import PlusIcon from '../../img/plus-solid.svg';
 
 export default {
+  components:{
+    PlusIcon,
+  },
   computed: {
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
@@ -84,7 +88,7 @@ export default {
       }
       this.secret[field.name].push(new_value);
     },
-  },
+  }
 };
 </script>
 
