@@ -1,8 +1,10 @@
 <template>
   <div class="secret-preview">
-    <span class="name">
-      {{ quickAccessName }}
-    </span>
+    <router-link
+      :to="{name: 'secret', params: {box_uuid: boxUuid, secret_uuid: secretUuid}}"
+    >
+      <span class="name">{{ quickAccessName }}</span>
+    </router-link>
     <input
       v-for="(fieldname, i) in definedQuickAccessSecrets"
       :key="i"
@@ -74,6 +76,10 @@ export default {
       height: 45px;
       line-height: 45px;
       flex-grow: 1;
+
+      &:hover{
+        color: #D8A22E;
+      }
     }
 
     .value{
@@ -100,6 +106,13 @@ export default {
         width: 12px;
         border-top: 1.5px solid #8C8E8F;
         border-right: 1.5px solid #8C8E8F;
+      }
+
+      &:hover{
+        .shape{
+          border-top: 1.5px solid #D8A22E;
+          border-right: 1.5px solid #D8A22E;
+        }
       }
     }
   }
