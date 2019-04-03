@@ -12,6 +12,10 @@
       class="value"
       readonly
     >
+    <div
+      v-if="definedQuickAccessSecrets.length < 1"
+      class="spacer"
+    />
     <router-link
       :to="{name: 'secret', params: {box_uuid: boxUuid, secret_uuid: secretUuid}}"
       class="shape"
@@ -89,6 +93,11 @@ export default {
       background: transparent;
       color: #8C8E8F;
       margin-left: 30px;
+      flex-grow: 2;
+      flex-basis: 200px;
+    }
+
+    .spacer{
       flex-grow: 2;
       flex-basis: 200px;
     }
