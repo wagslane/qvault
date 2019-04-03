@@ -4,7 +4,6 @@
       title="Vault"
       settings
     />
-    <ProgressBar :bytes="$root.encrypted_vault_size" />
     <div
       v-if="boxes"
       class="container"
@@ -68,7 +67,6 @@ import moment from 'moment';
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
-import ProgressBar from '../../components/progress_bar.vue';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -81,7 +79,6 @@ function sort_box_by_key(key){
 export default {
   components:{
     PlusBox,
-    ProgressBar
   },
   data(){
     return {
