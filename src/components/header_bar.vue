@@ -65,6 +65,16 @@ export default {
     .img-right{
       right: 20px;
       cursor: pointer;
+
+      path{
+        fill: #7E8A95;
+      }
+      
+      &:hover{
+        path{
+          fill: #D8A22E;
+        }
+      }
     }
   }
 </style>

@@ -108,25 +108,32 @@ button.btn {
   }
   
   .footer {
-    height: 99px;
+    height: 100px;
     background-color: #1A1D1F;
-    overflow: auto;
   }
 
   .back{
     float: left;
     cursor: pointer;
-    margin-top: 40px;
-    margin-left: 37px;
-    width: 75px;
+    width: 100px;
+    height: 100%;
 
     .icon {
+      margin-top: 40px;
+      margin-left: 37px;
       transform: rotate(135deg);
       box-sizing: border-box;
       height: 12px;
       width: 12px;
       border-bottom: 1.5px solid #8C8E8F;
       border-right: 1.5px solid #8C8E8F;
+    }
+
+    &:hover{
+      .icon {
+        border-bottom: 1.5px solid #D8A22E;
+        border-right: 1.5px solid #D8A22E;
+      }
     }
   }
 
