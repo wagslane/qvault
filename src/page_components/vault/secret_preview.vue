@@ -68,6 +68,7 @@ export default {
 
 <style lang="less" scoped>
   @import '../../styles/secrets.less';
+  @import '../../styles/colors.less';
 
   .secret-preview {
     display: flex;
@@ -82,16 +83,16 @@ export default {
       flex-grow: 1;
 
       &:hover{
-        color: #D8A22E;
+        color: @gold-mid;
       }
     }
 
     .value{
       padding: 10px;
-      border: 1px solid #7E8A95;
+      border: 1px solid @gray-blue;
       border-radius: 6px;
       background: transparent;
-      color: #8C8E8F;
+      color: @gray-light;
       margin-left: 30px;
       flex-grow: 2;
       flex-basis: 200px;
@@ -113,14 +114,14 @@ export default {
         box-sizing: border-box;
         height: 12px;
         width: 12px;
-        border-top: 1.5px solid #8C8E8F;
-        border-right: 1.5px solid #8C8E8F;
+        border-top: 1.5px solid @gray-light;
+        border-right: 1.5px solid @gray-light;
       }
 
       &:hover{
         .shape{
-          border-top: 1.5px solid #D8A22E;
-          border-right: 1.5px solid #D8A22E;
+          border-top: 1.5px solid @gold-mid;
+          border-right: 1.5px solid @gold-mid;
         }
       }
     }

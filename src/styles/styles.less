@@ -1,3 +1,5 @@
+@import './colors.less';
+
 *,
 *::before,
 *::after {
@@ -7,7 +9,7 @@
 }
 
 body {
-  background-color: #131617;
+  background-color: @black-dark;
   font-family: Roboto, sans-serif;
   margin: 0;
   transition-duration: 0.6s;
@@ -45,7 +47,7 @@ h3 {
 }
 
 .form-error {
-	color: #4d4f51;
+	color: @gray-darker;
 	font-size: 12px;
 	font-weight: 300;
   letter-spacing: -0.03px;
@@ -60,8 +62,8 @@ button.btn {
 .btn {
   border: 2px solid rgba(255,255,255,0.5);
   border-radius: 5px;
-  background-color: #1A1D1F;
-  color: #828485;
+  background-color: @black-mid;
+  color: @gray-mid;
   font-size: 14px;
   letter-spacing: 0.49px;
   line-height: 19px;
@@ -73,7 +75,7 @@ button.btn {
 
   &.btn-selected {
     border-radius: 5px;
-    background-color: #D8A22E;
+    background-color: @gold-mid;
     color: #FFFFFF;
     font-size: 16px;
     font-weight: bold;
@@ -82,9 +84,9 @@ button.btn {
   }
 
   &:hover {
-    background-color: #1A1D1F;
-    border: 2px solid #D8A22E;
-    color: #D8A22E;
+    background-color: @black-mid;
+    border: 2px solid @gold-mid;
+    color: @gold-mid;
     text-decoration: none;
   }
 }
@@ -96,7 +98,7 @@ button.btn {
   min-width: 675px;
   max-width: 900px;
   border-radius: 10px;
-  background-color: #24272A;
+  background-color: @black-light;
   box-shadow: 0 2px 94px 0 #000000;
   overflow: hidden;
   margin-top: 50px;
@@ -109,7 +111,7 @@ button.btn {
   
   .footer {
     height: 100px;
-    background-color: #1A1D1F;
+    background-color: @black-mid;
   }
 
   .back{
@@ -125,14 +127,14 @@ button.btn {
       box-sizing: border-box;
       height: 12px;
       width: 12px;
-      border-bottom: 1.5px solid #8C8E8F;
-      border-right: 1.5px solid #8C8E8F;
+      border-bottom: 1.5px solid @gray-light;
+      border-right: 1.5px solid @gray-light;
     }
 
     &:hover{
       .icon {
-        border-bottom: 1.5px solid #D8A22E;
-        border-right: 1.5px solid #D8A22E;
+        border-bottom: 1.5px solid @gold-mid;
+        border-right: 1.5px solid @gold-mid;
       }
     }
   }
@@ -145,7 +147,7 @@ button.btn {
     width: 311px;
     border-radius: 2px;
     height: 29px;
-    color: #D8A22E;
+    color: @gold-mid;
     font-family: Roboto;
     font-size: 22px;
     font-weight: 300;
@@ -168,14 +170,14 @@ button.btn {
     box-sizing: border-box;
     height: 12px;
     width: 12px;
-    border-top: 1.5px solid #D8A22E;
-    border-left: 1.5px solid #D8A22E;
+    border-top: 1.5px solid @gold-mid;
+    border-left: 1.5px solid @gold-mid;
   }
 }
 
 .modal {
   border-radius: 10px;
-  background-color: #24272A;
+  background-color: @black-light;
   box-shadow: 0 2px 94px 0 #000000;
   overflow: hidden;
 
@@ -187,11 +189,11 @@ button.btn {
 
   .bottom {
     text-align: right;
-    background-color: #1A1D1F;
+    background-color: @black-mid;
     padding: 28px 35px;
 
     a {
-      color: #D8A22E;
+      color: @gold-mid;
       font-size: 22px;
       font-weight: 300;
       letter-spacing: -0.04px;
@@ -210,8 +212,8 @@ button.btn {
   .tab{
     width: 50%;
     height: 100%;
-    background-color: #080D0E;
-    color: #858586;
+    background-color: @black-darkest;
+    color: @gray-mid;
     font-size: 12px;
     letter-spacing: 0.6px;
     line-height: 43px;
@@ -231,18 +233,18 @@ button.btn {
   }
   
   .tab-active{
-    background-color: #CE9B2C;
-    color: #080D0E;
+    background-color: @gold-dark;
+    color: @black-darkest;
   }
 }
 
 .link{
-  color: #72767B;
+  color: @gray-dark;
   cursor: pointer;
   text-decoration: underline;
 
   &:hover{
-    color: #D8A22E;
+    color: @gold-mid;
   }
 }
 

@@ -74,10 +74,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../styles/colors.less';
+
   .title-bar{
     -webkit-app-region: drag;
     width: 100%;
-    background-color: #2F3235;
+    background-color: @black-light;
     padding: 0px;
     margin: 0px;
   }
@@ -96,11 +98,11 @@ export default {
       float: right;
 
       &:hover{
-        background: #7E8A95;
+        background: @gray-blue;
       }
 
       svg polygon {
-        fill: #fff;
+        fill: white;
       }
       
       svg {
@@ -111,7 +113,7 @@ export default {
 
     .close{
       &:hover{
-        background: #e81123 !important;
+        background: @red-mid !important;
       }
     }
   }

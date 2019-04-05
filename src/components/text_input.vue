@@ -165,11 +165,13 @@ export default{
 </script>
 
 <style lang="less" scoped>
+@import '../styles/colors.less';
+
 .box {
   padding: 15px 25px;
   margin-bottom: 12px;
   border-radius: 5px;
-  background-color: #1A1D1F;
+  background-color: @black-mid;
   letter-spacing: -0.04px;
   font-size: 16px;
   min-width: 450px;
@@ -179,7 +181,7 @@ export default{
     height: 47px;
     line-height: 47px;
     display: inline-block;
-    color: #FFFFFF;
+    color: white;
     text-align: left;
     font-weight: 500;
     margin-right: 20px;
@@ -191,11 +193,11 @@ export default{
     flex: 1;
 
     .icon{
-      background-color: #24272A;
+      background-color: @black-light;
       cursor: pointer;
       height: 47px;
       border-radius: 2px 0px 0px 2px;
-      border: 1px solid #808080;
+      border: 1px solid @gray-mid;
       border-right: 0px;
 
       svg {
@@ -204,12 +206,12 @@ export default{
         margin-right: 13.5px;
 
         path {
-          fill: #fff;
+          fill: white;
         }
       }
 
       &:hover{
-        background-color: #42454A;
+        background-color: @black-lightest;
       }
     }
 
@@ -218,17 +220,17 @@ export default{
         box-sizing: border-box;
         height: 47px;
         line-height: 47px;
-        border: 1px solid #808080;
+        border: 1px solid @gray-mid;
         border-radius: 0px 2px 2px 0px;
         font-weight: 300;
         background-color: white;
         padding-left: 5px;
         outline: none;
-        color: #B3B3B3;
-        background-color: #0B0C0D;
+        color: @gray-lightest;
+        background-color: @black-darkest;
 
         &:focus {
-          border: 2px solid #D8A22E;
+          border: 2px solid @gold-mid;
           outline: none;
         }
       }
@@ -240,7 +242,7 @@ export default{
 }
 
 .keyboardContainer {
-  background-color: #aaaaaa;
+  background-color: @gray-lightest;
   position: fixed;
   width: 100%;
   bottom: 0px;
@@ -265,16 +267,16 @@ export default{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #191919;
+  background: @black-dark;
   color: white;
 }
 
 .simple-keyboard.custom-theme .hg-button:active {
-  background: #D8A22E;
+  background: @gold-mid;
   color: white;
 }
 
 #root .simple-keyboard.custom-theme + .simple-keyboard-preview {
-  background: #D8A22E;
+  background: @gold-mid;
 }
 </style>

@@ -35,12 +35,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../styles/colors.less';
+  
   .bar {
     height: 30px;
     line-height: 30px;
     width: 100%;
     background-color: #333739;
-    border: 2px solid rgba(255,255,255,0.5);
+    border: 2px solid @gray-mid;
     border-radius: 5px;
     position: relative;
 
@@ -59,7 +61,7 @@ export default {
       position: absolute;
       left: 0;
       height: 100%;
-      background-color: #CE9B2C;
+      background-color: @gold-dark;
       z-index: 1;
     }
   }

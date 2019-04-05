@@ -55,16 +55,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../../styles/colors.less';
+  
   .wrapper {
     border-radius: 6px;
-    background-color: #080D0E;
+    background-color: @black-darkest;
     margin: 25px;
     padding-left: 27px;
     padding-right: 27px;
     padding-bottom: 27px;
 
     .header{
-      border-bottom: 1px solid #2F3235;
+      border-bottom: 1px solid @black-lighter;
     }
 
     .box_name {
@@ -72,7 +74,7 @@ export default {
       border: none;
       border-radius: 6px;
       background: transparent;
-      color: #8C8E8F;
+      color: @gray-light;
       width: ~'calc(100% - 150px)';
       display: inline-block;
       height: 60px;
@@ -90,7 +92,7 @@ export default {
       &:hover{
         svg{
           path{
-            fill: #D8A22E
+            fill: @gold-mid
           }
         }
       }
@@ -101,9 +103,9 @@ export default {
     padding: 10px;
     font-size: 22px;
     margin: 25px;
-    color: #8C8E8F;
+    color: @gray-light;
     background: transparent;
-    border: 1px solid #7E8A95;
+    border: 1px solid @gray-blue;
     border-radius: 6px;
     cursor: pointer;
   }

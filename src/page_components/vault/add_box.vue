@@ -86,7 +86,9 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+  @import '../../styles/colors.less';
+
   #add_box {
     &.modal {
       margin: 15px;
@@ -102,38 +104,38 @@ export default {
         border-radius: 9px;
         text-align: center;
         font-size: 14px;
-        color: #999B9C;
-        background-color: #42454A;
+        color: @gray-lighter;
+        background-color: @black-lightest;
         margin: 20px;
         padding: 25px;
         cursor: pointer;
-        border: 1px solid #42454A;
+        border: 1px solid @black-lightest;
 
         svg {
           width: 28px;
           height: 28px;
 
           path {
-            fill: #999B9C;
+            fill: @gray-lighter;
           }
           rect {
-            stroke: #999B9C;
+            stroke: @gray-lighter;
           }
 
           margin-bottom: 13px;
         }
 
         &:hover {
-          color: #CE9B2C;
-          background-color: #080D0E;
-          border: 1px solid #CE9B2C;
+          color: @gold-dark;
+          background-color: @black-darkest;
+          border: 1px solid @gold-dark;
 
           svg {
             path {
-              fill: #CE9B2C;
+              fill: @gold-dark;
             }
             rect {
-              stroke: #CE9B2C;
+              stroke: @gold-dark;
             }
           }
         }
