@@ -1,19 +1,6 @@
 <template>
   <div v-if="box">
     <div class="wrapper">
-      <div class="header">
-        <div
-          placeholder="Name"
-          class="box_name"
-          v-text="box.name"
-        />
-        <button
-          class="add_secret"
-          @click.prevent="add_secret"
-        >
-          <PlusIcon />
-        </button>
-      </div>
       <router-view />
     </div>
     <button
@@ -26,12 +13,7 @@
 </template>
 
 <script>
-import PlusIcon from '../../img/plus-solid.svg';
-
 export default {
-  components:{
-    PlusIcon
-  },
   computed: {
     box_uuid(){ return this.$route.params.box_uuid; },
     box(){
@@ -64,39 +46,6 @@ export default {
     padding-left: 27px;
     padding-right: 27px;
     padding-bottom: 27px;
-
-    .header{
-      border-bottom: 1px solid @black-lighter;
-    }
-
-    .box_name {
-      font-size: 22px;
-      border: none;
-      border-radius: 6px;
-      background: transparent;
-      color: @gray-light;
-      width: ~'calc(100% - 150px)';
-      display: inline-block;
-      height: 60px;
-      line-height: 60px;
-    }
-
-    .add_secret {
-      border: none;
-      background: transparent;
-      float: right;
-      cursor: pointer;
-      margin-top: 20px;
-      outline: none;
-
-      &:hover{
-        svg{
-          path{
-            fill: @gold-mid
-          }
-        }
-      }
-    }
   }
 
   .save {

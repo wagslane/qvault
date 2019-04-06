@@ -21,26 +21,30 @@
         placeholder="value"
         class="secret_value"
       >
-      <div v-if="field.type === Array">
+      <div
+        v-if="field.type === Array"
+        class="array-secret"
+      >
         <button
           @click.prevent="add_to_sublist(field)"
+          class="add_to_sublist"
         >
-          <PlusIcon />
+          <img src="../../img/plus-solid.svg"/>
         </button>
         <div
           v-for="(subvalue, j) in secret[field.name]"
           :key="j"
+          class="subfields"
         >
           <div
             v-for="subfield in field.subfields"
             :key="subfield.name"
             class="subfield"
           >
-            <label class="secret_name">{{ subfield.name }}</label>
             <input
               v-if="subfield.type === String"
               v-model="subvalue[subfield.name]"
-              placeholder="value"
+              :placeholder="subfield.name"
               class="secret_value"
             >
           </div>
@@ -54,12 +58,8 @@
 <script>
 import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
-import PlusIcon from '../../img/plus-solid.svg';
 
 export default {
-  components:{
-    PlusIcon,
-  },
   computed: {
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
@@ -94,4 +94,16 @@ export default {
 
 <style lang="less" scoped>
   @import '../../styles/secrets.less';
+
+  form {
+    margin-left: -10px;
+  }
+
+  .box_name {
+    margin-top: 10px;
+  }
+
+  .subfields {
+
+  }
 </style>

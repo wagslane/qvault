@@ -60,11 +60,11 @@
 </template>
 
 <script>
-import crypto_icon from '../../img/crypto.svg';
-import fin_icon from '../../img/fin.svg';
-import identity_icon from '../../img/identity.svg';
-import notes_icon from '../../img/notes.svg';
-import password_icon from '../../img/password.svg';
+import crypto_icon from '../../img/crypto.svg.vue';
+import fin_icon from '../../img/fin.svg.vue';
+import identity_icon from '../../img/identity.svg.vue';
+import notes_icon from '../../img/notes.svg.vue';
+import password_icon from '../../img/password.svg.vue';
 
 export default {
   components: {
@@ -86,7 +86,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import '../../styles/colors.less';
 
   #add_box {
