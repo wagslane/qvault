@@ -52,12 +52,20 @@
           <span class="form-error"> {{ error }} </span>
           <br v-if="error">
           <br v-if="error">
-          <router-link
+          <div
+            v-if="registerTabActive"
             class="link"
-            :to="{name: 'vault'}"
+            @click="$router.push({name: 'vault'});"
           >
             I don't want to store a backup in the cloud
-          </router-link>
+          </div>
+          <div
+            v-if="!registerTabActive"
+            class="link"
+            @click="resend"
+          >
+            Resend verification email
+          </div>
           <br>
           <br>
         </div>
@@ -89,7 +97,7 @@
 
 <script>
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, authenticate, setToken} from '../../lib/CloudClient/CloudClient';
+import {createUser, authenticate, setToken, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -103,7 +111,20 @@ export default {
     };
   },
   methods: {
+    async resend(){
+      this.userCreated = false;
+      this.error = null;
+      try{
+        this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
+        await resendRegistrationEmail(this.emailLogin, this.cloudKey);
+        this.userCreated = true;
+      } catch (err) {
+        this.error = err;
+      }
+    },
     async click_continue(){
+      this.error = null;
+      this.userCreated = false;
       if (this.registerTabActive){
         try{
           this.cloudKey = await DeriveCloudKey(this.$root.pass_key);

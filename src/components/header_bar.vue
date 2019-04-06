@@ -41,10 +41,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../styles/colors.less';
+
   .bar {
     height: 55px;
     width: 100%;
-    background-color: #080D0E;
+    background-color: @black-darkest;
     line-height: 55px;
     color: #FFFFFF;
     font-size: 20px;
@@ -65,6 +67,16 @@ export default {
     .img-right{
       right: 20px;
       cursor: pointer;
+
+      path{
+        fill: @gray-blue;
+      }
+      
+      &:hover{
+        path{
+          fill: @gold-mid;
+        }
+      }
     }
   }
 </style>

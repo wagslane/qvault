@@ -6,6 +6,10 @@
         <h1>Settings</h1>
         <h2>Manage your vault and account</h2>
 
+        <ProgressBar :bytes="$root.encrypted_vault_size" />
+        <br>
+        <br>
+
         <router-link
           v-if="(!$root.email)"
           class="btn"
@@ -54,3 +58,13 @@
     </div>
   </div>
 </template>
+
+<script>
+import ProgressBar from '../../components/progress_bar.vue';
+
+export default {
+  components:{
+    ProgressBar
+  }
+};
+</script>

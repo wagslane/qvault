@@ -44,6 +44,7 @@ export default {
       this.$refs.loader.load();
     },
     async delete_account(){
+      this.error = null;
       try{
         if (!isLoggedIn()){
           let cloudKey = await DeriveCloudKey(this.pass_key);

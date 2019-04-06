@@ -165,6 +165,7 @@ export default {
       this.generated = '';
     },
     async save(){
+      this.error = null;
       if (!this.matched){
         let confirm_key = await PassKeyFromPassword(this.old_password);
         if (confirm_key === this.$root.pass_key){

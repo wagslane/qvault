@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     async unlock(){
+      this.error = null;
       try{
         await this.$root.UnlockVaultCharKey(this.char_key);
         this.$router.push({name: 'load_unlock_step_3'});
