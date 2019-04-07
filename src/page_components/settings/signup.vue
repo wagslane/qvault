@@ -142,8 +142,7 @@ export default {
       let old_email = this.$root.email;
       this.$root.email = this.emailLogin;
       try{
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
       } catch (err){
         this.error = err;
         this.$root.email = old_email;

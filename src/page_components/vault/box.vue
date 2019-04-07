@@ -25,8 +25,7 @@ export default {
   },
   methods: {
     async save(){
-      await this.$root.SaveLocalVault();
-      await this.$root.SaveCloudVaultIfEmail();
+      await this.$root.SaveBoth();
     },
     add_secret(){
       let secret_uuid = this.$root.CreateSecret(this.box_uuid);
