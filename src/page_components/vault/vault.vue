@@ -65,7 +65,7 @@
 <script>
 import moment from 'moment';
 import {type} from 'os';
-import PlusBox from '../../img/plus-box.svg';
+import PlusBox from '../../img/plus-box.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
 
 function sort_box_by_key(key){

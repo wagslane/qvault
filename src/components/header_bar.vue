@@ -12,14 +12,13 @@
       class="img img-right"
       height="25"
       width="25"
-      src="../img/gear-icon.svg"
       @click="$router.push({name: 'settings'})"
     />
   </div>
 </template>
 
 <script>
-import gearIcon from '../img/gear-icon.svg';
+import gearIcon from '../img/gear-icon.svg.vue';
 
 export default {
   components:{
