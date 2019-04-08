@@ -145,8 +145,7 @@ export default {
         let body = await authenticate(this.emailLogin, this.cloudKey);
         setToken(body.jwt);
         this.$root.email = this.emailLogin;
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
         this.$router.push({name: 'vault'});
       } catch (err) {
         this.error = err;

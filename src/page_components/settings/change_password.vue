@@ -200,8 +200,7 @@ export default {
       let old_pass_key = this.$root.pass_key;
       this.$root.pass_key = new_pass_key;
       try{
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
       } catch (err){
         this.error = err;
         this.$root.pass_key = old_pass_key;
