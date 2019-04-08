@@ -22,7 +22,10 @@
         class="secret_value"
       >
       <input
-        v-if="field.type === String && secret.conflict && secret.conflict[field.name]"
+        v-if="field.type === String
+        && secret.conflict
+        && secret.conflict[field.name]
+        && secret.conflict[field.name] != secret[field.name]"
         v-model="secret.conflict[field.name]"
         class="secret_value conflict"
         readonly
@@ -52,6 +55,18 @@
               v-model="subvalue[subfield.name]"
               :placeholder="subfield.name"
               class="secret_value"
+            >
+            <input
+              v-if="subfield.type === String
+              && secret.conflict
+              && secret.conflict[field.name]
+              && secret.conflict[field.name][j]
+              && secret.conflict[field.name][j][subfield.name]
+              && secret.conflict[field.name][j][subfield.name] != subvalue[subfield.name]"
+              v-model="secret.conflict[field.name][j][subfield.name]"
+              :title="subfield.name"
+              class="secret_value conflict"
+              readonly
             >
           </div>
         </div>
