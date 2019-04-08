@@ -13,7 +13,7 @@ matrix:
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
     - os: linux
-      dist: ubuntu
+      dist: trusty
       sudo: required
       services: docker
       language: generic
