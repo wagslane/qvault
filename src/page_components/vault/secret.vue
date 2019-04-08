@@ -21,6 +21,12 @@
         placeholder="value"
         class="secret_value"
       >
+      <input
+        v-if="field.type === String && secret.conflict && secret.conflict[field.name]"
+        v-model="secret.conflict[field.name]"
+        class="secret_value conflict"
+        readonly
+      >
       <div
         v-if="field.type === Array"
         class="array-secret"
@@ -52,6 +58,13 @@
       </div>
       <!--<button v-clipboard:copy="secret[field]">copy</button>-->
     </div>
+    <button
+      class="btn btn-warning"
+      v-if="secret.conflict"
+      @click.prevent="resolve_conflicts"
+    >
+      Resolve Conflicts
+    </button>
   </form>
 </template>
 
@@ -88,7 +101,10 @@ export default {
       }
       this.secret[field.name].push(new_value);
     },
-  }
+    resolve_conflicts(){
+      Vue.delete(this.secret, 'conflict')
+    },
+  },
 };
 </script>
 
