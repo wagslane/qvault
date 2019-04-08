@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     async download(){
-      try{
+      try {
         let passKey = await PassKeyFromPassword(this.password);
         let cloudKey = await DeriveCloudKey(passKey);
         let body = await authenticate(this.email, cloudKey);

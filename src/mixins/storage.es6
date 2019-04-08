@@ -209,6 +209,11 @@ export default {
 
     GetLastUsedVaultPath(){
       return `${app.getPath('userData')}/last_used_vault`;
-    }
+    },
+
+    async SaveBoth(){
+      await this.SaveLocalVault();
+      await this.SaveCloudVaultIfEmail();
+    },
   },
 };

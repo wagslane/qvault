@@ -94,8 +94,7 @@ export default {
       this.$root.char_key = this.char_key;
       this.$root.hashed_char_key = this.hashed_char_key;
       try{
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
       } catch (err){
         this.error = err;
         this.$root.char_key = old_char_key;

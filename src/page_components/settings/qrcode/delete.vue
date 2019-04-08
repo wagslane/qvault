@@ -45,8 +45,7 @@ export default {
       this.$root.qr_key = null;
 
       try{
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
       } catch (err){
         this.$root.qr_required = old_qr_required;
         this.$root.qr_key = old_qr_key;

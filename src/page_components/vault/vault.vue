@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     async save(){
-      return await this.$root.SaveLocalVault();
+      return await this.$root.SaveBoth();
     },
     box_matches_search(sorted_box){
       if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
