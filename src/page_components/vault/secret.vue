@@ -117,7 +117,7 @@ export default {
       this.secret[field.name].push(new_value);
     },
     resolve_conflicts(){
-      Vue.delete(this.secret, 'conflict')
+      Vue.delete(this.secret, 'conflict');
     },
   },
 };

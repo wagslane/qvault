@@ -49,13 +49,9 @@
 
 <script>
 import Keyboard from "simple-keyboard";
-import KeyboardIcon from '../img/keyboard-icon.svg.vue';
 import "simple-keyboard/build/css/index.css";
 
 export default{
-  components:{
-    KeyboardIcon
-  },
   props:{
     defaultValue:{
       type: String,
