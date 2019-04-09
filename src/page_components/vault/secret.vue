@@ -108,12 +108,14 @@ export default {
   components: {
     PlusSolid,
   },
+  data(){
+    return{
+      secret: {}
+    };
+  },
   computed: {
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
-    secret(){
-      return this.box.secrets[this.secret_uuid];
-    },
     box_type(){
       return box_types.find(box_type => box_type.name === this.box.type);
     },
@@ -124,8 +126,12 @@ export default {
       return {};
     },
   },
+  mounted(){
+    this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
+  },
   methods: {
     async save(){
+      this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
       await this.$root.SaveBoth();
     },
     add_to_sublist(field){
