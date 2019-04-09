@@ -9,3 +9,19 @@
     />
   </svg>
 </template>
+
+<style lang="less" scoped>
+  @import '../styles/colors.less';
+
+  svg{
+    path{
+      fill: @gray-blue;
+    }
+    
+    &:hover{
+      path{
+        fill: @gold-mid;
+      }
+    }
+  }
+</style>

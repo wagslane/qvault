@@ -51,7 +51,7 @@
           y="6.5"
           width="27"
           height="16"
-rx="1" 
+          rx="1" 
         />
         <rect
           id="Rectangle-Copy-14"
@@ -62,7 +62,8 @@ rx="1"
           x="-5.5"
           y="10.5"
           width="27"
-height="4" rx="1" 
+          height="4"
+          rx="1" 
         />
       </g>
     </g>

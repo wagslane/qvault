@@ -5,9 +5,9 @@
     </div>
     <button
       class="save"
-      @click.prevent="save"
       :disabled="$root.ConflictExists"
       :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
+      @click.prevent="save"
     >
       Save
     </button>
