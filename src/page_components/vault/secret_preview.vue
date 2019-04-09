@@ -5,28 +5,21 @@
   >
     <router-link
       :to="{name: 'secret', params: {box_uuid: boxUuid, secret_uuid: secretUuid}}"
+      class="secret-link"
     >
       <span class="name">{{ quickAccessName }}</span>
+      <div class="arrow" />
     </router-link>
-    <input
+    <div
       v-for="(fieldname, i) in definedQuickAccessSecrets"
       :key="i"
-      v-model="secret[fieldname]"
-      class="value"
-      readonly
+      class="field"
     >
-    <div
-      v-if="definedQuickAccessSecrets.length < 1"
-      class="spacer"
-    />
-    <router-link
-      :to="{name: 'secret', params: {box_uuid: boxUuid, secret_uuid: secretUuid}}"
-      class="shape"
-    >
-      <div class="icon">
-        <div class="shape" />
-      </div>
-    </router-link>
+      <input
+        v-model="secret[fieldname]"
+        readonly
+      >
+    </div>
   </div>
 </template>
 
@@ -79,45 +72,27 @@ export default {
     margin-top: 15px;
 
     &.conflict {
-      .name {
-        color: red!important;
+      .secret-link {
+        .name {
+          color: @red-mid !important;
+        }
       }
     }
 
-    .name{
+    .secret-link {
       color: white;
-      display: inline-block;
-      height: 45px;
-      line-height: 45px;
-      flex-grow: 1;
-
-      &:hover{
-        color: @gold-mid;
-      }
-    }
-
-    .value{
-      padding: 10px;
-      border: 1px solid @gray-blue;
-      border-radius: 6px;
-      background: transparent;
-      color: @gray-light;
-      margin-left: 30px;
-      flex-grow: 2;
-      flex-basis: 200px;
-    }
-
-    .spacer{
-      flex-grow: 2;
-      flex-basis: 200px;
-    }
-
-    .icon{
       cursor: pointer;
-      flex-basis: 75px;
+      flex-basis: 160px;
+      text-decoration: none;
 
-      .shape {
-        margin-left: 20px;
+      .name {
+        display: inline-block;
+        height: 45px;
+        line-height: 45px;
+      }
+
+      .arrow {
+        display: inline-block;
         margin-top: 16px;
         transform: rotate(45deg);
         box-sizing: border-box;
@@ -128,10 +103,27 @@ export default {
       }
 
       &:hover{
-        .shape{
+        color: @gold-mid;
+
+        .arrow{
           border-top: 1.5px solid @gold-mid;
           border-right: 1.5px solid @gold-mid;
         }
+      }
+    }
+
+    .field{
+      padding-left: 30px;
+      flex-grow: 1;
+
+      input{
+        padding: 10px;
+        border: 1px solid @gray-blue;
+        border-radius: 6px;
+        background: transparent;
+        color: @gray-light;
+        width: 100%;
+        height: 100%;
       }
     }
   }
