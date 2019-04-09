@@ -10,3 +10,17 @@
         </g>
     </g>
 </svg>
+
+
+<style lang="less" scoped>
+  @import '../styles/colors.less';
+
+  svg {
+    path {
+      fill: @gray-lighter;
+    }
+    rect {
+      stroke: @gray-lighter;
+    }
+  }
+</style>

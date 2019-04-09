@@ -1,23 +1,60 @@
 <template>
-<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg
+    width="28px"
+    height="28px"
+    viewBox="0 0 28 28"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
     <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
     <title>password</title>
     <desc>Created with Sketch.</desc>
     <defs>
-        <rect id="path-1" x="0" y="0" width="28" height="28" rx="4"></rect>
+      <rect
+        id="path-1"
+        x="0"
+        y="0"
+        width="28"
+        height="28"
+        rx="4"
+      />
     </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="password">
-            <mask id="mask-2" fill="white">
-                <use xlink:href="#path-1"></use>
-            </mask>
-            <rect stroke="#979797" x="0.5" y="0.5" width="27" height="27" rx="4"></rect>
-            <g id="Group-12" mask="url(#mask-2)" fill-rule="nonzero">
-                <g transform="translate(6.000000, 11.000000)" id="Combined-Shape">
-                    <path d="M3,6 C1.34314575,6 0,4.65685425 0,3 C0,1.34314575 1.34314575,0 3,0 C4.65685425,0 6,1.34314575 6,3 C6,4.65685425 4.65685425,6 3,6 Z M12,6 C10.3431458,6 9,4.65685425 9,3 C9,1.34314575 10.3431458,0 12,0 C13.6568542,0 15,1.34314575 15,3 C15,4.65685425 13.6568542,6 12,6 Z M21,6 C19.3431458,6 18,4.65685425 18,3 C18,1.34314575 19.3431458,0 21,0 C22.6568542,0 24,1.34314575 24,3 C24,4.65685425 22.6568542,6 21,6 Z"></path>
-                </g>
-            </g>
+    <g
+      id="Page-1"
+      stroke="none"
+      stroke-width="1"
+      fill="none"
+      fill-rule="evenodd"
+    >
+      <g id="password">
+        <mask
+          id="mask-2"
+          fill="white"
+        >
+          <use xlink:href="#path-1" />
+        </mask>
+        <rect
+          stroke="#979797"
+          x="0.5"
+          y="0.5"
+          width="27"
+          height="27"
+          rx="4"
+        />
+        <g
+          id="Group-12"
+          mask="url(#mask-2)"
+          fill-rule="nonzero"
+        >
+          <g
+            id="Combined-Shape"
+            transform="translate(6.000000, 11.000000)"
+          >
+            <path d="M3,6 C1.34314575,6 0,4.65685425 0,3 C0,1.34314575 1.34314575,0 3,0 C4.65685425,0 6,1.34314575 6,3 C6,4.65685425 4.65685425,6 3,6 Z M12,6 C10.3431458,6 9,4.65685425 9,3 C9,1.34314575 10.3431458,0 12,0 C13.6568542,0 15,1.34314575 15,3 C15,4.65685425 13.6568542,6 12,6 Z M21,6 C19.3431458,6 18,4.65685425 18,3 C18,1.34314575 19.3431458,0 21,0 C22.6568542,0 24,1.34314575 24,3 C24,4.65685425 22.6568542,6 21,6 Z" />
+          </g>
         </g>
+      </g>
     </g>
-</svg>
+  </svg>
 </template>

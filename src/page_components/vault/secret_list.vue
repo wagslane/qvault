@@ -10,7 +10,7 @@
         class="add_secret"
         @click.prevent="$parent.add_secret"
       >
-        <img src="../../img/plus-solid.svg"/>
+        <PlusSolid />
       </button>
     </div>
     <secret_preview
@@ -27,10 +27,12 @@
 <script>
 import box_types from '../../consts/box_types.es6';
 import secret_preview from './secret_preview.vue';
+import PlusSolid from '../../img/plus-solid.svg.vue';
 
 export default {
   components: {
     secret_preview,
+    PlusSolid,
   },
   computed: {
     box_uuid() {

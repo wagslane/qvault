@@ -23,9 +23,9 @@
       >
       <input
         v-if="field.type === String
-        && secret.conflict
-        && secret.conflict[field.name]
-        && secret.conflict[field.name] != secret[field.name]"
+          && secret.conflict
+          && secret.conflict[field.name]
+          && secret.conflict[field.name] != secret[field.name]"
         v-model="secret.conflict[field.name]"
         class="secret_value conflict"
         readonly
@@ -35,10 +35,10 @@
         class="array-secret"
       >
         <button
-          @click.prevent="add_to_sublist(field)"
           class="add_to_sublist"
+          @click.prevent="add_to_sublist(field)"
         >
-          <img src="../../img/plus-solid.svg"/>
+          <PlusSolid />
         </button>
         <div
           v-for="(subvalue, j) in secret[field.name]"
@@ -58,11 +58,11 @@
             >
             <input
               v-if="subfield.type === String
-              && secret.conflict
-              && secret.conflict[field.name]
-              && secret.conflict[field.name][j]
-              && secret.conflict[field.name][j][subfield.name]
-              && secret.conflict[field.name][j][subfield.name] != subvalue[subfield.name]"
+                && secret.conflict
+                && secret.conflict[field.name]
+                && secret.conflict[field.name][j]
+                && secret.conflict[field.name][j][subfield.name]
+                && secret.conflict[field.name][j][subfield.name] != subvalue[subfield.name]"
               v-model="secret.conflict[field.name][j][subfield.name]"
               :title="subfield.name"
               class="secret_value conflict"
@@ -74,8 +74,8 @@
       <!--<button v-clipboard:copy="secret[field]">copy</button>-->
     </div>
     <button
-      class="btn btn-warning"
       v-if="secret.conflict"
+      class="btn btn-warning"
       @click.prevent="resolve_conflicts"
     >
       Resolve Conflicts
@@ -86,8 +86,12 @@
 <script>
 import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
+import PlusSolid from '../../img/plus-solid.svg.vue';
 
 export default {
+  components: {
+    PlusSolid,
+  },
   computed: {
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },

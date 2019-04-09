@@ -7,7 +7,7 @@
     <p>A box is a group of secrets stored in your vault.</p>
     <div class="buttons">
       <div
-        class="button"
+        class="button button-fill"
         @click="add_box('Passwords')"
       >
         <password_icon />
@@ -15,7 +15,7 @@
         Passwords
       </div>
       <div
-        class="button"
+        class="button button-fill"
         @click="add_box('Cryptocurrency')"
       >
         <crypto_icon />
@@ -23,7 +23,7 @@
         Crypto
       </div>
       <div
-        class="button"
+        class="button button-fill"
         @click="add_box('Financial Institution')"
       >
         <fin_icon />
@@ -32,7 +32,7 @@
       </div>
       <br>
       <div
-        class="button"
+        class="button button-stroke"
         @click="add_box('Identification')"
       >
         <identity_icon />
@@ -40,7 +40,7 @@
         Identity
       </div>
       <div
-        class="button"
+        class="button button-fill"
         @click="add_box('Notes')"
       >
         <notes_icon />
@@ -114,14 +114,6 @@ export default {
         svg {
           width: 28px;
           height: 28px;
-
-          path {
-            fill: @gray-lighter;
-          }
-          rect {
-            stroke: @gray-lighter;
-          }
-
           margin-bottom: 13px;
         }
 
@@ -129,10 +121,47 @@ export default {
           color: @gold-dark;
           background-color: @black-darkest;
           border: 1px solid @gold-dark;
+        }
+      }
 
+      .button-stroke {
+        svg {
+          path {
+            stroke: @gray-lighter;
+          }
+          rect {
+            stroke: @gray-lighter;
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              stroke: @gold-dark;
+            }
+            rect {
+              stroke: @gold-dark;
+            }
+          }
+        }
+      }
+
+      .button-fill {
+        svg {
+          path {
+            fill: @gray-lighter;
+            stroke: @gray-lighter;
+          }
+          rect {
+            stroke: @gray-lighter;
+          }
+        }
+
+        &:hover {
           svg {
             path {
               fill: @gold-dark;
+              stroke: @gold-dark;
             }
             rect {
               stroke: @gold-dark;
