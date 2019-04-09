@@ -2,12 +2,28 @@
   <form
     v-if="secret"
   >
-    <input
-      v-model="secret[box_type.header_field]"
-      placeholder="Name"
-      class="box_name"
-      readonly
-    >
+    <div class="header">
+      <input
+        v-model="secret[box_type.header_field]"
+        placeholder="Name"
+        class="box_name"
+        readonly
+      >
+      <button
+        class="cancel"
+        @click.prevent="$router.go(-1)"
+      >
+        Cancel
+      </button>
+      <button
+        class="save"
+        :disabled="$root.ConflictExists"
+        :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
+        @click.prevent="save"
+      >
+        Save
+      </button>
+    </div>
     <hr>
     <div
       v-for="field in fields"
@@ -109,6 +125,9 @@ export default {
     },
   },
   methods: {
+    async save(){
+      await this.$root.SaveBoth();
+    },
     add_to_sublist(field){
       let new_value = {};
       for(let subfield of field.subfields){
@@ -134,11 +153,52 @@ export default {
     margin-left: -10px;
   }
 
-  .box_name {
-    margin-top: 10px;
-  }
-
   .subfields {
 
+  }
+
+  .header{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+
+    .box_name {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+
+    button{
+      font-size: 18px;
+      margin: 12px;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      height: 50px;
+      width: 100px;
+
+      &:hover {
+        background-color: @gold-mid;
+        border: 1px solid @gold-mid;
+        color: white;
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline:0;
+      }
+    }
+
+    .save {
+      &:extend(button);
+      color: @gold-mid;
+      border: 1px solid @gold-mid;
+    }
+
+    .cancel {
+      &:extend(button);
+      color: @gray-light;
+      border: 1px solid @gray-blue;
+    }
   }
 </style>

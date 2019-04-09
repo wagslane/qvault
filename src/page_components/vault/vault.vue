@@ -146,7 +146,7 @@ export default {
   @import '../../styles/colors.less';
   
   .container {
-    display: flex; /* or inline-flex */
+    display: flex;
     flex-direction: row;
 
     .sidebar {

@@ -3,14 +3,6 @@
     <div class="wrapper">
       <router-view />
     </div>
-    <button
-      class="save"
-      :disabled="$root.ConflictExists"
-      :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
-      @click.prevent="save"
-    >
-      Save
-    </button>
   </div>
 </template>
 
@@ -26,9 +18,6 @@ export default {
     },
   },
   methods: {
-    async save(){
-      await this.$root.SaveBoth();
-    },
     add_secret(){
       let secret_uuid = this.$root.CreateSecret(this.box_uuid);
       this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
@@ -47,16 +36,5 @@ export default {
     padding-left: 27px;
     padding-right: 27px;
     padding-bottom: 27px;
-  }
-
-  .save {
-    padding: 10px;
-    font-size: 22px;
-    margin: 25px;
-    color: @gray-light;
-    background: transparent;
-    border: 1px solid @gray-blue;
-    border-radius: 6px;
-    cursor: pointer;
   }
 </style>

@@ -60,7 +60,7 @@ button.btn {
 }
 
 .btn {
-  border: 2px solid rgba(255,255,255,0.5);
+  border: 2px solid @gray-light;
   border-radius: 5px;
   background-color: @black-mid;
   color: @gray-mid;
@@ -72,16 +72,6 @@ button.btn {
   display: block;
   text-decoration: none;
   cursor: pointer;
-
-  &.btn-selected {
-    border-radius: 5px;
-    background-color: @gold-mid;
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: -0.04px;
-    line-height: 21px;
-  }
 
   &:hover {
     background-color: @black-mid;
