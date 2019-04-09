@@ -165,6 +165,7 @@ export default {
       this.generated = '';
     },
     async save(){
+      this.error = null;
       if (!this.matched){
         let confirm_key = await PassKeyFromPassword(this.old_password);
         if (confirm_key === this.$root.pass_key){
@@ -199,8 +200,7 @@ export default {
       let old_pass_key = this.$root.pass_key;
       this.$root.pass_key = new_pass_key;
       try{
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
       } catch (err){
         this.error = err;
         this.$root.pass_key = old_pass_key;

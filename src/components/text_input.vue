@@ -9,12 +9,25 @@
           class="icon"
           @click="toggle"
         >
-          <KeyboardIcon
+          <svg
             v-scroll-to="{
               el: '#'+keyboardID,
               offset: -300,
             }"
-          />
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="20pt"
+            height="20pt"
+            viewBox="0 0 20 20"
+            version="1.1"
+          >
+            <g id="surface1">
+              <path
+                style="stroke:none; fill-rule:nonzero; fill-opacity:1;"
+                d="M 16.667969 2.5 L 3.332031 2.5 C 2.414062 2.5 1.675781 3.246094 1.675781 4.167969 L 1.667969 12.5 C 1.667969 13.421875 2.414062 14.167969 3.332031 14.167969 L 16.667969 14.167969 C 17.585938 14.167969 18.332031 13.421875 18.332031 12.5 L 18.332031 4.167969 C 18.332031 3.246094 17.585938 2.5 16.667969 2.5 Z M 9.167969 5 L 10.832031 5 L 10.832031 6.667969 L 9.167969 6.667969 Z M 9.167969 7.5 L 10.832031 7.5 L 10.832031 9.167969 L 9.167969 9.167969 Z M 6.667969 5 L 8.332031 5 L 8.332031 6.667969 L 6.667969 6.667969 Z M 6.667969 7.5 L 8.332031 7.5 L 8.332031 9.167969 L 6.667969 9.167969 Z M 5.832031 9.167969 L 4.167969 9.167969 L 4.167969 7.5 L 5.832031 7.5 Z M 5.832031 6.667969 L 4.167969 6.667969 L 4.167969 5 L 5.832031 5 Z M 13.332031 12.5 L 6.667969 12.5 L 6.667969 10.832031 L 13.332031 10.832031 Z M 13.332031 9.167969 L 11.667969 9.167969 L 11.667969 7.5 L 13.332031 7.5 Z M 13.332031 6.667969 L 11.667969 6.667969 L 11.667969 5 L 13.332031 5 Z M 15.832031 9.167969 L 14.167969 9.167969 L 14.167969 7.5 L 15.832031 7.5 Z M 15.832031 6.667969 L 14.167969 6.667969 L 14.167969 5 L 15.832031 5 Z M 10 19.167969 L 13.332031 15.832031 L 6.667969 15.832031 Z M 10 19.167969 "
+              />
+            </g>
+          </svg>
         </span>
         <input
           :id="keyboardID"
@@ -39,13 +52,9 @@
 
 <script>
 import Keyboard from "simple-keyboard";
-import KeyboardIcon from '../img/keyboard-icon.svg';
 import "simple-keyboard/build/css/index.css";
 
 export default{
-  components:{
-    KeyboardIcon
-  },
   props:{
     defaultValue:{
       type: String,
@@ -165,11 +174,13 @@ export default{
 </script>
 
 <style lang="less" scoped>
+@import '../styles/colors.less';
+
 .box {
   padding: 15px 25px;
   margin-bottom: 12px;
   border-radius: 5px;
-  background-color: #1A1D1F;
+  background-color: @black-mid;
   letter-spacing: -0.04px;
   font-size: 16px;
   min-width: 450px;
@@ -179,7 +190,7 @@ export default{
     height: 47px;
     line-height: 47px;
     display: inline-block;
-    color: #FFFFFF;
+    color: white;
     text-align: left;
     font-weight: 500;
     margin-right: 20px;
@@ -191,11 +202,11 @@ export default{
     flex: 1;
 
     .icon{
-      background-color: #24272A;
+      background-color: @black-light;
       cursor: pointer;
       height: 47px;
       border-radius: 2px 0px 0px 2px;
-      border: 1px solid #808080;
+      border: 1px solid @gray-mid;
       border-right: 0px;
 
       svg {
@@ -204,12 +215,12 @@ export default{
         margin-right: 13.5px;
 
         path {
-          fill: #fff;
+          fill: white;
         }
       }
 
       &:hover{
-        background-color: #42454A;
+        background-color: @black-lightest;
       }
     }
 
@@ -218,17 +229,17 @@ export default{
         box-sizing: border-box;
         height: 47px;
         line-height: 47px;
-        border: 1px solid #808080;
+        border: 1px solid @gray-mid;
         border-radius: 0px 2px 2px 0px;
         font-weight: 300;
         background-color: white;
         padding-left: 5px;
         outline: none;
-        color: #B3B3B3;
-        background-color: #0B0C0D;
+        color: @gray-lightest;
+        background-color: @black-darkest;
 
         &:focus {
-          border: 2px solid #D8A22E;
+          border: 2px solid @gold-mid;
           outline: none;
         }
       }
@@ -240,7 +251,7 @@ export default{
 }
 
 .keyboardContainer {
-  background-color: #aaaaaa;
+  background-color: @gray-lightest;
   position: fixed;
   width: 100%;
   bottom: 0px;
@@ -265,16 +276,16 @@ export default{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #191919;
+  background: @black-dark;
   color: white;
 }
 
 .simple-keyboard.custom-theme .hg-button:active {
-  background: #D8A22E;
+  background: @gold-mid;
   color: white;
 }
 
 #root .simple-keyboard.custom-theme + .simple-keyboard-preview {
-  background: #D8A22E;
+  background: @gold-mid;
 }
 </style>

@@ -45,7 +45,8 @@ export default {
       loaded_vault: null,
       local_vault_path: null,
       qr_secrets: null,
-      email: null
+      email: null,
+      encrypted_vault_size: 0,
     };
   },
   
@@ -67,6 +68,7 @@ export default {
         assert(this.loaded_vault.version, 'Selected vault is corrupted');
         this.email = this.loaded_vault.email;
         this.qr_required = this.loaded_vault.qr_required;
+        this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(this.loaded_vault));
       } catch (err) {
         this.loaded_vault  = null;
         this.local_vault_path = null;
@@ -170,13 +172,15 @@ export default {
         assert(this.qr_key, 'A QR key must exist to save a vault');
         encrypted_secrets = await CipherSecretsQr(this.qr_key, encrypted_secrets);
       }
-      return {
+      let vault = {
         version: VERSION,
         key: cipheredCharKey,
         secrets: encrypted_secrets,
         qr_required: this.qr_required,
         email: this.email
       };
+      this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(vault));
+      return vault;
     },
 
     async SaveCloudVaultIfEmail(){
@@ -205,6 +209,11 @@ export default {
 
     GetLastUsedVaultPath(){
       return `${app.getPath('userData')}/last_used_vault`;
-    }
+    },
+
+    async SaveBoth(){
+      await this.SaveLocalVault();
+      await this.SaveCloudVaultIfEmail();
+    },
   },
 };

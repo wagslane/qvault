@@ -58,31 +58,30 @@ export default {
       if (!this.secrets) {
         this.secrets = {};
       }
-      for (const box_key in new_secrets) {
-        if (new_secrets.hasOwnProperty(box_key)) {
+      for (const box_key of Object.keys(new_secrets)) {
+        if (!(box_key in this.secrets)) {
           // Insert missing boxes
-          if (!(box_key in this.secrets)) {
-            Vue.set(this.secrets, box_key, new_secrets[box_key]);
-            continue;
+          Vue.set(this.secrets, box_key, new_secrets[box_key]);
+          continue;
+        }
+        for (const secret_key of Object.keys(new_secrets[box_key].secrets)) {
+          const new_secret = new_secrets[box_key].secrets[secret_key];
+          let current_box_secrets = this.secrets[box_key].secrets;
+
+          if (!(secret_key in current_box_secrets)) {
+            // Insert missing secrets
+            Vue.set(current_box_secrets, secret_key, new_secret);
           }
-          for (const secret_key in new_secrets[box_key]) {
-            if (new_secrets[box_key].hasOwnProperty(secret_key)) {
-              // Insert missing secrets
-              if (!(secret_key in this.secrets[box_key])) {
-                Vue.set(this.secrets[box_key], secret_key, new_secrets[box_key][secret_key]);
-                continue;
-              }
-              // Ignore identical secrets
-              if (JSON.stringify(this.secrets[box_key][secret_key]) === JSON.stringify(new_secrets[box_key][secret_key])) {
-                continue;
-              }
-              // Assign conflicts
-              Vue.set(this.secrets[box_key][secret_key], 'conflict', new_secrets[box_key][secret_key]);
-            }
+          else if (JSON.stringify(current_box_secrets[secret_key]) === JSON.stringify(new_secret)) {
+            // Ignore identical secrets
+          }
+          else {
+            // Assign conflicts
+            Vue.set(current_box_secrets[secret_key], 'conflict', new_secret);
           }
         }
       }
-    }
+    },
 
     // SetSecret(uuid, secret) {
     //   assert(this.secrets, 'No vault is open');
@@ -94,4 +93,20 @@ export default {
     //   Vue.delete(this.secrets, uuid);
     // },
   },
+  computed: {
+    ConflictExists(){
+      if(this.secrets){
+        for(const box_key of Object.keys(this.secrets)){
+          const box = this.secrets[box_key];
+          for (const secret_key of Object.keys(box.secrets)){
+            const secret = box.secrets[secret_key];
+            if(secret.conflict){
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+    },
+  }
 };

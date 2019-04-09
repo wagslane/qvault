@@ -34,11 +34,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.svg$/,
-        loader: 'vue-svg-loader',
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif)(\?.*)?$/,
+        test: /\.(png|jpg|jpeg|gif|svg)(\?.*)?$/,
         use: [
           'url-loader?name=assets/[name].[ext]',
         ]

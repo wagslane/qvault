@@ -25,7 +25,7 @@ function createWindow() {
     },
     frame: false,
     titleBarStyle: 'hidden',
-    backgroundColor: '#131617',
+    backgroundColor: '#131617', // @black-dark
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,

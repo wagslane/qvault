@@ -1,21 +1,12 @@
 <template>
   <div v-if="box">
     <div class="wrapper">
-      <div
-        placeholder="Name"
-        class="box_name"
-        v-text="box.name"
-      />
-      <button
-        class="add_secret"
-        @click.prevent="add_secret"
-      >
-        <plus_icon style="height: 22px" />
-      </button>
+      <router-view />
     </div>
-    <router-view />
     <button
       class="save"
+      :disabled="$root.ConflictExists"
+      :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
       @click.prevent="save"
     >
       Save
@@ -36,54 +27,35 @@ export default {
   },
   methods: {
     async save(){
-      await this.$root.SaveLocalVault();
-      await this.$root.SaveCloudVaultIfEmail();
+      await this.$root.SaveBoth();
     },
     add_secret(){
       let secret_uuid = this.$root.CreateSecret(this.box_uuid);
       this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
     },
-  },
+  }
 };
 </script>
 
 <style lang="less" scoped>
+  @import '../../styles/colors.less';
+  
   .wrapper {
     border-radius: 6px;
-    background-color: #080D0E;
+    background-color: @black-darkest;
     margin: 25px;
-    padding: 15px;
-
-    .box_name {
-      font-size: 22px;
-      border: none;
-      border-radius: 6px;
-      background: transparent;
-      color: #8C8E8F;
-      width: ~'calc(100% - 150px)';
-      padding: 10px;
-      display: inline-block;
-    }
-
-    .add_secret {
-      color: white;
-      font-size: 22px;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: transparent;
-      float: right;
-      cursor: pointer;
-    }
+    padding-left: 27px;
+    padding-right: 27px;
+    padding-bottom: 27px;
   }
 
   .save {
     padding: 10px;
     font-size: 22px;
     margin: 25px;
-    color: #8C8E8F;
+    color: @gray-light;
     background: transparent;
-    border: 1px solid #7E8A95;
+    border: 1px solid @gray-blue;
     border-radius: 6px;
     cursor: pointer;
   }

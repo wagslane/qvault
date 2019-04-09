@@ -12,14 +12,13 @@
       class="img img-right"
       height="25"
       width="25"
-      src="../img/gear-icon.svg"
       @click="$router.push({name: 'settings'})"
     />
   </div>
 </template>
 
 <script>
-import gearIcon from '../img/gear-icon.svg';
+import gearIcon from '../img/gear-icon.svg.vue';
 
 export default {
   components:{
@@ -41,10 +40,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../styles/colors.less';
+
   .bar {
     height: 55px;
     width: 100%;
-    background-color: #080D0E;
+    background-color: @black-darkest;
     line-height: 55px;
     color: #FFFFFF;
     font-size: 20px;

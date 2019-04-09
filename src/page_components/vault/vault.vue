@@ -65,7 +65,7 @@
 <script>
 import moment from 'moment';
 import {type} from 'os';
-import PlusBox from '../../img/plus-box.svg';
+import PlusBox from '../../img/plus-box.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
 
 function sort_box_by_key(key){
@@ -78,7 +78,7 @@ function sort_box_by_key(key){
 
 export default {
   components:{
-    PlusBox
+    PlusBox,
   },
   data(){
     return {
@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     async save(){
-      return await this.$root.SaveLocalVault();
+      return await this.$root.SaveBoth();
     },
     box_matches_search(sorted_box){
       if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
@@ -142,13 +142,15 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+  @import '../../styles/colors.less';
+  
   .container {
     display: flex; /* or inline-flex */
     flex-direction: row;
 
     .sidebar {
-      background-color: #32373B;
+      background-color: @black-lighter;
       position: relative;
       flex-grow: 1;
       flex-basis: 0;
@@ -157,7 +159,7 @@ export default {
         margin: 15px 15px 0 15px;
         width: ~'calc(100% - 30px)';
         border-radius: 6px;
-        background-color: #080D0E;
+        background-color: @black-darkest;
         color: white;
         padding: 10px;
         border: none;
@@ -180,7 +182,7 @@ export default {
           text-decoration: none;
 
           .created {
-            color: #72767B;
+            color: @gray-dark;
             font-size: 10px;
           }
 
@@ -188,19 +190,14 @@ export default {
             float: left;
             height: 26px;
             width: 26px;
-            border: 1px solid #979797;
+            border: 1px solid @gray-lighter;
             border-radius: 5px;
             margin-right: 12px;
           }
 
           &.router-link-active {
-            color: #D8A22E;
-            /*background-color: #181C1E;*//*color from mocks*/
-            background-color: #131617;/*actually matches background*/
-          }
-
-          &:nth-child(2n){
-            background-color: #252A2D;
+            color: @gold-mid;
+            background-color: @black-dark;
           }
         }
       }
@@ -212,22 +209,22 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #181C1E;
+        background-color: @black-mid;
         border: none;
         font-size: 14px;
         display: block;
         text-decoration: none;
-        color: #808080;
+        color: @gray-mid;
 
         svg{
           margin-right: 16px;
           vertical-align: middle;
 
           path {
-            fill: #808080;
+            fill: @gray-mid;
           }
           rect {
-            stroke: #808080;
+            stroke: @gray-mid;
           }
         }
 
@@ -236,15 +233,15 @@ export default {
         }
 
         &:hover {
-          color: #CE9B2C;
-          background-color: #080D0E;
+          color: @gold-dark;
+          background-color: @black-darkest;
 
           svg {
             path {
-              fill: #CE9B2C;
+              fill: @gold-dark;
             }
             rect {
-              stroke: #CE9B2C;
+              stroke: @gold-dark;
             }
           }
         }

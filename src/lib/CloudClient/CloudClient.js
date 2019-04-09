@@ -39,6 +39,23 @@ export async function createUser(email, password) {
   return handled;
 }
 
+export async function resendRegistrationEmail(email, password) {
+  const resp = await fetch(`${domain}/v1/users`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': `application/json`
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      resend: true
+    })
+  });
+  const handled = await handleResponse(resp);
+  return handled;
+}
+
 export async function deleteUser() {
   if (!isLoggedIn()) {
     return Promise.reject('Not logged in');

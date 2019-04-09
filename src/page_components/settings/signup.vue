@@ -49,6 +49,14 @@
             </span>
           </div>
           <span class="form-error"> {{ error }} </span>
+          <br v-if="error">
+          <br v-if="error">
+          <div
+            class="link"
+            @click="resend"
+          >
+            Resend verification email
+          </div>
           <br>
           <br>
         </div>
@@ -80,7 +88,7 @@
 
 <script>
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, authenticate, setToken} from '../../lib/CloudClient/CloudClient';
+import {createUser, authenticate, setToken, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -94,7 +102,20 @@ export default {
     };
   },
   methods: {
+    async resend(){
+      this.error = null;
+      this.userCreated = false;
+      try{
+        this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
+        await resendRegistrationEmail(this.emailLogin, this.cloudKey);
+        this.userCreated = true;
+      } catch (err) {
+        this.error = err;
+      }
+    },
     async click_continue(){
+      this.error = null;
+      this.userCreated = false;
       if (this.registerTabActive){
         try{
           this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
@@ -121,8 +142,7 @@ export default {
       let old_email = this.$root.email;
       this.$root.email = this.emailLogin;
       try{
-        await this.$root.SaveLocalVault();
-        await this.$root.SaveCloudVaultIfEmail();
+        await this.$root.SaveBoth();
       } catch (err){
         this.error = err;
         this.$root.email = old_email;

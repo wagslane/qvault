@@ -41,6 +41,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import '../styles/colors.less';
+
   .screen {
     background: rgba(0,0,0,0.50);
     width: 100%;

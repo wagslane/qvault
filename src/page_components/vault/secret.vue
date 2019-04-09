@@ -1,7 +1,6 @@
 <template>
   <form
     v-if="secret"
-    class="wrapper"
   >
     <input
       v-model="secret[box_type.header_field]"
@@ -22,41 +21,77 @@
         placeholder="value"
         class="secret_value"
       >
-      <div v-if="field.type === Array">
+      <input
+        v-if="field.type === String
+          && secret.conflict
+          && secret.conflict[field.name]
+          && secret.conflict[field.name] != secret[field.name]"
+        v-model="secret.conflict[field.name]"
+        class="secret_value conflict"
+        readonly
+      >
+      <div
+        v-if="field.type === Array"
+        class="array-secret"
+      >
         <button
+          class="add_to_sublist"
           @click.prevent="add_to_sublist(field)"
         >
-          <plus_icon style="height: 22px" />
+          <PlusSolid />
         </button>
         <div
           v-for="(subvalue, j) in secret[field.name]"
           :key="j"
+          class="subfields"
         >
           <div
             v-for="subfield in field.subfields"
             :key="subfield.name"
             class="subfield"
           >
-            <label class="secret_name">{{ subfield.name }}</label>
             <input
               v-if="subfield.type === String"
               v-model="subvalue[subfield.name]"
-              placeholder="value"
+              :placeholder="subfield.name"
               class="secret_value"
+            >
+            <input
+              v-if="subfield.type === String
+                && secret.conflict
+                && secret.conflict[field.name]
+                && secret.conflict[field.name][j]
+                && secret.conflict[field.name][j][subfield.name]
+                && secret.conflict[field.name][j][subfield.name] != subvalue[subfield.name]"
+              v-model="secret.conflict[field.name][j][subfield.name]"
+              :title="subfield.name"
+              class="secret_value conflict"
+              readonly
             >
           </div>
         </div>
       </div>
       <!--<button v-clipboard:copy="secret[field]">copy</button>-->
     </div>
+    <button
+      v-if="secret.conflict"
+      class="btn btn-warning"
+      @click.prevent="resolve_conflicts"
+    >
+      Resolve Conflicts
+    </button>
   </form>
 </template>
 
 <script>
 import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
+import PlusSolid from '../../img/plus-solid.svg.vue';
 
 export default {
+  components: {
+    PlusSolid,
+  },
   computed: {
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
@@ -85,10 +120,25 @@ export default {
       }
       this.secret[field.name].push(new_value);
     },
+    resolve_conflicts(){
+      Vue.delete(this.secret, 'conflict');
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
   @import '../../styles/secrets.less';
+
+  form {
+    margin-left: -10px;
+  }
+
+  .box_name {
+    margin-top: 10px;
+  }
+
+  .subfields {
+
+  }
 </style>
