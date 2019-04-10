@@ -10,18 +10,16 @@
         readonly
       >
       <button
-        class="cancel"
+        class="back"
         @click.prevent="$router.go(-1)"
       >
-        Cancel
+        Back
       </button>
       <button
-        class="save"
-        :disabled="$root.ConflictExists"
-        :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
-        @click.prevent="save"
+        class="apply"
+        @click.prevent="apply"
       >
-        Save
+        Apply
       </button>
     </div>
     <hr>
@@ -130,9 +128,9 @@ export default {
     this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
   },
   methods: {
-    async save(){
+    async apply(){
       this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
-      await this.$root.SaveBoth();
+      alert("Changed applied");
     },
     add_to_sublist(field){
       let new_value = {};
@@ -195,13 +193,13 @@ export default {
       }
     }
 
-    .save {
+    .apply {
       &:extend(button);
       color: @gold-mid;
       border: 1px solid @gold-mid;
     }
 
-    .cancel {
+    .back {
       &:extend(button);
       color: @gray-light;
       border: 1px solid @gray-blue;
