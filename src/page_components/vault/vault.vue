@@ -12,7 +12,7 @@
         class="sidebar"
         :style="{ height: `calc(100vh - ${content_height}px)` }"
       >
-        <div
+        <button
           class="btn save"
           :disabled="$root.ConflictExists"
           :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
@@ -22,7 +22,7 @@
           <span>
             Save Vault
           </span>
-        </div>
+        </button>
         <div class="boxes">
           <router-link
             v-for="sorted_box in sorted_boxes"
@@ -188,6 +188,19 @@ export default {
           svg {
             path {
               fill: @gold-dark;
+            }
+          }
+        }
+
+        &[disabled] {
+          border: 2px solid @red-mid;
+          color: @red-mid;
+          text-decoration: none;
+          background-color: @black-mid;
+
+          svg {
+            path {
+              fill: @red-mid;
             }
           }
         }
