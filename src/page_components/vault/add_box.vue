@@ -4,7 +4,7 @@
     class="modal"
   >
     <h1>Add A Box</h1>
-    <p>A box is a group of secrets stored in your vault.</p>
+    <p>A box is a group of secrets stored in your vault</p>
     <div class="buttons">
       <div
         class="button button-fill"

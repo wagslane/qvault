@@ -12,23 +12,17 @@
         class="sidebar"
         :style="{ height: `calc(100vh - ${content_height}px)` }"
       >
-        <input
-          v-model="search"
-          type="text"
-          class="search"
-          placeholder="search"
+        <button
+          class="btn save"
+          :disabled="$root.ConflictExists"
+          :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
+          @click.prevent="save"
         >
-        <select
-          v-model="sort"
-          class="search"
-        >
-          <option value="created">
-            Sort By Date Created
-          </option>
-          <option value="name">
-            Sort By Name
-          </option>
-        </select>
+          <SaveIcon />
+          <span>
+            Save Vault
+          </span>
+        </button>
         <div class="boxes">
           <router-link
             v-for="sorted_box in sorted_boxes"
@@ -66,6 +60,7 @@
 import moment from 'moment';
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
+import SaveIcon from '../../img/save.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
 
 function sort_box_by_key(key){
@@ -79,6 +74,7 @@ function sort_box_by_key(key){
 export default {
   components:{
     PlusBox,
+    SaveIcon,
   },
   data(){
     return {
@@ -122,7 +118,7 @@ export default {
   },
   methods: {
     async save(){
-      return await this.$root.SaveBoth();
+      await this.$root.SaveBoth();
     },
     box_matches_search(sorted_box){
       if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
@@ -146,7 +142,7 @@ export default {
   @import '../../styles/colors.less';
   
   .container {
-    display: flex; /* or inline-flex */
+    display: flex;
     flex-direction: row;
 
     .sidebar {
@@ -155,23 +151,66 @@ export default {
       flex-grow: 1;
       flex-basis: 0;
 
-      .search {
-        margin: 15px 15px 0 15px;
-        width: ~'calc(100% - 30px)';
-        border-radius: 6px;
-        background-color: @black-darkest;
-        color: white;
-        padding: 10px;
-        border: none;
-        height: 42px;
+      .save{
+        border: 2px solid @gray-light;
+        border-radius: 5px;
+        background-color: @black-mid;
+        color: @gray-mid;
         font-size: 14px;
+        letter-spacing: 0.49px;
+        line-height: 45px;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+        width: 75%;
+        margin-top: 12.5px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 50px;
+        text-align: center;
+        padding: 0px;
+
+        svg{
+          margin-right: 16px;
+          vertical-align: middle;
+
+          path {
+            fill: @gray-mid;
+          }
+        }
+
+        &:hover {
+          background-color: @black-darkest;
+          border: 2px solid @gold-mid;
+          color: @gold-mid;
+          text-decoration: none;
+
+          svg {
+            path {
+              fill: @gold-dark;
+            }
+          }
+        }
+
+        &[disabled] {
+          border: 2px solid @red-mid;
+          color: @red-mid;
+          text-decoration: none;
+          background-color: @black-mid;
+
+          svg {
+            path {
+              fill: @red-mid;
+            }
+          }
+        }
       }
 
       .boxes {
         bottom: 90px;
         right: 0;
         left: 0;
-        top: 129px;
+        top: 75px;
         position: absolute;
         overflow-y: auto;
 

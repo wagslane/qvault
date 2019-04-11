@@ -107,11 +107,21 @@ export default {
     async UnlockVaultPassword(password) {
       assert(this.loaded_vault, 'A vault file must be loaded');
       try {
-        this.pass_key = await PassKeyFromPassword(password);
+        let pass_key = await PassKeyFromPassword(password);
+        this.UnlockVaultPasskey(pass_key);
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+
+    async UnlockVaultPasskey(passkey) {
+      assert(this.loaded_vault, 'A vault file must be loaded');
+      try {
+        this.pass_key = passkey;
         this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
         this.hashed_char_key = await HashCharKey(this.char_key);
         let secrets = {};
-        if (this.qr_required){
+        if (this.qr_required) {
           secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
         } else {
           secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
