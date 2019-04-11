@@ -7,12 +7,13 @@
       src="../img/qvault-logo.png"
     >
     <span>{{ title }}</span>
-    <gearIcon 
+
+    <gearIcon
       v-if="settings"
       class="img img-right"
       height="25"
       width="25"
-      @click="$router.push({name: 'settings'})"
+      @click.native="$router.push({name: 'settings'})"
     />
   </div>
 </template>

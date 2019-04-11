@@ -88,7 +88,7 @@
 
 <script>
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, authenticate, setToken, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
+import {createUser, authenticate, setToken, resendRegistrationEmail, getVault} from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -135,19 +135,18 @@ export default {
         }
         let body = await authenticate(this.emailLogin, this.cloudKey);
         setToken(body.jwt);
+        this.$root.loaded_vault = await getVault();
       } catch (err) {
         this.error = err;
         return;
       }
-      let old_email = this.$root.email;
-      this.$root.email = this.emailLogin;
       try{
-        await this.$root.SaveBoth();
-      } catch (err){
-        this.error = err;
-        this.$root.email = old_email;
+        await this.$root.UnlockVaultPasskey(this.$root.pass_key);
+      } catch(err){
+        this.error = "Unable to unlock cloud vault";
         return;
       }
+      this.$root.email = this.emailLogin;
       alert("Logged in successfully");
       this.$router.push({name: 'settings'});
     }

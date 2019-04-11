@@ -2,12 +2,26 @@
   <form
     v-if="secret"
   >
-    <input
-      v-model="secret[box_type.header_field]"
-      placeholder="Name"
-      class="box_name"
-      readonly
-    >
+    <div class="header">
+      <input
+        v-model="secret[box_type.header_field]"
+        placeholder="Name"
+        class="box_name"
+        readonly
+      >
+      <button
+        class="back"
+        @click.prevent="$router.go(-1)"
+      >
+        Back
+      </button>
+      <button
+        class="apply"
+        @click.prevent="apply"
+      >
+        Apply
+      </button>
+    </div>
     <hr>
     <div
       v-for="field in fields"
@@ -92,12 +106,14 @@ export default {
   components: {
     PlusSolid,
   },
+  data(){
+    return{
+      secret: {}
+    };
+  },
   computed: {
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
-    secret(){
-      return this.box.secrets[this.secret_uuid];
-    },
     box_type(){
       return box_types.find(box_type => box_type.name === this.box.type);
     },
@@ -108,7 +124,14 @@ export default {
       return {};
     },
   },
+  mounted(){
+    this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
+  },
   methods: {
+    async apply(){
+      this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
+      alert("Changed applied");
+    },
     add_to_sublist(field){
       let new_value = {};
       for(let subfield of field.subfields){
@@ -134,11 +157,52 @@ export default {
     margin-left: -10px;
   }
 
-  .box_name {
-    margin-top: 10px;
-  }
-
   .subfields {
 
+  }
+
+  .header{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+
+    .box_name {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+
+    button{
+      font-size: 18px;
+      margin: 12px;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      height: 50px;
+      width: 100px;
+
+      &:hover {
+        background-color: @gold-mid;
+        border: 1px solid @gold-mid;
+        color: white;
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline:0;
+      }
+    }
+
+    .apply {
+      &:extend(button);
+      color: @gold-mid;
+      border: 1px solid @gold-mid;
+    }
+
+    .back {
+      &:extend(button);
+      color: @gray-light;
+      border: 1px solid @gray-blue;
+    }
   }
 </style>
