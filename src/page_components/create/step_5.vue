@@ -7,13 +7,13 @@
           <StepProgress :filled="4" />
           <h1>Create a Password or Passphrase</h1>
           <h2>
-            You will use this password each time you unlock your vault. 
+            You will use this password/passphrase each time you unlock your vault. 
             If you forget it, you can only regain access if you have enabled a 
             <a
               href="http://qvault.io"
               class="link"
             >Q Card</a>
-            on this vault
+            on this vault.
           </h2>
           <div class="tabs">
             <div 
@@ -28,7 +28,7 @@
               :class="{ 'tab-active': !passwordTabActive }"
               @click="passwordTabActive = false"
             >
-              Passphrase
+              Passphrase (More Secure)
             </div>
           </div>
           <br>
@@ -36,7 +36,7 @@
           <div :style="{display: passwordTabActive ? 'block' : 'none'}">
             <h4>
               A password must contain 12 characters, 
-              including uppercase, lowercase, a number and special character
+              including uppercase, lowercase, a number and special character.
             </h4>
             <TextInput
               v-model="password" 
@@ -61,8 +61,8 @@
             :style="{display: !passwordTabActive ? 'block' : 'none'}"
           >
             <h4>
-              A passphrase must contain at least 15 characters. 
-              You may generate a random passphrase if you wish.
+              A passphrase is a list of words separted by spaces, and must contain at least 15 characters.
+              You may optionally generate a random passphrase.
             </h4>
             <TextInput
               v-model="passphrase" 
