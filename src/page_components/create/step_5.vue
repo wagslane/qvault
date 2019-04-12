@@ -5,12 +5,12 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body">
           <StepProgress :filled="4" />
-          <h1>Create a Password</h1>
+          <h1>Create a Password or Passphrase</h1>
           <h2>
             You will use this password each time you unlock your vault. 
             If you forget it, you can only regain access if you have enabled a 
             <a
-              href="https://amazon.com"
+              href="http://qvault.io"
               class="link"
             >Q Card</a>
             on this vault
