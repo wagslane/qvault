@@ -94,6 +94,31 @@ export async function updateUserPassword(oldPassword, newPassword) {
   return handled;
 }
 
+export async function updateUserPasswordEmail(emailJwt, newPassword) {
+  const resp = await fetch(`${domain}/v1/users/passwords`, {
+    method: 'PUT',
+    mode: 'cors',
+    body: JSON.stringify({
+      email_jwt: emailJwt,
+      new_password: newPassword,
+    })
+  });
+  const handled = await handleResponse(resp);
+  return handled;
+}
+
+export async function emailPasswordCode(email) {
+  const resp = await fetch(`${domain}/v1/users/passwords/email`, {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify({
+      email,
+    })
+  });
+  const handled = await handleResponse(resp);
+  return handled;
+}
+
 export async function upsertVault(vault) {
   if (!isLoggedIn()) {
     return Promise.reject('Not logged in');

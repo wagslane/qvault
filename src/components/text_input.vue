@@ -11,7 +11,7 @@
         >
           <svg
             v-scroll-to="{
-              el: '#'+keyboardID,
+              el: '#'+keyboardId,
               offset: -300,
             }"
             xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@
           </svg>
         </span>
         <input
-          :id="keyboardID"
+          :id="keyboardId"
           ref="input"
           :type="type"
           :value="value"
@@ -44,7 +44,7 @@
       class="keyboardContainer"
     >
       <div class="keyboard">
-        <div :class="keyboardID" />
+        <div :class="keyboardId" />
       </div>
     </div>
   </div>
@@ -73,7 +73,7 @@ export default{
       type: String,
       required: true
     },
-    keyboardID:{
+    keyboardId:{
       type: String,
       required: true
     },
@@ -104,7 +104,7 @@ export default{
       this.$refs.input.focus();
     }
 
-    this.keyboard = new Keyboard(`.${this.keyboardID}`, {
+    this.keyboard = new Keyboard(`.${this.keyboardId}`, {
       preventMouseDownDefault: true,
       theme: "simple-keyboard hg-theme-default custom-theme",
       onKeyPress: btn => this.onKeyPress(btn),

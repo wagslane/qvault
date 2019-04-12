@@ -11,7 +11,7 @@
             <TextInput
               v-model="old_password"
               :active="true"
-              keyboard-i-d="old_password" 
+              keyboard-id="old_password" 
               description="Old Password" 
               type="password"
             />
@@ -44,14 +44,14 @@
             <div :style="{display: passwordTabActive ? 'block' : 'none'}">
               <TextInput
                 v-model="password" 
-                keyboard-i-d="password" 
+                keyboard-id="password" 
                 description="Password"
                 :active="passwordTabActive"
                 type="password"
               />
               <TextInput
                 v-model="confirm" 
-                keyboard-i-d="confirm" 
+                keyboard-id="confirm" 
                 description="Confirm" 
                 type="password"
               />
@@ -66,7 +66,7 @@
             >
               <TextInput
                 v-model="passphrase" 
-                keyboard-i-d="passphrase" 
+                keyboard-id="passphrase" 
                 description="Passphrase"
                 :active="!passwordTabActive"
                 :default-value="generated"

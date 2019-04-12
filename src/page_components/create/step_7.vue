@@ -29,7 +29,7 @@
             <TextInput
               v-model="emailRegister"
               :active="registerTabActive"
-              keyboard-i-d="emailRegister" 
+              keyboard-id="emailRegister" 
               description="Email" 
               type="email" 
             />
@@ -38,7 +38,7 @@
             <TextInput
               v-model="emailLogin"
               :active="!registerTabActive"
-              keyboard-i-d="emailLogin" 
+              keyboard-id="emailLogin" 
               description="Email" 
               type="email"
             />
@@ -65,6 +65,15 @@
             @click="resend"
           >
             Resend verification email
+          </div>
+          <br>
+          <br>
+          <div
+            v-if="!registerTabActive"
+            class="link"
+            @click="$router.push({name: 'settings_restore_password'});"
+          >
+            I can't remember the password for my cloud account
           </div>
           <br>
           <br>

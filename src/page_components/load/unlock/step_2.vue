@@ -9,7 +9,7 @@
           <TextInput
             v-model="char_key"
             :active="true"
-            keyboard-i-d="char_key" 
+            keyboard-id="char_key" 
             description="Code" 
             type="char_key" 
           />
