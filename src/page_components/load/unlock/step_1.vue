@@ -10,7 +10,7 @@
             <TextInput
               v-model="password"
               :active="true"
-              keyboard-i-d="password" 
+              keyboard-id="password" 
               description="password" 
               type="password" 
             />

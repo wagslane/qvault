@@ -22,6 +22,7 @@ import secret_list from './page_components/vault/secret_list.vue';
 import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
 import settings_delete_account from './page_components/settings/delete_account.vue';
+import settings_restore_password from './page_components/settings/restore_password.vue';
 import settings_signup from './page_components/settings/signup.vue';
 import settings_change_char_key from './page_components/settings/change_char_key.vue';
 import settings_qrcode_choose from './page_components/settings/qrcode/choose.vue';
@@ -190,6 +191,11 @@ export default [
         path: 'delete_account',
         component: settings_delete_account,
         name: 'settings_delete_account',
+      },
+      {
+        path: 'restore_password',
+        component: settings_restore_password,
+        name: 'settings_restore_password',
       },
       {
         path: 'signup',

@@ -9,13 +9,13 @@
           <TextInput
             v-model="email"
             :active="true"
-            keyboard-i-d="email" 
+            keyboard-id="email" 
             description="email" 
             type="email"
           />
           <TextInput
             v-model="password" 
-            keyboard-i-d="password" 
+            keyboard-id="password" 
             description="password" 
             type="password"
           />

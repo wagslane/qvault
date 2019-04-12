@@ -40,14 +40,14 @@
             </h4>
             <TextInput
               v-model="password" 
-              keyboard-i-d="password" 
+              keyboard-id="password" 
               description="Password"
               :active="passwordTabActive"
               type="password"
             />
             <TextInput
               v-model="confirm" 
-              keyboard-i-d="confirm" 
+              keyboard-id="confirm" 
               description="Confirm" 
               type="password"
             />
@@ -66,7 +66,7 @@
             </h4>
             <TextInput
               v-model="passphrase" 
-              keyboard-i-d="passphrase" 
+              keyboard-id="passphrase" 
               description="Passphrase"
               :active="!passwordTabActive"
               :default-value="generated"
