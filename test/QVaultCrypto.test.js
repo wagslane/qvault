@@ -9,7 +9,6 @@ import {
   CipherSecretsQr,
   DecipherSecretsQr,
   HashCharKey,
-  ValidateQRKey,
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
 
