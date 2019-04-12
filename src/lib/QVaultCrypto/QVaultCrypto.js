@@ -11,13 +11,13 @@ const textFormat = 'utf8';
 const longHashDifficulty = 17;
 const shortHashDifficulty = 10;
 
-// QR Key (256 bit, base64) = Encoded in the QR Card, generated in QVault factory
+// QR Key (128 bit, base64) = Encoded in the QR Card, generated in QVault factory
 // Char Key (15 chars, base58) = Back of the Q-Card, generated randomly by this app
 // Pass Key (256 bit, base 64) = Hash(password) or Hash(passphrase), used to cipher the Char Key for easy access
 
 // Secrets are ciphered using Cipher(Hash(Char Key), data) 
 // Or
-// Cipher(QRKey, Cipher(Hash(CharKey), data))
+// Cipher(Hash(QRKey), Cipher(Hash(CharKey), data))
 
 // (string) => string
 // log2(70^12) = 73.6 bits of entropy 
@@ -79,62 +79,54 @@ export async function GenerateCharKey() {
   return key;
 }
 
-// (string) => Promise(string)
-export function PassKeyFromPassword(password) {
-  return hashString(password, longHashDifficulty);
+export async function PassKeyFromPassword(password) {
+  return await hashString(password, longHashDifficulty);
 }
 
-// string => Promise(string)
-export function HashCharKey(charKey) {
-  return hashString(charKey, longHashDifficulty);
+export async function HashCharKey(charKey) {
+  return await hashString(charKey, longHashDifficulty);
 }
 
-// string => Promise(string)
-export function DeriveCloudKey(passKey) {
+export async function DeriveCloudKey(passKey) {
   const cloudSalt = '-cloud-salt';
-  return hashString(passKey + cloudSalt, shortHashDifficulty);
+  return await hashString(passKey + cloudSalt, shortHashDifficulty);
 }
 
-// (string, string) => string
 export function CipherCharKey(passKey, charKey) {
   return cipherString(passKey, charKey);
 }
 
-// (string, string) => string
 export function DecipherCharKey(passKey, cipheredCharKey) {
   return decipherString(passKey, cipheredCharKey);
 }
 
-// (string, obj) => string
 export function CipherSecrets(hashedCharKey, secrets) {
   const secretsString = JSON.stringify(secrets);
   return cipherString(hashedCharKey, secretsString);
 }
 
-// (string, string) => string
-export function CipherSecretsQr(qrKey, cipheredSecrets){
-  return cipherString(qrKey, cipheredSecrets);
+export async function CipherSecretsQr(qrKey, cipheredSecrets){
+  const hashed = await hashString(qrKey, shortHashDifficulty);
+  return cipherString(hashed, cipheredSecrets);
 }
 
-// (string, string) => obj
 export function DecipherSecrets(hashedCharKey, cipheredSecrets) {
   const deciphered = decipherString(hashedCharKey, cipheredSecrets);
   return JSON.parse(deciphered);
 }
 
-// (string, string) => obj
-export function DecipherSecretsQr(qrKey, cipheredSecrets) {
-  return decipherString(qrKey, cipheredSecrets);
+export async function DecipherSecretsQr(qrKey, cipheredSecrets) {
+  const hashed = await hashString(qrKey, shortHashDifficulty);
+  return decipherString(hashed, cipheredSecrets);
 }
 
 
-// (string) => bool
 export function ValidateQRKey(qrKey) {
   const keyBuf = Buffer.from(qrKey, encodingFormat);
-  return keyBuf.length === 32;
+  return keyBuf.length === 16;
 }
 
-function hashString(data, difficulty) {
+async function hashString(data, difficulty) {
   const scryptSalt = 'qvaultsalthopefullyusednowhereelse';
   const scryptKeyLenBytes = 32;
   const scryptCost = Math.pow(2, difficulty);
@@ -144,11 +136,8 @@ function hashString(data, difficulty) {
     blockSize: scryptBlockSize,
     maxmem: scryptCost * scryptBlockSize * 256
   };
-
-  return new Promise(function (resolve) {
-    const hash = crypto.scryptSync(data, scryptSalt, scryptKeyLenBytes, scryptOptions);
-    resolve(hash.toString(encodingFormat));
-  });
+  const hash = crypto.scryptSync(data, scryptSalt, scryptKeyLenBytes, scryptOptions);
+  return await hash.toString(encodingFormat);
 }
 
 function cipherString(key, data) {

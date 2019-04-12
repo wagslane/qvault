@@ -64,7 +64,7 @@ it('hash char key', async () => {
   expect(buf.length).equal(32);
 });
 
-it('cipher and decipher', () => {
+it('cipher and decipher', async () => {
   const mySecrets = {
     cryptocurrency: {
       someUUID: {
@@ -82,15 +82,10 @@ it('cipher and decipher', () => {
   expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(deciphered.cryptocurrency.someUUID.mnemonic);
   expect(mySecrets.cryptocurrency.someUUID.description).equal(deciphered.cryptocurrency.someUUID.description);
 
-  const dualCiphered = CipherSecretsQr(qrKey, ciphered);
-  const unDualCiphered = DecipherSecretsQr(qrKey, dualCiphered);
+  const dualCiphered = await CipherSecretsQr(qrKey, ciphered);
+  const unDualCiphered = await DecipherSecretsQr(qrKey, dualCiphered);
   const totallyUnciphered = DecipherSecrets(hashedCharKey, unDualCiphered);
   expect(mySecrets.cryptocurrency.someUUID.coin).equal(totallyUnciphered.cryptocurrency.someUUID.coin);
   expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(totallyUnciphered.cryptocurrency.someUUID.mnemonic);
   expect(mySecrets.cryptocurrency.someUUID.description).equal(totallyUnciphered.cryptocurrency.someUUID.description);
-});
-
-it('Validate QRKey', () => {
-  expect(ValidateQRKey('FwV6QcIGt3izSTncwGZGo7WQY53Q2fOmKW6mhNRMgNs=')).equal(true);
-  expect(ValidateQRKey('FwV6QcIGt3izSTncwGZGY53Q2fOmKW6mhNRMgNs=')).equal(false);
 });

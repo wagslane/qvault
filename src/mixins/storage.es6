@@ -106,12 +106,8 @@ export default {
 
     async UnlockVaultPassword(password) {
       assert(this.loaded_vault, 'A vault file must be loaded');
-      try {
-        let pass_key = await PassKeyFromPassword(password);
-        this.UnlockVaultPasskey(pass_key);
-      } catch (err) {
-        throw new Error(err);
-      }
+      let pass_key = await PassKeyFromPassword(password);
+      this.UnlockVaultPasskey(pass_key);
     },
 
     async UnlockVaultPasskey(passkey) {
@@ -157,12 +153,8 @@ export default {
 
     async SaveLocalVault() {
       assert(this.local_vault_path, 'No vault path is set');
-      try {
-        let content = await this.GetSavableVault();
-        this.SaveVault(content);
-      } catch (err) {
-        return err;
-      }
+      let content = await this.GetSavableVault();
+      this.SaveVault(content);
     },
 
     async SaveVault(vault) {
