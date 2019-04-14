@@ -24,78 +24,95 @@
     </div>
     <hr>
     <div
-      v-for="field in fields"
-      :key="field.name"
-      class="secret"
+      v-for="(row, i) in rows"
+      :key="i"
+      class="row"
     >
-      <label class="secret_name">{{ field.name }}</label>
-      <input
-        v-if="field.type === String"
-        v-model="secret[field.name]"
-        :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
-        placeholder="value"
-        class="secret_value"
-      >
-      <input
-        v-if="field.type === String
-          && secret.conflict
-          && secret.conflict[field.name]
-          && secret.conflict[field.name] != secret[field.name]"
-        v-model="secret.conflict[field.name]"
-        class="secret_value conflict"
-        readonly
-      >
       <div
-        v-if="field.type === Array"
-        class="array-secret"
+        v-for="(field, j) in row"
+        :key="j"
+        class="secret"
       >
+        <label
+          class="secret_name"
+          :style="{display: field.type === Array ? 'inline-block' : 'block'}"
+        >{{ field.name }}</label>
+        <input
+          v-if="field.type === String"
+          v-model="secret[field.name]"
+          :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
+          placeholder="value"
+          class="secret_value"
+        >
+        <input
+          v-if="field.type === String
+            && secret.conflict
+            && secret.conflict[field.name]
+            && secret.conflict[field.name] != secret[field.name]"
+          v-model="secret.conflict[field.name]"
+          class="secret_value conflict"
+          readonly
+        >
+        <textarea
+          v-if="field.type === 'textarea'"
+          v-model="secret[field.name]"
+          :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
+          placeholder="value"
+          class="secret_value"
+        />
         <button
+          v-if="field.type === Array"
           class="add_to_sublist"
           @click.prevent="add_to_sublist(field)"
         >
           <PlusSolid />
         </button>
         <div
-          v-for="(subvalue, j) in secret[field.name]"
-          :key="j"
-          class="subfields"
+          v-if="field.type === Array"
+          class="array-secret"
         >
           <div
-            v-for="subfield in field.subfields"
-            :key="subfield.name"
-            class="subfield"
+            v-for="(subvalue, k) in secret[field.name]"
+            :key="k"
+            class="subfields"
           >
-            <input
-              v-if="subfield.type === String"
-              v-model="subvalue[subfield.name]"
-              :class="{missing: apply_clicked && missing_fields.includes(field.name + j + subfield.name)}"
-              :placeholder="subfield.name"
-              class="secret_value"
+            <div
+              v-for="subfield in field.subfields"
+              :key="subfield.name"
+              class="subfield"
             >
-            <input
-              v-if="subfield.type === String
-                && secret.conflict
-                && secret.conflict[field.name]
-                && secret.conflict[field.name][j]
-                && secret.conflict[field.name][j][subfield.name]
-                && secret.conflict[field.name][j][subfield.name] != subvalue[subfield.name]"
-              v-model="secret.conflict[field.name][j][subfield.name]"
-              :title="subfield.name"
-              class="secret_value conflict"
-              readonly
-            >
+              <input
+                v-if="subfield.type === String"
+                v-model="subvalue[subfield.name]"
+                :class="{missing: apply_clicked && missing_fields.includes(field.name + j + subfield.name)}"
+                :placeholder="subfield.name"
+                class="secret_value"
+              >
+              <input
+                v-if="subfield.type === String
+                  && secret.conflict
+                  && secret.conflict[field.name]
+                  && secret.conflict[field.name][k]
+                  && secret.conflict[field.name][k][subfield.name]
+                  && secret.conflict[field.name][k][subfield.name] != subvalue[subfield.name]"
+                v-model="secret.conflict[field.name][k][subfield.name]"
+                :title="subfield.name"
+                class="secret_value conflict"
+                readonly
+              >
+            </div>
           </div>
         </div>
-      </div>
       <!--<button v-clipboard:copy="secret[field]">copy</button>-->
+      </div>
+      <button
+        v-if="secret.conflict"
+        class="btn btn-warning"
+        @click.prevent="resolve_conflicts"
+      >
+        Resolve Conflicts
+      </button>
     </div>
-    <button
-      v-if="secret.conflict"
-      class="btn btn-warning"
-      @click.prevent="resolve_conflicts"
-    >
-      Resolve Conflicts
-    </button>
   </form>
 </template>
 
@@ -115,6 +132,20 @@ export default {
     };
   },
   computed: {
+    rows(){
+      let rows = [];
+      for (let i = 0; i < this.fields.length; i++){
+        if (this.fields[i].type === Array){
+          rows.push([ this.fields[i] ]);
+        }else if (i + 1 < this.fields.length){
+          rows.push([ this.fields[i], this.fields[i+1] ]);
+          i++;
+        } else{
+          rows.push([ this.fields[i] ]);
+        }
+      }
+      return rows;
+    },
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
     box_type(){
@@ -181,14 +212,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import '../../styles/secrets.less';
+  @import '../../styles/colors.less';
 
   form {
     margin-left: -10px;
-  }
-
-  .subfields {
-
   }
 
   .header{
@@ -235,4 +262,104 @@ export default {
       border: 1px solid @gray-blue;
     }
   }
+
+  .wrapper {
+    border-radius: 6px;
+    background-color: @black-darkest;
+    margin: 25px;
+    padding: 15px;
+
+    .box_name {
+      font-size: 22px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: @gray-light;
+      width: ~'calc(100% - 150px)';
+      padding: 10px;
+    }
+
+    hr {
+      box-sizing: border-box;
+      height: 2px;
+      border: 1px solid @black-lighter;
+      margin: 10px;
+    }
+  }
+
+  .row{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+
+    .secret {
+      flex-grow: 1;
+      flex-basis: 200px;
+      margin: 15px;
+
+      .secret_name {
+        font-size: 12px;
+        padding-bottom: 12px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: @gray-mid;
+      }
+
+      .secret_value {
+        font-size: 14px;
+        padding: 10px;
+        border: 1px solid @gray-blue;
+        border-radius: 6px;
+        background: transparent;
+        color: @gray-light;
+        width: 100%;
+
+        &.missing {
+          border: 1px solid @red-mid;
+        }
+
+        &.conflict {
+          color: @red-mid;
+        }
+
+        &:focus {
+          border: 1px solid @gold-mid;
+          outline: none;
+        }
+      }
+
+      textarea {
+        resize: none;
+        height: 140px;
+      }
+
+      .add_to_sublist {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        outline: none;
+        margin-bottom: 5px;
+        float: left;
+      }
+
+      .array-secret {
+        flex-grow: 1;
+        flex-basis: 800px;
+
+        .subfields {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          .subfield {
+            flex-grow: 1;
+            flex-basis: 200px;
+            margin: 10px;
+          }
+        }
+      }
+    }
+  }
+
 </style>

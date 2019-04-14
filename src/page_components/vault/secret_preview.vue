@@ -63,7 +63,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import '../../styles/secrets.less';
   @import '../../styles/colors.less';
 
   .secret-preview {

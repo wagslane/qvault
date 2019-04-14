@@ -29,7 +29,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -128,7 +128,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -163,7 +163,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -207,7 +207,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -271,7 +271,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],

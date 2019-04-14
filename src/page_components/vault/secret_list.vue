@@ -79,14 +79,6 @@ export default {
       cursor: pointer;
       margin-top: 20px;
       outline: none;
-
-      &:hover{
-        svg{
-          path{
-            fill: @gold-mid
-          }
-        }
-      }
     }
   }
 </style>
