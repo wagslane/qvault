@@ -1,7 +1,5 @@
 <template>
-  <form
-    @submit.prevent="apply"
-  >
+  <form @submit.prevent="apply">
     <div class="header">
       <input
         v-model="secret[box_type.header_field]"
@@ -11,7 +9,8 @@
       >
       <button
         class="back"
-        @click.prevent="$router.go(-1)"
+        type="button"
+        @click="$router.go(-1)"
       >
         Back
       </button>
@@ -20,6 +19,14 @@
         type="submit"
       >
         Apply
+      </button>
+      <button
+        v-if="secret.conflict"
+        type="button"
+        class="resolve"
+        @click="resolve_conflicts"
+      >
+        Resolve Conflicts
       </button>
     </div>
     <hr>
@@ -62,8 +69,9 @@
         />
         <button
           v-if="field.type === Array"
+          type="button"
           class="add_to_sublist"
-          @click.prevent="add_to_sublist(field)"
+          @click="add_to_sublist(field)"
         >
           <PlusSolid />
         </button>
@@ -103,15 +111,7 @@
             </div>
           </div>
         </div>
-      <!--<button v-clipboard:copy="secret[field]">copy</button>-->
       </div>
-      <button
-        v-if="secret.conflict"
-        class="btn btn-warning"
-        @click.prevent="resolve_conflicts"
-      >
-        Resolve Conflicts
-      </button>
     </div>
   </form>
 </template>
@@ -250,6 +250,12 @@ export default {
       }
     }
 
+    .resolve {
+      &:extend(button);
+      color: @red-mid;
+      border: 1px solid @red-mid;
+    }
+
     .apply {
       &:extend(button);
       color: @gold-mid;
@@ -314,6 +320,7 @@ export default {
         background: transparent;
         color: @gray-light;
         width: 100%;
+        margin: 5px;
 
         &.missing {
           border: 1px solid @red-mid;
