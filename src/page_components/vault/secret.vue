@@ -307,7 +307,6 @@ export default {
         font-size: 12px;
         padding-bottom: 12px;
         border: none;
-        border-radius: 6px;
         background: transparent;
         color: @gray-mid;
       }
@@ -318,7 +317,7 @@ export default {
         border: 1px solid @gray-blue;
         border-radius: 6px;
         background: transparent;
-        color: @gray-light;
+        color: white;
         width: 100%;
         margin: 5px;
 

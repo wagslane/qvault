@@ -15,6 +15,7 @@
       :key="i"
       class="field"
     >
+      <label>{{ fieldname }}</label>
       <input
         v-model="secret[fieldname]"
         readonly
@@ -83,11 +84,11 @@ export default {
       cursor: pointer;
       flex-basis: 160px;
       text-decoration: none;
+      height: 60px;
 
       .name {
         display: inline-block;
-        height: 45px;
-        line-height: 45px;
+        line-height: 60px;
       }
 
       .arrow {
@@ -115,6 +116,15 @@ export default {
       padding-left: 30px;
       flex-grow: 1;
 
+      label{
+        font-size: 12px;
+        padding-bottom: 10px;
+        border: none;
+        background: transparent;
+        color: @gray-mid;
+        display: block;
+      }
+
       input{
         padding: 10px;
         border: 1px solid @gray-blue;
@@ -122,7 +132,6 @@ export default {
         background: transparent;
         color: @gray-light;
         width: 100%;
-        height: 100%;
       }
     }
   }
