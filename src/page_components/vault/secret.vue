@@ -1,6 +1,6 @@
 <template>
   <form
-    v-if="secret"
+    @submit.prevent="apply"
   >
     <div class="header">
       <input
@@ -17,7 +17,7 @@
       </button>
       <button
         class="apply"
-        @click.prevent="apply"
+        type="submit"
       >
         Apply
       </button>
@@ -32,6 +32,7 @@
       <input
         v-if="field.type === String"
         v-model="secret[field.name]"
+        :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
         placeholder="value"
         class="secret_value"
       >
@@ -67,6 +68,7 @@
             <input
               v-if="subfield.type === String"
               v-model="subvalue[subfield.name]"
+              :class="{missing: apply_clicked && missing_fields.includes(field.name + j + subfield.name)}"
               :placeholder="subfield.name"
               class="secret_value"
             >
@@ -108,7 +110,8 @@ export default {
   },
   data(){
     return{
-      secret: {}
+      secret: {},
+      apply_clicked: false
     };
   },
   computed: {
@@ -123,14 +126,41 @@ export default {
       }
       return {};
     },
+    missing_fields(){
+      let missing_fields = [];
+      for (const field of Object.values(this.fields)){
+        if (field.required && !this.secret[field.name]){
+          missing_fields.push(field.name);
+        }
+        if (!('subfields' in field)){
+          continue;
+        }
+        if (!(field.name in this.secret)){
+          continue;
+        }
+        for (const subfield of Object.values(field.subfields)){
+          Object.entries(this.secret[field.name]).forEach(entry => {
+            if (subfield.required && !entry[1][subfield.name] ){
+              missing_fields.push(field.name + entry[0] + subfield.name);
+            }
+          });
+        }
+      }
+      return missing_fields;
+    }
   },
   mounted(){
     this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
   },
   methods: {
     async apply(){
+      this.apply_clicked = true;
+      if (this.missing_fields.length > 0){
+        alert("Please fix the missing fields");
+        return;
+      }
       this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
-      alert("Changed applied");
+      alert("Change applied");
     },
     add_to_sublist(field){
       let new_value = {};
