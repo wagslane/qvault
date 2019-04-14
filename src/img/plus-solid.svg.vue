@@ -12,3 +12,15 @@
     />
   </svg>
 </template>
+
+<style lang="less" scoped>
+  @import '../styles/colors.less';
+
+  svg{
+    &:hover{
+      path{
+        fill: @gold-mid;
+      }
+    }
+  }
+</style>
