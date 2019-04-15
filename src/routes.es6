@@ -37,7 +37,7 @@ export default [
     },
   },
   {
-    path: '/create/',
+    path: '/create',
     component: route_wrapper,
     children: [
       {
@@ -84,7 +84,7 @@ export default [
     ],
   },
   {
-    path: '/load/',
+    path: '/load',
     component: route_wrapper,
     children: [
       {
@@ -105,7 +105,7 @@ export default [
         name: 'load_download',
       },
       {
-        path: '/unlock/',
+        path: '/unlock',
         component: route_wrapper,
         children: [
           {
@@ -134,7 +134,7 @@ export default [
     ],
   },
   {
-    path: '/vault/',
+    path: '/vault',
     component: vault,
     name: 'vault',
     children: [
@@ -149,12 +149,6 @@ export default [
         children: [
           {
             path: '',
-            redirect: {
-              name: 'secret_list',
-            },
-          },
-          {
-            path: 'list',
             component: secret_list,
             name: 'box',
           },
@@ -168,7 +162,7 @@ export default [
     ],
   },
   {
-    path: '/settings/',
+    path: '/settings',
     component: route_wrapper,
     children: [
       {
@@ -208,7 +202,7 @@ export default [
         name: 'settings_change_char_key',
       },
       {
-        path: '/qrcode/',
+        path: 'qrcode',
         component: route_wrapper,
         children: [
           {
