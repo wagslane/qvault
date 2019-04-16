@@ -3,6 +3,12 @@ const electron = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
+const log = require('electron-log');
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -56,11 +62,20 @@ function createWindow() {
   return mainWindow;
 }
 
-autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available. ' + info);
+autoUpdater.on('checking-for-update', () => {
+  log.info('Checking for update...');
+  sendStatusToWindow('Checking for update...');
 });
-
+autoUpdater.on('update-available', (info) => {
+  log.info('Update available.' + info);
+  sendStatusToWindow('Update available.' + info);
+});
+autoUpdater.on('update-not-available', (info) => {
+  log.info('Update not available.'+info);
+  sendStatusToWindow('Update not available.' + info);
+});
 autoUpdater.on('error', (err) => {
+  log.info('Error in auto-updater. ' + err);
   sendStatusToWindow('Error in auto-updater. ' + err);
 });
 
@@ -68,10 +83,12 @@ autoUpdater.on('download-progress', (progressObj) => {
   let log_message = "Download speed: " + progressObj.bytesPerSecond;
   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
   log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  log.info(log_message);
   sendStatusToWindow(log_message);
 });
 
 autoUpdater.on('update-downloaded', (info) => {
+  log.info('Update downloaded. ' + info);
   sendStatusToWindow('Update downloaded. ' + info);
 });
 
