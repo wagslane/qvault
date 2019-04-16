@@ -13,7 +13,7 @@
         </h2>
 
         <h3>
-          A Q Card is a physical plastic card that allows you to restore vault access if you
+          A Q Card is a plastic card that allows you to restore vault access if you
           forget your password, and dual encrypt your vault for added security.
         </h3>
 
