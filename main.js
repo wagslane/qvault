@@ -7,6 +7,8 @@ const log = require('electron-log');
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
+autoUpdater.autoDownload = false;
+autoUpdater.allowPrerelease = true;
 log.info('App starting...');
 
 
@@ -67,12 +69,17 @@ app.on('ready', function () {
 });
 
 /*eslint-disable no-unused-vars*/
-autoUpdater.on('update-downloaded', (info) => {
+autoUpdater.on("update-available", (event, arg) => {
   mainWindow.webContents.send('updateReady');
 });
 
 /*eslint-disable no-unused-vars*/
-ipcMain.on("quitAndInstall", (event, arg) => {
+ipcMain.on("downloadUpdate", (event, arg) => {
+  autoUpdater.downloadUpdate();
+});
+
+/*eslint-disable no-unused-vars*/
+autoUpdater.on('update-downloaded', (info) => {
   autoUpdater.quitAndInstall();
 });
 

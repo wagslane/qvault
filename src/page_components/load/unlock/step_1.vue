@@ -31,7 +31,7 @@
           <div
             v-if="updateReady"
             class="link"
-            @click="updateVersion"
+            @click="$refs.loader_update.load"
           >
             Quit and install latest version
           </div>
@@ -58,6 +58,10 @@
       ref="loader"
       :func="unlock"
     />
+    <LoadingOverlay
+      ref="loader_update"
+      :func="updateVersion"
+    />
   </div>
 </template>
 
@@ -66,6 +70,7 @@ import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultC
 import QRScanner from '../../../components/qrcode_scanner.vue';
 import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
 import {ipcRenderer} from 'electron';
+const sleep = require('util').promisify(setTimeout);
 
 export default {
   components:{
@@ -86,8 +91,10 @@ export default {
     });
   },
   methods: {
-    updateVersion(){
-      ipcRenderer.send('quitAndInstall');
+    async updateVersion(){
+      ipcRenderer.send('downloadUpdate');
+      await sleep(20000);
+      alert("Error downloading update");
     },
     async unlock(){
       this.error = null;
