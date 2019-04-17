@@ -21,11 +21,11 @@ import {type} from 'os';
 export const router = new VueRouter({routes});
 
 export default {
-  router: router,
   components: {
     TitleBar
   },
   mixins: [ storage ],
+  router: router,
   computed:{
     titleHeight(){
       if (type() === 'Darwin'){
