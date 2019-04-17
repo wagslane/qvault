@@ -4,7 +4,7 @@
     <div class="options-box">
       <div class="body">
         <h1>Get Started</h1>
-        <h2>Create a new vault, or open an existing vault</h2>
+        <h2>Create a new vault, or open an existing one</h2>
 
         <div
           class="btn"
