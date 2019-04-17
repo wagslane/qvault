@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const electron = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
@@ -13,10 +13,6 @@ log.info('App starting...');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
-function sendStatusToWindow(text) {
-  mainWindow.webContents.send('message', text);
-}
 
 function createWindow() {
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
@@ -62,39 +58,19 @@ function createWindow() {
   return mainWindow;
 }
 
-autoUpdater.on('checking-for-update', () => {
-  log.info('Checking for update...');
-  sendStatusToWindow('Checking for update...');
-});
-autoUpdater.on('update-available', (info) => {
-  log.info('Update available.' + info);
-  sendStatusToWindow('Update available.' + info);
-});
-autoUpdater.on('update-not-available', (info) => {
-  log.info('Update not available.'+info);
-  sendStatusToWindow('Update not available.' + info);
-});
-autoUpdater.on('error', (err) => {
-  log.info('Error in auto-updater. ' + err);
-  sendStatusToWindow('Error in auto-updater. ' + err);
-});
-
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  log.info(log_message);
-  sendStatusToWindow(log_message);
-});
-
-autoUpdater.on('update-downloaded', (info) => {
-  log.info('Update downloaded. ' + info);
-  sendStatusToWindow('Update downloaded. ' + info);
-});
-
 app.on('ready', function () {
   createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdates();
+});
+
+/*eslint-disable no-unused-vars*/
+autoUpdater.on('update-downloaded', (info) => {
+  mainWindow.webContents.send('updateReady');
+});
+
+/*eslint-disable no-unused-vars*/
+ipcMain.on("quitAndInstall", (event, arg) => {
+  autoUpdater.quitAndInstall();
 });
 
 app.on('window-all-closed', function () {
