@@ -7,10 +7,12 @@
     >
       <div v-if="updateReady">
         <h1>A new update is ready to install!</h1>
+        M/div
         <router-view v-else />
       </div>
     </div>
-</div></template>
+  </div>
+</template>
 
 <script>
 import VueRouter from 'vue-router';
