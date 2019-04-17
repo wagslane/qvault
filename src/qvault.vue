@@ -5,11 +5,7 @@
       id="body-contents"
       :style="{height: `calc(100vh - ${titleHeight}px)`}"
     >
-      <div v-if="updateReady">
-        <h1>A new update is ready to install!</h1>
-        M/div
-        <router-view v-else />
-      </div>
+      <router-view />
     </div>
   </div>
 </template>
@@ -21,7 +17,6 @@ import storage from './mixins/storage.es6';
 import TitleBar from './components/title_bar.vue';
 import {heightMac, heightWin} from './consts/title_bar.es6';
 import {type} from 'os';
-import {ipcRenderer} from 'electron';
 
 export const router = new VueRouter({routes});
 
@@ -30,12 +25,6 @@ export default {
     TitleBar
   },
   mixins: [ storage ],
-  data(){
-    return{
-      updateReady: false,
-
-    };
-  },
   router: router,
   computed:{
     titleHeight(){
@@ -44,11 +33,6 @@ export default {
       }
       return heightWin;
     }
-  },
-  mounted(){
-    ipcRenderer.on('updateReady', ()=>{
-      this.updateReady = true;
-    });
   }
 };
 </script>

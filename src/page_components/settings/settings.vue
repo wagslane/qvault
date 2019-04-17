@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HeaderBar title="Settings" />
+    <HeaderBar :title="'Settings v' +version" />
     <div class="options-box">
       <div class="body center-text">
         <h1>Settings</h1>
@@ -61,10 +61,16 @@
 
 <script>
 import ProgressBar from '../../components/progress_bar.vue';
+const pjson = require('../../../package.json');
 
 export default {
   components:{
     ProgressBar
+  },
+  data(){
+    return{
+      version: pjson.version
+    };
   }
 };
 </script>

@@ -60,7 +60,10 @@ function createWindow() {
 
 app.on('ready', function () {
   createWindow();
-  autoUpdater.checkForUpdates();
+  let devMode = process.defaultApp;
+  if (!devMode){
+    autoUpdater.checkForUpdates();
+  }
 });
 
 /*eslint-disable no-unused-vars*/
