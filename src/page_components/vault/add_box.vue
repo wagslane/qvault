@@ -8,44 +8,13 @@
     <div class="buttons">
       <div
         class="button button-fill"
-        @click="add_box('Passwords')"
+        v-for="box_type in $root.box_types"
+        @click="add_box(box_type.name)"
       >
-        <password_icon />
-        <br>
-        Passwords
-      </div>
-      <div
-        class="button button-fill"
-        @click="add_box('Cryptocurrency')"
-      >
-        <crypto_icon />
-        <br>
-        Crypto
-      </div>
-      <div
-        class="button button-fill"
-        @click="add_box('Financial Institution')"
-      >
-        <fin_icon />
-        <br>
-        Financial
-      </div>
-      <br>
-      <div
-        class="button button-stroke"
-        @click="add_box('Identification')"
-      >
-        <identity_icon />
-        <br>
-        Identity
-      </div>
-      <div
-        class="button button-fill"
-        @click="add_box('Notes')"
-      >
-        <notes_icon />
-        <br>
-        Notes
+        <span v-html="box_type.icon"></span>
+        <div>
+          {{box_type.name}}
+        </div>
       </div>
       <!--<div-->
       <!--class="button"-->
@@ -60,20 +29,7 @@
 </template>
 
 <script>
-import crypto_icon from '../../img/crypto.svg.vue';
-import fin_icon from '../../img/fin.svg.vue';
-import identity_icon from '../../img/identity.svg.vue';
-import notes_icon from '../../img/notes.svg.vue';
-import password_icon from '../../img/password.svg.vue';
-
 export default {
-  components: {
-    crypto_icon,
-    fin_icon,
-    identity_icon,
-    notes_icon,
-    password_icon,
-  },
   methods: {
     add_box(type){
       let box_uuid = this.$root.CreateBox(
@@ -97,6 +53,9 @@ export default {
     }
 
     .buttons {
+      max-width: calc(180px * 3);
+      margin: auto;
+
       .button {
         display: inline-block;
         height: 110px;
@@ -110,6 +69,7 @@ export default {
         padding: 25px;
         cursor: pointer;
         border: 1px solid @black-lightest;
+        vertical-align: top;
 
         svg {
           width: 28px;
@@ -121,6 +81,11 @@ export default {
           color: @gold-dark;
           background-color: @black-darkest;
           border: 1px solid @gold-dark;
+        }
+
+        &:nth-child(3n):after {
+          content: '\A';
+          display: block;
         }
       }
 
