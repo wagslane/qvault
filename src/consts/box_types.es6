@@ -1,3 +1,9 @@
+import crypto_svg from '../img/crypto.svg';
+import fin_svg from '../img/fin.svg';
+import identity_svg from '../img/identity.svg';
+import password_svg from '../img/password.svg';
+import notes_svg from '../img/notes.svg';
+
 export default [
   {
     name: 'Cryptocurrency',
@@ -36,6 +42,7 @@ export default [
     quick_access_name: "Wallet Name",
     quick_access_secrets: [ "Password", "Key/Seed" ],
     header_field: 'Wallet Name',
+    icon: crypto_svg,
   },
   {
     name: 'Financial Institution',
@@ -135,6 +142,7 @@ export default [
     quick_access_name: "Institution Name",
     quick_access_secrets: [ "Routing Number" ],
     header_field: 'Institution Name',
+    icon: fin_svg,
   },
   {
     name: 'Identification',
@@ -170,6 +178,7 @@ export default [
     quick_access_name: "Type",
     quick_access_secrets: [ "Issuer", "ID Number" ],
     header_field: 'Type',
+    icon: identity_svg,
   },
   {
     name: 'Passwords',
@@ -214,6 +223,7 @@ export default [
     quick_access_name: "Issuer",
     quick_access_secrets: [ "Username", "Password" ],
     header_field: 'Issuer',
+    icon: password_svg,
   },
   {
     name: 'Server Connection',
@@ -296,5 +306,6 @@ export default [
     quick_access_name: "Name",
     quick_access_secrets: [ "Notes" ],
     header_field: 'Name',
+    icon: notes_svg,
   },
 ];

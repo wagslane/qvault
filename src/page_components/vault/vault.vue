@@ -30,6 +30,7 @@
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
           >
+            <span v-html="sorted_box.icon" />
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>
@@ -62,6 +63,7 @@ import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
 import SaveIcon from '../../img/save.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
+import box_types from '../../consts/box_types.es6';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -98,10 +100,12 @@ export default {
       for (let key in this.boxes) {
         if (this.boxes.hasOwnProperty(key)) {
           let box = this.boxes[key];
+          let box_type = box_types.find(box_type => box_type.name === box.type);
           sorted_boxes.push({
             uuid: key,
             created: moment(box.created),
             name: box.name,
+            icon: box_type && box_type.icon,
           });
         }
       }
@@ -225,18 +229,32 @@ export default {
             font-size: 10px;
           }
 
-          .aesthetic_rectangle {
+          svg {
             float: left;
             height: 26px;
             width: 26px;
-            border: 1px solid @gray-lighter;
-            border-radius: 5px;
             margin-right: 12px;
+
+            path {
+              stroke: @gray-mid;
+            }
+            rect {
+              stroke: @gray-mid;
+            }
           }
 
           &.router-link-active {
             color: @gold-mid;
             background-color: @black-dark;
+
+            svg {
+              path {
+                fill: @gold-dark;
+              }
+              rect {
+                stroke: @gold-dark;
+              }
+            }
           }
         }
       }
