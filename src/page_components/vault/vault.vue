@@ -30,7 +30,7 @@
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
           >
-            <span v-html="sorted_box.icon"></span>
+            <span v-html="sorted_box.icon" />
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>

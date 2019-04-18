@@ -7,13 +7,14 @@
     <p>A box is a group of secrets stored in your vault</p>
     <div class="buttons">
       <div
-        class="button button-fill"
         v-for="box_type in $root.box_types"
+        :key="box_type.name"
+        class="button button-fill"
         @click="add_box(box_type.name)"
       >
-        <span v-html="box_type.icon"></span>
+        <span v-html="box_type.icon" />
         <div>
-          {{box_type.name}}
+          {{ box_type.name }}
         </div>
       </div>
       <!--<div-->

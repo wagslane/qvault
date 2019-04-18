@@ -29,7 +29,7 @@ export default {
   data(){
     return {
       box_types,
-    }
+    };
   },
   router: router,
   computed:{
