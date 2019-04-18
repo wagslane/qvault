@@ -27,6 +27,14 @@
             <h2>Please scan your Q Card</h2>
             <QRScanner @scanned="handleQRKey" />
           </div>
+          <br>
+          <div
+            v-if="updateReady"
+            class="link"
+            @click="$refs.loader_update.load"
+          >
+            Quit and install latest version
+          </div>
         </div>
         <div class="footer">
           <div
@@ -50,6 +58,10 @@
       ref="loader"
       :func="unlock"
     />
+    <LoadingOverlay
+      ref="loader_update"
+      :func="updateVersion"
+    />
   </div>
 </template>
 
@@ -57,6 +69,8 @@
 import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
 import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
+import {ipcRenderer} from 'electron';
+const sleep = require('util').promisify(setTimeout);
 
 export default {
   components:{
@@ -66,13 +80,22 @@ export default {
     return {
       error: null,
       password: null,
-      scanQr: false
+      scanQr: false,
+      updateReady: false,
     };
   },
   mounted(){
     this.scanQr = this.$root.qr_required;
+    ipcRenderer.on('updateReady', ()=>{
+      this.updateReady = true;
+    });
   },
   methods: {
+    async updateVersion(){
+      ipcRenderer.send('downloadUpdate');
+      await sleep(20000);
+      alert("Error downloading update");
+    },
     async unlock(){
       this.error = null;
       try{

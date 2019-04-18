@@ -22,7 +22,6 @@ import box_types from './consts/box_types.es6';
 export const router = new VueRouter({routes});
 
 export default {
-  router: router,
   components: {
     TitleBar
   },
@@ -32,6 +31,7 @@ export default {
       box_types,
     }
   },
+  router: router,
   computed:{
     titleHeight(){
       if (type() === 'Darwin'){

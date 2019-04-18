@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.0.12",
+  "version": "0.0.21",
   "description": "A secure, redundant, and open source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -52,11 +52,8 @@
         }
       ]
     },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
+    "appImage": {
+      "license": "LICENSE.md"
     },
     "nsis": {
       "createDesktopShortcut": "always",
@@ -67,7 +64,6 @@
     "chai": "^4.2.0",
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
-    "electron-updater": "^4.0.6",
     "eslint": "^5.15.3",
     "eslint-plugin-vue": "^5.2.2",
     "mocha": "^5.2.0",
@@ -81,6 +77,8 @@
     "babel-loader": "^8.0.5",
     "cross-fetch": "^3.0.1",
     "css-loader": "^2.1.0",
+    "electron-log": "^3.0.5",
+    "electron-updater": "^4.0.6",
     "electron-window-state": "^5.0.3",
     "es6-promise": "^4.2.5",
     "jwt-decode": "^2.2.0",

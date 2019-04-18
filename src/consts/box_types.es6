@@ -35,7 +35,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -60,6 +60,7 @@ export default [
       {
         name: 'Payment Cards',
         type: Array,
+        required: false,
         subfields: [
           {
             name: 'Expiration Date',
@@ -86,6 +87,7 @@ export default [
       {
         name: 'Loans',
         type: Array,
+        required: false,
         subfields: [
           {
             name: 'Name',
@@ -112,6 +114,7 @@ export default [
       {
         name: 'Account Numbers',
         type: Array,
+        required: false,
         subfields: [
           {
             name: 'Name',
@@ -132,7 +135,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -168,7 +171,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -213,7 +216,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],
@@ -278,7 +281,7 @@ export default [
       },
       {
         name: 'Notes',
-        type: String,
+        type: 'textarea',
         required: false,
       },
     ],

@@ -85,11 +85,12 @@ export default {
         this.error = null;
         try{
           await emailPasswordCode(this.email);
-          alert("email sent");
-          this.emailSent = true;
         } catch (err) {
           this.error = err;
+          return;
         }
+        alert("email sent");
+        this.emailSent = true;
       }else{
         try{
           let cloudKey = await DeriveCloudKey(this.$root.pass_key);
@@ -98,10 +99,12 @@ export default {
           setToken(body.jwt);
           this.$root.email = this.email;
           await this.$root.SaveBoth();
-          this.$router.push({name: 'vault'});
         } catch (err) {
+          this.$root.email = null;
           this.error = err;
+          return;
         }
+        this.$router.push({name: 'vault'});
       }
     },
   }
