@@ -39,7 +39,7 @@ function createWindow() {
   mainWindow.loadFile('index.html');
 
   // Don't display the menu bar
-  // mainWindow.setMenu(null);
+  mainWindow.setMenu(null);
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -47,7 +47,7 @@ function createWindow() {
   });
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
