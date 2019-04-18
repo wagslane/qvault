@@ -30,7 +30,7 @@
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
           >
-            <span v-html="sorted_box.icon" />
+            <span v-html="sorted_box.icon.img" />
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>
@@ -253,6 +253,52 @@ export default {
               }
               rect {
                 stroke: @gold-dark;
+              }
+            }
+          }
+
+          .button-stroke {
+            svg {
+              path {
+                stroke: @gray-lighter;
+              }
+              rect {
+                stroke: @gray-lighter;
+              }
+            }
+
+            &:hover {
+              svg {
+                path {
+                  stroke: @gold-dark;
+                }
+                rect {
+                  stroke: @gold-dark;
+                }
+              }
+            }
+          }
+
+          .button-fill {
+            svg {
+              path {
+                fill: @gray-lighter;
+                stroke: @gray-lighter;
+              }
+              rect {
+                stroke: @gray-lighter;
+              }
+            }
+
+            &:router-link-active {
+              svg {
+                path {
+                  fill: @gold-dark;
+                  stroke: @gold-dark;
+                }
+                rect {
+                  stroke: @gold-dark;
+                }
               }
             }
           }

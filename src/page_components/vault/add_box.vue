@@ -9,10 +9,11 @@
       <div
         v-for="box_type in $root.box_types"
         :key="box_type.name"
-        class="button button-fill"
+        class="button"
+        :class="(box_type.name.fill ? 'button-fill' : 'button-stroke')"
         @click="add_box(box_type.name)"
       >
-        <span v-html="box_type.icon" />
+        <span v-html="box_type.icon.img" />
         <div>
           {{ box_type.name }}
         </div>
