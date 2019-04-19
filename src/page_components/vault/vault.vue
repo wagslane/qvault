@@ -29,8 +29,9 @@
             :key="sorted_box.uuid"
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
+            :class="(sorted_box.icon.fill ? 'button-fill' : 'button-stroke')"
           >
-            <span v-html="sorted_box.icon" />
+            <span v-html="sorted_box.icon.img" />
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>
@@ -211,7 +212,7 @@ export default {
       }
 
       .boxes {
-        bottom: 90px;
+        bottom: 75px;
         right: 0;
         left: 0;
         top: 75px;
@@ -234,22 +235,52 @@ export default {
             height: 26px;
             width: 26px;
             margin-right: 12px;
-
-            path {
-              stroke: @gray-mid;
-            }
-            rect {
-              stroke: @gray-mid;
-            }
           }
 
           &.router-link-active {
             color: @gold-mid;
             background-color: @black-dark;
+          }
+        }
 
+        .button-stroke {
+          svg {
+            path {
+              stroke: @gray-lighter;
+            }
+            rect {
+              stroke: @gray-lighter;
+            }
+          }
+
+          &.router-link-active {
+            svg {
+              path {
+                stroke: @gold-dark;
+              }
+              rect {
+                stroke: @gold-dark;
+              }
+            }
+          }
+        }
+
+        .button-fill {
+          svg {
+            path {
+              fill: @gray-lighter;
+              stroke: @gray-lighter;
+            }
+            rect {
+              stroke: @gray-lighter;
+            }
+          }
+
+          &.router-link-active {
             svg {
               path {
                 fill: @gold-dark;
+                stroke: @gold-dark;
               }
               rect {
                 stroke: @gold-dark;

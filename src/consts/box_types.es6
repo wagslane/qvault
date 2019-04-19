@@ -3,6 +3,7 @@ import fin_svg from '../img/fin.svg';
 import identity_svg from '../img/identity.svg';
 import password_svg from '../img/password.svg';
 import notes_svg from '../img/notes.svg';
+import server_connection_svg from '../img/server_connection.svg';
 
 export default [
   {
@@ -42,7 +43,10 @@ export default [
     quick_access_name: "Wallet Name",
     quick_access_secrets: [ "Password", "Key/Seed" ],
     header_field: 'Wallet Name',
-    icon: crypto_svg,
+    icon: {
+      img: crypto_svg,
+      fill: true,
+    }
   },
   {
     name: 'Financial Institution',
@@ -142,7 +146,10 @@ export default [
     quick_access_name: "Institution Name",
     quick_access_secrets: [ "Routing Number" ],
     header_field: 'Institution Name',
-    icon: fin_svg,
+    icon: {
+      img: fin_svg,
+      fill: true,
+    }
   },
   {
     name: 'Identification',
@@ -178,7 +185,10 @@ export default [
     quick_access_name: "Type",
     quick_access_secrets: [ "Issuer", "ID Number" ],
     header_field: 'Type',
-    icon: identity_svg,
+    icon: {
+      img: identity_svg,
+      fill: false,
+    }
   },
   {
     name: 'Passwords',
@@ -223,7 +233,10 @@ export default [
     quick_access_name: "Issuer",
     quick_access_secrets: [ "Username", "Password" ],
     header_field: 'Issuer',
-    icon: password_svg,
+    icon: {
+      img: password_svg,
+      fill: true,
+    }
   },
   {
     name: 'Server Connection',
@@ -288,6 +301,10 @@ export default [
     quick_access_name: "Name",
     quick_access_secrets: [ "Hostname", "Connection String" ],
     header_field: 'Name',
+    icon: {
+      img: server_connection_svg,
+      fill: false,
+    }
   },
   {
     name: 'Notes',
@@ -306,6 +323,9 @@ export default [
     quick_access_name: "Name",
     quick_access_secrets: [ "Notes" ],
     header_field: 'Name',
-    icon: notes_svg,
+    icon: {
+      img: notes_svg,
+      fill: true,
+    }
   },
 ];
