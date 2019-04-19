@@ -10,7 +10,7 @@
         v-for="box_type in $root.box_types"
         :key="box_type.name"
         class="button"
-        :class="(box_type.name.fill ? 'button-fill' : 'button-stroke')"
+        :class="(box_type.icon.fill ? 'button-fill' : 'button-stroke')"
         @click="add_box(box_type.name)"
       >
         <span v-html="box_type.icon.img" />
