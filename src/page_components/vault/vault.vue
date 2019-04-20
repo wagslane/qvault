@@ -29,7 +29,11 @@
             :key="sorted_box.uuid"
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
-            :class="(sorted_box.icon.fill ? 'button-fill' : 'button-stroke')"
+            :class="{
+              'button-fill': sorted_box.icon.fill,
+              'button-stroke': !(sorted_box.icon.fill),
+              'conflict': $root.BoxHasConflict(sorted_box.uuid),
+            }"
           >
             <span v-html="sorted_box.icon.img" />
             <div class="aesthetic_rectangle" />
@@ -240,6 +244,10 @@ export default {
           &.router-link-active {
             color: @gold-mid;
             background-color: @black-dark;
+          }
+
+          &.conflict {
+            color: red!important;
           }
         }
 
