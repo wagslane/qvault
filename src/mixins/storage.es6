@@ -107,7 +107,7 @@ export default {
     async UnlockVaultPassword(password) {
       assert(this.loaded_vault, 'A vault file must be loaded');
       let pass_key = await PassKeyFromPassword(password);
-      this.UnlockVaultPasskey(pass_key);
+      return await this.UnlockVaultPasskey(pass_key);
     },
 
     async UnlockVaultPasskey(passkey) {
