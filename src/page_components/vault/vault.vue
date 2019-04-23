@@ -29,7 +29,9 @@
             :key="sorted_box.uuid"
             :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
             class="box_link"
+            :class="(sorted_box.icon.fill ? 'button-fill' : 'button-stroke')"
           >
+            <span v-html="sorted_box.icon.img" />
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>
@@ -62,6 +64,7 @@ import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
 import SaveIcon from '../../img/save.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
+import box_types from '../../consts/box_types.es6';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -98,10 +101,12 @@ export default {
       for (let key in this.boxes) {
         if (this.boxes.hasOwnProperty(key)) {
           let box = this.boxes[key];
+          let box_type = box_types.find(box_type => box_type.name === box.type);
           sorted_boxes.push({
             uuid: key,
             created: moment(box.created),
             name: box.name,
+            icon: box_type && box_type.icon,
           });
         }
       }
@@ -207,7 +212,7 @@ export default {
       }
 
       .boxes {
-        bottom: 90px;
+        bottom: 75px;
         right: 0;
         left: 0;
         top: 75px;
@@ -225,18 +230,62 @@ export default {
             font-size: 10px;
           }
 
-          .aesthetic_rectangle {
+          svg {
             float: left;
             height: 26px;
             width: 26px;
-            border: 1px solid @gray-lighter;
-            border-radius: 5px;
             margin-right: 12px;
           }
 
           &.router-link-active {
             color: @gold-mid;
             background-color: @black-dark;
+          }
+        }
+
+        .button-stroke {
+          svg {
+            path {
+              stroke: @gray-lighter;
+            }
+            rect {
+              stroke: @gray-lighter;
+            }
+          }
+
+          &.router-link-active {
+            svg {
+              path {
+                stroke: @gold-dark;
+              }
+              rect {
+                stroke: @gold-dark;
+              }
+            }
+          }
+        }
+
+        .button-fill {
+          svg {
+            path {
+              fill: @gray-lighter;
+              stroke: @gray-lighter;
+            }
+            rect {
+              stroke: @gray-lighter;
+            }
+          }
+
+          &.router-link-active {
+            svg {
+              path {
+                fill: @gold-dark;
+                stroke: @gold-dark;
+              }
+              rect {
+                stroke: @gold-dark;
+              }
+            }
           }
         }
       }

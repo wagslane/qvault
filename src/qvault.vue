@@ -17,6 +17,7 @@ import storage from './mixins/storage.es6';
 import TitleBar from './components/title_bar.vue';
 import {heightMac, heightWin} from './consts/title_bar.es6';
 import {type} from 'os';
+import box_types from './consts/box_types.es6';
 
 export const router = new VueRouter({routes});
 
@@ -25,6 +26,11 @@ export default {
     TitleBar
   },
   mixins: [ storage ],
+  data(){
+    return {
+      box_types,
+    };
+  },
   router: router,
   computed:{
     titleHeight(){
