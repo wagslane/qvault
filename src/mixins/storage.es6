@@ -112,6 +112,8 @@ export default {
 
     async UnlockVaultPasskey(passkey) {
       assert(this.loaded_vault, 'A vault file must be loaded');
+      let old_pass_key = this.pass_key;
+      let old_char_key = this.char_key;
       try {
         this.pass_key = passkey;
         this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
@@ -125,8 +127,8 @@ export default {
         this.LoadSecrets(secrets);
         this.loaded_vault = null;
       } catch (err) {
-        this.pass_key = null;
-        this.char_key = null;
+        this.pass_key = old_pass_key;
+        this.char_key = old_char_key;
         throw new Error(err);
       }
     },
