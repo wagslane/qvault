@@ -104,7 +104,7 @@ export default {
 
     async CreateLocalVault(){
       this.InitializeSecrets();
-      return await this.SaveLocalVault();
+      await this.SaveLocalVault();
     },
 
     async UnlockVaultQr(qrKey){
@@ -118,15 +118,15 @@ export default {
     },
 
     async UnlockVaultPassword(password) {
-      assert(this.loaded_vault, 'A vault file must be loaded');
       let pass_key = await PassKeyFromPassword(password);
-      return await this.UnlockVaultPasskey(pass_key);
+      await this.UnlockVaultPasskey(pass_key);
     },
 
     async UnlockVaultPasskey(passkey) {
       assert(this.loaded_vault, 'A vault file must be loaded');
       let old_pass_key = this.pass_key;
       let old_char_key = this.char_key;
+      let old_hashed_char_key = this.hashed_char_key;
       try {
         this.pass_key = passkey;
         this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
@@ -142,7 +142,8 @@ export default {
       } catch (err) {
         this.pass_key = old_pass_key;
         this.char_key = old_char_key;
-        throw new Error(err);
+        this.hashed_char_key = old_hashed_char_key;
+        throw err;
       }
     },
 

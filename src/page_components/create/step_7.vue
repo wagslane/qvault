@@ -138,11 +138,7 @@ export default {
     },
     toDownload(){
       this.$root.ResetStorageState();
-      try{
-        this.$router.push({name: 'load_download'});
-      } catch (err) {
-        this.error = err;
-      }
+      this.$router.push({name: 'load_download'});
     },
     async click_continue(){
       this.error = null;
