@@ -51,6 +51,19 @@ export default {
   },
   
   methods: {
+    ResetStorageState(){
+      this.hashed_char_key = null;
+      this.char_key = null;
+      this.qr_key = null;
+      this.pass_key = null;
+      this.qr_required = false;
+      this.loaded_vault = null;
+      this.local_vault_path = null;
+      this.qr_secrets = null;
+      this.email = null;
+      this.encrypted_vault_size = 0;
+    },
+
     ExistingVaultDialog(){
       let paths = dialog.showOpenDialog({
         filters: FILE_FILTERS

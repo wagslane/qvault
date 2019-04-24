@@ -16,6 +16,13 @@
             />
             <span class="form-error">{{ error }}</span>
             <br>
+            <span
+              v-if="allowOverwrite"
+              class="link"
+              @click="toDownload"
+            >Back and Download
+            </span>
+            <br v-if="allowOverwrite">
             <router-link
               class="link"
               :to="{name: 'load_unlock_step_2'}"
@@ -82,6 +89,7 @@ export default {
       password: null,
       scanQr: false,
       updateReady: false,
+      allowOverwrite: false,
     };
   },
   mounted(){
@@ -114,10 +122,16 @@ export default {
           this.error = err;
           return;
         }
+        if (this.allowOverwrite){
+          this.$router.push({name: 'vault'});
+          return;
+        }
         try{
           await this.$root.UnlockVaultPassword(this.password);
         } catch(err){
-          this.error = "Unable to unlock cloud vault";
+          this.error = "Unable to unlock cloud vault. Click 'continue' to overwrite your cloud vault, or 'Back and Download' to use it";
+          this.$root.loaded_vault = null;
+          this.allowOverwrite = true;
           return;
         }
       }
