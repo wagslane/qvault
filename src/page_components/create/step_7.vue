@@ -35,6 +35,11 @@
             />
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
+            <span
+              class="link"
+              @click="toDownload"
+            >Logging in will overwrite your current cloud vault. To download and use your current cloud vault click here
+            </span>
             <TextInput
               v-model="emailLogin"
               :active="!registerTabActive"
@@ -130,6 +135,10 @@ export default {
       } catch (err) {
         this.error = err;
       }
+    },
+    toDownload(){
+      this.$root.ResetStorageState();
+      this.$router.push({name: 'load_download'});
     },
     async click_continue(){
       this.error = null;

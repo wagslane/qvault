@@ -16,6 +16,14 @@
             />
             <span class="form-error">{{ error }}</span>
             <br>
+            <span
+              v-if="showDownload"
+              class="link"
+              @click="toDownload"
+            >Back and Download
+            </span>
+            <br v-if="showDownload">
+            <br v-if="showDownload">
             <router-link
               class="link"
               :to="{name: 'load_unlock_step_2'}"
@@ -82,6 +90,9 @@ export default {
       password: null,
       scanQr: false,
       updateReady: false,
+      allowOverwrite: false,
+      showDownload: false,
+      originalLoadedVault: this.$root.loaded_vault,
     };
   },
   mounted(){
@@ -96,12 +107,16 @@ export default {
       await sleep(20000);
       alert("Error downloading update");
     },
+    toDownload(){
+      this.$root.ResetStorageState();
+      this.$router.push({name: 'load_download'});
+    },
     async unlock(){
       this.error = null;
       try{
         await this.$root.UnlockVaultPassword(this.password);
       } catch(err){
-        this.error = 'Invalid Password';
+        this.error = err;
         return;
       }
       if (this.$root.email){
@@ -109,15 +124,30 @@ export default {
           let cloud_key = await DeriveCloudKey(this.$root.pass_key);
           let body = await authenticate(this.$root.email, cloud_key);
           setToken(body.jwt);
+        } catch(err){
+          this.error = err;
+          return;
+        }
+        if (this.allowOverwrite){
+          this.$router.push({name: 'vault'});
+          return;
+        }
+        try{
           this.$root.loaded_vault = await getVault();
         } catch(err){
           this.error = err;
+          this.error += ". Click 'continue' to overwrite";
+          this.$root.loaded_vault = this.originalLoadedVault;
+          this.allowOverwrite = true;
           return;
         }
         try{
           await this.$root.UnlockVaultPassword(this.password);
         } catch(err){
-          this.error = "Unable to unlock cloud vault";
+          this.error = "Unable to unlock cloud vault. Click 'continue' to overwrite your cloud vault, or 'Back and Download' to use it";
+          this.$root.loaded_vault = this.originalLoadedVault;
+          this.allowOverwrite = true;
+          this.showDownload = true;
           return;
         }
       }
@@ -149,7 +179,7 @@ export default {
       this.$root.local_vault_path = null;
       this.$root.email = null;
       this.$root.qr_required = false;
-        
+   
       this.$router.go(-1);
     }
   }

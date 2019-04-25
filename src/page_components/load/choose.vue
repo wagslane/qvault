@@ -42,7 +42,7 @@ export default {
     };
   },
   methods: {
-    async open(){
+    open(){
       try{
         this.$root.ExistingVaultDialog();
         this.$router.push({name: 'load_unlock_step_1'});

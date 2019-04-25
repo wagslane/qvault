@@ -8,7 +8,7 @@ const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
 // The rejected promise contains a simple error message
 
 export async function authenticate(email, password) {
-  const resp = await fetch(`${domain}/v1/auth`, {
+  const resp = await fetchWithError(`${domain}/v1/auth`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -24,7 +24,7 @@ export async function authenticate(email, password) {
 }
 
 export async function createUser(email, password) {
-  const resp = await fetch(`${domain}/v1/users`, {
+  const resp = await fetchWithError(`${domain}/v1/users`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -40,7 +40,7 @@ export async function createUser(email, password) {
 }
 
 export async function resendRegistrationEmail(email, password) {
-  const resp = await fetch(`${domain}/v1/users`, {
+  const resp = await fetchWithError(`${domain}/v1/users`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -62,7 +62,7 @@ export async function deleteUser() {
   }
   const jwt = getToken();
 
-  const resp = await fetch(`${domain}/v1/users`, {
+  const resp = await fetchWithError(`${domain}/v1/users`, {
     method: 'DELETE',
     mode: 'cors',
     headers: {
@@ -79,7 +79,7 @@ export async function updateUserPassword(oldPassword, newPassword) {
   }
   const jwt = getToken();
 
-  const resp = await fetch(`${domain}/v1/users/passwords`, {
+  const resp = await fetchWithError(`${domain}/v1/users/passwords`, {
     method: 'PUT',
     mode: 'cors',
     headers: {
@@ -95,7 +95,7 @@ export async function updateUserPassword(oldPassword, newPassword) {
 }
 
 export async function updateUserPasswordEmail(emailJwt, newPassword) {
-  const resp = await fetch(`${domain}/v1/users/passwords`, {
+  const resp = await fetchWithError(`${domain}/v1/users/passwords`, {
     method: 'PUT',
     mode: 'cors',
     body: JSON.stringify({
@@ -108,7 +108,7 @@ export async function updateUserPasswordEmail(emailJwt, newPassword) {
 }
 
 export async function emailPasswordCode(email) {
-  const resp = await fetch(`${domain}/v1/users/passwords/email`, {
+  const resp = await fetchWithError(`${domain}/v1/users/passwords/email`, {
     method: 'POST',
     mode: 'cors',
     body: JSON.stringify({
@@ -125,7 +125,7 @@ export async function upsertVault(vault) {
   }
   const jwt = getToken();
 
-  const resp = await fetch(`${domain}/v1/vaults`, {
+  const resp = await fetchWithError(`${domain}/v1/vaults`, {
     method: 'PUT',
     mode: 'cors',
     headers: {
@@ -143,7 +143,7 @@ export async function getVault() {
   }
   const jwt = getToken();
 
-  const resp = await fetch(`${domain}/v1/vaults`, {
+  const resp = await fetchWithError(`${domain}/v1/vaults`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -155,6 +155,14 @@ export async function getVault() {
     throw 'No vaults found on server';
   }
   return handled[0].data;
+}
+
+async function fetchWithError(url, data){
+  try{
+    return await fetch(url, data);
+  } catch(err){
+    throw 'Connection to server failed';
+  }
 }
 
 export function isLoggedIn() {
@@ -186,9 +194,9 @@ function isTokenValid(token) {
 async function handleResponse(response) {
   const json = await response.json();
   if (typeof json.message !== "undefined") {
-    return Promise.reject(json.message);
+    throw json.message;
   } else if (!response.ok) {
-    return Promise.reject('Unknown error occured');
+    throw 'Unknown error occured';
   }
   return json;
 }

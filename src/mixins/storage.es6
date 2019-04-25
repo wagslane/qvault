@@ -51,6 +51,19 @@ export default {
   },
   
   methods: {
+    ResetStorageState(){
+      this.hashed_char_key = null;
+      this.char_key = null;
+      this.qr_key = null;
+      this.pass_key = null;
+      this.qr_required = false;
+      this.loaded_vault = null;
+      this.local_vault_path = null;
+      this.qr_secrets = null;
+      this.email = null;
+      this.encrypted_vault_size = 0;
+    },
+
     ExistingVaultDialog(){
       let paths = dialog.showOpenDialog({
         filters: FILE_FILTERS
@@ -91,7 +104,7 @@ export default {
 
     async CreateLocalVault(){
       this.InitializeSecrets();
-      return await this.SaveLocalVault();
+      await this.SaveLocalVault();
     },
 
     async UnlockVaultQr(qrKey){
@@ -105,13 +118,15 @@ export default {
     },
 
     async UnlockVaultPassword(password) {
-      assert(this.loaded_vault, 'A vault file must be loaded');
       let pass_key = await PassKeyFromPassword(password);
-      this.UnlockVaultPasskey(pass_key);
+      await this.UnlockVaultPasskey(pass_key);
     },
 
     async UnlockVaultPasskey(passkey) {
       assert(this.loaded_vault, 'A vault file must be loaded');
+      let old_pass_key = this.pass_key;
+      let old_char_key = this.char_key;
+      let old_hashed_char_key = this.hashed_char_key;
       try {
         this.pass_key = passkey;
         this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
@@ -125,9 +140,10 @@ export default {
         this.LoadSecrets(secrets);
         this.loaded_vault = null;
       } catch (err) {
-        this.pass_key = null;
-        this.char_key = null;
-        throw new Error(err);
+        this.pass_key = old_pass_key;
+        this.char_key = old_char_key;
+        this.hashed_char_key = old_hashed_char_key;
+        throw err;
       }
     },
 
