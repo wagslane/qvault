@@ -69,6 +69,7 @@ export default {
         this.unlock();
       } catch (err) {
         this.error = err;
+        this.$root.loaded_vault = null;
       }
     },
     async unlock(){

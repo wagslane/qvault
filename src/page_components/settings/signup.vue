@@ -34,6 +34,9 @@
             />
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
+            <h3>
+              Logging in will overwrite your current cloud vault
+            </h3>
             <TextInput
               v-model="emailLogin"
               :active="!registerTabActive"

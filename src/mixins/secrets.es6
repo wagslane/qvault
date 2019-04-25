@@ -83,15 +83,16 @@ export default {
       }
     },
 
-    // SetSecret(uuid, secret) {
-    //   assert(this.secrets, 'No vault is open');
-    //   Vue.set(this.secrets, uuid, secret);
-    // },
-
-    // DeleteSecret(uuid) {
-    //   assert(this.secrets, 'No vault is open');
-    //   Vue.delete(this.secrets, uuid);
-    // },
+    BoxHasConflict(box_uuid){
+      let box = this.GetBox(box_uuid);
+      for(let secret_uuid of Object.keys(box.secrets)){
+        let secret = box.secrets[secret_uuid];
+        if(secret.conflict){
+          return true;
+        }
+      }
+      return false;
+    },
   },
   computed: {
     ConflictExists(){
