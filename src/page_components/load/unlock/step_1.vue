@@ -5,13 +5,13 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Unlock Vault</h1>
-          <h2>Please enter your password or passphrase</h2>
           <div v-if="!scanQr">
+            <h2>Please enter your password or passphrase</h2>
             <TextInput
               v-model="password"
               :active="true"
               keyboard-id="password" 
-              description="password" 
+              description="Password / Passphrase" 
               type="password" 
             />
             <span

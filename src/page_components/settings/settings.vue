@@ -22,21 +22,21 @@
           class="btn"
           :to="{name: 'settings_change_password'}"
         >
-          Change Password
+          Change password
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_change_char_key'}"
         >
-          Manage Backup Key
+          Add or change Q Card restore code
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_qrcode_choose'}"
         >
-          Manage Two Factor Encryption
+          Manage two factor encryption
         </router-link>
 
         <router-link
@@ -44,7 +44,7 @@
           class="btn"
           :to="{name: 'settings_delete_account'}"
         >
-          Delete Cloud Storage Account
+          Delete cloud storage account
         </router-link>
       </div>
       <div class="footer">

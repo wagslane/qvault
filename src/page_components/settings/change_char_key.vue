@@ -3,11 +3,11 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <h1>Get a new backup code</h1>
-        <h2>Add or change your Q Card code</h2>
+        <h1>Add/Change Q Card Restore Code</h1>
+        <h2>To add or change your restore code, write it down and click continue. If not, click back.</h2>
 
         <div class="highlight-box">
-          <h3>Write the following characters on your Q Card</h3>
+          <span class="title">Write this code on the back of both of your Q Cards</span>
           <div class="flex">
             <div
               v-for="(word, i) in split"

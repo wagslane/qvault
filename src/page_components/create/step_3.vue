@@ -5,10 +5,12 @@
       <div class="body">
         <StepProgress :filled="2" />
         <h1>Q Card Restore Code</h1>
-        <h2>This code can be used to restore access to your vault if you forget your password</h2>
-
+        <h2>
+          This code can regain access to your vault if you forget your password. 
+          If you lose both this code and your password/passphrase there is NO WAY to regain access.
+        </h2>
         <div class="highlight-box">
-          <h3>Write the case-sensitive code in the boxes on your pair of Q Cards</h3>
+          <span class="title">Write this code on the back of both of your Q Cards</span>
           <div class="flex">
             <div
               v-for="(word, i) in split"
