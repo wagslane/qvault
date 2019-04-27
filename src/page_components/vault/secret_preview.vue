@@ -18,6 +18,7 @@
       <label>{{ fieldname }}</label>
       <input
         v-model="secret[fieldname]"
+        :type="fields_map[fieldname].hidden ? 'password' : 'text'"
         readonly
       >
     </div>
@@ -45,6 +46,15 @@ export default {
     }
   },
   computed: {
+    fields_map(){
+      let map = {};
+      if(this.boxType){
+        for (let i = 0; i < this.boxType.fields.length; i++){
+          map[this.boxType.fields[i].name] = this.boxType.fields[i];
+        }
+      }
+      return map;
+    },
     quickAccessName(){
       if(this.secret[this.boxType.quick_access_name]){
         return this.secret[this.boxType.quick_access_name];

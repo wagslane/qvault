@@ -47,6 +47,7 @@
         <input
           v-if="field.type === String"
           v-model="secret[field.name]"
+          :type="field.hidden ? 'password' : 'text'"
           :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
           placeholder="value"
           class="secret_value"
@@ -57,6 +58,7 @@
             && secret.conflict[field.name]
             && secret.conflict[field.name] != secret[field.name]"
           v-model="secret.conflict[field.name]"
+          :type="field.hidden ? 'password' : 'text'"
           class="secret_value conflict"
           readonly
         >
@@ -92,6 +94,7 @@
               <input
                 v-if="subfield.type === String"
                 v-model="subvalue[subfield.name]"
+                :type="subfield.hidden ? 'password' : 'text'"
                 :class="{missing: apply_clicked && missing_fields.includes(field.name + j + subfield.name)}"
                 :placeholder="subfield.name"
                 class="secret_value"
@@ -104,6 +107,7 @@
                   && secret.conflict[field.name][k][subfield.name]
                   && secret.conflict[field.name][k][subfield.name] != subvalue[subfield.name]"
                 v-model="secret.conflict[field.name][k][subfield.name]"
+                :type="subfield.hidden ? 'password' : 'text'"
                 :title="subfield.name"
                 class="secret_value conflict"
                 readonly
