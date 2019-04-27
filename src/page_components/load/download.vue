@@ -19,7 +19,7 @@
             description="password" 
             type="password"
           />
-          <span class="form-error">{{ error }}</span>
+          <span class="form-error" v-if="error">{{ error }}</span>
         </div>
         <div class="footer">
           <div
