@@ -78,7 +78,7 @@
             class="link"
             @click="$router.push({name: 'settings_restore_password'});"
           >
-            I can't remember the password for my cloud account
+            Restore cloud access to this vault
           </div>
           <br>
           <br>
