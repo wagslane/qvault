@@ -62,12 +62,9 @@ export default {
       return "Unnamed Secret";
     },
     definedQuickAccessSecrets(){
-      return this.boxType.quick_access_secrets.filter((fieldname) => {
-        if (this.secret[fieldname]){
-          return true;
-        }
-        return false;
-      });
+      return this.boxType.quick_access_secrets.filter(
+        fieldname => this.secret[fieldname]
+      );
     }
   }
 };
