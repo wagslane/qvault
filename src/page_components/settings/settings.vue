@@ -6,9 +6,18 @@
         <h1>Settings</h1>
         <h2>Manage your vault and account</h2>
 
-        <ProgressBar :bytes="$root.encrypted_vault_size" />
-        <br>
-        <br>
+        <div
+          v-if="($root.email)"
+        >
+          <ProgressBar
+            :bytes="$root.encrypted_vault_size"
+          />
+          <br>
+          <br>
+        </div>
+        <h3 v-else>
+          Offline - No cloud account connected to this vault
+        </h3>
 
         <router-link
           v-if="(!$root.email)"
