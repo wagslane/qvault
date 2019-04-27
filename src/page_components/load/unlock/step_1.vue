@@ -14,7 +14,10 @@
               description="password" 
               type="password" 
             />
-            <span class="form-error">{{ error }}</span>
+            <span
+              v-if="error"
+              class="form-error"
+            >{{ error }}</span>
             <br>
             <span
               v-if="showDownload"

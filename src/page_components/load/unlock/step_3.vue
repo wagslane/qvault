@@ -66,7 +66,7 @@
             Generate Random Passphrase
           </span>
         </div>
-        <span class="form-error">{{ saveError }}</span>
+        <span class="form-error" v-if="error">{{ saveError }}</span>
       </div>
       <div class="footer">
         <div
