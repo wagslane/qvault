@@ -7,9 +7,8 @@
     <p>A box is a group of secrets stored in your vault</p>
     <div class="buttons">
       <div
-        v-for="box_type in $root.box_types"
+        v-for="box_type in filtered_box_types"
         :key="box_type.name"
-        v-if="!($root.HasBox(box_type.name))"
         class="button"
         :class="(box_type.icon.fill ? 'button-fill' : 'button-stroke')"
         @click="add_box(box_type.name)"
@@ -33,6 +32,14 @@
 
 <script>
 export default {
+  computed: {
+    filtered_box_types(){
+      return this.$root.box_types.filter(
+        box_type =>
+          !(this.$root.HasBox(box_type.name))
+      );
+    },
+  },
   methods: {
     add_box(type){
       let box_uuid = this.$root.CreateBox(
