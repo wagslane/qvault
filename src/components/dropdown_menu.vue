@@ -11,7 +11,8 @@
       :class="{show}"
     >
       <div
-        v-for="action in actions"
+        v-for="(action, index) in actions"
+        :key="index"
         class="action"
         @click.prevent="action.method"
       >
