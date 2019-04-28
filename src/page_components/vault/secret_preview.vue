@@ -22,11 +22,18 @@
         readonly
       >
     </div>
+    <dropdown_menu :actions="dropdown_menu_actions"></dropdown_menu>
   </div>
 </template>
 
 <script>
+  import dropdown_menu from '../../components/dropdown_menu.vue';
+  import trash_svg from '../../img/trash.svg';
+
 export default {
+  components: {
+    dropdown_menu,
+  },
   props: {
     boxUuid:{
       type: String,
@@ -65,12 +72,26 @@ export default {
       return this.boxType.quick_access_secrets.filter(
         fieldname => this.secret[fieldname]
       );
-    }
-  }
+    },
+    dropdown_menu_actions(){
+      return [
+        {
+          label: 'Delete Secret',
+          method: this.delete_secret,
+          icon: trash_svg,
+        }
+      ]
+    },
+  },
+  methods: {
+    delete_secret(){
+      this.$root.DeleteSecret(this.boxUuid, this.secretUuid);
+    },
+  },
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import '../../styles/colors.less';
 
   .secret-preview {
@@ -140,6 +161,11 @@ export default {
         color: @gray-light;
         width: 100%;
       }
+    }
+
+    .dropdown_menu_icon {
+      color: white;
+      line-height: 60px;
     }
   }
 </style>
