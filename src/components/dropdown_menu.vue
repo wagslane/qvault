@@ -31,7 +31,10 @@ import menu_svg from '../img/menu.svg';
 
 export default {
   props: {
-    actions: Array,
+    actions:{
+      type: Array,
+      required: true,
+    }
   },
   data(){
     return {
@@ -63,7 +66,7 @@ export default {
       background-color: black;
       box-shadow: 0 4px 24px #000000;
       border-radius: 6px;
-      padding: 5px;
+      overflow: hidden;
 
       &:not(.show){
         display: none;
@@ -71,22 +74,30 @@ export default {
 
       .action {
         white-space: nowrap;
-        color: white;
+        color: @gray-darker;
         padding: 10px;
         cursor: pointer;
 
         svg {
-          path, line {
-            stroke: white;
+          float: left;
+          path {
+            stroke: @gray-darker;
+          }
+          line {
+            stroke: @gray-darker;
           }
         }
 
-        &:hover {
-          color: @gray-light;
+        &:hover{
+          background-color: @gray-mid;
+          color: white;
 
           svg {
-            path, line {
-              stroke: @gray-light;
+            path {
+              stroke: white;
+            }
+            line {
+              stroke: white;
             }
           }
         }
