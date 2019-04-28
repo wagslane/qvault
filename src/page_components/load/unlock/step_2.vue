@@ -13,7 +13,10 @@
             description="Code" 
             type="char_key" 
           />
-          <span class="form-error" v-if="error">{{ error }}</span>
+          <span
+            v-if="error"
+            class="form-error"
+          >{{ error }}</span>
         </div>
         <div class="footer">
           <div

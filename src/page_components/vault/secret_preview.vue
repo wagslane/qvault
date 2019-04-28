@@ -22,13 +22,13 @@
         readonly
       >
     </div>
-    <dropdown_menu :actions="dropdown_menu_actions"></dropdown_menu>
+    <dropdown_menu :actions="dropdown_menu_actions" />
   </div>
 </template>
 
 <script>
-  import dropdown_menu from '../../components/dropdown_menu.vue';
-  import trash_svg from '../../img/trash.svg';
+import dropdown_menu from '../../components/dropdown_menu.vue';
+import trash_svg from '../../img/trash.svg';
 
 export default {
   components: {
@@ -80,7 +80,7 @@ export default {
           method: this.delete_secret,
           icon: trash_svg,
         }
-      ]
+      ];
     },
   },
   methods: {

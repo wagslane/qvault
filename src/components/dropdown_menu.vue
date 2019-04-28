@@ -4,35 +4,41 @@
       class="dropdown_menu_icon"
       @click.prevent="show = !show"
     >
-      <span v-html="menu_svg"></span>
+      <span v-html="menu_svg" />
     </div>
-    <div class="dropdown_menu" :class="{show}">
+    <div
+      class="dropdown_menu"
+      :class="{show}"
+    >
       <div
         v-for="action in actions"
         class="action"
         @click.prevent="action.method"
       >
-        <span v-if="action.icon" v-html="action.icon"></span>
-        {{action.label}}
+        <span
+          v-if="action.icon"
+          v-html="action.icon"
+        />
+        {{ action.label }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import menu_svg from '../img/menu.svg';
+import menu_svg from '../img/menu.svg';
 
-  export default {
-    props: {
-      actions: Array,
-    },
-    data(){
-      return {
-        menu_svg,
-        show: false,
-      }
-    },
-  }
+export default {
+  props: {
+    actions: Array,
+  },
+  data(){
+    return {
+      menu_svg,
+      show: false,
+    };
+  },
+};
 </script>
 
 <style lang="less" scoped>
