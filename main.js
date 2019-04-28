@@ -27,7 +27,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences:{
       nodeIntegration: false,
-      contextIsolation: false, // We need to figure out how to enable this
+      contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     },
     frame: false,
