@@ -51,7 +51,10 @@
               Please click the link in your email to verify your account, then continue to login.
             </span>
           </div>
-          <span class="form-error" v-if="error"> {{ error }} </span>
+          <span
+            v-if="error"
+            class="form-error"
+          > {{ error }} </span>
           <br v-if="error">
           <br v-if="error">
           <div v-if="!registerTabActive">
