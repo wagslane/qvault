@@ -2,21 +2,34 @@
 
 .highlight-box {
   margin: auto;
-  padding: 20px;
   width: 75%;
   height: 166px;
   border: 1px solid @gray-dark;
   border-radius: 5px;	
   background-color: @black-lighter;
   box-shadow: 0 2px 14px 0 @black-darker;
-  padding-top: 24px;
+  padding-top: 39px;
+  padding-left: 29px;
+  padding-right: 29px;
+  padding-bottom: 33px;
+  text-align: center;
+
+  .title {
+    color: #FFFFFF;
+    font-size: 14px;	
+    font-weight: 300;	
+    letter-spacing: 0.49px;	
+    line-height: 19px;
+  }
 
   .flex {
     display: flex;
 
     .character-code {
       flex-grow: 1;
-      margin: 10px;
+      margin-top: 21px;
+      margin-left: 6px;
+      margin-right: 6px;
       height: 54px;
       line-height: 54px;
       border-radius: 5px;	
@@ -30,7 +43,7 @@
       .spacing {
         margin-left: 3px;
         margin-right: 3px;
-      }      
+      }  
     }
   }
 }

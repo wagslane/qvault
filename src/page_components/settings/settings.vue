@@ -6,9 +6,18 @@
         <h1>Settings</h1>
         <h2>Manage your vault and account</h2>
 
-        <ProgressBar :bytes="$root.encrypted_vault_size" />
-        <br>
-        <br>
+        <div
+          v-if="($root.email)"
+        >
+          <ProgressBar
+            :bytes="$root.encrypted_vault_size"
+          />
+          <br>
+          <br>
+        </div>
+        <h3 v-else>
+          Offline - No cloud account connected to this vault
+        </h3>
 
         <router-link
           v-if="(!$root.email)"
@@ -22,21 +31,21 @@
           class="btn"
           :to="{name: 'settings_change_password'}"
         >
-          Change Password
+          Change password
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_change_char_key'}"
         >
-          Manage Backup Key
+          Add or change Q Card restore code
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_qrcode_choose'}"
         >
-          Manage Two Factor Encryption
+          Manage two factor encryption
         </router-link>
 
         <router-link
@@ -44,7 +53,7 @@
           class="btn"
           :to="{name: 'settings_delete_account'}"
         >
-          Delete Cloud Storage Account
+          Delete cloud storage account
         </router-link>
       </div>
       <div class="footer">

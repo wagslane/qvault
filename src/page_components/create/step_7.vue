@@ -54,7 +54,10 @@
               Please click the link in your email to verify your account, then continue to login.
             </span>
           </div>
-          <span class="form-error"> {{ error }} </span>
+          <span
+            v-if="error"
+            class="form-error"
+          > {{ error }} </span>
           <br v-if="error">
           <br v-if="error">
           <div
@@ -78,7 +81,7 @@
             class="link"
             @click="$router.push({name: 'settings_restore_password'});"
           >
-            I can't remember the password for my cloud account
+            Restore cloud access to this vault
           </div>
           <br>
           <br>
@@ -138,11 +141,7 @@ export default {
     },
     toDownload(){
       this.$root.ResetStorageState();
-      try{
-        this.$router.push({name: 'load_download'});
-      } catch (err) {
-        this.error = err;
-      }
+      this.$router.push({name: 'load_download'});
     },
     async click_continue(){
       this.error = null;

@@ -51,23 +51,26 @@
               Please click the link in your email to verify your account, then continue to login.
             </span>
           </div>
-          <span class="form-error"> {{ error }} </span>
+          <span
+            v-if="error"
+            class="form-error"
+          > {{ error }} </span>
           <br v-if="error">
           <br v-if="error">
           <div v-if="!registerTabActive">
             <div
               class="link"
+              @click="$router.push({name: 'settings_restore_password'});"
+            >
+              Restore cloud access to this vault
+            </div>
+          </div>
+          <div v-else>
+            <div
+              class="link"
               @click="resend"
             >
               Resend verification email
-            </div>
-            <br>
-            <br>
-            <div
-              class="link"
-              @click="$router.push({name: 'settings_restore_password'});"
-            >
-              I can't remember the password for my cloud account
             </div>
           </div>
           <br>
