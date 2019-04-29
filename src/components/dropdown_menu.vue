@@ -93,6 +93,20 @@ export default {
       cursor: pointer;
       padding-left: 15px;
       padding-right: 15px;
+
+      svg {
+        path {
+          fill: @gray-darker;
+        }
+      }
+
+      &:hover{
+        svg {
+          path {
+            fill: @gold-mid;
+          }
+        }
+      }
     }
 
     .dropdown_menu {
