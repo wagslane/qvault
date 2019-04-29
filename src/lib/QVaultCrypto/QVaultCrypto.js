@@ -97,7 +97,11 @@ export function CipherCharKey(passKey, charKey) {
 }
 
 export function DecipherCharKey(passKey, cipheredCharKey) {
-  return decipherString(passKey, cipheredCharKey);
+  try{
+    return decipherString(passKey, cipheredCharKey);
+  } catch (err){
+    throw 'Invalid password';
+  }
 }
 
 export function CipherSecrets(hashedCharKey, secrets) {
@@ -111,13 +115,21 @@ export async function CipherSecretsQr(qrKey, cipheredSecrets){
 }
 
 export function DecipherSecrets(hashedCharKey, cipheredSecrets) {
-  const deciphered = decipherString(hashedCharKey, cipheredSecrets);
-  return JSON.parse(deciphered);
+  try{
+    const deciphered = decipherString(hashedCharKey, cipheredSecrets);
+    return JSON.parse(deciphered);
+  } catch (err){
+    throw 'Invalid password';
+  }
 }
 
 export async function DecipherSecretsQr(qrKey, cipheredSecrets) {
-  const hashed = await hashString(qrKey, shortHashDifficulty);
-  return decipherString(hashed, cipheredSecrets);
+  try{
+    const hashed = await hashString(qrKey, shortHashDifficulty);
+    return decipherString(hashed, cipheredSecrets);
+  } catch(err){
+    throw 'Invalid qr code';
+  }
 }
 
 

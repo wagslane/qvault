@@ -4,7 +4,7 @@
     class="screen"
   >
     <div class="center">
-      <img src="../img/loading.gif">
+      <img src="../img/q-vault-loader.gif">
     </div>
   </div>
 </template>
