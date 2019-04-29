@@ -1,12 +1,15 @@
 <template>
-  <div class="dropdown_menu_wrapper">
+  <div
+    class="dropdown_menu_wrapper"
+  >
     <div
       class="dropdown_menu_icon"
-      @click.prevent="show = !show"
+      @click.prevent="toggle"
     >
       <span v-html="menu_svg" />
     </div>
     <div
+      v-click-outside="hide"
       class="dropdown_menu"
       :class="{show}"
     >
@@ -14,7 +17,7 @@
         v-for="(action, index) in actions"
         :key="index"
         class="action"
-        @click.prevent="action.method"
+        @click.prevent="$emit(action.method);"
       >
         <span
           v-if="action.icon"
@@ -30,6 +33,27 @@
 import menu_svg from '../img/menu.svg';
 
 export default {
+  directives: {
+    'click-outside': {
+      bind: function(el, binding) {
+        if (typeof binding.value !== 'function') {
+          return;
+        }
+        const bubble = binding.modifiers.bubble;
+        const handler = (e) => {
+          if (bubble || (!el.contains(e.target) && el !== e.target)) {
+            binding.value(e);
+          }
+        };
+        el.__vueClickOutside__ = handler;
+        document.addEventListener('click', handler);
+      },
+      unbind: function(el) {
+        document.removeEventListener('click', el.__vueClickOutside__);
+        el.__vueClickOutside__ = null;
+      }
+    }
+  },
   props: {
     actions:{
       type: Array,
@@ -40,8 +64,21 @@ export default {
     return {
       menu_svg,
       show: false,
+      canHide: true
     };
   },
+  methods:{
+    toggle(){
+      this.show = !this.show;
+      this.canHide = false;
+      setTimeout(() => this.canHide = true, 10);
+    },
+    hide(){
+      if (this.canHide){
+        this.show = false;
+      }
+    }
+  }
 };
 </script>
 

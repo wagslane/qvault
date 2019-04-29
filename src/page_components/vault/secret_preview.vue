@@ -18,17 +18,22 @@
       <label>{{ fieldname }}</label>
       <input
         v-model="secret[fieldname]"
-        :type="fields_map[fieldname].hidden ? 'password' : 'text'"
+        :type="fields_map[fieldname].hidden && hidden ? 'password' : 'text'"
         readonly
       >
     </div>
-    <dropdown_menu :actions="dropdown_menu_actions" />
+    <dropdown_menu
+      :actions="dropdown_menu_actions"
+      @delete_secret="delete_secret"
+      @show_hide_secret="show_hide_secret"
+    />
   </div>
 </template>
 
 <script>
 import dropdown_menu from '../../components/dropdown_menu.vue';
 import trash_svg from '../../img/trash.svg';
+import hide_svg from '../../img/hide.svg';
 
 export default {
   components: {
@@ -51,6 +56,11 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data(){
+    return{
+      hidden: true,
+    };
   },
   computed: {
     fields_map(){
@@ -77,8 +87,13 @@ export default {
       return [
         {
           label: 'Delete Secret',
-          method: this.delete_secret,
+          method: 'delete_secret',
           icon: trash_svg,
+        },
+        {
+          label: 'Show / Hide',
+          method: 'show_hide_secret',
+          icon: hide_svg,
         }
       ];
     },
@@ -87,6 +102,9 @@ export default {
     delete_secret(){
       this.$root.DeleteSecret(this.boxUuid, this.secretUuid);
     },
+    show_hide_secret(){
+      this.hidden = !this.hidden;
+    }
   },
 };
 </script>

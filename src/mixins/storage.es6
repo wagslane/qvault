@@ -138,7 +138,6 @@ export default {
           secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
         }
         this.LoadSecrets(secrets);
-        this.loaded_vault = null;
       } catch (err) {
         this.pass_key = old_pass_key;
         this.char_key = old_char_key;
