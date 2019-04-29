@@ -82,7 +82,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import '../styles/colors.less';
 
   .dropdown_menu_wrapper {
@@ -116,7 +116,6 @@ export default {
         cursor: pointer;
 
         svg {
-          float: left;
           path {
             stroke: @gray-darker;
           }
