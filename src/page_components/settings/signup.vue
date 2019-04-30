@@ -25,7 +25,7 @@
           <br>
           <br>
           <div :style="{display: registerTabActive ? 'block' : 'none'}">
-            <TextInput
+            <DecoratedTextInput
               v-model="emailRegister"
               :active="registerTabActive"
               keyboard-id="emailRegister" 
@@ -37,7 +37,7 @@
             <h3>
               Logging in will overwrite your current cloud vault
             </h3>
-            <TextInput
+            <DecoratedTextInput
               v-model="emailLogin"
               :active="!registerTabActive"
               keyboard-id="emailLogin" 

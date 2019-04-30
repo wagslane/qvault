@@ -7,7 +7,7 @@
           <h1>Unlock Vault</h1>
           <div v-if="!scanQr">
             <h2>Please enter your password or passphrase</h2>
-            <TextInput
+            <DecoratedTextInput
               v-model="password"
               :active="true"
               keyboard-id="password" 
