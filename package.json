@@ -27,7 +27,6 @@
   "build": {
     "appId": "io.qvault.app",
     "productName": "QVault",
-    "copyright": "Copyright © year QVault",
     "files": [
       "main.js",
       "index.html",
