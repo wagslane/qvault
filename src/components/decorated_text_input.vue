@@ -6,6 +6,7 @@
       </div>
       <TextInput
         v-model="passThroughValue"
+        class="text-input"
         :type="type"
         :keyboard-id="keyboardId"
         :active="active"
@@ -76,6 +77,10 @@ export default{
     text-align: left;
     font-weight: 500;
     margin-right: 20px;
+  }
+
+  .text-input{
+    flex: 1;
   }
 }
 </style>

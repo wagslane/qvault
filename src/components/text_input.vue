@@ -1,37 +1,33 @@
 <template>
-  <div class="input-wrap">
-    <span
-      class="icon"
-      @click="toggle"
-    >
-      <svg
-        v-scroll-to="{
-          el: '#'+keyboardId,
-          offset: -300,
-        }"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="20pt"
-        height="20pt"
-        viewBox="0 0 20 20"
-        version="1.1"
-      >
-        <g id="surface1">
-          <path
-            style="stroke:none; fill-rule:nonzero; fill-opacity:1;"
-            d="M 16.667969 2.5 L 3.332031 2.5 C 2.414062 2.5 1.675781 3.246094 1.675781 4.167969 L 1.667969 12.5 C 1.667969 13.421875 2.414062 14.167969 3.332031 14.167969 L 16.667969 14.167969 C 17.585938 14.167969 18.332031 13.421875 18.332031 12.5 L 18.332031 4.167969 C 18.332031 3.246094 17.585938 2.5 16.667969 2.5 Z M 9.167969 5 L 10.832031 5 L 10.832031 6.667969 L 9.167969 6.667969 Z M 9.167969 7.5 L 10.832031 7.5 L 10.832031 9.167969 L 9.167969 9.167969 Z M 6.667969 5 L 8.332031 5 L 8.332031 6.667969 L 6.667969 6.667969 Z M 6.667969 7.5 L 8.332031 7.5 L 8.332031 9.167969 L 6.667969 9.167969 Z M 5.832031 9.167969 L 4.167969 9.167969 L 4.167969 7.5 L 5.832031 7.5 Z M 5.832031 6.667969 L 4.167969 6.667969 L 4.167969 5 L 5.832031 5 Z M 13.332031 12.5 L 6.667969 12.5 L 6.667969 10.832031 L 13.332031 10.832031 Z M 13.332031 9.167969 L 11.667969 9.167969 L 11.667969 7.5 L 13.332031 7.5 Z M 13.332031 6.667969 L 11.667969 6.667969 L 11.667969 5 L 13.332031 5 Z M 15.832031 9.167969 L 14.167969 9.167969 L 14.167969 7.5 L 15.832031 7.5 Z M 15.832031 6.667969 L 14.167969 6.667969 L 14.167969 5 L 15.832031 5 Z M 10 19.167969 L 13.332031 15.832031 L 6.667969 15.832031 Z M 10 19.167969 "
-          />
-        </g>
-      </svg>
-    </span>
+  <div class="wrapper">
     <input
+      v-if="type!='textarea'"
       :id="keyboardId"
       ref="input"
-      :type="type"
+      class="input text"
+      :type="typeState"
       :value="value"
+      :style="{borderRadius: borderRadius}"
       @input="$emit('input', $event.target.value)"
       @blur="hide"
     >
+    <textarea
+      v-else
+      :id="keyboardId"
+      ref="input"
+      class="input textarea"
+      :type="typeState"
+      :value="value"
+      :style="{borderRadius: borderRadius}"
+      @input="$emit('input', $event.target.value)"
+      @blur="hide"
+    />
+    <dropdown_menu
+      class="dropdown-menu"
+      :actions="dropdown_menu_actions"
+      @show_hide_secret="show_hide_secret"
+      @toggle_keyboard="toggle_keyboard"
+    />
     <div
       :style="{ visibility: keyboardVisibility }"
       class="keyboardContainer"
@@ -45,9 +41,15 @@
 
 <script>
 import Keyboard from "simple-keyboard";
+import dropdown_menu from './dropdown_menu.vue';
+import hide_svg from '../img/hide.svg';
+import keyboard_svg from '../img/keyboard.svg';
 import "simple-keyboard/build/css/index.css";
 
 export default{
+  components:{
+    dropdown_menu
+  },
   props:{
     defaultValue:{
       type: String,
@@ -68,14 +70,44 @@ export default{
     },
     active:{
       type: Boolean
+    },
+    borderRadius:{
+      type: String,
+      default: '2px'
     }
   },
   data(){
     return{
       keyboardVisibility: "hidden",
       recentlyClosed: false,
-      bodyPaddingMax: 280
+      bodyPaddingMax: 280,
+      hidden: true
     };
+  },
+  computed:{
+    typeState(){
+      if (!this.hidden && this.type == 'password'){
+        return 'text';
+      }
+      return this.type;
+    },
+    dropdown_menu_actions(){
+      let actions = [
+        {
+          label: 'Keyboard',
+          method: 'toggle_keyboard',
+          icon: keyboard_svg,
+        }
+      ];
+      if (this.value && this.value.length > 0 && this.type == 'password'){
+        actions.push({
+          label: 'Show / Hide',
+          method: 'show_hide_secret',
+          icon: hide_svg,
+        });
+      }
+      return actions;
+    }
   },
   watch: { 
     defaultValue: function(defaultValue) {
@@ -116,7 +148,10 @@ export default{
     });
   },
   methods:{
-    toggle(){
+    show_hide_secret(){
+      this.hidden = !this.hidden;
+    },
+    toggle_keyboard(){
       if (this.keyboardVisibility == "visible"){
         this.keyboardVisibility = "hidden";
         document.getElementById("body-contents").style.paddingBottom = '0px';
@@ -165,60 +200,45 @@ export default{
 <style lang="less" scoped>
 @import '../styles/colors.less';
 
-.input-wrap{
+.wrapper{
+  position: relative;
   display: flex;
-  flex-direction: row;
-  flex: 1;
+  width: 100%;
 
-  .icon{
-    background-color: @black-light;
-    cursor: pointer;
-    height: 47px;
-    border-radius: 2px 0px 0px 2px;
+  .input {
+    flex: 1;
+    box-sizing: border-box;
     border: 1px solid @gray-mid;
-    border-right: 0px;
+    font-weight: 300;
+    background-color: white;
+    padding-left: 8px;
+    outline: none;
+    color: @gray-lightest;
+    background-color: @black-darkest;
 
-    svg {
-      margin-top: 10px;
-      margin-left: 13.5px;
-      margin-right: 13.5px;
-
-      path {
-        fill: white;
-      }
-    }
-
-    &:hover{
-      background-color: @black-lightest;
+    &:focus {
+      border: 2px solid @gold-mid;
+      outline: none;
     }
   }
 
-    input {
-      flex: 1;
-      box-sizing: border-box;
-      height: 47px;
-      line-height: 47px;
-      border: 1px solid @gray-mid;
-      border-radius: 0px 2px 2px 0px;
-      font-weight: 300;
-      background-color: white;
-      padding-left: 5px;
-      outline: none;
-      color: @gray-lightest;
-      background-color: @black-darkest;
+  .text{
+    height: 47px;
+    line-height: 47px;
+  }
 
-      &:focus {
-        border: 2px solid @gold-mid;
-        outline: none;
-      }
-    }
-}
+  .textarea {
+    resize: none;
+    height: 140px;
+  }
 
-span{
-  display: block;
+  .dropdown-menu{
+    margin-top: 12px;
+  }
 }
 
 .keyboardContainer {
+  z-index: 100;
   background-color: @gray-lightest;
   position: fixed;
   width: 100%;
