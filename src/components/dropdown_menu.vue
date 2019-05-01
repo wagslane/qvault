@@ -89,7 +89,6 @@ export default {
     position: relative;
 
     .dropdown_menu_icon {
-      margin-left: 15px;
       cursor: pointer;
       padding-left: 15px;
       padding-right: 15px;
@@ -118,6 +117,7 @@ export default {
       box-shadow: 0 4px 24px #000000;
       border-radius: 6px;
       overflow: hidden;
+      z-index: 200;
 
       &:not(.show){
         display: none;
@@ -128,6 +128,7 @@ export default {
         color: @gray-darker;
         padding: 10px;
         cursor: pointer;
+        text-align: left;
 
         svg {
           path {

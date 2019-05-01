@@ -6,14 +6,14 @@
         <div class="body">
           <h1>Load From Cloud</h1>
           <h2>Download your vault from the Q Vault servers</h2>
-          <TextInput
+          <DecoratedTextInput
             v-model="email"
             :active="true"
             keyboard-id="email" 
             description="email" 
             type="email"
           />
-          <TextInput
+          <DecoratedTextInput
             v-model="password" 
             keyboard-id="password" 
             description="password" 

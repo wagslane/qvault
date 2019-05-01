@@ -23,6 +23,7 @@
       >
     </div>
     <dropdown_menu
+      class="dropdown-menu"
       :actions="dropdown_menu_actions"
       @delete_secret="delete_secret"
       @show_hide_secret="show_hide_secret"
@@ -86,14 +87,14 @@ export default {
     dropdown_menu_actions(){
       return [
         {
-          label: 'Delete Secret',
-          method: 'delete_secret',
-          icon: trash_svg,
-        },
-        {
           label: 'Show / Hide',
           method: 'show_hide_secret',
           icon: hide_svg,
+        },
+        {
+          label: 'Delete Secret',
+          method: 'delete_secret',
+          icon: trash_svg,
         }
       ];
     },
@@ -131,6 +132,7 @@ export default {
       flex-basis: 160px;
       text-decoration: none;
       height: 60px;
+      margin-top: 10px;
 
       .name {
         display: inline-block;
@@ -181,9 +183,8 @@ export default {
       }
     }
 
-    .dropdown_menu_icon {
-      color: white;
-      line-height: 60px;
+    .dropdown-menu{
+      margin-top: 30px;
     }
   }
 </style>

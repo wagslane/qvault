@@ -8,7 +8,7 @@
 
           <div v-if="!matched">
             <h2>Enter your old password or passphrase</h2>
-            <TextInput
+            <DecoratedTextInput
               v-model="old_password"
               :active="true"
               keyboard-id="old_password" 
@@ -42,14 +42,14 @@
             <br>
             <br>
             <div :style="{display: passwordTabActive ? 'block' : 'none'}">
-              <TextInput
+              <DecoratedTextInput
                 v-model="password" 
                 keyboard-id="password" 
                 description="Password"
                 :active="passwordTabActive"
                 type="password"
               />
-              <TextInput
+              <DecoratedTextInput
                 v-model="confirm" 
                 keyboard-id="confirm" 
                 description="Confirm" 
@@ -64,7 +64,7 @@
               class="center-text"
               :style="{display: !passwordTabActive ? 'block' : 'none'}"
             >
-              <TextInput
+              <DecoratedTextInput
                 v-model="passphrase" 
                 keyboard-id="passphrase" 
                 description="Passphrase"
