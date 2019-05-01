@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="text-input-wrapper">
     <input
       v-if="type!='textarea'"
       :id="keyboardId"
@@ -197,10 +197,10 @@ export default{
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../styles/colors.less';
 
-.wrapper{
+.text-input-wrapper{
   position: relative;
   display: flex;
   width: 100%;
@@ -230,6 +230,9 @@ export default{
   .textarea {
     resize: none;
     height: 140px;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 8px;
   }
 
   .dropdown-menu{
@@ -239,7 +242,7 @@ export default{
 
 .keyboardContainer {
   z-index: 100;
-  background-color: @gray-lightest;
+  background-color: @black-darkest;
   position: fixed;
   width: 100%;
   bottom: 0px;
@@ -253,18 +256,40 @@ export default{
 }
 
 .simple-keyboard.custom-theme {
-  border-radius: 0;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
   background-color: rgba(0, 0, 0, 0.0);
+  padding: 5px;
+}
+
+.simple-keyboard.custom-theme .hg-row{
+  border: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+.simple-keyboard.custom-theme .hg-row:nth-child(1){
+  border-radius: 6px 6px 0px 0px;
+}
+
+.simple-keyboard.custom-theme .hg-row:nth-last-child(1){
+  border-radius: 0px 0px 6px 6px;
 }
 
 .simple-keyboard.custom-theme .hg-row .hg-button {
+  border-radius: 0;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: @black-dark;
+  color: white;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.simple-keyboard.custom-theme .hg-button:hover {
+  background: @black-light;
   color: white;
 }
 

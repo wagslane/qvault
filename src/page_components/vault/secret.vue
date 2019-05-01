@@ -10,7 +10,7 @@
       <button
         class="back"
         type="button"
-        @click="$router.go(-1)"
+        @click="$router.push({name: 'box', params: {box_uuid: box_uuid}})"
       >
         Back
       </button>
@@ -156,6 +156,7 @@ export default {
     },
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
+    box_uuid() { return this.$parent.box_uuid;},
     box_type(){
       return box_types.find(box_type => box_type.name === this.box.type);
     },
@@ -199,7 +200,7 @@ export default {
         return;
       }
       this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
-      alert("Change applied");
+      this.$router.push({name: 'box', params: {box_uuid: this.box_uuid}});
     },
     add_to_sublist(field){
       let new_value = {};
