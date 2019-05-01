@@ -17,14 +17,14 @@
             After restoring access, the password you created for this vault will be associated with your cloud account
           </h3>
 
-          <TextInput
+          <DecoratedTextInput
             v-if="!emailSent"
             v-model="email"
             keyboard-id="emailRegister" 
             description="Email" 
             type="email" 
           />
-          <TextInput
+          <DecoratedTextInput
             v-else
             v-model="code"
             keyboard-id="code" 

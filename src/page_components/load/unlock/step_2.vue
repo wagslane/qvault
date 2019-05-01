@@ -6,7 +6,7 @@
         <div class="body">
           <h1>Restore Vault Access</h1>
           <h2>Please enter the code on the back of your Q Card</h2>
-          <TextInput
+          <DecoratedTextInput
             v-model="char_key"
             :active="true"
             keyboard-id="char_key" 

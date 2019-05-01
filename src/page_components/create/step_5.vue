@@ -38,17 +38,17 @@
               A password must contain 12 characters, 
               including uppercase, lowercase, a number and special character.
             </h4>
-            <TextInput
+            <DecoratedTextInput
               v-model="password" 
               keyboard-id="password" 
               description="Password"
               :active="passwordTabActive"
               type="password"
             />
-            <TextInput
-              v-model="confirm" 
-              keyboard-id="confirm" 
-              description="Confirm" 
+            <DecoratedTextInput
+              v-model="confirm"
+              keyboard-id="confirm"
+              description="Confirm"
               type="password"
             />
             <span
@@ -64,7 +64,7 @@
               A passphrase is a list of words separted by spaces, and must contain at least 15 characters.
               You may optionally generate a random passphrase.
             </h4>
-            <TextInput
+            <DecoratedTextInput
               v-model="passphrase" 
               keyboard-id="passphrase" 
               description="Passphrase"

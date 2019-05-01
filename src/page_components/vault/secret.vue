@@ -4,13 +4,13 @@
       <input
         v-model="secret[box_type.header_field]"
         placeholder="Name"
-        class="box_name"
+        class="secret_title"
         readonly
       >
       <button
         class="back"
         type="button"
-        @click="$router.go(-1)"
+        @click="$router.push({name: 'box', params: {box_uuid: box_uuid}})"
       >
         Back
       </button>
@@ -44,14 +44,14 @@
           class="secret_name"
           :style="{display: field.type === Array ? 'inline-block' : 'block'}"
         >{{ field.name }}</label>
-        <input
+        <TextInput
           v-if="field.type === String"
           v-model="secret[field.name]"
-          :type="field.hidden ? 'password' : 'text'"
-          :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
-          placeholder="value"
           class="secret_value"
-        >
+          :type="field.hidden ? 'password' : 'text'"
+          :keyboard-id="field.name.replace(/[\W_]+/g,'')"
+          border-radius="6px"
+        />
         <input
           v-if="field.type === String
             && secret.conflict
@@ -62,12 +62,14 @@
           class="secret_value conflict"
           readonly
         >
-        <textarea
+        <TextInput
           v-if="field.type === 'textarea'"
           v-model="secret[field.name]"
           :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
-          placeholder="value"
+          type="textarea"
+          :keyboard-id="field.name"
           class="secret_value"
+          border-radius="6px"
         />
         <button
           v-if="field.type === Array"
@@ -121,6 +123,7 @@
 </template>
 
 <script>
+import TextInput from "../../components/text_input.vue";
 import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
 import PlusSolid from '../../img/plus-solid.svg.vue';
@@ -128,6 +131,7 @@ import PlusSolid from '../../img/plus-solid.svg.vue';
 export default {
   components: {
     PlusSolid,
+    TextInput
   },
   data(){
     return{
@@ -152,6 +156,7 @@ export default {
     },
     secret_uuid(){ return this.$route.params.secret_uuid; },
     box(){ return this.$parent.box; },
+    box_uuid() { return this.$parent.box_uuid;},
     box_type(){
       return box_types.find(box_type => box_type.name === this.box.type);
     },
@@ -195,7 +200,7 @@ export default {
         return;
       }
       this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
-      alert("Change applied");
+      this.$router.push({name: 'box', params: {box_uuid: this.box_uuid}});
     },
     add_to_sublist(field){
       let new_value = {};
@@ -222,14 +227,28 @@ export default {
     margin-left: -10px;
   }
 
+  hr {
+    box-sizing: border-box;
+    height: 2px;
+    border: 1px solid @black-lighter;
+    margin: 10px;
+  }
+
   .header{
     display: flex;
     flex-direction: row;
     margin-top: 10px;
 
-    .box_name {
+    .secret_title {
       flex-grow: 1;
       flex-basis: 0;
+      font-size: 22px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: @gray-light;
+      width: ~'calc(100% - 150px)';
+      padding: 10px;
     }
 
     button{
@@ -273,30 +292,6 @@ export default {
     }
   }
 
-  .wrapper {
-    border-radius: 6px;
-    background-color: @black-darkest;
-    margin: 25px;
-    padding: 15px;
-
-    .box_name {
-      font-size: 22px;
-      border: none;
-      border-radius: 6px;
-      background: transparent;
-      color: @gray-light;
-      width: ~'calc(100% - 150px)';
-      padding: 10px;
-    }
-
-    hr {
-      box-sizing: border-box;
-      height: 2px;
-      border: 1px solid @black-lighter;
-      margin: 10px;
-    }
-  }
-
   .row{
     margin-bottom: 10px;
     display: flex;
@@ -305,7 +300,7 @@ export default {
     .secret {
       flex-grow: 1;
       flex-basis: 200px;
-      margin: 15px;
+      margin: 10px;
 
       .secret_name {
         font-size: 12px;
@@ -316,14 +311,8 @@ export default {
       }
 
       .secret_value {
-        font-size: 14px;
-        padding: 10px;
-        border: 1px solid @gray-blue;
-        border-radius: 6px;
         background: transparent;
-        color: white;
         width: 100%;
-        margin: 5px;
 
         &.missing {
           border: 1px solid @red-mid;
@@ -331,17 +320,16 @@ export default {
 
         &.conflict {
           color: @red-mid;
+          font-size: 14px;
+          border: 1px solid @gray-blue;
+          border-radius: 6px;
+          color: white;
         }
 
         &:focus {
           border: 1px solid @gold-mid;
           outline: none;
         }
-      }
-
-      textarea {
-        resize: none;
-        height: 140px;
       }
 
       .add_to_sublist {
