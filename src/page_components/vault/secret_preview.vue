@@ -121,7 +121,7 @@ export default {
     &.conflict {
       .secret-link {
         .name {
-          color: @red-mid !important;
+          color: @red-pink !important;
         }
       }
     }

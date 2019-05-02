@@ -221,7 +221,7 @@ export default{
   width: 100%;
 
   .missing{
-    border-color: @red-mid !important;
+    border-color: @red-pink !important;
   }
 
   .input {
