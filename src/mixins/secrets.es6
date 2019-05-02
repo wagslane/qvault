@@ -67,6 +67,11 @@ export default {
       Vue.delete(box.secrets, secret_uuid);
     },
 
+    DeleteBox(box_uuid){
+      this.GetBox(box_uuid);
+      Vue.delete(this.secrets, box_uuid);
+    },
+
     LoadSecrets(new_secrets) {
       if (!this.secrets) {
         this.secrets = {};
