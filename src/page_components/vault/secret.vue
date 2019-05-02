@@ -51,6 +51,7 @@
           :type="field.hidden ? 'password' : 'text'"
           :keyboard-id="field.name.replace(/[\W_]+/g,'')"
           border-radius="6px"
+          :is-missing="apply_clicked && missing_fields.includes(field.name)"
         />
         <input
           v-if="field.type === String
@@ -65,10 +66,10 @@
         <TextInput
           v-if="field.type === 'textarea'"
           v-model="secret[field.name]"
-          :class="{missing: apply_clicked && missing_fields.includes(field.name)}"
           type="textarea"
           :keyboard-id="field.name"
           class="secret_value"
+          :is-missing="apply_clicked && missing_fields.includes(field.name)"
           border-radius="6px"
         />
         <button
@@ -93,14 +94,15 @@
               :key="subfield.name"
               class="subfield"
             >
-              <input
+              <TextInput
                 v-if="subfield.type === String"
                 v-model="subvalue[subfield.name]"
+                :is-missing="apply_clicked && missing_fields.includes(field.name + j + subfield.name)"
                 :type="subfield.hidden ? 'password' : 'text'"
-                :class="{missing: apply_clicked && missing_fields.includes(field.name + j + subfield.name)}"
+                :keyboard-id="subfield.name.replace(/[\W_]+/g,'')"
+                border-radius="6px"
                 :placeholder="subfield.name"
-                class="secret_value"
-              >
+              />
               <input
                 v-if="subfield.type === String
                   && secret.conflict
@@ -196,7 +198,7 @@ export default {
     async apply(){
       this.apply_clicked = true;
       if (this.missing_fields.length > 0){
-        alert("Please fix the missing fields");
+        setTimeout(() => this.apply_clicked = false, 2000);
         return;
       }
       this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
@@ -313,10 +315,6 @@ export default {
       .secret_value {
         background: transparent;
         width: 100%;
-
-        &.missing {
-          border: 1px solid @red-mid;
-        }
 
         &.conflict {
           color: @red-mid;
