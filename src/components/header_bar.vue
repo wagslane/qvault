@@ -1,29 +1,68 @@
 <template>
-  <div class="bar">
-    <img 
-      class="img img-left" 
-      height="25" 
-      width="25" 
-      src="../img/qvault-logo.png"
-    >
-    <span>{{ title }}</span>
+  <div class="header-bar">
+    <div class="box">
+      <img 
+        class="img" 
+        :style="{marginLeft: '20px'}"
+        height="25" 
+        width="25" 
+        src="../img/qvault-logo.png"
+      >
+    </div>
 
-    <gearIcon
-      v-if="settings"
-      class="img img-right"
-      height="25"
-      width="25"
-      @click.native="$router.push({name: 'settings'})"
-    />
+    <div class="box title">
+      <span>{{ title }}</span>
+    </div>
+
+    <div class="box">
+      <gearSvg
+        v-if="settingsButton"
+        class="img float-right pointer"
+        height="25"
+        width="25"
+        :style="{marginRight: '20px'}"
+        @click.native="$router.push({name: 'settings'})"
+      />
+      <div v-if="saveButton">
+        <saveSvg
+          v-if="!saved"
+          class="img float-right pointer"
+          height="25"
+          width="25"
+          :style="{marginRight: '20px'}"
+          :disabled-status="$root.ConflictExists"
+          :title-text="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : 'Save Vault'"
+          @click.native="save"
+        />
+        <div
+          v-else
+        >
+          <checkmarkSvg
+            class="img float-right"
+            :style="{marginRight: '20px'}"
+            height="25"
+            width="25"
+          />
+          <span
+            :style="{marginRight: '10px'}"
+            class="label float-right"
+          >Vault Saved</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import gearIcon from '../img/gear-icon.svg.vue';
+import gearSvg from '../img/gear-icon.svg.vue';
+import saveSvg from '../img/save.svg.vue';
+import checkmarkSvg from '../img/checkmark.svg.vue';
 
 export default {
   components:{
-    gearIcon
+    gearSvg,
+    saveSvg,
+    checkmarkSvg
   },
   props: { 
     title: {
@@ -31,11 +70,32 @@ export default {
       required: false,
       default: ''
     },
-    settings: {
+    settingsButton: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    saveButton:{
       type: Boolean,
       default: false,
       required: false
     }
+  },
+  data(){
+    return{
+      saved: false,
+    };
+  },
+  methods: {
+    async save(){
+      try{
+        await this.$root.SaveBoth();
+        this.saved = true;
+        setTimeout(() => { this.saved = false; }, 1500);
+      } catch (err) {
+        alert(err);
+      }
+    },
   }
 };
 </script>
@@ -43,30 +103,39 @@ export default {
 <style lang="less" scoped>
   @import '../styles/colors.less';
 
-  .bar {
+  .header-bar {
     height: 55px;
     width: 100%;
     background-color: @black-darkest;
     line-height: 55px;
     color: #FFFFFF;
-    font-size: 20px;
-    font-weight: 300;
-    letter-spacing: 0.7px;
-    text-align: center;
-    position: relative;
+    display: flex;
 
-    .img{
-      margin-top: 16px;
-      position: absolute;
+    .title{
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.7px;
+      text-align: center;
     }
 
-    .img-left{
-      left: 20px;
-    }
+    .box{
+      flex: 1;
 
-    .img-right{
-      right: 20px;
-      cursor: pointer;
+      .label{
+        font-size: 10px;
+      }
+
+      .img{
+        margin-top: 16px;
+      }
+
+      .float-right{
+        float: right;
+      }
+
+      .pointer{
+        cursor: pointer;
+      }
     }
   }
 </style>

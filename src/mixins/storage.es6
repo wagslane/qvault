@@ -175,7 +175,6 @@ export default {
     async SaveVault(vault) {
       fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
       fs.writeFileSync(this.GetLastUsedVaultPath(), this.local_vault_path);
-      alert('Vault saved successfully!');
     },
 
     async GetSavableVault(){

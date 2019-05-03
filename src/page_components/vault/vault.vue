@@ -2,7 +2,8 @@
   <div>
     <HeaderBar
       title="Vault"
-      settings
+      settings-button
+      save-button
     />
     <div
       v-if="boxes"
@@ -12,17 +13,6 @@
         class="sidebar"
         :style="{ height: `calc(100vh - ${content_height}px)` }"
       >
-        <button
-          class="btn save"
-          :disabled="$root.ConflictExists"
-          :title="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : ''"
-          @click.prevent="save"
-        >
-          <SaveIcon />
-          <span>
-            Save Vault
-          </span>
-        </button>
         <div class="boxes">
           <router-link
             v-for="sorted_box in sorted_boxes"
@@ -66,7 +56,6 @@
 import moment from 'moment';
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
-import SaveIcon from '../../img/save.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar.es6';
 import box_types from '../../consts/box_types.es6';
 
@@ -80,8 +69,7 @@ function sort_box_by_key(key){
 
 export default {
   components:{
-    PlusBox,
-    SaveIcon,
+    PlusBox
   },
   data(){
     return {
@@ -126,9 +114,6 @@ export default {
     },
   },
   methods: {
-    async save(){
-      await this.$root.SaveBoth();
-    },
     box_matches_search(sorted_box){
       if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
         return true;
@@ -160,66 +145,11 @@ export default {
       flex-grow: 1;
       flex-basis: 0;
 
-      .save{
-        border: 2px solid @gray-light;
-        border-radius: 5px;
-        background-color: @black-mid;
-        color: @gray-mid;
-        font-size: 14px;
-        letter-spacing: 0.49px;
-        line-height: 45px;
-        display: block;
-        text-decoration: none;
-        cursor: pointer;
-        width: 75%;
-        margin-top: 12.5px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 50px;
-        text-align: center;
-        padding: 0px;
-
-        svg{
-          margin-right: 16px;
-          vertical-align: middle;
-
-          path {
-            fill: @gray-mid;
-          }
-        }
-
-        &:hover {
-          background-color: @black-darkest;
-          border: 2px solid @gold-mid;
-          color: @gold-mid;
-          text-decoration: none;
-
-          svg {
-            path {
-              fill: @gold-dark;
-            }
-          }
-        }
-
-        &[disabled] {
-          border: 2px solid @red-mid;
-          color: @red-mid;
-          text-decoration: none;
-          background-color: @black-mid;
-
-          svg {
-            path {
-              fill: @red-mid;
-            }
-          }
-        }
-      }
-
       .boxes {
         bottom: 75px;
         right: 0;
         left: 0;
-        top: 75px;
+        top: 0px;
         position: absolute;
         overflow-y: auto;
 
