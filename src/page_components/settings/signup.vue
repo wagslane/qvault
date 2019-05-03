@@ -5,7 +5,7 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Cloud Backup Account</h1>
-          <h2>All vaults stored by us are encrypted locally to preserve your privacy</h2>
+          <h2>All vaults stored by Q Vault are encrypted locally to preserve your privacy</h2>
           <div class="tabs">
             <div 
               class="tab tab-left"
@@ -34,9 +34,6 @@
             />
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
-            <h3>
-              Logging in will overwrite your current cloud vault
-            </h3>
             <DecoratedTextInput
               v-model="emailLogin"
               :active="!registerTabActive"
@@ -159,11 +156,10 @@ export default {
       try{
         await this.$root.UnlockVaultPasskey(this.$root.pass_key);
       } catch(err){
-        this.error = "Unable to unlock cloud vault";
+        this.error = "Unable to unlock cloud vault. Try downloading it after exiting this vault.";
         return;
       }
       this.$root.email = this.emailLogin;
-      alert("Logged in successfully");
       this.$router.push({name: 'settings'});
     }
   }

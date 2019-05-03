@@ -5,9 +5,11 @@
       :id="keyboardId"
       ref="input"
       class="input text"
+      :class="{missing: isMissing}"
       :type="typeState"
       :value="value"
       :style="{borderRadius: borderRadius}"
+      :placeholder="placeholder"
       @input="$emit('input', $event.target.value)"
       @blur="hide"
     >
@@ -16,8 +18,10 @@
       :id="keyboardId"
       ref="input"
       class="input textarea"
+      :class="{missing: isMissing}"
       :type="typeState"
       :value="value"
+      :placeholder="placeholder"
       :style="{borderRadius: borderRadius}"
       @input="$emit('input', $event.target.value)"
       @blur="hide"
@@ -69,11 +73,22 @@ export default{
       required: true
     },
     active:{
-      type: Boolean
+      type: Boolean,
+      required: false,
+      default: false
     },
     borderRadius:{
       type: String,
       default: '2px'
+    },
+    isMissing:{
+      type: Boolean,
+      default: false
+    },
+    placeholder:{
+      type: String,
+      required: false,
+      default: ''
     }
   },
   data(){
@@ -204,6 +219,10 @@ export default{
   position: relative;
   display: flex;
   width: 100%;
+
+  .missing{
+    border-color: @red-pink !important;
+  }
 
   .input {
     flex: 1;

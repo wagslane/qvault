@@ -40,7 +40,9 @@ export default{
       required: true
     },
     active:{
-      type: Boolean
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data(){

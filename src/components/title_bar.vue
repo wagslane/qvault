@@ -113,7 +113,7 @@ export default {
 
     .close{
       &:hover{
-        background: @red-mid !important;
+        background: @red-pink !important;
       }
     }
   }
