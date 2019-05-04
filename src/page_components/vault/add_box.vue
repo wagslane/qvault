@@ -18,14 +18,6 @@
           {{ box_type.name }}
         </div>
       </div>
-      <!--<div-->
-      <!--class="button"-->
-      <!--v-on:click="add_box('Other')"-->
-      <!--&gt;-->
-      <!--<other_icon></other_icon>-->
-      <!--<br />-->
-      <!--Other-->
-      <!--</div>-->
     </div>
   </div>
 </template>

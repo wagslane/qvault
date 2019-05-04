@@ -13,20 +13,19 @@ export default {
       this.secrets = {};
     },
 
-    CreateBox(name, type, fields) {
+    CreateBox(name, type) {
       assert(this.secrets, 'No vault is open');
-      assert(!(name in this.secrets), 'A box with that name already exists');
+      assert(!(this.HasBox(name)), 'A box with that name already exists');
+      let uuid = uuidv4();
+      assert(!(uuid in this.secrets), 'A box with that uuid already exists');
       let box = {
         name,
         type,
         secrets: {},
         created: Date.now(),
       };
-      if (fields) {
-        Vue.set(box, 'fields', fields);
-      }
-      Vue.set(this.secrets, name, box);
-      return name;
+      Vue.set(this.secrets, uuid, box);
+      return uuid;
     },
 
     GetBox(uuid) {
@@ -35,12 +34,12 @@ export default {
       return this.secrets[uuid];
     },
 
-    HasBox(uuid) {
-      try {
-        return Boolean(this.GetBox(uuid));
-      } catch(err) {
-        return false;
-      }
+    HasBox(name) {
+      return Boolean(
+        Object.values(this.secrets).find(
+          box => box.name == name
+        )
+      );
     },
 
     SetSecret(box_uuid, secret) {
