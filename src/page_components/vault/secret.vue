@@ -108,7 +108,7 @@
                 v-model="subvalue[subfield.name]"
                 :is-missing="apply_clicked && missing_fields.includes(field.name + j + subfield.name)"
                 :type="subfield.hidden ? 'password' : 'text'"
-                :keyboard-id="subfield.name.replace(/[\W_]+/g,'')"
+                :keyboard-id="(field.name + j + subfield.name).replace(/[\W_]+/g,'')"
                 border-radius="6px"
                 :placeholder="subfield.name"
               />
