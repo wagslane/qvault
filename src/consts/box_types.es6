@@ -4,6 +4,7 @@ import identity_svg from '../img/identity.svg';
 import password_svg from '../img/password.svg';
 import notes_svg from '../img/notes.svg';
 import server_connection_svg from '../img/server_connection.svg';
+import other_svg from '../img/other.svg';
 
 export default [
   {
@@ -372,6 +373,36 @@ export default [
     header_field: 'Name',
     icon: {
       img: notes_svg,
+      fill: true,
+    }
+  },
+  {
+    name: 'Other',
+    fields: [
+      {
+        name: 'Name',
+        type: String,
+        required: true,
+        hidden: false,
+      },
+      {
+        name: 'Secret',
+        type: String,
+        required: true,
+        hidden: true,
+      },
+      {
+        name: 'Notes',
+        type: 'textarea',
+        required: false,
+        hidden: false,
+      },
+    ],
+    quick_access_name: "Name",
+    quick_access_secrets: [ "Secret" ],
+    header_field: 'Name',
+    icon: {
+      img: other_svg,
       fill: true,
     }
   },

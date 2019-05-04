@@ -1,10 +1,11 @@
 <template>
   <div>
     <div id="box-header">
-      <div
+      <input
         placeholder="Name"
         class="box_name"
-        v-text="box.name"
+        v-model="box.name"
+        :readonly="box.type != 'Other'"
       />
       <button
         class="add_secret"
