@@ -6,17 +6,17 @@
         class="box_name"
         v-text="box.name"
       />
+      <dropdown_menu
+        class="dropdown-menu"
+        :actions="dropdown_menu_actions"
+        @delete_box="delete_box"
+      />
       <button
         class="add_secret"
         @click.prevent="$parent.add_secret"
       >
         <PlusSolid />
       </button>
-      <dropdown_menu
-        class="dropdown-menu"
-        :actions="dropdown_menu_actions"
-        @delete_box="delete_box"
-      />
     </div>
     <secret_preview
       v-for="secret_uuid in secret_uuids"
