@@ -19,8 +19,7 @@ export default {
   },
   methods: {
     add_secret(){
-      let secret_uuid = this.$root.CreateSecret(this.box_uuid);
-      this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid, secret_uuid: secret_uuid}});
+      this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid}});
     },
   }
 };

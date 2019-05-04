@@ -153,7 +153,7 @@ export default [
             name: 'box',
           },
           {
-            path: 'secret/:secret_uuid',
+            path: 'secret/:secret_uuid?',
             component: secret,
             name: 'secret',
           },
