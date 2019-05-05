@@ -1,10 +1,16 @@
 <template>
   <div>
     <div id="box-header">
-      <div
+      <input
         placeholder="Name"
         class="box_name"
-        v-text="box.name"
+        v-model="box.name"
+        :readonly="box.type != 'Other'"
+      />
+      <dropdown_menu
+        class="dropdown-menu"
+        :actions="dropdown_menu_actions"
+        @delete_box="delete_box"
       />
       <button
         class="add_secret"
@@ -28,11 +34,14 @@
 import box_types from '../../consts/box_types.es6';
 import secret_preview from './secret_preview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
+import dropdown_menu from '../../components/dropdown_menu.vue';
+import trash_svg from '../../img/trash.svg';
 
 export default {
   components: {
     secret_preview,
     PlusSolid,
+    dropdown_menu
   },
   computed: {
     box_uuid() {
@@ -50,6 +59,25 @@ export default {
       }
       return [];
     },
+    dropdown_menu_actions(){
+      return [
+        {
+          label: 'Delete Box',
+          method: 'delete_box',
+          icon: trash_svg,
+        }
+      ];
+    },
+  },
+  methods: {
+    delete_box(){
+      try{
+        this.$root.DeleteBox(this.box_uuid);
+        this.$router.push({name: 'vault'});
+      } catch(err){
+        alert(err);
+      }
+    }
   },
 };
 </script>
@@ -79,6 +107,11 @@ export default {
       cursor: pointer;
       margin-top: 20px;
       outline: none;
+    }
+
+    .dropdown-menu{
+      margin-top: 20px;
+      float: right;
     }
   }
 </style>

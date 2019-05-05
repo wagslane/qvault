@@ -24,7 +24,7 @@
           class="btn"
           :to="{name: 'settings_signup'}"
         >
-          Sign up for Q Vault storage account
+          Add a cloud storage account
         </router-link>
 
         <router-link

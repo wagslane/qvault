@@ -5,9 +5,11 @@
       :id="keyboardId"
       ref="input"
       class="input text"
+      :class="{missing: isMissing}"
       :type="typeState"
       :value="value"
       :style="{borderRadius: borderRadius}"
+      :placeholder="placeholder"
       @input="$emit('input', $event.target.value)"
       @blur="hide"
     >
@@ -16,8 +18,10 @@
       :id="keyboardId"
       ref="input"
       class="input textarea"
+      :class="{missing: isMissing}"
       :type="typeState"
       :value="value"
+      :placeholder="placeholder"
       :style="{borderRadius: borderRadius}"
       @input="$emit('input', $event.target.value)"
       @blur="hide"
@@ -29,7 +33,7 @@
       @toggle_keyboard="toggle_keyboard"
     />
     <div
-      :style="{ visibility: keyboardVisibility }"
+      :style="{ visibility: keyboardVisibility, height: keyboardContainerHeight + 'px' }"
       class="keyboardContainer"
     >
       <div class="keyboard">
@@ -69,18 +73,29 @@ export default{
       required: true
     },
     active:{
-      type: Boolean
+      type: Boolean,
+      required: false,
+      default: false
     },
     borderRadius:{
       type: String,
       default: '2px'
+    },
+    isMissing:{
+      type: Boolean,
+      default: false
+    },
+    placeholder:{
+      type: String,
+      required: false,
+      default: ''
     }
   },
   data(){
     return{
       keyboardVisibility: "hidden",
       recentlyClosed: false,
-      bodyPaddingMax: 280,
+      keyboardContainerHeight: 270,
       hidden: true
     };
   },
@@ -161,7 +176,7 @@ export default{
         return;
       }
       this.keyboardVisibility = "visible";
-      document.getElementById("body-contents").style.paddingBottom = `${this.bodyPaddingMax}px`;
+      document.getElementById("body-contents").style.paddingBottom = `${this.keyboardContainerHeight}px`;
       this.$refs.input.focus();
     },
     hide(){
@@ -204,6 +219,10 @@ export default{
   position: relative;
   display: flex;
   width: 100%;
+
+  .missing{
+    border-color: @red-pink !important;
+  }
 
   .input {
     flex: 1;
@@ -257,7 +276,7 @@ export default{
 
 .simple-keyboard.custom-theme {
   background-color: rgba(0, 0, 0, 0.0);
-  padding: 5px;
+  padding: 8px;
 }
 
 .simple-keyboard.custom-theme .hg-row{
