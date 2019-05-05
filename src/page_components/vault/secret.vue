@@ -108,7 +108,7 @@
                 v-model="subvalue[subfield.name]"
                 :is-missing="apply_clicked && missing_fields.includes(field.name + j + subfield.name)"
                 :type="subfield.hidden ? 'password' : 'text'"
-                :keyboard-id="subfield.name.replace(/[\W_]+/g,'')"
+                :keyboard-id="(field.name + j + subfield.name).replace(/[\W_]+/g,'')"
                 border-radius="6px"
                 :placeholder="subfield.name"
               />
@@ -166,7 +166,12 @@ export default {
       }
       return rows;
     },
-    secret_uuid(){ return this.$route.params.secret_uuid; },
+    secret_uuid(){ 
+      if ('secret_uuid' in this.$route.params){
+        return this.$route.params.secret_uuid;
+      } 
+      return null;
+    },
     box(){ return this.$parent.box; },
     box_uuid() { return this.$parent.box_uuid;},
     box_type(){
@@ -202,7 +207,11 @@ export default {
     }
   },
   mounted(){
-    this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
+    if (this.secret_uuid === null){
+      this.secret = this.$root.GetEmptySecret(this.box_type);
+    } else{
+      this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
+    }
   },
   methods: {
     async apply(){
@@ -211,7 +220,11 @@ export default {
         setTimeout(() => this.apply_clicked = false, 2000);
         return;
       }
-      this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
+      if (this.secret_uuid === null){
+        this.$root.SetSecret(this.box_uuid, this.secret);
+      } else{
+        this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
+      }
       this.$router.push({name: 'box', params: {box_uuid: this.box_uuid}});
     },
     add_to_sublist(field){
