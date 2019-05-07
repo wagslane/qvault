@@ -52,7 +52,6 @@ export default {
         return;
       }
 
-      alert("2FE removed successfully");
       this.$router.push({name: 'settings'});
     }
   },

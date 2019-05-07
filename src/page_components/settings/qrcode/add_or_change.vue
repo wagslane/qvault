@@ -9,9 +9,20 @@
         <h1 v-else>
           Add 2FE QR Code
         </h1>
-        <h2>Manage your card's QR Code</h2>
+        <h2>Manage your card's two factor encryption QR code</h2>
 
-        <QRScanner @scanned="handleQRKey" />
+        <QRScanner
+          v-if="!success"
+          @scanned="handleQRKey"
+        />
+        <div
+          v-else
+          class="checkmark"
+          v-html="checkmark_filled_svg"
+        />
+
+        <br>
+        <br>
         <span
           v-if="error"
           class="form-error"
@@ -34,6 +45,7 @@
 <script>
 import {ValidateQRKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
+import checkmark_filled_svg from '../../../img/checkmark-filled.svg';
 
 export default {
   components:{
@@ -41,8 +53,14 @@ export default {
   },
   data(){
     return {
-      error: null
+      error: null,
+      success: false
     };
+  },
+  computed:{
+    checkmark_filled_svg(){
+      return checkmark_filled_svg;
+    }
   },
   methods:{
     async handleQRKey(qrKey) {
@@ -67,9 +85,21 @@ export default {
         this.$root.qr_key = old_qr_key;
         return;
       }
-      alert('QR Key changed successfully');
-      this.$router.push({name: 'settings'});
+      this.success = true;
+      setTimeout(() => { this.$router.push({name: 'settings'}); }, 1500);
     },
   }
 };
 </script>
+
+<style lang="less" scoped>
+
+.body{
+  text-align: center;
+}
+
+.checkmark{
+  margin: 0 auto;
+  width: 28px;
+}
+</style>

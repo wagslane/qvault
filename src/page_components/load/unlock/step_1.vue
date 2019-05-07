@@ -23,8 +23,7 @@
               v-if="showDownload"
               class="link"
               @click="toDownload"
-            >Back and Download
-            </span>
+            >Back and Download</span>
             <br v-if="showDownload">
             <br v-if="showDownload">
             <router-link
@@ -107,7 +106,7 @@ export default {
   methods: {
     async updateVersion(){
       ipcRenderer.send('downloadUpdate');
-      await sleep(20000);
+      await sleep(120000);
       alert("Error downloading update");
     },
     toDownload(){
@@ -147,7 +146,7 @@ export default {
         try{
           await this.$root.UnlockVaultPassword(this.password);
         } catch(err){
-          this.error = "Unable to unlock cloud vault. Click 'continue' to overwrite your cloud vault, or 'Back and Download' to use it";
+          this.error = "Unable to unlock cloud vault. Continue to overwrite your cloud vault, or go back and download it separately";
           this.$root.loaded_vault = this.originalLoadedVault;
           this.allowOverwrite = true;
           this.showDownload = true;
