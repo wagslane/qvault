@@ -1,7 +1,6 @@
 import uuidv4 from 'uuid/v4';
 import Vue from 'vue';
 import assert from '../lib/assert.es6';
-import box_types from '../consts/box_types.es6';
 
 export default {
   data() {
@@ -43,13 +42,17 @@ export default {
       );
     },
 
-    CreateSecret(box_uuid) {
+    SetSecret(box_uuid, secret) {
       let box = this.GetBox(box_uuid);
       let uuid = uuidv4();
+      Vue.set(box.secrets, uuid, secret);
+      return uuid;
+    },
+
+    GetEmptySecret(box_type){
       let secret = {
         created: Date.now(),
       };
-      let box_type = box_types.find(box_type => box_type.name === box.type);
       for (let field of box_type.fields) {
         let value = null;
         if (field.type === Array) {
@@ -57,8 +60,7 @@ export default {
         }
         Vue.set(secret, field.name, value);
       }
-      Vue.set(box.secrets, uuid, secret);
-      return uuid;
+      return secret;
     },
 
     DeleteSecret(box_uuid, secret_uuid){
