@@ -127,6 +127,11 @@
                 {{ secret.conflict[field.name][k][subfield.name] }}
               </span>
             </div>
+            <div
+              class="trash"
+              @click="remove_from_sublist(field.name, k)"
+              v-html="TrashSVG"
+            />
           </div>
         </div>
       </div>
@@ -139,6 +144,7 @@ import TextInput from "../../components/text_input.vue";
 import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
 import PlusSolid from '../../img/plus-solid.svg.vue';
+import TrashSVG from '../../img/trash.svg';
 
 export default {
   components: {
@@ -152,6 +158,9 @@ export default {
     };
   },
   computed: {
+    TrashSVG(){
+      return TrashSVG;
+    },
     rows(){
       let rows = [];
       for (let i = 0; i < this.fields.length; i++){
@@ -238,6 +247,9 @@ export default {
       }
       this.secret[field.name].push(new_value);
     },
+    remove_from_sublist(fieldname, i){
+      Vue.delete(this.secret[fieldname], i);
+    },
     resolve_conflicts(){
       Vue.delete(this.secret, 'conflict');
     },
@@ -245,7 +257,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import '../../styles/colors.less';
 
   form {
@@ -375,6 +387,32 @@ export default {
             flex-grow: 1;
             flex-basis: 200px;
             margin: 10px;
+          }
+
+          .trash {
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 20px;
+
+            svg {
+              path {
+                stroke: @gray-darker;
+              }
+              line {
+                stroke: @gray-darker;
+              }
+            }
+
+            &:hover{
+              svg {
+                path {
+                  stroke: @red-pink;
+                }
+                line {
+                  stroke: @red-pink;
+                }
+              }
+            }
           }
         }
       }
