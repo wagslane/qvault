@@ -3,11 +3,11 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <h1>Add/Change Q Card Restore Code</h1>
-        <h2>To add or change your restore code, write it down and click continue. If not, click back.</h2>
+        <h1>Add / Change Q Card Restore Code</h1>
+        <h2>Write the new code on the back of both of your Q Cards</h2>
 
         <div class="highlight-box">
-          <span class="title">Write this code on the back of both of your Q Cards</span>
+          <span class="title">If you don't want to change your code click the back arrow</span>
           <div class="flex">
             <div
               v-for="(word, i) in split"
@@ -43,7 +43,7 @@
           @click="click_continue"
         >
           <button class="continue">
-            <span>Continue</span>
+            <span>Apply Change</span>
             <div class="continue-arrow" />
           </button>
         </div>
@@ -101,7 +101,6 @@ export default {
         this.$root.hashed_char_key = old_hashed_char_key;
         return;
       }
-      alert('code changed successfully');
       this.$router.push({name: 'settings'});
     }
   }

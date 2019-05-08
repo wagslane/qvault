@@ -7,26 +7,22 @@
           <StepProgress :filled="6" />
           <h1>Restore Cloud Access</h1>
           <h2>
-            If you remember the password to the vault that used to be associated to this cloud account, 
-            start over and choose to download an existing vault
+            If you can't login to your cloud account because it was associated with a different vault, you can restore access via email
           </h2>
           <h3>
-            If you restore access to your cloud account here, you will lose any vault data previously stored in the cloud
-          </h3>
-          <h3>
-            After restoring access, the password you created for this vault will be associated with your cloud account
+            If you restore access to your cloud account here, your old cloud vault will be overwritten
           </h3>
 
           <DecoratedTextInput
-            v-if="!emailSent"
             v-model="email"
-            keyboard-id="emailRegister" 
+            :style="{ display: emailSent ? 'none' : 'block'}"
+            keyboard-id="email"
             description="Email" 
             type="email" 
           />
           <DecoratedTextInput
-            v-else
             v-model="code"
+            :style="{ display: emailSent ? 'block' : 'none'}"
             keyboard-id="code" 
             description="Paste code here" 
             type="text" 
@@ -49,7 +45,8 @@
             class="continue"
             type="submit"
           >
-            <span>Continue</span>
+            <span v-if="!emailSent">Email a Restore Code</span>
+            <span v-else>Restore Access</span>
             <div class="continue-arrow" />
           </button>
         </div>
@@ -92,7 +89,6 @@ export default {
           this.error = err;
           return;
         }
-        alert("email sent");
         this.emailSent = true;
       }else{
         try{
@@ -107,7 +103,7 @@ export default {
           this.error = err;
           return;
         }
-        this.$router.push({name: 'vault'});
+        this.$router.push({name: 'settings'});
       }
     },
   }
