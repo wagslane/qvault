@@ -85,18 +85,21 @@ export default {
       );
     },
     dropdown_menu_actions(){
-      return [
-        {
-          label: 'Show / Hide',
-          method: 'show_hide_secret',
-          icon: hide_svg,
-        },
+      let actions = [
         {
           label: 'Delete Secret',
           method: 'delete_secret',
           icon: trash_svg,
         }
       ];
+      if (this.definedQuickAccessSecrets.find((fieldname) => {return this.fields_map[fieldname].hidden;})){
+        actions.push({
+          label: 'Show / Hide',
+          method: 'show_hide_secret',
+          icon: hide_svg,
+        });
+      }
+      return actions;
     },
   },
   methods: {
