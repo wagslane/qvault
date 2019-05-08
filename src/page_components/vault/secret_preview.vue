@@ -22,6 +22,10 @@
         readonly
       >
     </div>
+    <div
+      v-if="definedQuickAccessSecrets.length === 0"
+      class="spacer"
+    />
     <dropdown_menu
       class="dropdown-menu"
       :actions="dropdown_menu_actions"
@@ -85,18 +89,21 @@ export default {
       );
     },
     dropdown_menu_actions(){
-      return [
-        {
-          label: 'Show / Hide',
-          method: 'show_hide_secret',
-          icon: hide_svg,
-        },
+      let actions = [
         {
           label: 'Delete Secret',
           method: 'delete_secret',
           icon: trash_svg,
         }
       ];
+      if (this.definedQuickAccessSecrets.find((fieldname) => {return this.fields_map[fieldname].hidden;})){
+        actions.push({
+          label: 'Show / Hide',
+          method: 'show_hide_secret',
+          icon: hide_svg,
+        });
+      }
+      return actions;
     },
   },
   methods: {
@@ -129,7 +136,6 @@ export default {
     .secret-link {
       color: white;
       cursor: pointer;
-      flex-basis: 160px;
       text-decoration: none;
       height: 60px;
       margin-top: 10px;
@@ -137,17 +143,23 @@ export default {
       .name {
         display: inline-block;
         line-height: 60px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 150px;
+        margin-right: 8px;
       }
 
       .arrow {
         display: inline-block;
-        margin-top: 16px;
+        margin-top: 23px;
         transform: rotate(45deg);
         box-sizing: border-box;
         height: 12px;
         width: 12px;
         border-top: 1.5px solid @gray-light;
         border-right: 1.5px solid @gray-light;
+        float: right;
       }
 
       &:hover{
@@ -158,6 +170,10 @@ export default {
           border-right: 1.5px solid @gold-mid;
         }
       }
+    }
+
+    .spacer{
+      flex-grow: 1;
     }
 
     .field{

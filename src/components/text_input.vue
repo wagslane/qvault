@@ -197,15 +197,28 @@ export default{
         });
         return;
       }
+
+      let pos = this.$refs.input.selectionStart;
+
       if (btn === "{bksp}"){
-        if (this.$refs.input.value.length > 0){
-          this.$refs.input.value = this.$refs.input.value.slice(0, -1);
+        if (pos > 0){
+          this.$refs.input.value = this.$refs.input.value.slice(0, pos-1) + this.$refs.input.value.slice(pos);
+          pos--;
         }
       } else if (btn === "{space}"){
-        this.$refs.input.value += " ";
+        this.$refs.input.value = this.$refs.input.value.slice(0, pos) + " " + this.$refs.input.value.slice(pos);
+        pos++;
       } else {
-        this.$refs.input.value += btn;
+        this.$refs.input.value = this.$refs.input.value.slice(0, pos) + btn + this.$refs.input.value.slice(pos);
+        pos++;
       }
+
+      if (pos < 0){
+        pos = 0;
+      } else if (pos > this.$refs.input.value.length){
+        pos = this.$refs.input.value.length;
+      }
+      this.$refs.input.setSelectionRange(pos, pos);
       this.$emit('input', this.$refs.input.value);
     }
   }

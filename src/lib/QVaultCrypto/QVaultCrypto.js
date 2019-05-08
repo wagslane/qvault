@@ -22,8 +22,8 @@ const shortHashDifficulty = 10;
 // (string) => string
 // log2(70^12) = 73.6 bits of entropy 
 export function ValidatePassword(password) {
-  if (password.length < 12) {
-    return 'Password must have at least 12 characters';
+  if (!/^[a-zA-Z0-9!@#$%^&*]+$/.test(password)) {
+    return 'Password can only contain letters, numbers, and the following characters: ! @ # $ % ^ & *';
   }
   if (!/[0-9]/.test(password)) {
     return 'Password must contain a number';
@@ -37,8 +37,8 @@ export function ValidatePassword(password) {
   if (!/[A-Z]/.test(password)) {
     return 'Password must contain a capital letter';
   }
-  if (!/^[a-zA-Z0-9!@#$%^&*]+$/.test(password)) {
-    return 'Password can only contain letters, numbers, and the following characters: ! @ # $ % ^ & *';
+  if (password.length < 12) {
+    return 'Password must have at least 12 characters';
   }
   return '';
 }
