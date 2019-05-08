@@ -150,6 +150,11 @@ export default {
         setToken(body.jwt);
         this.$root.loaded_vault = await getVault();
       } catch (err) {
+        // If no vault is found that is okay
+        if (err === "No vaults found on server"){
+          this.$root.email = this.emailLogin;
+          this.$router.push({name: 'settings'});
+        }
         this.error = err;
         return;
       }
