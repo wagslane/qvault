@@ -26,8 +26,15 @@
 
 <script>
 export default {
+  mounted(){
+    requestAnimationFrame(async () => {
+      requestAnimationFrame(async () => {
+        this.open();
+      });
+    });
+  },
   methods:{
-    async open(){
+    open(){
       try{
         this.$root.NewVaultDialog();
         this.$root.CreateLocalVault();

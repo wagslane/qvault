@@ -36,6 +36,7 @@
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
             <DecoratedTextInput
               v-model="emailLogin"
+              :default-value="defaultEmailLogin"
               :active="!registerTabActive"
               keyboard-id="emailLogin" 
               description="Email" 
@@ -43,7 +44,7 @@
             />
             <span
               v-if="userCreated"
-              class="form-error"
+              class="form-success"
             >
               Please click the link in your email to verify your account, then continue to login.
             </span>
@@ -81,11 +82,19 @@
             <div class="icon" />
           </div>
           <button
-            v-if="emailRegister || emailLogin"
+            v-if="emailRegister && registerTabActive"
             class="continue"
             type="submit"
           >
-            <span>Continue</span>
+            <span>Register</span>
+            <div class="continue-arrow" />
+          </button>
+          <button
+            v-if="emailLogin && !registerTabActive"
+            class="continue"
+            type="submit"
+          >
+            <span>Login</span>
             <div class="continue-arrow" />
           </button>
         </div>
@@ -111,7 +120,8 @@ export default {
       emailLogin: null,
       userCreated: false,
       error: null,
-      cloudKey: null
+      cloudKey: null,
+      defaultEmailLogin: ''
     };
   },
   methods: {
@@ -120,7 +130,7 @@ export default {
       this.userCreated = false;
       try{
         this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
-        await resendRegistrationEmail(this.emailLogin, this.cloudKey);
+        await resendRegistrationEmail(this.emailRegister, this.cloudKey);
         this.userCreated = true;
       } catch (err) {
         this.error = err;
@@ -135,7 +145,7 @@ export default {
           await createUser(this.emailRegister, this.cloudKey);
           this.userCreated = true;
           this.registerTabActive = false;
-          this.emailLogin = this.emailRegister;
+          this.defaultEmailLogin = this.emailRegister;
           this.emailRegister = null;
         } catch (err) {
           this.error = err;
