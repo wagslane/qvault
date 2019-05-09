@@ -5,6 +5,12 @@
       <div class="body">
         <StepProgress :filled="5" />
         <h1>Choose where to save your vault file</h1>
+        <button
+          class="btn"
+          @click.prevent="open"
+        >
+          Choose location
+        </button>
       </div>
       <div class="footer">
         <div
@@ -23,15 +29,20 @@ export default {
   mounted(){
     requestAnimationFrame(async () => {
       requestAnimationFrame(async () => {
-        try{
-          this.$root.NewVaultDialog();
-          this.$root.CreateLocalVault();
-          this.$router.push({name: 'create_step_7'});
-        } catch (err) {
-          this.error = err;
-        }
+        this.open();
       });
     });
+  },
+  methods:{
+    open(){
+      try{
+        this.$root.NewVaultDialog();
+        this.$root.CreateLocalVault();
+        this.$router.push({name: 'create_step_7'});
+      } catch (err) {
+        this.error = err;
+      }
+    }
   }
 };
 </script>
