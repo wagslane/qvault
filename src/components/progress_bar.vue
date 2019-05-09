@@ -20,11 +20,14 @@ export default {
   },
   data(){
     return {
-      maxBytes: 25000.0
+      maxBytes: 100000.0
     };
   },
   computed:{
     percentageStyle(){
+      if (this.percentage > 100){
+        return { width: '100%', backgroundColor: '#F90943'};
+      }
       return { width: `${this.percentage}%`};
     },
     percentage(){
