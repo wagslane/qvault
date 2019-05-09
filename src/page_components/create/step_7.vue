@@ -5,8 +5,8 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <StepProgress :filled="6" />
-          <h1>Cloud Backup Account</h1>
-          <h2>All vaults stored by Q Vault are encrypted locally to preserve your privacy</h2>
+          <h1>Q Vault Cloud Account</h1>
+          <h2>Vaults are stored locally as well as in the cloud. Vaults are encrypted locally to preserve your privacy</h2>
           <div class="tabs">
             <div 
               class="tab tab-left"
@@ -36,12 +36,14 @@
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
             <span
+              v-if="!userCreated"
               class="link"
               @click="toDownload"
-            >Logging in will overwrite your current cloud vault. To download and use your current cloud vault click here
+            >Logging in will overwrite your current cloud vault if you have one. To download your current vault click here
             </span>
             <DecoratedTextInput
               v-model="emailLogin"
+              :default-value="defaultEmailLogin"
               :active="!registerTabActive"
               keyboard-id="emailLogin" 
               description="Email" 
@@ -49,7 +51,7 @@
             />
             <span
               v-if="userCreated"
-              class="form-error"
+              class="form-success"
             >
               Please click the link in your email to verify your account, then continue to login.
             </span>
@@ -94,11 +96,19 @@
             <div class="icon" />
           </div>
           <button
-            v-if="emailRegister || emailLogin"
+            v-if="emailRegister && registerTabActive"
             class="continue"
             type="submit"
           >
-            <span>Continue</span>
+            <span>Register</span>
+            <div class="continue-arrow" />
+          </button>
+          <button
+            v-if="emailLogin && !registerTabActive"
+            class="continue"
+            type="submit"
+          >
+            <span>Login</span>
             <div class="continue-arrow" />
           </button>
         </div>
@@ -122,6 +132,7 @@ export default {
       registerTabActive: true,
       emailRegister: null,
       emailLogin: null,
+      defaultEmailLogin: '',
       userCreated: false,
       error: null,
       cloudKey: null
@@ -152,7 +163,7 @@ export default {
           await createUser(this.emailRegister, this.cloudKey);
           this.userCreated = true;
           this.registerTabActive = false;
-          this.emailLogin = this.emailRegister;
+          this.defaultEmailLogin = this.emailRegister;
           this.emailRegister = null;
         } catch (err) {
           this.error = err;

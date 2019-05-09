@@ -3,8 +3,10 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <h1>Delete you cloud account</h1>
-        <h2>Are you sure? Account deletion is permanent</h2>
+        <h1>Delete your cloud account</h1>
+        <h2 v-if="!deleted">
+          Are you sure? Account deletion is permanent
+        </h2>
 
         <div
           v-if="!deleted"
@@ -80,7 +82,7 @@ export default {
       this.$root.email = '';
       await this.$root.SaveLocalVault();
       this.deleted = true;
-      setTimeout(() => { this.$router.push({name: 'settings'}); }, 1500);
+      setTimeout(() => { this.$router.push({name: 'settings'}); }, 1200);
     }
   },
 };
