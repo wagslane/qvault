@@ -10,6 +10,7 @@
         :type="type"
         :keyboard-id="keyboardId"
         :active="active"
+        :default-value="defaultValue"
       />
     </div>
   </div>
@@ -23,6 +24,11 @@ export default{
     TextInput
   },
   props:{
+    defaultValue:{
+      type: String,
+      required: false,
+      default: ''
+    },
     value:{
       type: String,
       default: ''
