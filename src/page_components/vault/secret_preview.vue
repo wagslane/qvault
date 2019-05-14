@@ -15,11 +15,18 @@
       :key="i"
       class="field"
     >
-      <label>{{ fieldname }}</label>
+      <div class="label">
+        <label class="name">{{ fieldname }}</label>
+        <label
+          v-if="copied === fieldname"
+          class="copied"
+        >Copied to Clipboard!</label>
+      </div>
       <input
         v-model="secret[fieldname]"
         :type="fields_map[fieldname].hidden && hidden ? 'password' : 'text'"
         readonly
+        @click="copy(fieldname)"
       >
     </div>
     <div
@@ -39,6 +46,7 @@
 import dropdown_menu from '../../components/dropdown_menu.vue';
 import trash_svg from '../../img/trash.svg';
 import hide_svg from '../../img/hide.svg';
+import { clipboard } from 'electron';
 
 export default {
   components: {
@@ -65,6 +73,7 @@ export default {
   data(){
     return{
       hidden: true,
+      copied: ''
     };
   },
   computed: {
@@ -107,6 +116,11 @@ export default {
     },
   },
   methods: {
+    copy(fieldname){
+      clipboard.writeText(this.secret[fieldname]);
+      this.copied = fieldname;
+      setTimeout(() => {this.copied = '';}, 750);
+    },
     delete_secret(){
       this.$root.DeleteSecret(this.boxUuid, this.secretUuid);
     },
@@ -180,13 +194,21 @@ export default {
       padding-left: 30px;
       flex-grow: 1;
 
-      label{
+      .label{
         font-size: 12px;
         padding-bottom: 10px;
         border: none;
         background: transparent;
-        color: @gray-mid;
         display: block;
+
+        .name{
+          color: @gray-mid;
+        }
+
+        .copied{
+          color: @gold-mid;
+          float: right;
+        }
       }
 
       input{
@@ -196,6 +218,7 @@ export default {
         background: transparent;
         color: @gray-light;
         width: 100%;
+        cursor: pointer;
       }
     }
 

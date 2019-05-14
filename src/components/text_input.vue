@@ -31,6 +31,7 @@
       :actions="dropdown_menu_actions"
       @show_hide_secret="show_hide_secret"
       @toggle_keyboard="toggle_keyboard"
+      @copy_to_clipboard="copy_to_clipboard"
     />
     <div
       :style="{ visibility: keyboardVisibility, height: keyboardContainerHeight + 'px' }"
@@ -46,9 +47,11 @@
 <script>
 import Keyboard from "simple-keyboard";
 import dropdown_menu from './dropdown_menu.vue';
-import hide_svg from '../img/hide.svg';
-import keyboard_svg from '../img/keyboard.svg';
+import HideSVG from '../img/hide.svg';
+import KeyboardSVG from '../img/keyboard.svg';
+import ClipboardSVG from '../img/clipboard.svg';
 import "simple-keyboard/build/css/index.css";
+import { clipboard } from 'electron';
 
 export default{
   components:{
@@ -96,7 +99,8 @@ export default{
       keyboardVisibility: "hidden",
       recentlyClosed: false,
       keyboardContainerHeight: 270,
-      hidden: true
+      hidden: true,
+      copied: false
     };
   },
   computed:{
@@ -111,15 +115,31 @@ export default{
         {
           label: 'Keyboard',
           method: 'toggle_keyboard',
-          icon: keyboard_svg,
+          icon: KeyboardSVG,
         }
       ];
       if (this.value && this.value.length > 0 && this.type == 'password'){
         actions.push({
           label: 'Show / Hide',
           method: 'show_hide_secret',
-          icon: hide_svg,
+          icon: HideSVG,
         });
+      }
+      if (this.value && this.value.length > 0){
+        if (this.copied){
+          actions.push({
+            // length of string must match so pad with spaces
+            label: 'Copied!',
+            method: 'copy_to_clipboard',
+            icon: ClipboardSVG,
+          });
+        } else{
+          actions.push({
+            label: 'Copy',
+            method: 'copy_to_clipboard',
+            icon: ClipboardSVG,
+          });
+        }
       }
       return actions;
     }
@@ -163,6 +183,11 @@ export default{
     });
   },
   methods:{
+    copy_to_clipboard(){
+      clipboard.writeText(this.value);
+      this.copied = true;
+      setTimeout(() => {this.copied = false;}, 750);
+    },
     show_hide_secret(){
       this.hidden = !this.hidden;
     },
