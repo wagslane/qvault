@@ -266,7 +266,7 @@ export default [
       },
     ],
     quick_access_name: "Issuer",
-    quick_access_secrets: [ "Username", "Password" ],
+    quick_access_secrets: [ "Username", "Email", "Password" ],
     header_field: 'Issuer',
     icon: {
       img: password_svg,

@@ -2,11 +2,11 @@
   <div>
     <div id="box-header">
       <input
+        v-model="box.name"
         placeholder="Name"
         class="box_name"
-        v-model="box.name"
         :readonly="box.type != 'Other'"
-      />
+      >
       <dropdown_menu
         class="dropdown-menu"
         :actions="dropdown_menu_actions"
@@ -17,6 +17,13 @@
         @click.prevent="$parent.add_secret"
       >
         <PlusSolid />
+      </button>
+      <button
+        v-if="box.type === 'Passwords'"
+        class="import"
+        @click.prevent="importPasswordsCSV"
+      >
+        Import CSV
       </button>
     </div>
     <secret_preview
@@ -70,6 +77,41 @@ export default {
     },
   },
   methods: {
+    emailValid(email){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    },
+    importPasswordsCSV(){
+      try{
+        const secrets = this.$root.ReadCSVDialogue();
+        for (let secret of secrets){
+          if (secret.name === undefined || secret.name === ''){
+            continue;
+          }
+          if (secret.url === undefined || secret.url === ''){
+            continue;
+          }
+          if (secret.username === undefined || secret.username === ''){
+            continue;
+          }
+          if (secret.password === undefined || secret.password === ''){
+            continue;
+          }
+          let newSecret = {
+            Issuer: secret.name,
+            Password: secret.password,
+            Link: secret.url,
+          };
+          if (this.emailValid(secret.username)){
+            newSecret.Email = secret.username;
+          }else{
+            newSecret.Username = secret.username;
+          }
+          this.$root.SetSecret(this.box_uuid, newSecret);
+        }
+      } catch (err){
+        alert(err);
+      }
+    },
     delete_box(){
       try{
         this.$root.DeleteBox(this.box_uuid);
@@ -94,7 +136,7 @@ export default {
       border-radius: 6px;
       background: transparent;
       color: @gray-light;
-      width: ~'calc(100% - 150px)';
+      width: ~'calc(100% - 210px)';
       display: inline-block;
       height: 60px;
       line-height: 60px;
@@ -107,6 +149,31 @@ export default {
       cursor: pointer;
       margin-top: 20px;
       outline: none;
+    }
+
+    .import{
+      float: right;
+      color: @gold-mid;
+      border: 1px solid @gold-mid;
+      font-size: 18px;
+      margin: 12px;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      height: 35px;
+      width: 120px;
+
+      &:hover {
+        background-color: @gold-mid;
+        border: 1px solid @gold-mid;
+        color: white;
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline:0;
+      }
     }
 
     .dropdown-menu{
