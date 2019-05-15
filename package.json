@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "A secure, redundant, and open source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",

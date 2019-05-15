@@ -152,6 +152,10 @@ export default {
             }
           }
         }
+
+        &:active{
+          background-color: @gray-lighter;
+        }
       }
     }
   }
