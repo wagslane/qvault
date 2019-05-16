@@ -47,8 +47,10 @@ export default {
   methods: {
     open(){
       try{
-        this.$root.ExistingVaultDialog();
-        this.$router.push({name: 'load_unlock_step_1'});
+        const loaded = this.$root.ExistingVaultDialog();
+        if (loaded){
+          this.$router.push({name: 'load_unlock_step_1'});
+        }
       } catch (err) {
         this.error = err;
       }
