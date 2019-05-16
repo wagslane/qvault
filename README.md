@@ -1,10 +1,14 @@
 # Q Vault
 
-An open source, free, fully transparent and extremely secure password manager.
+An open source, fully transparent and extremely secure password manager.
+
+<p align="center">
 
 ![Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/crypto.png)
 
 ![Store all your passwords in one place, and import them from your browser](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/passwords.png)
+
+</p>
 
 ## Features
 
