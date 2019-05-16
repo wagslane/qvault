@@ -1,6 +1,26 @@
 # Q Vault
 
-Q Vault is an open source secret manager. As such, feel free to contribute to the project or raise issues using the "issues" tab on github.
+An open source, fully transparent, and extremely secure password manager.
+
+Q Vault is secure enough to store cryptocurrency seeds and keys, and is especially convenient for users that have many hot wallets. Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone.
+
+![Crypto Secrets](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/crypto_secret.png)
+
+Store all your passwords in one place, and import them from your browser.
+
+![Password Previews](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/passwords_preview.png)
+
+## Features
+
+* Optional two factor encryption using physical Q Cards (QR code contains a key that is scanned with a webcam to unlock vault)
+* Optional recovery code stored on Q Cards in case master password is forgotten
+* Free optional cloud backup storage. All encrypted vaults are stored locally in a ".qvault" file, and the same encrypted file can be stored on our servers.
+* Can be used offline
+* Virtual keyboard to bypass keylogger malware
+* Import passwords from a CSV (most browsers can export to CSV)
+* Don't trust, verify! Open source is the only way secret managers should be
+* Windows, Mac and Linux
+* All windows and mac releases are code signed and updates are optional (prompted) within the app
 
 ## Contact
 
