@@ -2,14 +2,6 @@
 
 An open source, fully transparent and extremely secure password manager.
 
-<p align="center">
-
-![Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/crypto.png)
-
-![Store all your passwords in one place, and import them from your browser](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/passwords.png)
-
-</p>
-
 ## Features
 
 * Optional two factor encryption using physical Q Cards (QR code contains a key that is scanned with a webcam to unlock vault)
@@ -21,6 +13,13 @@ An open source, fully transparent and extremely secure password manager.
 * Don't trust, verify! Open source is the only way secret managers should be
 * Windows, Mac and Linux
 * All windows and mac releases are code signed and updates are optional (prompted) within the app
+
+<p align="center">
+    <img src="doc_resources/crypto.png" alt="Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone">
+    <br>
+    <br>
+    <img src="doc_resources/passwords.png" alt="Store all your passwords in one place, and import them from your browser">
+</p>
 
 ## Contact
 
