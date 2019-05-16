@@ -5,6 +5,7 @@ const app = remote.app;
 const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, upsertVault, setToken } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
+import parse from 'csv-parse/lib/sync';
 import {
   PassKeyFromPassword,
   CipherSecrets,
@@ -68,9 +69,42 @@ export default {
       let paths = dialog.showOpenDialog({
         filters: FILE_FILTERS
       });
+      if (paths === undefined){
+        return false;
+      }
       assert(paths.length === 1, "Invalid number of paths selected");
       assert(paths[0], 'A vault file must be selected');
       this.LoadVault(paths[0]);
+      return true;
+    },
+
+    ReadCSVDialogue(){
+      let paths = dialog.showOpenDialog({
+        filters: [
+          {
+            name: 'CSV',
+            extensions: [
+              'csv',
+            ],
+          },
+        ]
+      });
+      if (paths === undefined){
+        return [];
+      }
+      assert(paths.length === 1, "Invalid number of paths selected");
+      assert(paths[0], 'A vault file must be selected');
+      const data = fs.readFileSync(paths[0], 'utf-8');
+      const parsed = parse(data, {
+        columns: true,
+        skip_empty_lines: true
+      });
+      assert(parsed.length > 0, "No password data found");
+      assert(parsed[0].name !== undefined, "Invalid password format");
+      assert(parsed[0].url !== undefined, "Invalid password format");
+      assert(parsed[0].password !== undefined, "Invalid password format");
+      assert(parsed[0].username !== undefined, "Invalid password format");
+      return parsed;
     },
 
     LoadVault(vault_path){
