@@ -1,4 +1,4 @@
-# Q Vault
+<img src="doc_resources/logo.png" alt="Q Vault Password Manager" height="34"> <span style="font-size: 48px; margin: 20px;">Q Vault</span>
 
 An open source, fully transparent and extremely secure password manager.
 
@@ -16,22 +16,18 @@ An open source, fully transparent and extremely secure password manager.
 
 <p align="center">
     <img src="doc_resources/crypto.png" alt="Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone">
-    <br>
-    <br>
-    <img src="doc_resources/passwords.png" alt="Store all your passwords in one place, and import them from your browser">
 </p>
 
 ## Contact
 
 The best way to get in contact with the developers is on the public discord server.
 
-Discord: [https://discord.gg/EEkFwbv](https://discord.gg/EEkFwbv)
-
-Twitter: [https://twitter.com/q_vault](https://twitter.com/q_vault)
-
-Facebook: [https://www.facebook.com/qvault](https://www.facebook.com/qvault)
-
-Instagram: [https://www.instagram.com/qvault.io](https://www.instagram.com/qvault.io)
+<p align="center">
+    <a href="https://discord.gg/EEkFwbv" style="margin: 30px" title="Join our Discord chat" target="_blank"><img src="doc_resources/discord.png" align="center" height="100"></a>
+    <a href="https://twitter.com/q_vault" style="margin: 30px" title="Follow us on twitter" target="_blank"><img src="doc_resources/twitter.png" align="center" height="100"></a>
+    <a href="https://www.facebook.com/qvault" style="margin: 30px" title="Follow us on facebook" target="_blank"><img src="doc_resources/facebook.png" align="center" height="100"></a>
+    <a href="https://www.instagram.com/qvault.io" style="margin: 30px" title="Follow us on instagram" target="_blank"><img src="doc_resources/instagram.png" align="center" height="100"></a>
+</p>
 
 ## License
 
