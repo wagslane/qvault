@@ -1,6 +1,8 @@
-<img src="doc_resources/logo.png" alt="Q Vault Password Manager" height="34"> <span style="font-size: 48px; margin: 20px;">Q Vault</span>
+# Q Vault
 
-An open source, fully transparent and extremely secure password manager.
+An open source, fully transparent and extremely secure password manager
+
+[![Build Status](https://travis-ci.org/Q-Vault/qvault.svg?branch=master)](https://travis-ci.org/Q-Vault/qvault)
 
 ## Features
 
@@ -15,19 +17,16 @@ An open source, fully transparent and extremely secure password manager.
 * All windows and mac releases are code signed and updates are optional (prompted) within the app
 
 <p align="center">
-    <img src="doc_resources/crypto.png" alt="Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone">
+    <img src="doc_resources/crypto.png" alt="cryptocurrency bitcoin password manager">
 </p>
 
 ## Contact
 
 The best way to get in contact with the developers is on the public discord server.
 
-<p align="center">
-    <a href="https://discord.gg/EEkFwbv" style="margin: 30px" title="Join our Discord chat" target="_blank"><img src="doc_resources/discord.png" align="center" height="100"></a>
-    <a href="https://twitter.com/q_vault" style="margin: 30px" title="Follow us on twitter" target="_blank"><img src="doc_resources/twitter.png" align="center" height="100"></a>
-    <a href="https://www.facebook.com/qvault" style="margin: 30px" title="Follow us on facebook" target="_blank"><img src="doc_resources/facebook.png" align="center" height="100"></a>
-    <a href="https://www.instagram.com/qvault.io" style="margin: 30px" title="Follow us on instagram" target="_blank"><img src="doc_resources/instagram.png" align="center" height="100"></a>
-</p>
+|   |   |   |   |
+|---|---|---|---|
+| <a href="https://discord.gg/EEkFwbv" style="margin: 30px" title="Join our Discord chat" target="_blank"><img src="doc_resources/discord.png" align="center" height="100"></a> | <a href="https://twitter.com/q_vault" style="margin: 30px" title="Follow us on twitter" target="_blank"><img src="doc_resources/twitter.png" align="center" height="100"></a> | <a href="https://www.facebook.com/qvault" style="margin: 30px" title="Follow us on facebook" target="_blank"><img src="doc_resources/facebook.png" align="center" height="100"></a> | <a href="https://www.instagram.com/qvault.io" style="margin: 30px" title="Follow us on instagram" target="_blank"><img src="doc_resources/instagram.png" align="center" height="100"></a> |
 
 ## License
 
