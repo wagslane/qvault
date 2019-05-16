@@ -4,11 +4,11 @@ An open source, fully transparent, and extremely secure password manager.
 
 Q Vault is secure enough to store cryptocurrency seeds and keys, and is especially convenient for users that have many hot wallets. Always be careful when dealing with financial secrets, nothing is perfectly secure so make sure your device is free of malware and you never share your master password with anyone.
 
-![Crypto Secrets](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/crypto_secret.png =400x)
+![Crypto Secrets](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/crypto_secret.png | width=400)
 
 Store all your passwords in one place, and import them from your browser.
 
-![Password Previews](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/passwords_preview.png =400)
+![Password Previews](https://raw.githubusercontent.com/q-vault/qvault/master/doc_resources/passwords_preview.png | width=400)
 
 ## Features
 
