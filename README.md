@@ -2,6 +2,8 @@
 
 An open source, fully transparent and extremely secure password manager
 
+https://qvault.io
+
 [![Build Status](https://travis-ci.org/Q-Vault/qvault.svg?branch=master)](https://travis-ci.org/Q-Vault/qvault)
 
 ## Features
