@@ -1,18 +1,34 @@
 # Q Vault
 
-Q Vault is an open source secret manager. As such, feel free to contribute to the project or raise issues using the "issues" tab on github.
+An open source, fully transparent and extremely secure password manager
+
+https://qvault.io
+
+[![Build Status](https://travis-ci.org/Q-Vault/qvault.svg?branch=master)](https://travis-ci.org/Q-Vault/qvault)
+
+## Features
+
+* Optional two factor encryption using physical Q Cards (QR code contains a key that is scanned with a webcam to unlock vault)
+* Optional recovery code stored on Q Cards in case master password is forgotten
+* Free optional cloud backup storage. All encrypted vaults are stored locally in a ".qvault" file, and the same encrypted file can be stored on our servers.
+* Can be used offline
+* Virtual keyboard to bypass keylogger malware
+* Import passwords from a CSV (most browsers can export to CSV)
+* Don't trust, verify! Open source is the only way secret managers should be
+* Windows, Mac and Linux
+* All windows and mac releases are code signed and updates are optional (prompted) within the app
+
+<p align="center">
+    <img src="doc_resources/crypto.png" alt="cryptocurrency bitcoin password manager">
+</p>
 
 ## Contact
 
 The best way to get in contact with the developers is on the public discord server.
 
-Discord: [https://discord.gg/EEkFwbv](https://discord.gg/EEkFwbv)
-
-Twitter: [https://twitter.com/q_vault](https://twitter.com/q_vault)
-
-Facebook: [https://www.facebook.com/qvault](https://www.facebook.com/qvault)
-
-Instagram: [https://www.instagram.com/qvault.io](https://www.instagram.com/qvault.io)
+|   |   |   |   |
+|---|---|---|---|
+| <a href="https://discord.gg/EEkFwbv" style="margin: 30px" title="Join our Discord chat" target="_blank"><img src="doc_resources/discord.png" align="center" height="100"></a> | <a href="https://twitter.com/q_vault" style="margin: 30px" title="Follow us on twitter" target="_blank"><img src="doc_resources/twitter.png" align="center" height="100"></a> | <a href="https://www.facebook.com/qvault" style="margin: 30px" title="Follow us on facebook" target="_blank"><img src="doc_resources/facebook.png" align="center" height="100"></a> | <a href="https://www.instagram.com/qvault.io" style="margin: 30px" title="Follow us on instagram" target="_blank"><img src="doc_resources/instagram.png" align="center" height="100"></a> |
 
 ## License
 
