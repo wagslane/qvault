@@ -62,7 +62,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "electron": "^4.0.1",
-    "electron-builder": "^20.38.5",
+    "electron-builder": "^20.40.2",
     "eslint": "^5.15.3",
     "eslint-plugin-vue": "^5.2.2",
     "mocha": "^5.2.0",
