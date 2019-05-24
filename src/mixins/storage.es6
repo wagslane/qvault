@@ -50,7 +50,7 @@ export default {
       encrypted_vault_size: 0,
     };
   },
-  
+
   methods: {
     ResetStorageState(){
       this.hashed_char_key = null;

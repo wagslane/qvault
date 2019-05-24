@@ -11,11 +11,11 @@
         :key="box_type.name"
         class="button"
         :class="(box_type.icon.fill ? 'button-fill' : 'button-stroke')"
-        @click="add_box(box_type.name)"
+        @click="add_box(box_type)"
       >
         <span v-html="box_type.icon.img" />
         <div>
-          {{ box_type.name }}
+          {{ box_type.display_name || box_type.name }}
         </div>
       </div>
     </div>
@@ -33,9 +33,19 @@ export default {
     },
   },
   methods: {
-    add_box(type){
+    add_box(box_type){
+      let base_name = box_type.display_name || box_type.name;
+      let name = base_name;
+      let type = box_type.name;
+      if(type === 'Other'){
+        let rep = 1;
+        while(this.$root.HasBox(name)){
+          name = `${base_name} ${rep}`;
+          rep++;
+        }
+      }
       let box_uuid = this.$root.CreateBox(
-        type,
+        name,
         type,
       );
       this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
