@@ -110,7 +110,7 @@
 
 <script>
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, authenticate, setToken, resendRegistrationEmail, getVault} from '../../lib/CloudClient/CloudClient';
+import {createUser, authenticate, setToken, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -158,7 +158,7 @@ export default {
         }
         let body = await authenticate(this.emailLogin, this.cloudKey);
         setToken(body.jwt);
-        this.$root.loaded_vault = await getVault();
+        await this.$root.GetVault();
       } catch (err) {
         // If no vault is found that is okay
         if (err === "No vaults found on server"){

@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, upsertVault, setToken } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getToken, domain } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
 import {
@@ -31,6 +31,17 @@ const FILE_FILTERS = [
   },
 ];
 
+async function sha256(message) {
+  // encode as UTF-8
+  const msgBuffer = new TextEncoder('utf-8').encode(message);
+  // hash the message
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  // convert ArrayBuffer to Array
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  // convert bytes to hex string
+  return hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+}
+
 export default {
   mixins: [
     secrets,
@@ -48,6 +59,7 @@ export default {
       qr_secrets: null,
       email: null,
       encrypted_vault_size: 0,
+      cloud_vault_hash: null,
     };
   },
   
@@ -227,7 +239,8 @@ export default {
         key: cipheredCharKey,
         secrets: encrypted_secrets,
         qr_required: this.qr_required,
-        email: this.email
+        email: this.email,
+        cloud_vault_hash: this.cloud_vault_hash,
       };
       this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(vault));
       return vault;
@@ -240,8 +253,7 @@ export default {
           let body = await authenticate(this.email, cloudKey);
           setToken(body.jwt);
         }
-        let vault = await this.GetSavableVault();
-        await upsertVault(vault);
+        await this.UpsertVault();
       }
     },
 
@@ -264,6 +276,68 @@ export default {
     async SaveBoth(){
       await this.SaveLocalVault();
       await this.SaveCloudVaultIfEmail();
+    },
+
+    async GetVault(){
+      if (!isLoggedIn()) {
+        throw 'Not logged in';
+      }
+
+      const jwt = getToken();
+
+      const response = await fetch(`${domain}/v1/vaults`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      });
+
+      if(response.ok){
+        let text = await response.text();
+
+        const json = JSON.parse(text);
+
+        if (typeof json.message !== "undefined") {
+          throw json.message;
+        }
+
+        if (json.length < 1){
+          throw 'No vaults found on server';
+        }
+
+        this.loaded_vault = json[0].data;
+        this.cloud_vault_hash = await sha256(text);
+      } else {
+        throw 'Unknown error occured';
+      }
+    },
+
+    async UpsertVault() {
+      let vault = await this.GetSavableVault();
+
+      if (!isLoggedIn()) {
+        throw 'Not logged in';
+      }
+
+      const jwt = getToken();
+
+      const response = await fetch(`${domain}/v1/vaults`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        },
+        body: JSON.stringify(vault)
+      });
+      if(response.ok){
+        const json = await response.json();
+        if (typeof json.message !== "undefined") {
+          throw json.message;
+        }
+      } else {
+        throw 'Unknown error occured';
+      }
     },
   },
 };

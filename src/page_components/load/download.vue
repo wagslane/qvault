@@ -50,7 +50,7 @@
 
 <script>
 import { DeriveCloudKey, PassKeyFromPassword } from '../../lib/QVaultCrypto/QVaultCrypto';
-import { authenticate, setToken, getVault } from '../../lib/CloudClient/CloudClient';
+import { authenticate, setToken } from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -68,7 +68,7 @@ export default {
         let body = await authenticate(this.email, cloudKey);
         setToken(body.jwt);
         this.$root.email = this.email;
-        this.$root.loaded_vault = await getVault();
+        await this.$root.GetVault();
         this.unlock();
       } catch (err) {
         this.error = err;
