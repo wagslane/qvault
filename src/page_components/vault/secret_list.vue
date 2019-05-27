@@ -6,6 +6,7 @@
         placeholder="Name"
         class="box_name"
         :readonly="box.type != 'Other'"
+        :class="{box_name_other: box.type == 'Other'}"
       >
       <dropdown_menu
         class="dropdown-menu"
@@ -138,8 +139,23 @@ export default {
       color: @gray-light;
       width: ~'calc(100% - 210px)';
       display: inline-block;
-      height: 60px;
+      height: 50px;
       line-height: 60px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding-left: 8px;
+    }
+
+    .box_name_other{
+
+      &:hover{
+        border: 1px solid @gray-mid;
+      }
+
+      &:focus{
+        border: 2px solid @gold-mid;
+        outline: none;
+      }
     }
 
     .add_secret {
