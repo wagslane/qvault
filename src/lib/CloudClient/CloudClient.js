@@ -142,7 +142,7 @@ export async function upsertVault(vault) {
   } else {
     throw 'Unknown error occured';
   }
-},
+}
 
 async function fetchWithError(url, data){
   try{
