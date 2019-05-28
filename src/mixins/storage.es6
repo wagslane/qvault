@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, setToken, getToken, domain } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getToken, domain, upsertVault } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
 import {
@@ -243,7 +243,7 @@ export default {
           let body = await authenticate(this.email, cloudKey);
           setToken(body.jwt);
         }
-        await this.UpsertVault();
+        return await upsertVault(await this.GetSavableVault());
       }
     },
 
@@ -298,33 +298,6 @@ export default {
 
         this.loaded_vault = json[0].data;
         this.cloud_vault_hash = await sha256(text);
-      } else {
-        throw 'Unknown error occured';
-      }
-    },
-
-    async UpsertVault() {
-      let vault = await this.GetSavableVault();
-
-      if (!isLoggedIn()) {
-        throw 'Not logged in';
-      }
-
-      const jwt = getToken();
-
-      const response = await fetch(`${domain}/v1/vaults`, {
-        method: 'PUT',
-        mode: 'cors',
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        },
-        body: JSON.stringify(vault)
-      });
-      if(response.ok){
-        const json = await response.json();
-        if (typeof json.message !== "undefined") {
-          throw json.message;
-        }
       } else {
         throw 'Unknown error occured';
       }

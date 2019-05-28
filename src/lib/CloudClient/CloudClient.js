@@ -119,6 +119,31 @@ export async function emailPasswordCode(email) {
   return handled;
 }
 
+export async function upsertVault(vault) {
+  if (!isLoggedIn()) {
+    throw 'Not logged in';
+  }
+
+  const jwt = getToken();
+
+  const response = await fetch(`${domain}/v1/vaults`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    },
+    body: JSON.stringify(vault)
+  });
+  if(response.ok){
+    const json = await response.json();
+    if (typeof json.message !== "undefined") {
+      throw json.message;
+    }
+  } else {
+    throw 'Unknown error occured';
+  }
+},
+
 async function fetchWithError(url, data){
   try{
     return await fetch(url, data);
