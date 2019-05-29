@@ -158,7 +158,7 @@ export default {
         }
         let body = await authenticate(this.emailLogin, this.cloudKey);
         setToken(body.jwt);
-        await this.$root.GetVault();
+        await this.$root.DownloadVault();
       } catch (err) {
         // If no vault is found that is okay
         if (err === "No vaults found on server"){

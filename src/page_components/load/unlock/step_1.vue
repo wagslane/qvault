@@ -135,7 +135,7 @@ export default {
           return;
         }
         try{
-          await this.$root.GetVault();
+          await this.$root.DownloadVault();
         } catch(err){
           this.error = err;
           this.error += ". Click 'continue' to overwrite";

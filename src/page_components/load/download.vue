@@ -68,7 +68,7 @@ export default {
         let body = await authenticate(this.email, cloudKey);
         setToken(body.jwt);
         this.$root.email = this.email;
-        await this.$root.GetVault();
+        await this.$root.DownloadVault();
         this.unlock();
       } catch (err) {
         this.error = err;

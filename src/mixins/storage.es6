@@ -3,9 +3,10 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, setToken, getToken, domain, upsertVault } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getVault, upsertVault } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
+import sha256 from '../lib/QVaultCrypto/sha256';
 import {
   PassKeyFromPassword,
   CipherSecrets,
@@ -16,7 +17,6 @@ import {
   CipherSecretsQr,
   DecipherSecretsQr,
   DeriveCloudKey,
-  sha256,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.es6';
@@ -268,39 +268,21 @@ export default {
       await this.SaveCloudVaultIfEmail();
     },
 
-    async GetVault(){
-      if (!isLoggedIn()) {
-        throw 'Not logged in';
+    async DownloadVault(){
+      let text = await getVault();
+
+      const json = JSON.parse(text);
+
+      if (typeof json.message !== "undefined") {
+        throw json.message;
       }
 
-      const jwt = getToken();
-
-      const response = await fetch(`${domain}/v1/vaults`, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        }
-      });
-
-      if(response.ok){
-        let text = await response.text();
-
-        const json = JSON.parse(text);
-
-        if (typeof json.message !== "undefined") {
-          throw json.message;
-        }
-
-        if (json.length < 1){
-          throw 'No vaults found on server';
-        }
-
-        this.loaded_vault = json[0].data;
-        this.cloud_vault_hash = await sha256(text);
-      } else {
-        throw 'Unknown error occured';
+      if (json.length < 1){
+        throw 'No vaults found on server';
       }
+
+      this.loaded_vault = json[0].data;
+      this.cloud_vault_hash = await sha256(text);
     },
   },
 };

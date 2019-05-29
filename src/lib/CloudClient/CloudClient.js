@@ -144,6 +144,28 @@ export async function upsertVault(vault) {
   }
 }
 
+export async function getVault() {
+  if (!isLoggedIn()) {
+    throw 'Not logged in';
+  }
+
+  const jwt = getToken();
+
+  const response = await fetch(`${domain}/v1/vaults`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+
+  if(response.ok){
+    return await response.text();
+  } else {
+    throw 'Unknown error occured';
+  }
+}
+
 async function fetchWithError(url, data){
   try{
     return await fetch(url, data);
