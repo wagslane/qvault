@@ -97,5 +97,5 @@ it('checkhash', async () => {
     cloud_vault_hash: "previous_hash_here",
   };
   // same test data as server
-  expect(await HashCloudVault(JSON.stringify(jsonData))).equal('a63d3c00e665a1568b0fb3af7dbd33b57d160bb37b4b893be680e31022a99149');
+  expect(await HashCloudVault(jsonData)).equal('d2a029d934083471e6d41ddf12c79c8ea2b6b579d8a40dd24a25d7537e688d4f');
 });

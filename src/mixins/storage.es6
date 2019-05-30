@@ -276,7 +276,7 @@ export default {
       }
 
       this.loaded_vault = vaults[0].data;
-      this.cloud_vault_hash = await HashCloudVault(JSON.stringify(this.loaded_vault));
+      this.cloud_vault_hash = await HashCloudVault(this.loaded_vault);
     },
   },
 };
