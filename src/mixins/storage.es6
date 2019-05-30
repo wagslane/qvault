@@ -243,7 +243,8 @@ export default {
           let body = await authenticate(this.email, cloudKey);
           setToken(body.jwt);
         }
-        return await upsertVault(await this.GetSavableVault());
+        await upsertVault(await this.GetSavableVault());
+        await this.DownloadVault();
       }
     },
 
