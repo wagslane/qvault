@@ -87,6 +87,10 @@ export async function HashCharKey(charKey) {
   return await hashString(charKey, longHashDifficulty);
 }
 
+export async function HashCloudVault(message) {
+  return crypto.createHash('sha256').update(message).digest('hex');
+}
+
 export async function DeriveCloudKey(passKey) {
   const cloudSalt = '-cloud-salt';
   return await hashString(passKey + cloudSalt, shortHashDifficulty);

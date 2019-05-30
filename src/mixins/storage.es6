@@ -3,10 +3,9 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, setToken, getVault, upsertVault } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getVaults, upsertVault } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
-import sha256 from '../lib/QVaultCrypto/sha256';
 import {
   PassKeyFromPassword,
   CipherSecrets,
@@ -17,6 +16,7 @@ import {
   CipherSecretsQr,
   DecipherSecretsQr,
   DeriveCloudKey,
+  HashCloudVault,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.es6';
@@ -269,20 +269,13 @@ export default {
     },
 
     async DownloadVault(){
-      let text = await getVault();
-
-      const json = JSON.parse(text);
-
-      if (typeof json.message !== "undefined") {
-        throw json.message;
-      }
-
-      if (json.length < 1){
+      let vaults = await getVaults();
+      if (vaults.length < 1) {
         throw 'No vaults found on server';
       }
 
-      this.loaded_vault = json[0].data;
-      this.cloud_vault_hash = await sha256(text);
+      this.loaded_vault = vaults[0].data;
+      this.cloud_vault_hash = await HashCloudVault(JSON.stringify(this.loaded_vault));
     },
   },
 };

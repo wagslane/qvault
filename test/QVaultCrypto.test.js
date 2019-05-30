@@ -9,6 +9,7 @@ import {
   CipherSecretsQr,
   DecipherSecretsQr,
   HashCharKey,
+  HashCloudVault,
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
 
@@ -87,4 +88,14 @@ it('cipher and decipher', async () => {
   expect(mySecrets.cryptocurrency.someUUID.coin).equal(totallyUnciphered.cryptocurrency.someUUID.coin);
   expect(mySecrets.cryptocurrency.someUUID.mnemonic).equal(totallyUnciphered.cryptocurrency.someUUID.mnemonic);
   expect(mySecrets.cryptocurrency.someUUID.description).equal(totallyUnciphered.cryptocurrency.someUUID.description);
+});
+
+it('checkhash', async () => {
+  let jsonData = {
+    version: "0.0.32",
+    secrets: "dfdfdfgjkfsdlfgslfjhbfkdvnmxcnvdfkgdkgdfngdjf",
+    cloud_vault_hash: "previous_hash_here",
+  };
+  // same test data as server
+  expect(await HashCloudVault(JSON.stringify(jsonData))).equal('a63d3c00e665a1568b0fb3af7dbd33b57d160bb37b4b893be680e31022a99149');
 });
