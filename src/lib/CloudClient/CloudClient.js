@@ -126,7 +126,7 @@ export async function upsertVault(vault) {
 
   const jwt = getToken();
 
-  const response = await fetch(`${domain}/v1/vaults`, {
+  const resp = await fetch(`${domain}/v1/vaults`, {
     method: 'PUT',
     mode: 'cors',
     headers: {
@@ -134,36 +134,26 @@ export async function upsertVault(vault) {
     },
     body: JSON.stringify(vault)
   });
-  if(response.ok){
-    const json = await response.json();
-    if (typeof json.message !== "undefined") {
-      throw json.message;
-    }
-  } else {
-    throw 'Unknown error occured';
-  }
+  const handled = await handleResponse(resp);
+  return handled;
 }
 
-export async function getVault() {
+export async function getVaults() {
   if (!isLoggedIn()) {
     throw 'Not logged in';
   }
 
   const jwt = getToken();
 
-  const response = await fetch(`${domain}/v1/vaults`, {
+  const resp = await fetch(`${domain}/v1/vaults`, {
     method: 'GET',
     mode: 'cors',
     headers: {
       Authorization: `Bearer ${jwt}`
     }
   });
-
-  if(response.ok){
-    return await response.text();
-  } else {
-    throw 'Unknown error occured';
-  }
+  const handled = await handleResponse(resp);
+  return handled;
 }
 
 async function fetchWithError(url, data){
