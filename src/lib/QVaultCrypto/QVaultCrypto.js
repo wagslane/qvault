@@ -1,8 +1,9 @@
 import crypto from 'crypto';
 import randomNumber from 'random-number-csprng';
-const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-
+import stringify from 'json-stable-stringify';
 import WordList from './WordList';
+
+const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
 const cipherAlgo = 'aes-256-gcm';
 const encodingFormat = 'base64';
@@ -85,6 +86,10 @@ export async function PassKeyFromPassword(password) {
 
 export async function HashCharKey(charKey) {
   return await hashString(charKey, longHashDifficulty);
+}
+
+export async function HashCloudVault(vault) {
+  return crypto.createHash('sha256').update(stringify(vault)).digest('hex');
 }
 
 export async function DeriveCloudKey(passKey) {

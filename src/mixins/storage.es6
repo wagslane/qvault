@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, upsertVault, setToken } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getVaults, upsertVault } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
 import {
@@ -16,6 +16,7 @@ import {
   CipherSecretsQr,
   DecipherSecretsQr,
   DeriveCloudKey,
+  HashCloudVault,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.es6';
@@ -48,6 +49,7 @@ export default {
       qr_secrets: null,
       email: null,
       encrypted_vault_size: 0,
+      cloud_vault_hash: null,
     };
   },
 
@@ -227,7 +229,8 @@ export default {
         key: cipheredCharKey,
         secrets: encrypted_secrets,
         qr_required: this.qr_required,
-        email: this.email
+        email: this.email,
+        cloud_vault_hash: this.cloud_vault_hash,
       };
       this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(vault));
       return vault;
@@ -240,8 +243,8 @@ export default {
           let body = await authenticate(this.email, cloudKey);
           setToken(body.jwt);
         }
-        let vault = await this.GetSavableVault();
-        await upsertVault(vault);
+        await upsertVault(await this.GetSavableVault());
+        await this.DownloadVault();
       }
     },
 
@@ -264,6 +267,16 @@ export default {
     async SaveBoth(){
       await this.SaveLocalVault();
       await this.SaveCloudVaultIfEmail();
+    },
+
+    async DownloadVault(){
+      let vaults = await getVaults();
+      if (vaults.length < 1) {
+        throw 'No vaults found on server';
+      }
+
+      this.loaded_vault = vaults[0].data;
+      this.cloud_vault_hash = await HashCloudVault(this.loaded_vault);
     },
   },
 };
