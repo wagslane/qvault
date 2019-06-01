@@ -6,3 +6,4 @@ dist
 release
 electron-builder.env
 test.rest
+temp.js
