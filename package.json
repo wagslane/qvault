@@ -27,6 +27,7 @@
   "build": {
     "appId": "io.qvault.app",
     "afterSign": "afterSign.js",
+    "afterAllArtifactBuild": "afterAllArtifactBuild.js",
     "productName": "QVault",
     "files": [
       "main.js",
