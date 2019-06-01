@@ -2,7 +2,7 @@ import decode from 'jwt-decode';
 import fetch from 'cross-fetch';
 
 var CLOUD_JWT = null;
-const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
+export const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
 
 // All API calls will return a rejected promise on non-200 response codes
 // The rejected promise contains a simple error message
@@ -121,11 +121,12 @@ export async function emailPasswordCode(email) {
 
 export async function upsertVault(vault) {
   if (!isLoggedIn()) {
-    return Promise.reject('Not logged in');
+    throw 'Not logged in';
   }
+
   const jwt = getToken();
 
-  const resp = await fetchWithError(`${domain}/v1/vaults`, {
+  const resp = await fetch(`${domain}/v1/vaults`, {
     method: 'PUT',
     mode: 'cors',
     headers: {
@@ -137,13 +138,14 @@ export async function upsertVault(vault) {
   return handled;
 }
 
-export async function getVault() {
+export async function getVaults() {
   if (!isLoggedIn()) {
     throw 'Not logged in';
   }
+
   const jwt = getToken();
 
-  const resp = await fetchWithError(`${domain}/v1/vaults`, {
+  const resp = await fetch(`${domain}/v1/vaults`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -151,10 +153,7 @@ export async function getVault() {
     }
   });
   const handled = await handleResponse(resp);
-  if (handled.length < 1){
-    throw 'No vaults found on server';
-  }
-  return handled[0].data;
+  return handled;
 }
 
 async function fetchWithError(url, data){

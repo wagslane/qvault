@@ -378,6 +378,7 @@ export default [
   },
   {
     name: 'Other',
+    display_name: 'Custom',
     fields: [
       {
         name: 'Name',

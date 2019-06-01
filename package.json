@@ -15,7 +15,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "release": "yarn build-prod && build",
+    "release": "./replaceOsxSign.sh && yarn build-prod && build && ./unReplaceOsxSign.sh",
     "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
@@ -26,6 +26,7 @@
   },
   "build": {
     "appId": "io.qvault.app",
+    "afterSign": "afterSign.js",
     "productName": "QVault",
     "files": [
       "main.js",
@@ -37,6 +38,9 @@
       "output": "release"
     },
     "publish": "github",
+    "mac":{
+      "hardenedRuntime": true
+    },
     "dmg": {
       "contents": [
         {
@@ -62,7 +66,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "electron": "^4.0.1",
-    "electron-builder": "^20.40.2",
+    "electron-builder": "20.42.0",
+    "electron-notarize": "^0.1.1",
     "eslint": "^5.15.3",
     "eslint-plugin-vue": "^5.2.2",
     "mocha": "^5.2.0",
@@ -81,6 +86,7 @@
     "electron-updater": "^4.0.6",
     "electron-window-state": "^5.0.3",
     "es6-promise": "^4.2.5",
+    "json-stable-stringify": "^1.0.1",
     "jwt-decode": "^2.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
