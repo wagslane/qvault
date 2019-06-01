@@ -78,7 +78,7 @@
 <script>
 import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
-import { authenticate, setToken, getVault } from '../../../lib/CloudClient/CloudClient';
+import { authenticate, setToken } from '../../../lib/CloudClient/CloudClient';
 import {ipcRenderer} from 'electron';
 const sleep = require('util').promisify(setTimeout);
 
@@ -135,7 +135,7 @@ export default {
           return;
         }
         try{
-          this.$root.loaded_vault = await getVault();
+          await this.$root.DownloadVault();
         } catch(err){
           this.error = err;
           this.error += ". Click 'continue' to overwrite";
