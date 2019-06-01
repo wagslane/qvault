@@ -15,7 +15,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "release": "./replaceOsxSign.sh && yarn build-prod && build && ./unReplaceOsxSign.sh",
+    "release": "./replaceOsxSign.sh && yarn build-prod && build",
     "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
