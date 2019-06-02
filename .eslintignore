@@ -7,7 +7,8 @@ release
 electron-builder.env
 test.rest
 
-## killian notarize hack
-replaceOut
-outTemp
-temp.js
+## kilian notarize hack
+appBuilderLibKilian
+dmgBuilderKilian
+appBuilderLibTemp
+dmgBuilderTemp
