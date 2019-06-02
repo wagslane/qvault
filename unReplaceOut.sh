@@ -1,3 +1,6 @@
 #! /bin/bash
-rm -rf node_modules/electron-builder/out
-cp -R outTemp node_modules/electron-builder/out
+rm -rf node_modules/app-builder-lib/out
+cp -R appBuilderLibTemp node_modules/app-builder-lib/out
+
+rm -rf node_modules/dmg-builder/out
+cp -R dmgBuilderTemp node_modules/dmg-builder/out
