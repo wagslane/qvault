@@ -39,8 +39,7 @@
     },
     "publish": "github",
     "mac":{
-      "hardenedRuntime": true,
-      "gatekeeperAssess": false
+      "hardenedRuntime": true
     },
     "dmg": {
       "contents": [
