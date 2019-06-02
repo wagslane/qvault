@@ -39,7 +39,8 @@
     },
     "publish": "github",
     "mac":{
-      "hardenedRuntime": true
+      "hardenedRuntime": true,
+      "entitlements": "./build/entitlements.mac.inherit.plist"
     },
     "dmg": {
       "contents": [
