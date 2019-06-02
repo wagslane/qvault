@@ -318,7 +318,7 @@ class MacPackager extends _platformPackager().PlatformPackager {
       requirements: isMas || macOptions.requirements == null ? undefined : await this.getResource(macOptions.requirements),
       // https://github.com/electron-userland/electron-osx-sign/issues/196
       // will fail on 10.14.5+ because a signed but unnotarized app is also rejected.
-      "gatekeeper-assess": macOptions.gatekeeperAssess,
+      "gatekeeper-assess": false,
       "hardened-runtime": macOptions.hardenedRuntime
     };
     await this.adjustSignOptions(signOptions, masOptions);
