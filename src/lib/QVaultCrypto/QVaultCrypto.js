@@ -65,6 +65,30 @@ export async function GeneratePassphrase(phraseLength) {
   return phrase.join(" ");
 }
 
+export async function GeneratePassword(passwordLength) {
+  let password = '';
+  const lower = 'abcdefghijklmnopqrstuvwxyz';
+  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const chars = '@!#%';
+  for (let i = 0; i < passwordLength; i++){
+    switch (i % 4) {
+    case 0:
+      password += lower[await randomNumber(0, lower.length - 1)];
+      break;
+    case 1:
+      password += upper[await randomNumber(0, upper.length - 1)];
+      break;
+    case 2:
+      password += chars[await randomNumber(0, chars.length - 1)];
+      break;
+    case 3:
+      password += await randomNumber(0, 9);
+      break;
+    }
+  }
+  return password;
+}
+
 // () => Promise(string)
 export async function GenerateCharKey() {
   // log2(58^15) = 88.9 bits entropy

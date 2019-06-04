@@ -32,6 +32,7 @@
       @show_hide_secret="show_hide_secret"
       @toggle_keyboard="toggle_keyboard"
       @copy_to_clipboard="copy_to_clipboard"
+      @generate_password="generate_password"
     />
     <div
       :style="{ visibility: keyboardVisibility, height: keyboardContainerHeight + 'px' }"
@@ -50,8 +51,10 @@ import dropdown_menu from './dropdown_menu.vue';
 import HideSVG from '../img/hide.svg';
 import KeyboardSVG from '../img/keyboard.svg';
 import ClipboardSVG from '../img/clipboard.svg';
+import LockSVG from '../img/lock.svg';
 import "simple-keyboard/build/css/index.css";
 import { clipboard } from 'electron';
+import { GeneratePassword } from '../lib/QVaultCrypto/QVaultCrypto.js';
 
 export default{
   components:{
@@ -85,6 +88,10 @@ export default{
       default: '2px'
     },
     isMissing:{
+      type: Boolean,
+      default: false
+    },
+    generatePassword:{
       type: Boolean,
       default: false
     },
@@ -141,6 +148,14 @@ export default{
           });
         }
       }
+      if (!this.value && this.generatePassword){
+        actions.push({
+          label: 'Generate Password',
+          method: 'generate_password',
+          icon: LockSVG,
+          fill: true,
+        });
+      }
       return actions;
     }
   },
@@ -183,6 +198,12 @@ export default{
     });
   },
   methods:{
+    async generate_password(){
+      const passwordLength = 15;
+      this.$refs.input.value = await GeneratePassword(passwordLength);
+      this.$refs.input.setSelectionRange(passwordLength, passwordLength);
+      this.$emit('input', this.$refs.input.value);
+    },
     copy_to_clipboard(){
       clipboard.writeText(this.value);
       this.copied = true;

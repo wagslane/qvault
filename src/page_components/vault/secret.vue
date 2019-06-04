@@ -57,9 +57,10 @@
           v-model="secret[field.name]"
           class="secret_value"
           :type="field.hidden ? 'password' : 'text'"
-          :keyboard-id="field.name.replace(/[\W_]+/g,'')"
+          :keyboard-id="field.name.replace(/[\W_1-9]+/g,'')"
           border-radius="6px"
           :is-missing="apply_clicked && missing_fields.includes(field.name)"
+          :generate-password="field.name === 'Password'"
         />
         <span
           v-if="field.type === String
@@ -76,7 +77,7 @@
           v-if="field.type === 'textarea'"
           v-model="secret[field.name]"
           type="textarea"
-          :keyboard-id="field.name"
+          :keyboard-id="field.name.replace(/[\W_1-9]+/g,'')"
           class="secret_value"
           :is-missing="apply_clicked && missing_fields.includes(field.name)"
           border-radius="6px"
@@ -108,9 +109,10 @@
                 v-model="subvalue[subfield.name]"
                 :is-missing="apply_clicked && missing_fields.includes(field.name + j + subfield.name)"
                 :type="subfield.hidden ? 'password' : 'text'"
-                :keyboard-id="(field.name + j + subfield.name).replace(/[\W_]+/g,'')"
+                :keyboard-id="(field.name + j + subfield.name).replace(/[\W_1-9]+/g,'')"
                 border-radius="6px"
                 :placeholder="subfield.name"
+                :generate-password="subfield.name === 'Password'"
               />
               <span
                 v-if="subfield.type === String
