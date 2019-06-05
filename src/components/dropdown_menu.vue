@@ -21,6 +21,7 @@
       >
         <span
           v-if="action.icon"
+          :class="{fill: action.fill}"
           v-html="action.icon"
         />
         {{ action.label }}
@@ -155,6 +156,21 @@ export default {
 
         &:active{
           background-color: @gray-lighter;
+        }
+      }
+
+      .fill {
+        svg {
+          path {
+            fill: @gray-darker;
+          }
+        }
+        &:hover{
+          svg {
+            path {
+              fill: white;
+            }
+          }
         }
       }
     }
