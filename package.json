@@ -45,7 +45,6 @@
       "entitlementsInherit": "./build/entitlements.mac.inherit.plist"
     },
     "dmg": {
-      "sign": false,
       "contents": [
         {
           "x": 110,
