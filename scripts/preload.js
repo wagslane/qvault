@@ -1,3 +1,3 @@
 window.requireBundle = function (){
-  require('./dist/qvault.bundle.js');
+  require('../dist/qvault.bundle.js');
 };
