@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 var electron_notarize = require('electron-notarize');
-const pjson = require('./package.json');
+const pjson = require('../package.json');
 
 
 module.exports = async function (params) {
