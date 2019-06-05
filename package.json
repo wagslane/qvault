@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "A secure and open-source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -15,7 +15,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "release": "./replaceOut.sh && yarn build-prod && build",
+    "release": "yarn build-prod && build",
     "build-prod": "npx webpack --progress --config webpack.config.js --env=production",
     "build": "npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
@@ -26,13 +26,13 @@
   },
   "build": {
     "appId": "io.qvault.app",
-    "afterSign": "afterSign.js",
+    "afterSign": "scripts/afterSign.js",
     "productName": "QVault",
     "files": [
       "main.js",
       "index.html",
       "dist/*",
-      "preload.js"
+      "scripts/preload.js"
     ],
     "directories": {
       "output": "release"
@@ -40,9 +40,12 @@
     "publish": "github",
     "mac":{
       "hardenedRuntime": true,
-      "entitlements": "./build/entitlements.mac.inherit.plist"
+      "gatekeeperAssess": false,
+      "entitlements": "./build/entitlements.mac.inherit.plist",
+      "entitlementsInherit": "./build/entitlements.mac.inherit.plist"
     },
     "dmg": {
+      "sign": false,
       "contents": [
         {
           "x": 110,
@@ -67,7 +70,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "electron": "^4.0.1",
-    "electron-builder": "20.42.0",
+    "electron-builder": "20.43.0",
     "electron-notarize": "^0.1.1",
     "eslint": "^5.15.3",
     "eslint-plugin-vue": "^5.2.2",

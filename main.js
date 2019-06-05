@@ -28,7 +28,7 @@ function createWindow() {
     webPreferences:{
       nodeIntegration: false,
       contextIsolation: false, // We need to figure out how to enable this
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'scripts', 'preload.js')
     },
     frame: false,
     titleBarStyle: 'hidden',
