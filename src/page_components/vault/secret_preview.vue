@@ -219,6 +219,11 @@ export default {
         color: @gray-light;
         width: 100%;
         cursor: pointer;
+
+        &:focus {
+          border: 1px solid @gold-mid;
+          outline: none;
+        }
       }
     }
 

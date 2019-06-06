@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "A secure and open-source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -38,7 +38,7 @@
       "output": "release"
     },
     "publish": "github",
-    "mac":{
+    "mac": {
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "./build/entitlements.mac.inherit.plist",
@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "electron": "^4.0.1",
+    "electron": "^5.0.2",
     "electron-builder": "20.43.0",
     "electron-notarize": "^0.1.1",
     "eslint": "^5.15.3",
