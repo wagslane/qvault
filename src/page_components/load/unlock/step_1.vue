@@ -33,8 +33,12 @@
               Forgot password?
             </router-link>
           </div>
-          <div v-if="qrRequired">
+          <div v-else>
             <h2>Please scan your Q Card</h2>
+            <span
+              v-if="error"
+              class="form-error"
+            >{{ error }}</span>
             <QRScanner @scanned="handleQRKey" />
           </div>
           <br>
@@ -187,13 +191,13 @@ export default {
         this.error = `Not a valid QR key`;
         return;
       }
-      this.$root.CreateQrKey(qrKey);
       try{
         await this.$root.UnlockVaultQr(qrKey);
       } catch (err) {
         this.error = err;
         return;
       }
+      this.$root.CreateQrKey(qrKey);
       this.qrRequired = false;
       this.error = '';
       this.qrKey = qrKey;
