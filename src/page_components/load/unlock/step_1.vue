@@ -159,10 +159,11 @@ export default {
               this.error = "QR code doesn't match, use the QR code that was used to lock the cloud vault";
               return;
             }
+          } else {
+            // Otherwise require a scan
+            this.qrRequired = true;
+            return;
           }
-          // Otherwise require a scan
-          this.qrRequired = true;
-          return;
         }
 
         try{
