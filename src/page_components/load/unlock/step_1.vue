@@ -5,7 +5,7 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <h1>Unlock Vault</h1>
-          <div v-if="!scanQr">
+          <div v-if="!qrRequired">
             <h2>Please enter your password or passphrase</h2>
             <h3 class="gold-mid">
               {{ $root.local_vault_path.split('\\').pop().split('/').pop() }}
@@ -36,8 +36,12 @@
               Forgot password?
             </router-link>
           </div>
-          <div v-if="scanQr">
+          <div v-else>
             <h2>Please scan your key card</h2>
+            <span
+              v-if="error"
+              class="form-error"
+            >{{ error }}</span>
             <QRScanner @scanned="handleQRKey" />
           </div>
           <br>
@@ -57,7 +61,7 @@
             <div class="icon" />
           </div>
           <button
-            v-if="(password && !scanQr)"
+            v-if="(password && !qrRequired)"
             class="continue"
             type="submit"
           >
@@ -93,7 +97,8 @@ export default {
     return {
       error: null,
       password: null,
-      scanQr: false,
+      qrRequired: false,
+      qrKey: null,
       updateReady: false,
       allowOverwrite: false,
       showDownload: false,
@@ -101,7 +106,7 @@ export default {
     };
   },
   mounted(){
-    this.scanQr = this.$root.qr_required;
+    this.qrRequired = this.$root.qr_required;
     ipcRenderer.on('updateReady', ()=>{
       this.updateReady = true;
     });
@@ -124,6 +129,7 @@ export default {
         this.error = err;
         return;
       }
+
       if (this.$root.email){
         try{
           let cloud_key = await DeriveCloudKey(this.$root.pass_key);
@@ -133,10 +139,12 @@ export default {
           this.error = err;
           return;
         }
+
         if (this.allowOverwrite){
           this.$router.push({name: 'vault'});
           return;
         }
+
         try{
           await this.$root.DownloadVault();
         } catch(err){
@@ -146,6 +154,25 @@ export default {
           this.allowOverwrite = true;
           return;
         }
+
+        // if the cloud vault also has a qr requirement
+        if (this.$root.qr_required){
+          // try to open it with the same qr code if we have one
+          if (this.qrKey){
+            try{
+              await this.$root.UnlockVaultQr(this.qrKey);
+            } catch (err) {
+              this.qrKey = null;
+              this.error = "QR code doesn't match, use the QR code that was used to lock the cloud vault";
+              return;
+            }
+          } else {
+            // Otherwise require a scan
+            this.qrRequired = true;
+            return;
+          }
+        }
+
         try{
           await this.$root.UnlockVaultPassword(this.password);
         } catch(err){
@@ -167,10 +194,16 @@ export default {
         this.error = `Not a valid QR key`;
         return;
       }
+      try{
+        await this.$root.UnlockVaultQr(qrKey);
+      } catch (err) {
+        this.error = err;
+        return;
+      }
       this.$root.CreateQrKey(qrKey);
-      await this.$root.UnlockVaultQr(qrKey);
-      this.scanQr = false;
+      this.qrRequired = false;
       this.error = '';
+      this.qrKey = qrKey;
     },
     back(){
       try{

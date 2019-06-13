@@ -76,7 +76,7 @@ export default {
       }
       assert(paths.length === 1, "Invalid number of paths selected");
       assert(paths[0], 'A vault file must be selected');
-      this.LoadVault(paths[0]);
+      this.LoadVaultLocal(paths[0]);
       return true;
     },
 
@@ -109,22 +109,6 @@ export default {
       return parsed;
     },
 
-    LoadVault(vault_path){
-      this.local_vault_path = vault_path;
-      try {
-        let data = fs.readFileSync(this.local_vault_path, 'utf-8');
-        this.loaded_vault = JSON.parse(data);
-        assert(this.loaded_vault.version, 'Selected vault is corrupted');
-        this.email = this.loaded_vault.email;
-        this.qr_required = this.loaded_vault.qr_required;
-        this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(this.loaded_vault));
-      } catch (err) {
-        this.loaded_vault  = null;
-        this.local_vault_path = null;
-        assert(false, err);
-      }
-    },
-
     NewVaultDialog(){
       this.local_vault_path = dialog.showSaveDialog({
         filters: FILE_FILTERS,
@@ -149,7 +133,7 @@ export default {
       try {
         this.qr_secrets = await DecipherSecretsQr(qrKey, this.loaded_vault.secrets);
       } catch (err) {
-        assert(false, 'Invalid QR code');
+        throw 'Invalid QR code';
       }
     },
 
@@ -198,7 +182,7 @@ export default {
       } catch (err) {
         this.pass_key = null;
         this.char_key = null;
-        assert(false, "Invalid code");
+        throw "Invalid code";
       }
     },
 
@@ -257,7 +241,7 @@ export default {
 
     LoadLastUsedVault(){
       let vault_path = fs.readFileSync(this.GetLastUsedVaultPath(), 'utf-8');
-      this.LoadVault(vault_path);
+      this.LoadVaultLocal(vault_path);
     },
 
     GetLastUsedVaultPath(){
@@ -275,8 +259,29 @@ export default {
         throw 'No vaults found on server';
       }
 
-      this.loaded_vault = vaults[0].data;
+      this.LoadVaultDetails(vaults[0].data);
       this.cloud_vault_hash = await HashCloudVault(this.loaded_vault);
     },
+
+    LoadVaultLocal(vault_path) {
+      this.local_vault_path = vault_path;
+      try {
+        let data = fs.readFileSync(this.local_vault_path, 'utf-8');
+        this.LoadVaultDetails(JSON.parse(data));
+      } catch (err) {
+        this.loaded_vault = null;
+        this.local_vault_path = null;
+        throw err;
+      }
+    },
+
+    LoadVaultDetails(vault_data) {
+      // TODO: merge this with conflict resolution
+      this.loaded_vault = vault_data;
+      assert(this.loaded_vault.version, 'Selected vault is corrupted');
+      this.email = this.loaded_vault.email;
+      this.qr_required = this.loaded_vault.qr_required;
+      this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(this.loaded_vault));
+    }
   },
 };
