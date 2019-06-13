@@ -32,7 +32,7 @@ The best way to get in contact with the developers is on the public discord serv
 
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+[MIT License](LICENSE)
 
 ## Linting
 
