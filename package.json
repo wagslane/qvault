@@ -59,11 +59,11 @@
       ]
     },
     "appImage": {
-      "license": "LICENSE.md"
+      "license": "LICENSE"
     },
     "nsis": {
       "createDesktopShortcut": "always",
-      "license": "LICENSE.md"
+      "license": "LICENSE"
     }
   },
   "devDependencies": {
