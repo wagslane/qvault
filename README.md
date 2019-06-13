@@ -1,4 +1,4 @@
-# Q Vault
+# Qvault
 
 An open source, fully transparent and extremely secure password manager
 
@@ -8,8 +8,8 @@ https://qvault.io
 
 ## Features
 
-* Optional two factor encryption using physical Q Cards (QR code contains a key that is scanned with a webcam to unlock vault)
-* Optional recovery code stored on Q Cards in case master password is forgotten
+* Optional two factor encryption using physical Qvault cards (QR code contains a key that is scanned with a webcam to unlock vault)
+* Optional recovery code stored on Qvault card in case master password is forgotten
 * Free optional cloud backup storage. All encrypted vaults are stored locally in a ".qvault" file, and the same encrypted file can be stored on our servers.
 * Can be used offline
 * Virtual keyboard to bypass keylogger malware
@@ -36,7 +36,7 @@ The best way to get in contact with the developers is on the public discord serv
 
 ## Linting
 
-Q Vault uses eslint and all pull requests must pass the eslint tests specified in travis.yml.
+Qvault uses eslint and all pull requests must pass the eslint tests specified in travis.yml.
 To run the linting tests:
 
 ```bash

@@ -6,22 +6,22 @@
         <StepProgress :filled="1" />
         <h1>Key Backup</h1>
         <h2>
-          Will you use a <a
-            href="https://amazon.com"
+          <a
+            href="https://qvault.io"
             class="link"
-          >Q Card?</a>
+          >Will you use Qvault cards?</a>
         </h2>
 
         <h3>
-          A Q Card is a plastic card that allows you to restore vault access if you
-          forget your password, and dual encrypt your vault for added security.
+          Qvault cards are physical plastic cards which allow you to dual encrypt your vault 
+          as well as setup a recovery code in case you forget your password.
         </h3>
 
         <router-link
           class="btn"
           :to="{name: 'create_step_3'}"
         >
-          Yes, use my Q Cards
+          Yes, use my Qvault cards
         </router-link>
 
         <router-link

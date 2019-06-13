@@ -3,18 +3,18 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body center-text">
-        <h1>Manage Two Factor Encryption</h1>
-        <h2>Manage the security of your vault using 2FE</h2>
+        <h1>Manage Dual Encryption</h1>
+        <h2>Dual encryption enhances the security of your vault</h2>
 
         <router-link
           class="btn"
           :to="{name: 'settings_qrcode_add_or_change'}"
         >
           <span v-if="($root.qr_required)">
-            Change 2FE QR Code
+            Change Key Card
           </span>
           <span v-else>
-            Add 2FE QR Code
+            Add Key Card
           </span>
         </router-link>
 
@@ -23,7 +23,7 @@
           class="btn"
           :to="{name: 'settings_qrcode_delete'}"
         >
-          Turn off 2FE
+          Turn off dual encryption
         </router-link>
       </div>
       <div class="footer">

@@ -5,7 +5,7 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
           <StepProgress :filled="6" />
-          <h1>Q Vault Cloud Account</h1>
+          <h1>Qvault Cloud Account</h1>
           <h2>Vaults are stored locally as well as in the cloud. Vaults are encrypted locally to preserve your privacy</h2>
           <div class="tabs">
             <div 

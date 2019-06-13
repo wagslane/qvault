@@ -7,6 +7,9 @@
           <h1>Unlock Vault</h1>
           <div v-if="!scanQr">
             <h2>Please enter your password or passphrase</h2>
+            <h3 class="gold-mid">
+              {{ $root.local_vault_path.split('\\').pop().split('/').pop() }}
+            </h3>
             <DecoratedTextInput
               v-model="password"
               :active="true"
@@ -34,7 +37,7 @@
             </router-link>
           </div>
           <div v-if="scanQr">
-            <h2>Please scan your Q Card</h2>
+            <h2>Please scan your key card</h2>
             <QRScanner @scanned="handleQRKey" />
           </div>
           <br>
@@ -187,3 +190,10 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+  @import '../../../styles/colors.less';
+  .gold-mid{
+    color: @gold-mid
+  }
+</style>

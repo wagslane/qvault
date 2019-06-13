@@ -3,14 +3,14 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <h1>Remove 2FE</h1>
+        <h1>Remove Dual Encryption</h1>
         <h2>Are you sure? Scanning a QR code will no longer be required to access your vault.</h2>
 
         <div
           class="btn"
           @click="delete_2fe"
         >
-          Yes, remove 2FE
+          Yes, remove dual encryption
         </div>
 
         <span
