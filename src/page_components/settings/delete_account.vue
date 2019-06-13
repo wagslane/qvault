@@ -39,8 +39,7 @@
 
 <script>
 import checkmark_filled_svg from '../../img/checkmark-filled.svg';
-import {deleteUser, authenticate, isLoggedIn, setToken, deleteToken} from '../../lib/CloudClient/CloudClient';
-import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {deleteUser, isLoggedIn, deleteToken} from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -62,9 +61,7 @@ export default {
       this.error = null;
       try{
         if (!isLoggedIn()){
-          let cloudKey = await DeriveCloudKey(this.pass_key);
-          let body = await authenticate(this.email, cloudKey);
-          setToken(body.jwt);
+          await this.$root.Login(this.$root.email, this.$root.password);
         }
       } catch (err){
         this.error = err;

@@ -32,7 +32,7 @@
           :style="{marginRight: '20px'}"
           :disabled-status="$root.ConflictExists"
           :title-text="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : 'Save Vault'"
-          @click.native="save"
+          @click.native="$refs.loader.load"
         />
         <div
           v-else
@@ -50,6 +50,10 @@
         </div>
       </div>
     </div>
+    <LoadingOverlay
+      ref="loader"
+      :func="save"
+    />
   </div>
 </template>
 

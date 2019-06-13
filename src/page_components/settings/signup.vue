@@ -34,6 +34,11 @@
             />
           </div>
           <div :style="{display: !registerTabActive ? 'block' : 'none'}">
+            <h3
+              v-if="!userCreated"
+            >
+              Logging in will overwrite your current cloud vault. To download your current vault you must exit the app and start over
+            </h3>
             <DecoratedTextInput
               v-model="emailLogin"
               :default-value="defaultEmailLogin"
@@ -109,8 +114,8 @@
 </template>
 
 <script>
-import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, authenticate, setToken, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
+import { DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {createUser, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -120,7 +125,6 @@ export default {
       emailLogin: null,
       userCreated: false,
       error: null,
-      cloudKey: null,
       defaultEmailLogin: ''
     };
   },
@@ -129,52 +133,38 @@ export default {
       this.error = null;
       this.userCreated = false;
       try{
-        this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
+        this.cloudKey = await DeriveCloudKey(this.$root.password);
         await resendRegistrationEmail(this.emailRegister, this.cloudKey);
         this.userCreated = true;
       } catch (err) {
         this.error = err;
       }
     },
+    async register(){
+      let cloudKey = await DeriveCloudKey(this.$root.password);
+      await createUser(this.emailRegister, cloudKey);
+      this.userCreated = true;
+      this.registerTabActive = false;
+      this.defaultEmailLogin = this.emailRegister;
+      this.emailRegister = null;
+    },
     async click_continue(){
       this.error = null;
       this.userCreated = false;
       if (this.registerTabActive){
         try{
-          this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
-          await createUser(this.emailRegister, this.cloudKey);
-          this.userCreated = true;
-          this.registerTabActive = false;
-          this.defaultEmailLogin = this.emailRegister;
-          this.emailRegister = null;
+          this.register();
         } catch (err) {
           this.error = err;
         }
         return;
       }
       try{
-        if (!this.cloudKey){
-          this.cloudKey = await DeriveCloudKey(this.$root.pass_key);
-        }
-        let body = await authenticate(this.emailLogin, this.cloudKey);
-        setToken(body.jwt);
-        await this.$root.DownloadVault();
+        await this.$root.Login(this.emailLogin, this.$root.password);
       } catch (err) {
-        // If no vault is found that is okay
-        if (err === "No vaults found on server"){
-          this.$root.email = this.emailLogin;
-          this.$router.push({name: 'settings'});
-        }
         this.error = err;
         return;
       }
-      try{
-        await this.$root.UnlockVaultPasskey(this.$root.pass_key);
-      } catch(err){
-        this.error = "Unable to unlock cloud vault. Try downloading it after exiting this vault.";
-        return;
-      }
-      this.$root.email = this.emailLogin;
       this.$router.push({name: 'settings'});
     }
   }

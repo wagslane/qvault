@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const app = remote.app;
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, setToken, getVaults, upsertVault } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
 import {
@@ -16,7 +16,9 @@ import {
   CipherSecretsQr,
   DecipherSecretsQr,
   DeriveCloudKey,
+  DeriveOldCloudKey,
   HashCloudVault,
+  GenerateRandomSalt,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.es6';
@@ -42,13 +44,13 @@ export default {
       hashed_char_key: null,
       char_key: null,
       qr_key: null,
-      pass_key: null,
       qr_required: false,
       loaded_vault: null,
       local_vault_path: null,
       qr_secrets: null,
       email: null,
       encrypted_vault_size: 0,
+      password: null,
       cloud_vault_hash: null,
     };
   },
@@ -58,7 +60,7 @@ export default {
       this.hashed_char_key = null;
       this.char_key = null;
       this.qr_key = null;
-      this.pass_key = null;
+      this.password = null;
       this.qr_required = false;
       this.loaded_vault = null;
       this.local_vault_path = null;
@@ -137,51 +139,29 @@ export default {
       }
     },
 
-    async UnlockVaultPassword(password) {
-      let pass_key = await PassKeyFromPassword(password);
-      await this.UnlockVaultPasskey(pass_key);
+    async UnlockVaultPassword(password, salt) {
+      let passKey = await PassKeyFromPassword(password, salt);
+      assert(this.loaded_vault, 'A vault file must be loaded');
+      let charKey = await DecipherCharKey(passKey, this.loaded_vault.key);
+      await this.UnlockVaultCharKey(charKey);
+      this.password = password;
     },
 
-    async UnlockVaultPasskey(passkey) {
-      assert(this.loaded_vault, 'A vault file must be loaded');
-      let old_pass_key = this.pass_key;
-      let old_char_key = this.char_key;
-      let old_hashed_char_key = this.hashed_char_key;
-      try {
-        this.pass_key = passkey;
-        this.char_key = await DecipherCharKey(this.pass_key, this.loaded_vault.key);
-        this.hashed_char_key = await HashCharKey(this.char_key);
-        let secrets = {};
-        if (this.qr_required) {
-          secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
-        } else {
-          secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
-        }
-        this.LoadSecrets(secrets);
-      } catch (err) {
-        this.pass_key = old_pass_key;
-        this.char_key = old_char_key;
-        this.hashed_char_key = old_hashed_char_key;
-        throw err;
-      }
-    },
-
-    async UnlockVaultCharKey(char_key) {
+    async UnlockVaultCharKey(charKey) {
       assert(this.loaded_vault, 'A vault file must be loaded');
       try {
-        this.char_key = char_key;
-        this.hashed_char_key = await HashCharKey(this.char_key);
+        let hashedCharKey = await HashCharKey(charKey);
         let secrets = {};
         if (this.qr_required){
-          secrets = await DecipherSecrets(this.hashed_char_key, this.qr_secrets);
+          secrets = await DecipherSecrets(hashedCharKey, this.qr_secrets);
         } else {
-          secrets = await DecipherSecrets(this.hashed_char_key, this.loaded_vault.secrets);
+          secrets = await DecipherSecrets(hashedCharKey, this.loaded_vault.secrets);
         }
         this.LoadSecrets(secrets);
+        this.char_key = charKey;
+        this.hashed_char_key = hashedCharKey;
         this.loaded_vault = null;
       } catch (err) {
-        this.pass_key = null;
-        this.char_key = null;
         throw "Invalid code";
       }
     },
@@ -199,16 +179,19 @@ export default {
 
     async GetSavableVault(){
       assert(this.secrets, 'No vault is open');
-      assert(this.pass_key, 'A pass key must exist to save a vault');
-      assert(this.char_key, 'A char key must exist to save a vault');
-      assert(this.hashed_char_key, 'A hashed character key must exist to save a vault');
-      let cipheredCharKey = await CipherCharKey(this.pass_key, this.char_key);
+      assert(this.password, 'A password must exist to save your vault');
+      assert(this.char_key, 'A char key must exist to save your vault');
+      assert(this.hashed_char_key, 'A hashed character key must exist to save your vault');
+      let newSalt = GenerateRandomSalt();
+      let passKey = await PassKeyFromPassword(this.password, newSalt);
+      let cipheredCharKey = await CipherCharKey(passKey, this.char_key);
       let encrypted_secrets = await CipherSecrets(this.hashed_char_key, this.secrets);
       if (this.qr_required){
-        assert(this.qr_key, 'A QR key must exist to save a vault');
+        assert(this.qr_key, 'A QR key must exist to save your vault');
         encrypted_secrets = await CipherSecretsQr(this.qr_key, encrypted_secrets);
       }
       let vault = {
+        salt: newSalt,
         version: VERSION,
         key: cipheredCharKey,
         secrets: encrypted_secrets,
@@ -223,9 +206,7 @@ export default {
     async SaveCloudVaultIfEmail(){
       if (this.email){
         if (!isLoggedIn()){
-          let cloudKey = await DeriveCloudKey(this.pass_key);
-          let body = await authenticate(this.email, cloudKey);
-          setToken(body.jwt);
+          await this.Login(this.email, this.password);
         }
         await upsertVault(await this.GetSavableVault());
         await this.DownloadVault();
@@ -282,6 +263,24 @@ export default {
       this.email = this.loaded_vault.email;
       this.qr_required = this.loaded_vault.qr_required;
       this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(this.loaded_vault));
+    },
+
+    async Login(email, password) {
+      let body = {};
+      try {
+        let cloudKey = await DeriveCloudKey(password);
+        body = await authenticate(email, cloudKey);
+        setToken(body.jwt);
+      } catch (err) {
+        let oldKey = await DeriveOldCloudKey(password);
+        body = await authenticate(email, oldKey);
+        setToken(body.jwt);
+
+        let newKey = await DeriveCloudKey(password);
+        updateUserPassword(oldKey, newKey);
+      }
+      this.email = email;
+      this.password = password;
     }
   },
 };
