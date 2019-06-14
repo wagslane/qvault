@@ -13,8 +13,8 @@ const longHashDifficulty = 17;
 const shortHashDifficulty = 10;
 
 // QR Key (128 bit, base64) = Encoded in the QR Card, generated in QVault factory
-// Char Key (15 chars, base58) = Back of the Q-Card, generated randomly by this app
-// Pass Key (256 bit, base 64) = Hash(password) or Hash(passphrase), used to cipher the Char Key for easy access
+// Char Key (16 chars, base58) = Back of the Qvault recovery card, generated randomly by this app
+// Pass Key (256 bit, base 64) = Hash(password, salt) or Hash(passphrase, salt), used to cipher the Char Key for easy access
 
 // Secrets are ciphered using Cipher(Hash(Char Key), data) 
 // Or
@@ -91,9 +91,7 @@ export async function GeneratePassword(passwordLength) {
 
 // () => Promise(string)
 export async function GenerateCharKey() {
-  // log2(58^15) = 88.9 bits entropy
-  // log2(58^20) = 117.2 bits entropy
-  // log2(58^25) = 146 bits entropy
+  // log2(58^16) = 93.7 bits entropy
   const length = 16;
 
   let key = '';
@@ -181,7 +179,7 @@ export function GenerateRandomSalt() {
   return crypto.randomBytes(16).toString('base64');
 }
 
-// The default salt is used in cases where brute-force is nearly impossible (keys vs passwords)
+// The default salt is used in cases where rainbow tables are ineffective (keys not passwords)
 const defaultSalt = 'qvaultsalthopefullyusednowhereelse';
 async function hashString(data, difficulty, scryptSalt = defaultSalt) {
   const scryptKeyLenBytes = 32;
