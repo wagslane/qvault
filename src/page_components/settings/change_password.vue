@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Settings" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="submit">
         <div class="body">
           <h1>Change Password</h1>
 
@@ -85,9 +85,9 @@
               </span>
             </div>
             <span
-              v-if="cloud_error"
+              v-if="error"
               class="form-error"
-            >{{ cloud_error }}</span>
+            >{{ error }}</span>
           </div>
         </div>
         <div class="footer">
@@ -110,13 +110,13 @@
     </div>
     <LoadingOverlay
       ref="loader"
-      :func="save"
+      :func="change"
     />
   </div>
 </template>
 
 <script>
-import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {ValidatePassword, ValidatePassphrase, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
 import {updateUserPassword} from '../../lib/CloudClient/CloudClient';
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
@@ -134,9 +134,6 @@ export default {
     };
   },
   computed:{
-    loading_title(){
-      return this.matched ? "Updating" : "Validating";
-    },
     password_invalid(){
       let err = ValidatePassword(this.password);
       if (err){
@@ -164,50 +161,51 @@ export default {
       this.confirm = null;
       this.generated = '';
     },
-    async save(){
+    async change(){
+      let newPassword = '';
+      if (this.passwordTabActive){
+        newPassword = this.password;
+      } else {
+        newPassword = this.passphrase;
+      }
+
+      if (this.$root.email){
+        try{
+          let old_cloud_key = await DeriveCloudKey(this.old_password);
+          let new_cloud_key = await DeriveCloudKey(newPassword);
+          await updateUserPassword(old_cloud_key, new_cloud_key);
+        } catch (err){
+          this.reset();
+          this.error = err;
+          return;
+        }
+      }
+
+      let rootPassword = this.$root.password;
+      this.$root.password = newPassword;
+      try{
+        await this.$root.SaveBoth();
+      } catch (err){
+        this.$root.password = rootPassword;
+        this.reset();
+        this.error = err;
+        return;
+      }
+      this.$router.push({name: 'settings'});
+    },
+    async submit(){
       this.error = null;
       if (!this.matched){
-        let confirm_key = await PassKeyFromPassword(this.old_password);
-        if (confirm_key === this.$root.pass_key){
+        if (this.old_password === this.$root.password){
           this.matched = true;
+          this.error = null;
         } else {
           this.error = "Invalid password";
           this.reset();
         }
         return;
       }
-
-      let new_pass_key = '';
-      if (this.passwordTabActive){
-        new_pass_key = await PassKeyFromPassword(this.password);
-      } else {
-        new_pass_key = await PassKeyFromPassword(this.passphrase);
-      }
-
-      if (this.$root.email){
-        try{
-          let old_pass_key = await PassKeyFromPassword(this.old_password);
-          let old_cloud_key = await DeriveCloudKey(old_pass_key);
-          let new_cloud_key = await DeriveCloudKey(new_pass_key);
-          await updateUserPassword(old_cloud_key, new_cloud_key);
-        } catch (err){
-          this.error = err;
-          this.reset();
-          return;
-        }
-      }
-
-      let old_pass_key = this.$root.pass_key;
-      this.$root.pass_key = new_pass_key;
-      try{
-        await this.$root.SaveBoth();
-      } catch (err){
-        this.error = err;
-        this.$root.pass_key = old_pass_key;
-        this.reset();
-        return;
-      }
-      this.$router.push({name: 'settings'});
+      this.$refs.loader.load();
     },
     async generatePassphrase(){
       this.generated = await GeneratePassphrase(5);

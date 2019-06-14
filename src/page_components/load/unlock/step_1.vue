@@ -83,9 +83,8 @@
 </template>
 
 <script>
-import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
+import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
-import { authenticate, setToken } from '../../../lib/CloudClient/CloudClient';
 import {ipcRenderer} from 'electron';
 const sleep = require('util').promisify(setTimeout);
 
@@ -124,7 +123,7 @@ export default {
     async unlock(){
       this.error = null;
       try{
-        await this.$root.UnlockVaultPassword(this.password);
+        await this.$root.UnlockVaultPassword(this.password, this.$root.loaded_vault.salt);
       } catch(err){
         this.error = err;
         return;
@@ -132,9 +131,7 @@ export default {
 
       if (this.$root.email){
         try{
-          let cloud_key = await DeriveCloudKey(this.$root.pass_key);
-          let body = await authenticate(this.$root.email, cloud_key);
-          setToken(body.jwt);
+          await this.$root.Login(this.$root.email, this.$root.password);
         } catch(err){
           this.error = err;
           return;
@@ -174,7 +171,7 @@ export default {
         }
 
         try{
-          await this.$root.UnlockVaultPassword(this.password);
+          await this.$root.UnlockVaultPassword(this.password, this.$root.loaded_vault.salt);
         } catch(err){
           this.error = "Unable to unlock cloud vault. Continue to overwrite your cloud vault, or go back and download it separately";
           this.$root.loaded_vault = this.originalLoadedVault;

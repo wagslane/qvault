@@ -3,6 +3,7 @@ import {
   ValidatePassphrase,
   GeneratePassphrase,
   GenerateCharKey,
+  GenerateRandomSalt,
   PassKeyFromPassword,
   CipherSecrets,
   DecipherSecrets,
@@ -98,4 +99,10 @@ it('checkhash', async () => {
   };
   // same test data as server
   expect(await HashCloudVault(jsonData)).equal('d2a029d934083471e6d41ddf12c79c8ea2b6b579d8a40dd24a25d7537e688d4f');
+});
+
+it('generateRandomSalt', async () => {
+  let one = await GenerateRandomSalt();
+  let two = await GenerateRandomSalt();
+  expect(one).not.equal(two);
 });

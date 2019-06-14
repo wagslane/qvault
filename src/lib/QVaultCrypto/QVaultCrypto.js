@@ -46,7 +46,7 @@ export function ValidatePassword(password) {
 
 export function ValidatePassphrase(passphrase) {
   const minLength = 15;
-  if (passphrase.length < minLength){
+  if (passphrase.length < minLength) {
     return `Passphrase must have at least ${minLength} characters`;
   }
   return '';
@@ -70,7 +70,7 @@ export async function GeneratePassword(passwordLength) {
   const lower = 'abcdefghijklmnopqrstuvwxyz';
   const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const chars = '@!#%';
-  for (let i = 0; i < passwordLength; i++){
+  for (let i = 0; i < passwordLength; i++) {
     switch (i % 4) {
     case 0:
       password += lower[await randomNumber(0, lower.length - 1)];
@@ -104,21 +104,31 @@ export async function GenerateCharKey() {
   return key;
 }
 
-export async function PassKeyFromPassword(password) {
-  return await hashString(password, longHashDifficulty);
+export async function PassKeyFromPassword(password, salt) {
+  return await hashString(password, longHashDifficulty, salt);
 }
 
-export async function HashCharKey(charKey) {
-  return await hashString(charKey, longHashDifficulty);
+export async function HashCharKey(charKey, salt) {
+  return await hashString(charKey, longHashDifficulty, salt);
 }
 
 export async function HashCloudVault(vault) {
   return crypto.createHash('sha256').update(stringify(vault)).digest('hex');
 }
 
-export async function DeriveCloudKey(passKey) {
+export async function DeriveOldCloudKey(password) {
+  let passKey = await PassKeyFromPassword(password);
   const cloudSalt = '-cloud-salt';
   return await hashString(passKey + cloudSalt, shortHashDifficulty);
+}
+
+export async function DeriveCloudKey(password) {
+  // This salt ensures we get a different password sent to our servers
+  // than the one used to encrypt the vault. It's okay that it isn't random
+  // because the resulting hash is salted again before being stored on our
+  // servers
+  const cloudSalt = '25c1be5d-a367-4033-b40d-8638b14cb7db';
+  return await hashString(password, shortHashDifficulty, cloudSalt);
 }
 
 export function CipherCharKey(passKey, charKey) {
@@ -126,9 +136,9 @@ export function CipherCharKey(passKey, charKey) {
 }
 
 export function DecipherCharKey(passKey, cipheredCharKey) {
-  try{
+  try {
     return decipherString(passKey, cipheredCharKey);
-  } catch (err){
+  } catch (err) {
     throw 'Invalid password';
   }
 }
@@ -138,25 +148,25 @@ export function CipherSecrets(hashedCharKey, secrets) {
   return cipherString(hashedCharKey, secretsString);
 }
 
-export async function CipherSecretsQr(qrKey, cipheredSecrets){
+export async function CipherSecretsQr(qrKey, cipheredSecrets) {
   const hashed = await hashString(qrKey, shortHashDifficulty);
   return cipherString(hashed, cipheredSecrets);
 }
 
 export function DecipherSecrets(hashedCharKey, cipheredSecrets) {
-  try{
+  try {
     const deciphered = decipherString(hashedCharKey, cipheredSecrets);
     return JSON.parse(deciphered);
-  } catch (err){
+  } catch (err) {
     throw 'Invalid password';
   }
 }
 
 export async function DecipherSecretsQr(qrKey, cipheredSecrets) {
-  try{
+  try {
     const hashed = await hashString(qrKey, shortHashDifficulty);
     return decipherString(hashed, cipheredSecrets);
-  } catch(err){
+  } catch (err) {
     throw 'Invalid qr code';
   }
 }
@@ -167,8 +177,13 @@ export function ValidateQRKey(qrKey) {
   return keyBuf.length === 16;
 }
 
-async function hashString(data, difficulty) {
-  const scryptSalt = 'qvaultsalthopefullyusednowhereelse';
+export function GenerateRandomSalt() {
+  return crypto.randomBytes(16).toString('base64');
+}
+
+// The default salt is used in cases where brute-force is nearly impossible (keys vs passwords)
+const defaultSalt = 'qvaultsalthopefullyusednowhereelse';
+async function hashString(data, difficulty, scryptSalt = defaultSalt) {
   const scryptKeyLenBytes = 32;
   const scryptCost = Math.pow(2, difficulty);
   const scryptBlockSize = 8;

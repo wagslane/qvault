@@ -92,14 +92,12 @@ export default {
         this.emailSent = true;
       }else{
         try{
-          let cloudKey = await DeriveCloudKey(this.$root.pass_key);
+          let cloudKey = await DeriveCloudKey(this.$root.password);
           await updateUserPasswordEmail(this.code, cloudKey);
           let body = await authenticate(this.email, cloudKey);
           setToken(body.jwt);
           this.$root.email = this.email;
-          await this.$root.SaveBoth();
         } catch (err) {
-          this.$root.email = null;
           this.error = err;
           return;
         }
