@@ -8,7 +8,10 @@
 
         <div
           v-if="($root.email)"
-        >
+        > 
+          <h3 class="gold-mid">
+            {{ $root.email }}
+          </h3>
           <ProgressBar
             :bytes="$root.encrypted_vault_size"
           />
@@ -16,44 +19,44 @@
           <br>
         </div>
         <h3 v-else>
-          Offline - No cloud account connected to this vault
+          Offline - No Cloud Account
         </h3>
-
-        <router-link
-          v-if="(!$root.email)"
-          class="btn"
-          :to="{name: 'settings_signup'}"
-        >
-          Add a cloud storage account
-        </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_change_password'}"
         >
-          Change password
+          Change Password
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_change_char_key'}"
         >
-          Add or change Q Card restore code
+          Manage Recovery Card
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'settings_qrcode_choose'}"
         >
-          Manage two factor encryption
+          Manage Dual Encryption Card
         </router-link>
 
         <router-link
-          v-if="($root.email)"
+          v-if="(!$root.email)"
+          class="btn"
+          :to="{name: 'settings_signup'}"
+        >
+          Add Cloud Storage
+        </router-link>
+
+        <router-link
+          v-else
           class="btn"
           :to="{name: 'settings_delete_account'}"
         >
-          Delete cloud storage account
+          Delete Cloud Storage
         </router-link>
       </div>
       <div class="footer">
@@ -83,3 +86,10 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+  @import '../../styles/colors.less';
+  .gold-mid{
+    color: @gold-mid
+  }
+</style>

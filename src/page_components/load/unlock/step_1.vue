@@ -7,6 +7,9 @@
           <h1>Unlock Vault</h1>
           <div v-if="!qrRequired">
             <h2>Please enter your password or passphrase</h2>
+            <h3 class="gold-mid">
+              {{ $root.local_vault_path.split('\\').pop().split('/').pop() }}
+            </h3>
             <DecoratedTextInput
               v-model="password"
               :active="true"
@@ -34,7 +37,7 @@
             </router-link>
           </div>
           <div v-else>
-            <h2>Please scan your Q Card</h2>
+            <h2>Please scan your key card</h2>
             <span
               v-if="error"
               class="form-error"
@@ -80,9 +83,8 @@
 </template>
 
 <script>
-import { ValidateQRKey, DeriveCloudKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
+import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
-import { authenticate, setToken } from '../../../lib/CloudClient/CloudClient';
 import {ipcRenderer} from 'electron';
 const sleep = require('util').promisify(setTimeout);
 
@@ -121,7 +123,7 @@ export default {
     async unlock(){
       this.error = null;
       try{
-        await this.$root.UnlockVaultPassword(this.password);
+        await this.$root.UnlockVaultPassword(this.password, this.$root.loaded_vault.salt);
       } catch(err){
         this.error = err;
         return;
@@ -129,9 +131,7 @@ export default {
 
       if (this.$root.email){
         try{
-          let cloud_key = await DeriveCloudKey(this.$root.pass_key);
-          let body = await authenticate(this.$root.email, cloud_key);
-          setToken(body.jwt);
+          await this.$root.Login(this.$root.email, this.$root.password);
         } catch(err){
           this.error = err;
           return;
@@ -171,7 +171,7 @@ export default {
         }
 
         try{
-          await this.$root.UnlockVaultPassword(this.password);
+          await this.$root.UnlockVaultPassword(this.password, this.$root.loaded_vault.salt);
         } catch(err){
           this.error = "Unable to unlock cloud vault. Continue to overwrite your cloud vault, or go back and download it separately";
           this.$root.loaded_vault = this.originalLoadedVault;
@@ -220,3 +220,10 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+  @import '../../../styles/colors.less';
+  .gold-mid{
+    color: @gold-mid
+  }
+</style>

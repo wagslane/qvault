@@ -8,11 +8,11 @@
           <h1>Create a Password or Passphrase</h1>
           <h2>
             This password/passphrase unlocks your vault. 
-            If you forget it, there is NO WAY to unlock your vault unless you have a
+            If you forget it, there is NO WAY to unlock your vault unless you have
             <a
               href="http://qvault.io"
               class="link"
-            >Q Card</a>
+            >Qvault cards</a>
             associated with this vault.
           </h2>
           <div class="tabs">
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {ValidatePassword, ValidatePassphrase, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
 
 export default {
   data(){
@@ -145,9 +145,9 @@ export default {
   methods:{
     async save(){
       if (this.passwordTabActive){
-        this.$root.pass_key = await PassKeyFromPassword(this.password);
+        this.$root.password = this.password;
       } else {
-        this.$root.pass_key = await PassKeyFromPassword(this.passphrase);
+        this.$root.password = this.passphrase;
       }
       this.$router.push({name: 'create_step_6'});
     },

@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import {ValidatePassword, ValidatePassphrase, PassKeyFromPassword, GeneratePassphrase} from '../../../lib/QVaultCrypto/QVaultCrypto';
+import {ValidatePassword, ValidatePassphrase, GeneratePassphrase} from '../../../lib/QVaultCrypto/QVaultCrypto';
 
 export default {
   data(){
@@ -131,9 +131,9 @@ export default {
   methods:{
     async save(){
       if (this.passwordTabActive){
-        this.$root.pass_key = await PassKeyFromPassword(this.password);
+        this.$root.password = this.password;
       } else {
-        this.$root.pass_key = await PassKeyFromPassword(this.passphrase);
+        this.$root.password = this.passphrase;
       }
       try{
         this.$root.SaveLocalVault();

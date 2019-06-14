@@ -5,7 +5,7 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body">
           <h1>Load From Cloud</h1>
-          <h2>Download your vault from the Q Vault servers</h2>
+          <h2>Download your vault from the Qvault servers</h2>
           <DecoratedTextInput
             v-model="email"
             :active="true"
@@ -49,9 +49,6 @@
 </template>
 
 <script>
-import { DeriveCloudKey, PassKeyFromPassword } from '../../lib/QVaultCrypto/QVaultCrypto';
-import { authenticate, setToken } from '../../lib/CloudClient/CloudClient';
-
 export default {
   data(){
     return {
@@ -63,11 +60,7 @@ export default {
   methods: {
     async download(){
       try {
-        let passKey = await PassKeyFromPassword(this.password);
-        let cloudKey = await DeriveCloudKey(passKey);
-        let body = await authenticate(this.email, cloudKey);
-        setToken(body.jwt);
-        this.$root.email = this.email;
+        await this.$root.Login(this.email, this.password);
         await this.$root.DownloadVault();
         this.unlock();
       } catch (err) {
