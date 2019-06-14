@@ -4,12 +4,12 @@
     <div class="options-box">
       <div class="body">
         <h1 v-if="($root.qr_required)">
-          Change 2FE QR Code
+          Change Dual Encryption Card
         </h1>
         <h1 v-else>
-          Add 2FE QR Code
+          Add Dual Encryption Card
         </h1>
-        <h2>Manage your card's two factor encryption QR code</h2>
+        <h2>Manage your card's dual encryption QR code</h2>
 
         <QRScanner
           v-if="!success"

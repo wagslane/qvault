@@ -3,11 +3,13 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <h1>Add / Change Q Card Restore Code</h1>
-        <h2>Write the new code on the back of both of your Q Cards</h2>
+        <h1>Add/Change Qvault Recovery Card</h1>
+        <h2>
+          This recovery code is the ONLY WAY to restore access to your vault if you forget your password/passphrase.
+        </h2>
 
         <div class="highlight-box">
-          <span class="title">If you don't want to change your code click the back arrow</span>
+          <span class="title">Write this code on the back of of your recovery card, and keep it in a safe place. </span>
           <div class="flex">
             <div
               v-for="(word, i) in split"
@@ -25,10 +27,9 @@
             </div>
           </div>
         </div>
-        <span
-          v-if="error"
-          class="form-error"
-        >{{ error }}</span>
+        <h3> The code is case-sensitive, use underlines for capital letters </h3>
+
+        <br>
         <br>
       </div>
       <div class="footer">
@@ -63,8 +64,7 @@ export default {
   data(){
     return {
       char_key: null,
-      hashed_char_key: null,
-      error: null
+      hashed_char_key: null
     };
   },
   computed:{
@@ -89,18 +89,8 @@ export default {
       this.hashed_char_key = await HashCharKey(this.char_key);
     },
     async click_continue(){
-      let old_char_key = this.$root.char_key;
-      let old_hashed_char_key = this.$root.hashed_char_key;
       this.$root.char_key = this.char_key;
       this.$root.hashed_char_key = this.hashed_char_key;
-      try{
-        await this.$root.SaveBoth();
-      } catch (err){
-        this.error = err;
-        this.$root.char_key = old_char_key;
-        this.$root.hashed_char_key = old_hashed_char_key;
-        return;
-      }
       this.$router.push({name: 'settings'});
     }
   }

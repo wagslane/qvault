@@ -8,11 +8,11 @@
           <h1>Create a Password or Passphrase</h1>
           <h2>
             This password/passphrase unlocks your vault. 
-            If you forget it, there is NO WAY to unlock your vault unless you have a
+            If you forget it, there is NO WAY to unlock your vault unless you have
             <a
               href="http://qvault.io"
               class="link"
-            >Q Card</a>
+            >Qvault cards</a>
             associated with this vault.
           </h2>
           <div class="tabs">

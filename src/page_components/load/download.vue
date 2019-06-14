@@ -5,7 +5,7 @@
       <form @submit.prevent="$refs.loader.load">
         <div class="body">
           <h1>Load From Cloud</h1>
-          <h2>Download your vault from the Q Vault servers</h2>
+          <h2>Download your vault from the Qvault servers</h2>
           <DecoratedTextInput
             v-model="email"
             :active="true"
