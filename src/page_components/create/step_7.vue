@@ -39,7 +39,7 @@
               v-if="!userCreated"
               class="link"
               @click="toDownload"
-            >Logging in will overwrite your current cloud vault. To download your current vault click here
+            >Logging in overwrites your current cloud vault. To download it instead click here
             </span>
             <DecoratedTextInput
               v-model="emailLogin"
@@ -70,20 +70,11 @@
             I don't want to store a backup in the cloud
           </div>
           <div
-            v-if="!registerTabActive"
+            v-else
             class="link"
             @click="resend"
           >
             Resend verification email
-          </div>
-          <br>
-          <br>
-          <div
-            v-if="!registerTabActive"
-            class="link"
-            @click="$router.push({name: 'settings_restore_password'});"
-          >
-            Restore cloud access to this vault
           </div>
           <br>
           <br>

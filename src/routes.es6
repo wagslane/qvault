@@ -22,12 +22,14 @@ import secret_list from './page_components/vault/secret_list.vue';
 import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
 import settings_delete_account from './page_components/settings/delete_account.vue';
-import settings_restore_password from './page_components/settings/restore_password.vue';
-import settings_signup from './page_components/settings/signup.vue';
+import settings_cloud_account_login_register from './page_components/settings/cloud_account/login_register.vue';
+import settings_cloud_account_reset_cloud_password_warning from './page_components/settings/cloud_account/reset_cloud_password_warning.vue';
 import settings_change_char_key from './page_components/settings/change_char_key.vue';
 import settings_qrcode_choose from './page_components/settings/qrcode/choose.vue';
 import settings_qrcode_add_or_change from './page_components/settings/qrcode/add_or_change.vue';
 import settings_qrcode_delete from './page_components/settings/qrcode/delete.vue';
+
+import utility_reset_cloud_password from './page_components/utility/reset_cloud_password.vue';
 
 export default [
   {
@@ -187,19 +189,31 @@ export default [
         name: 'settings_delete_account',
       },
       {
-        path: 'restore_password',
-        component: settings_restore_password,
-        name: 'settings_restore_password',
-      },
-      {
-        path: 'signup',
-        component: settings_signup,
-        name: 'settings_signup',
-      },
-      {
         path: 'change_char_key',
         component: settings_change_char_key,
         name: 'settings_change_char_key',
+      },
+      {
+        path: 'cloud_account',
+        component: route_wrapper,
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'login_register',
+            },
+          },
+          {
+            path: 'login_register',
+            component: settings_cloud_account_login_register,
+            name: 'settings_cloud_account_login_register',
+          },
+          {
+            path: 'reset_cloud_password_warning',
+            component: settings_cloud_account_reset_cloud_password_warning,
+            name: 'settings_cloud_account_reset_cloud_password_warning',
+          }
+        ],
       },
       {
         path: 'qrcode',
@@ -228,6 +242,23 @@ export default [
           },
         ],
       },
+    ],
+  },
+  {
+    path: '/utility',
+    component: route_wrapper,
+    children: [
+      {
+        path: '',
+        redirect: {
+          name: 'utility_reset_cloud_password',
+        },
+      },
+      {
+        path: 'reset_cloud_password',
+        component: utility_reset_cloud_password,
+        name: 'utility_reset_cloud_password',
+      }
     ],
   }
 ];

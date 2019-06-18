@@ -63,9 +63,9 @@
           <div v-if="!registerTabActive">
             <div
               class="link"
-              @click="$router.push({name: 'settings_restore_password'});"
+              @click="$router.push({name: 'utility_reset_cloud_password'});"
             >
-              Restore cloud access to this vault
+              Trouble accessing cloud account?
             </div>
           </div>
           <div v-else>
