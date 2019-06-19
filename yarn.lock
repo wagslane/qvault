@@ -1154,7 +1154,7 @@ bluebird-lst@^1.0.9:
   dependencies:
     bluebird "^3.5.5"
 
-bluebird@^3.1.1, bluebird@^3.3.3, bluebird@^3.5.0, bluebird@^3.5.3, bluebird@^3.5.4, bluebird@^3.5.5:
+bluebird@^3.1.1, bluebird@^3.5.0, bluebird@^3.5.3, bluebird@^3.5.4, bluebird@^3.5.5:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
@@ -1753,11 +1753,6 @@ create-ecdh@^4.0.0:
     bn.js "^4.1.0"
     elliptic "^6.0.0"
 
-create-error@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/create-error/-/create-error-0.3.1.tgz#69810245a629e654432bf04377360003a5351a23"
-  integrity sha1-aYECRaYp5lRDK/BDdzYAA6U1GiM=
-
 create-hash@^1.1.0, create-hash@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
@@ -1780,14 +1775,6 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-cross-fetch@^3.0.1:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.3.tgz#b988beab275939cb77ad4e362c873f7fa8a221a5"
-  integrity sha512-mplYkc4CopHu+AdHK8wxjJcPskUxp5CvPTdtDij3MUgVNBa0xOb9CQqbbn1zO23qISM4WLxIBociyEVQL7WQAg==
-  dependencies:
-    node-fetch "2.6.0"
-    whatwg-fetch "3.0.0"
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -3993,11 +3980,6 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-node-fetch@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
-
 node-libs-browser@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/node-libs-browser/-/node-libs-browser-2.2.0.tgz#c72f60d9d46de08a940dedbb25f3ffa2f9bbaa77"
@@ -4681,14 +4663,6 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
-random-number-csprng@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/random-number-csprng/-/random-number-csprng-1.0.2.tgz#fcd120e62dffc2c07674c7c3fe01e16b25f73a26"
-  integrity sha1-/NEg5i3/wsB2dMfD/gHhayX3OiY=
-  dependencies:
-    bluebird "^3.3.3"
-    create-error "^0.3.1"
-
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -5170,10 +5144,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
-simple-keyboard@^2.21.0:
-  version "2.21.4"
-  resolved "https://registry.yarnpkg.com/simple-keyboard/-/simple-keyboard-2.21.4.tgz#35e15329f9973b18513b175e55d412172a713d7d"
-  integrity sha512-tsGMZTlaN/NKEItp0P3UPHROHRvl2c0u2+piqZ+KHYcDzFfhRHYpI67V17B+UIH7K3/dYVjmvbaNCjxgIq5ndA==
+simple-keyboard@2.21.0:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/simple-keyboard/-/simple-keyboard-2.21.0.tgz#43eb7d5d85e55883108b2035150211a3b450705f"
+  integrity sha512-AKOfJEXmFst6iRJn66CUxXf6lrP8pD+1/SVWYi6H9VF+PCMx7UmzapcHDjRbfco6c5ajM5/fRXliCUpRm9czEA==
 
 single-line-log@^1.1.2:
   version "1.1.2"
@@ -5938,10 +5912,10 @@ vue-loader@^15.5.1:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-qrcode-reader@^1.3.4:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/vue-qrcode-reader/-/vue-qrcode-reader-1.4.2.tgz#ed0812b33976fa7a1ba97b04bd907284c4a2f2e1"
-  integrity sha512-V1+ObiYXrz2EbAnWv6nNxSRvzWXqch9WDlrxBH/i9GEypE5XklWRvOHiNeB0kQBVdv7f8G43BUWAwVNBfZvIQg==
+vue-qrcode-reader@1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/vue-qrcode-reader/-/vue-qrcode-reader-1.3.4.tgz#a370fa2f292988a2e9f420574589a48c48f9a08a"
+  integrity sha512-Jwry5qnhMRLv3ge3LvgFGbgn76Pkt0GJIQUdifLq0TlJM3+hj5ygoF6reQK0d9gzAy3yPMX/MMhl51FwqVsiYg==
   dependencies:
     babel-runtime "^6.26.0"
     jsqr "^1.1.0"
@@ -6057,11 +6031,6 @@ webrtc-adapter@^6.2.1:
   dependencies:
     rtcpeerconnection-shim "^1.2.14"
     sdp "^2.9.0"
-
-whatwg-fetch@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
-  integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
 
 which-module@^2.0.0:
   version "2.0.0"

@@ -11,6 +11,7 @@ import {
   DecipherSecretsQr,
   HashCharKey,
   HashCloudVault,
+  ValidateQRKey,
 } from '../src/lib/QVaultCrypto/QVaultCrypto';
 import { expect } from 'chai';
 
@@ -28,6 +29,15 @@ it('validate passphrase', () => {
   expect(ValidatePassphrase('short')).not.equal('');
 
   expect(ValidatePassphrase('five words od safe log')).equal('');
+});
+
+it('validate qr key', () =>{
+  // 128 bit key
+  expect(ValidateQRKey("xKjFos6jjaiqGtqpC4A5zA==")).equal(true);
+  // 256 bit key
+  expect(ValidateQRKey("pctwWwYQzB2GWrAioixQz/BWv05dNBWqUl1EelePkDg=")).equal(true);
+  // 136 bit key
+  expect(ValidateQRKey("3IlaK/wuwWQQXlK29YQsLj0=")).equal(false);
 });
 
 it('GeneratePassphrase', async () => {
