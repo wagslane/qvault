@@ -1,5 +1,4 @@
 import decode from 'jwt-decode';
-import fetch from 'cross-fetch';
 
 var CLOUD_JWT = null;
 export const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
