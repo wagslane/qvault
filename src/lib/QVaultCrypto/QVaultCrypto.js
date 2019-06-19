@@ -1,7 +1,8 @@
 import crypto from 'crypto';
-import randomNumber from 'random-number-csprng';
 import stringify from 'json-stable-stringify';
 import WordList from './WordList';
+
+import secureRandomNumber from '../../locked_dependencies/secureRandomNumber';
 
 const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
@@ -59,7 +60,7 @@ export function ValidatePassphrase(passphrase) {
 export async function GeneratePassphrase(phraseLength) {
   let phrase = [];
   for (let i = 0; i < phraseLength; i++) {
-    let index = await randomNumber(0, WordList.length - 1);
+    let index = await secureRandomNumber(0, WordList.length - 1);
     phrase.push(WordList[index]);
   }
   return phrase.join(" ");
@@ -73,16 +74,16 @@ export async function GeneratePassword(passwordLength) {
   for (let i = 0; i < passwordLength; i++) {
     switch (i % 4) {
     case 0:
-      password += lower[await randomNumber(0, lower.length - 1)];
+      password += lower[await secureRandomNumber(0, lower.length - 1)];
       break;
     case 1:
-      password += upper[await randomNumber(0, upper.length - 1)];
+      password += upper[await secureRandomNumber(0, upper.length - 1)];
       break;
     case 2:
-      password += chars[await randomNumber(0, chars.length - 1)];
+      password += chars[await secureRandomNumber(0, chars.length - 1)];
       break;
     case 3:
-      password += await randomNumber(0, 9);
+      password += await secureRandomNumber(0, 9);
       break;
     }
   }
@@ -96,7 +97,7 @@ export async function GenerateCharKey() {
 
   let key = '';
   for (let i = 0; i < length; i++) {
-    let index = await randomNumber(0, BASE58.length - 1);
+    let index = await secureRandomNumber(0, BASE58.length - 1);
     key += BASE58.charAt(index);
   }
   return key;
