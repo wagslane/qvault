@@ -12,9 +12,9 @@ const textFormat = 'utf8';
 const longHashDifficulty = 17;
 const shortHashDifficulty = 10;
 
-// QR Key (128 bit, base64) = Encoded in the QR Card, generated in QVault factory
+// QR Key (256 bit, base64) = Encoded in the QR Card, generated in QVault factory
 // Char Key (16 chars, base58) = Back of the Qvault recovery card, generated randomly by this app
-// Pass Key (256 bit, base 64) = Hash(password, salt) or Hash(passphrase, salt), used to cipher the Char Key for easy access
+// Pass Key (256 bit, base64) = Hash(password, salt) or Hash(passphrase, salt), used to cipher the Char Key for easy access
 
 // Secrets are ciphered using Cipher(Hash(Char Key), data) 
 // Or
@@ -172,7 +172,8 @@ export async function DecipherSecretsQr(qrKey, cipheredSecrets) {
 
 export function ValidateQRKey(qrKey) {
   const keyBuf = Buffer.from(qrKey, encodingFormat);
-  return keyBuf.length === 16;
+  // Allow 128 bit keys for legacy purposes
+  return keyBuf.length === 16 || keyBuf.length === 32;
 }
 
 export function GenerateRandomSalt() {
