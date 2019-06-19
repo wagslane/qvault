@@ -4,7 +4,6 @@
     <div class="options-box">
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
-          <StepProgress :filled="6" />
           <h1>Reset Cloud Password</h1>
           <h2>
             If you can't login to your cloud account you can reset your cloud password using your email address
@@ -21,19 +20,19 @@
             type="email" 
           />
           <DecoratedTextInput
-            v-if="!password"
-            v-model="password"
-            :style="{ display: emailSent ? 'none' : 'block'}"
-            keyboard-id="password"
-            description="New Password (Must match vault password)" 
-            type="password" 
-          />
-          <DecoratedTextInput
             v-model="code"
             :style="{ display: emailSent ? 'block' : 'none'}"
             keyboard-id="code" 
-            description="Paste code here" 
+            description="Code from email" 
             type="text" 
+          />
+          <DecoratedTextInput
+            v-if="!usingExistingPassword"
+            v-model="password"
+            :style="{ display: emailSent ? 'block' : 'none'}"
+            keyboard-id="password"
+            description="New Password (must match vault password)" 
+            type="password" 
           />
           <span
             v-if="error"
@@ -70,16 +69,23 @@
 
 <script>
 import {DeriveCloudKey, ValidatePassword} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {updateUserPasswordEmail, authenticate, setToken, emailPasswordCode} from '../../lib/CloudClient/CloudClient';
+import {updateUserPasswordEmail, authenticate, emailPasswordCode} from '../../lib/CloudClient/CloudClient';
 
 export default {
+  props: {
+    donePath:{
+      type: String,
+      required: true,
+    }
+  },
   data(){
     return {
       emailSent: false,
       email: null,
       error: null,
       code: null,
-      password: null
+      password: null,
+      usingExistingPassword: false
     };
   },
   computed:{
@@ -90,6 +96,7 @@ export default {
   mounted(){
     if(this.$root.password){
       this.password = this.$root.password;
+      this.usingExistingPassword = true;
     }
   },
   methods: {
@@ -113,15 +120,13 @@ export default {
           }
           let cloudKey = await DeriveCloudKey(this.password);
           await updateUserPasswordEmail(this.code, cloudKey);
-          let body = await authenticate(this.email, cloudKey);
-          setToken(body.jwt);
-          this.$root.email = this.email;
+          await authenticate(this.email, cloudKey);
         } catch (err) {
           this.error = err;
           return;
         }
-        alert('Password changed successfully');
-        this.$router.push(this.$router.go(-1));
+        alert('Cloud password changed successfully');
+        this.$router.push({name: this.donePath});
       }
     },
   }

@@ -2,10 +2,15 @@
   <div>
     <HeaderBar title="Settings" />
     <div class="options-box">
-      <form @submit.prevent="$router.push({name: 'utility_reset_cloud_password'});">
+      <form
+        @submit.prevent="$router.push({
+          name: 'utility_reset_cloud_password', 
+          params: {donePath: 'settings_cloud_account_login_register'}
+        });"
+      >
         <div class="body center-text">
           <h1>Are You Sure?</h1>
-          <h2>If you reset your cloud account password your existing vault will be overwritten</h2>
+          <h2>If you reset your cloud password then your existing vault will be overwritten</h2>
         </div>
         <div class="footer">
           <div
@@ -19,6 +24,7 @@
             class="continue"
             type="submit"
           >
+            <span>Continue</span>
             <div class="continue-arrow" />
           </button>
         </div>
