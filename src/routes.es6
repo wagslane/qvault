@@ -249,15 +249,10 @@ export default [
     component: route_wrapper,
     children: [
       {
-        path: '',
-        redirect: {
-          name: 'utility_reset_cloud_password',
-        },
-      },
-      {
-        path: 'reset_cloud_password',
+        path: 'reset_cloud_password/:donePath',
         component: utility_reset_cloud_password,
         name: 'utility_reset_cloud_password',
+        props: true
       }
     ],
   }
