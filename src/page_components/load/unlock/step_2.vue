@@ -4,13 +4,13 @@
     <div class="options-box">
       <form @submit.prevent="$refs.loader.load">
         <div class="body">
-          <h1>Restore Vault Access</h1>
-          <h2>Please enter the code on the back of your recovery card</h2>
+          <h1>Recover Vault with Qvault Card</h1>
+          <h2>Please enter the code from the back of your recovery card</h2>
           <DecoratedTextInput
             v-model="char_key"
             :active="true"
             keyboard-id="char_key" 
-            description="Code" 
+            description="Code (no spaces)" 
             type="char_key" 
           />
           <span
