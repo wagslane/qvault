@@ -63,9 +63,9 @@
           <div v-if="!registerTabActive">
             <div
               class="link"
-              @click="$router.push({name: 'settings_restore_password'});"
+              @click="$router.push({name: 'settings_cloud_account_reset_cloud_password_warning'});"
             >
-              Restore cloud access to this vault
+              Trouble accessing cloud account?
             </div>
           </div>
           <div v-else>
@@ -114,8 +114,8 @@
 </template>
 
 <script>
-import { DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
+import { DeriveCloudKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
+import {createUser, resendRegistrationEmail} from '../../../lib/CloudClient/CloudClient';
 
 export default {
   data(){
@@ -151,6 +151,7 @@ export default {
     async click_continue(){
       this.error = null;
       this.userCreated = false;
+      // register if needed
       if (this.registerTabActive){
         try{
           this.register();
@@ -159,11 +160,24 @@ export default {
         }
         return;
       }
+      // login
       try{
         await this.$root.Login(this.emailLogin, this.$root.password);
       } catch (err) {
-        this.error = err;
+        this.error = `Unable to access cloud account: ${err}`;
         return;
+      }
+      // download existing vault to get the hash
+      // then ignore it because we are overwriting
+      try {
+        await this.$root.DownloadVault();
+      } catch (err) {
+        this.$root.loaded_vault = null;
+        // if there are no vaults that's okay
+        if (err !== 'No vaults found on server'){
+          this.error = err;
+          return;
+        }
       }
       this.$router.push({name: 'settings'});
     }

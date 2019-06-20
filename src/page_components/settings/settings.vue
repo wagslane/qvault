@@ -46,7 +46,7 @@
         <router-link
           v-if="(!$root.email)"
           class="btn"
-          :to="{name: 'settings_signup'}"
+          :to="{name: 'settings_cloud_account_login_register'}"
         >
           Add Cloud Storage
         </router-link>

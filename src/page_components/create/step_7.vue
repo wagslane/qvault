@@ -39,8 +39,10 @@
               v-if="!userCreated"
               class="link"
               @click="toDownload"
-            >Logging in will overwrite your current cloud vault. To download your current vault click here
+            >Logging in overwrites your current cloud vault. To download it instead click here
             </span>
+            <br>
+            <br>
             <DecoratedTextInput
               v-model="emailLogin"
               :default-value="defaultEmailLogin"
@@ -70,20 +72,11 @@
             I don't want to store a backup in the cloud
           </div>
           <div
-            v-if="!registerTabActive"
+            v-else
             class="link"
             @click="resend"
           >
             Resend verification email
-          </div>
-          <br>
-          <br>
-          <div
-            v-if="!registerTabActive"
-            class="link"
-            @click="$router.push({name: 'settings_restore_password'});"
-          >
-            Restore cloud access to this vault
           </div>
           <br>
           <br>
@@ -164,6 +157,7 @@ export default {
     async click_continue(){
       this.error = null;
       this.userCreated = false;
+      // register if needed
       if (this.registerTabActive){
         try{
           this.register();
@@ -172,13 +166,32 @@ export default {
         }
         return;
       }
+      // login
       try{
         await this.$root.Login(this.emailLogin, this.$root.password);
+      } catch (err) {
+        this.error = `Unable to access cloud account: ${err}`;
+        return;
+      }
+      // download existing vault to get the hash
+      // then ignore it because we are overwriting
+      try {
+        await this.$root.DownloadVault();
+      } catch (err) {
+        this.$root.loaded_vault = null;
+        // if there are no vaults that's okay
+        if (err !== 'No vaults found on server'){
+          this.error = err;
+          return;
+        }
+      }
+      try{
         await this.$root.SaveBoth();
-        this.$router.push({name: 'vault'});
       } catch (err) {
         this.error = err;
+        return;
       }
+      this.$router.push({name: 'vault'});
     }
   }
 };

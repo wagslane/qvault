@@ -3,7 +3,7 @@
     <HeaderBar title="Load" />
     <div class="options-box">
       <form @submit.prevent="$refs.loader.load">
-        <div class="body">
+        <div class="body center-text">
           <h1>Load From Cloud</h1>
           <h2>Download your vault from the Qvault servers</h2>
           <DecoratedTextInput
@@ -23,6 +23,17 @@
             v-if="error"
             class="form-error"
           >{{ error }}</span>
+          <br>
+          <br>
+          <router-link
+            class="link"
+            :to="{
+              name: 'utility_reset_cloud_password', 
+              params: {donePath: 'load_download'}
+            }"
+          >
+            Trouble accessing cloud account?
+          </router-link>
         </div>
         <div class="footer">
           <div
@@ -59,8 +70,14 @@ export default {
   },
   methods: {
     async download(){
-      try {
+      try{
         await this.$root.Login(this.email, this.password);
+      } catch (err) {
+        this.error = `Unable to access cloud account: ${err}`;
+        this.$root.loaded_vault = null;
+        return;
+      }
+      try {
         await this.$root.DownloadVault();
         this.unlock();
       } catch (err) {

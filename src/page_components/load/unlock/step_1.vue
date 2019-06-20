@@ -125,7 +125,7 @@ export default {
       try{
         await this.$root.UnlockVaultPassword(this.password, this.$root.loaded_vault.salt);
       } catch(err){
-        this.error = err;
+        this.error = `Unable to unlock vault: ${err}`;
         return;
       }
 
@@ -133,7 +133,7 @@ export default {
         try{
           await this.$root.Login(this.$root.email, this.$root.password);
         } catch(err){
-          this.error = err;
+          this.error = `Unable to access cloud account: ${err}`;
           return;
         }
 

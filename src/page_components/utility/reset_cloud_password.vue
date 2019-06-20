@@ -4,13 +4,12 @@
     <div class="options-box">
       <form @submit.prevent="$refs.loader.load">
         <div class="body center-text">
-          <StepProgress :filled="6" />
-          <h1>Restore Cloud Access</h1>
+          <h1>Reset Cloud Password</h1>
           <h2>
-            If you can't login to your cloud account because it was associated with a different vault, you can restore access via email
+            If you can't login to your cloud account you can reset your cloud password using your email address
           </h2>
           <h3>
-            If you restore access to your cloud account here, your old cloud vault will be overwritten
+            Your cloud account password is calculated from your vault password.
           </h3>
 
           <DecoratedTextInput
@@ -24,8 +23,16 @@
             v-model="code"
             :style="{ display: emailSent ? 'block' : 'none'}"
             keyboard-id="code" 
-            description="Paste code here" 
+            description="Code from email" 
             type="text" 
+          />
+          <DecoratedTextInput
+            v-if="!usingExistingPassword"
+            v-model="password"
+            :style="{ display: emailSent ? 'block' : 'none'}"
+            keyboard-id="password"
+            description="New Password (must match vault password)" 
+            type="password" 
           />
           <span
             v-if="error"
@@ -61,21 +68,35 @@
 </template>
 
 <script>
-import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {updateUserPasswordEmail, authenticate, setToken, emailPasswordCode} from '../../lib/CloudClient/CloudClient';
+import {DeriveCloudKey, ValidatePassword} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {updateUserPasswordEmail, authenticate, emailPasswordCode} from '../../lib/CloudClient/CloudClient';
 
 export default {
+  props: {
+    donePath:{
+      type: String,
+      required: true,
+    }
+  },
   data(){
     return {
       emailSent: false,
       email: null,
       error: null,
-      code: null
+      code: null,
+      password: null,
+      usingExistingPassword: false
     };
   },
   computed:{
     emailValid(){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email);
+    }
+  },
+  mounted(){
+    if(this.$root.password){
+      this.password = this.$root.password;
+      this.usingExistingPassword = true;
     }
   },
   methods: {
@@ -92,16 +113,20 @@ export default {
         this.emailSent = true;
       }else{
         try{
-          let cloudKey = await DeriveCloudKey(this.$root.password);
+          let err = ValidatePassword(this.password);
+          if (err != ""){
+            this.error = err;
+            return;
+          }
+          let cloudKey = await DeriveCloudKey(this.password);
           await updateUserPasswordEmail(this.code, cloudKey);
-          let body = await authenticate(this.email, cloudKey);
-          setToken(body.jwt);
-          this.$root.email = this.email;
+          await authenticate(this.email, cloudKey);
         } catch (err) {
           this.error = err;
           return;
         }
-        this.$router.push({name: 'settings'});
+        alert('Cloud password changed successfully');
+        this.$router.push({name: this.donePath});
       }
     },
   }
