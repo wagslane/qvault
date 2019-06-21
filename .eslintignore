@@ -6,9 +6,4 @@ dist
 release
 electron-builder.env
 test.rest
-
-## kilian notarize hack
-appBuilderLibKilian
-dmgBuilderKilian
-appBuilderLibTemp
-dmgBuilderTemp
+src/locked_dependencies/simple-keyboard
