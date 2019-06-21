@@ -319,7 +319,7 @@ export default{
 }
 
 .keyboardContainer {
-  z-index: 100;
+  z-index: 300;
   background-color: @black-darkest;
   position: fixed;
   width: 100%;
