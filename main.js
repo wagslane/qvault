@@ -18,8 +18,8 @@ let mainWindow;
 
 function createWindow() {
 
-  // If opened with a file, set that filename to be opened on startup
-  if (process.platform == 'win32' || process.platform == 'darwin' && process.argv.length >= 2) {
+  // Allow users to open a qvault by clicking file on windows
+  if ((process.platform == 'win32' || process.platform == 'win64') && process.argv.length >= 2) {
     const openFilePath = process.argv[1];
     SetLastUsedVault(openFilePath);
   }
@@ -87,6 +87,15 @@ function createWindow() {
 
   return mainWindow;
 }
+
+// Allow users to open a qvault by clicking file on mac
+// https://github.com/electron/electron/blob/master/docs/api/app.md#event-open-file-macos
+app.on('will-finish-launching', () => {
+  app.on('open-file', (event, path) => {
+    event.preventDefault();
+    SetLastUsedVault(path);
+  });
+});
 
 app.on('ready', function () {
   createWindow();
