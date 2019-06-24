@@ -3,6 +3,7 @@ const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
+const { SetLastUsedVault } = require('./src/lib/LastUsedVaultPath');
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -16,6 +17,13 @@ log.info('App starting...');
 let mainWindow;
 
 function createWindow() {
+
+  // If opened with a file, set that filename to be opened on startup
+  if (process.platform == 'win32' || process.platform == 'darwin' && process.argv.length >= 2) {
+    const openFilePath = process.argv[1];
+    SetLastUsedVault(openFilePath);
+  }
+
   // Need to wait to require screen until app is ready
   const { screen } = require('electron');
   
