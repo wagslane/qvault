@@ -2,14 +2,10 @@ const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
-const log = require('electron-log');
 const { SetLastUsedVault } = require('./src/lib/LastUsedVaultPath');
 
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
 autoUpdater.autoDownload = false;
 autoUpdater.allowPrerelease = true;
-log.info('App starting...');
 
 
 // Keep a global reference of the window object, if you don't, the window will
