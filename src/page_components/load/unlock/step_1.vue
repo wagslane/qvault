@@ -2,13 +2,13 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="$refs.loader.load(unlock)">
         <div class="body center-text">
           <h1>Unlock Vault</h1>
           <div v-if="!qrRequired">
             <h2>Please enter your password or passphrase</h2>
             <h3 class="gold-mid">
-              {{ $root.local_vault_path.split('\\').pop().split('/').pop() }}
+              {{ vaultFileName }}
             </h3>
             <DecoratedTextInput
               v-model="password"
@@ -48,7 +48,7 @@
           <div
             v-if="updateReady"
             class="link"
-            @click="$refs.loader_update.load"
+            @click="$refs.loaderUpdate.load(updateVersion)"
           >
             Quit and install latest version
           </div>
@@ -71,13 +71,11 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="unlock"
     />
-    <LoadingOverlay
-      ref="loader_update"
-      :func="updateVersion"
+    <timingOverlay
+      ref="loaderUpdate"
     />
   </div>
 </template>
@@ -86,12 +84,14 @@
 import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
 import {ipcRenderer} from 'electron';
-import { ClearLastUsedVault } from '../../../lib/LastUsedVaultPath';
-const sleep = require('util').promisify(setTimeout);
+import sleep from '../../../lib/sleep';
+import timingOverlay from '../../../components/timing_overlay.vue';
+import {ClearLastUsedVault} from '../../../lib/LastUsedVaultPath';
 
 export default {
   components:{
     QRScanner,
+    timingOverlay,
   },
   data(){
     return {
@@ -103,9 +103,11 @@ export default {
       allowOverwrite: false,
       showDownload: false,
       originalLoadedVault: this.$root.loaded_vault,
+      vaultFileName: ''
     };
   },
   mounted(){
+    this.vaultFileName = this.$root.local_vault_path.split('\\').pop().split('/').pop();
     this.qrRequired = this.$root.qr_required;
     ipcRenderer.on('updateReady', ()=>{
       this.updateReady = true;
@@ -209,13 +211,8 @@ export default {
       } catch (err) {
         // we don't care that much
       }
-        
-      // Clear all the loaded data
-      this.$root.loaded_vault = null;
-      this.$root.local_vault_path = null;
-      this.$root.email = null;
-      this.$root.qr_required = false;
-   
+      
+      this.$root.ResetStorageState();
       this.$router.go(-1);
     }
   }

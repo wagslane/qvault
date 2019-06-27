@@ -21,17 +21,20 @@
         </router-link>
       </div>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="open_existing"
     />
   </div>
 </template>
 
 <script>
 import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   mounted(){
     try{
       this.$root.LoadLastUsedVault();
@@ -42,7 +45,7 @@ export default {
   },
   methods:{
     async load(){
-      this.$refs.loader.load();
+      this.$refs.loader.load(this.open_existing);
     },
     async open_existing(){
       this.$root.char_key = await GenerateCharKey();

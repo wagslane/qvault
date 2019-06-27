@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="$refs.loader.load(click_continue)">
         <div class="body center-text">
           <StepProgress :filled="6" />
           <h1>Qvault Cloud Account</h1>
@@ -107,10 +107,8 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      title="Registering"
-      :func="click_continue"
     />
   </div>
 </template>
@@ -118,8 +116,12 @@
 <script>
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 import {createUser, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
+import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       registerTabActive: true,
@@ -154,24 +156,17 @@ export default {
       this.defaultEmailLogin = this.emailRegister;
       this.emailRegister = null;
     },
-    async click_continue(){
-      this.error = null;
-      this.userCreated = false;
+    async loginRegister(){
       // register if needed
       if (this.registerTabActive){
-        try{
-          this.register();
-        } catch (err) {
-          this.error = err;
-        }
-        return;
+        await this.register();
+        return true;
       }
       // login
       try{
         await this.$root.Login(this.emailLogin, this.$root.password);
       } catch (err) {
-        this.error = `Unable to access cloud account: ${err}`;
-        return;
+        throw `Unable to access cloud account: ${err}`;
       }
       // download existing vault to get the hash
       // then ignore it because we are overwriting
@@ -181,9 +176,20 @@ export default {
         this.$root.loaded_vault = null;
         // if there are no vaults that's okay
         if (err !== 'No vaults found on server'){
-          this.error = err;
-          return;
+          throw err;
         }
+      }
+      return false;
+    },
+    async click_continue(){
+      this.error = null;
+      this.userCreated = false;
+      try{
+        const registered = await this.$refs.loader.load(this.loginRegister);
+        if (registered) {return;}
+      } catch (err){
+        this.error = err;
+        return;
       }
       try{
         await this.$root.SaveBoth();

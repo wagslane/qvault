@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Settings" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="click_continue">
         <div class="body center-text">
           <h1>Cloud Backup Account</h1>
           <h2>All vaults stored by Qvault are encrypted locally to preserve your privacy</h2>
@@ -105,10 +105,12 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      title="Registering"
-      :func="click_continue"
+    />
+    <timingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
     />
   </div>
 </template>
@@ -116,8 +118,12 @@
 <script>
 import { DeriveCloudKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
 import {createUser, resendRegistrationEmail} from '../../../lib/CloudClient/CloudClient';
+import timingOverlay from '../../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       registerTabActive: true,
@@ -148,24 +154,17 @@ export default {
       this.defaultEmailLogin = this.emailRegister;
       this.emailRegister = null;
     },
-    async click_continue(){
-      this.error = null;
-      this.userCreated = false;
+    async loginRegister(){
       // register if needed
       if (this.registerTabActive){
-        try{
-          this.register();
-        } catch (err) {
-          this.error = err;
-        }
-        return;
+        await this.register();
+        return true;
       }
       // login
       try{
         await this.$root.Login(this.emailLogin, this.$root.password);
       } catch (err) {
-        this.error = `Unable to access cloud account: ${err}`;
-        return;
+        throw `Unable to access cloud account: ${err}`;
       }
       // download existing vault to get the hash
       // then ignore it because we are overwriting
@@ -175,10 +174,22 @@ export default {
         this.$root.loaded_vault = null;
         // if there are no vaults that's okay
         if (err !== 'No vaults found on server'){
-          this.error = err;
-          return;
+          throw err;
         }
       }
+      return false;
+    },
+    async click_continue(){
+      this.error = null;
+      this.userCreated = false;
+      try{
+        const registered = await this.$refs.loader.load(this.loginRegister);
+        if (registered) {return;}
+      } catch (err){
+        this.error = err;
+        return;
+      }
+      await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'settings'});
     }
   }

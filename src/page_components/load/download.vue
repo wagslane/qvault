@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="$refs.loader.load(download)">
         <div class="body center-text">
           <h1>Load From Cloud</h1>
           <h2>Download your vault from the Qvault servers</h2>
@@ -52,15 +52,19 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="download"
     />
   </div>
 </template>
 
 <script>
+import timingOverlay from '../../components/timing_overlay.vue';
+
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       email: null,

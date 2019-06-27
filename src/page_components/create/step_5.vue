@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="save">
         <div class="body">
           <StepProgress :filled="4" />
           <h1>Create a Password or Passphrase</h1>
@@ -103,10 +103,6 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
-      ref="loader"
-      :func="save"
-    />
   </div>
 </template>
 

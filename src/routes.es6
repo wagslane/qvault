@@ -33,7 +33,7 @@ import utility_reset_cloud_password from './page_components/utility/reset_cloud_
 
 export default [
   {
-    path: '',
+    path: '/',
     redirect: {
       name: 'create_step_1',
     },
@@ -44,6 +44,7 @@ export default [
     children: [
       {
         path: '',
+        name: 'create',
         redirect: {
           name: 'create_step_1',
         },
@@ -107,7 +108,7 @@ export default [
         name: 'load_download',
       },
       {
-        path: '/unlock',
+        path: 'unlock',
         component: route_wrapper,
         children: [
           {

@@ -50,17 +50,24 @@
         </div>
       </div>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="generate_key"
+    />
+    <timingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
     />
   </div>
 </template>
 
 <script>
 import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       char_key: null,
@@ -81,7 +88,7 @@ export default {
     }
   },
   mounted(){
-    this.$refs.loader.load();
+    this.$refs.loader.load(this.generate_key);
   },
   methods:{
     async generate_key(){
@@ -91,6 +98,7 @@ export default {
     async click_continue(){
       this.$root.char_key = this.char_key;
       this.$root.hashed_char_key = this.hashed_char_key;
+      await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'settings'});
     }
   }
