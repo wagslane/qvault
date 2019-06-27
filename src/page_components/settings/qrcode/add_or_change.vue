@@ -12,15 +12,8 @@
         <h2>Manage your card's dual encryption QR code</h2>
 
         <QRScanner
-          v-if="!success"
           @scanned="handleQRKey"
         />
-        <div
-          v-else
-          class="checkmark"
-          v-html="checkmark_filled_svg"
-        />
-
         <br>
         <br>
         <span
@@ -39,28 +32,27 @@
         </div>
       </div>
     </div>
+    <timingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
+    />
   </div>
 </template>
 
 <script>
 import {ValidateQRKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
-import checkmark_filled_svg from '../../../img/checkmark-filled.svg';
+import timingOverlay from '../../../components/timing_overlay.vue';
 
 export default {
   components:{
     QRScanner,
+    timingOverlay,
   },
   data(){
     return {
-      error: null,
-      success: false
+      error: null
     };
-  },
-  computed:{
-    checkmark_filled_svg(){
-      return checkmark_filled_svg;
-    }
   },
   methods:{
     async handleQRKey(qrKey) {
@@ -85,21 +77,15 @@ export default {
         this.$root.qr_key = old_qr_key;
         return;
       }
-      this.success = true;
-      setTimeout(() => { this.$router.push({name: 'settings'}); }, 1500);
+      await this.$refs.successOverlay.sleep(1200);
+      this.$router.push({name: 'settings'});
     },
   }
 };
 </script>
 
 <style lang="less" scoped>
-
 .body{
   text-align: center;
-}
-
-.checkmark{
-  margin: 0 auto;
-  width: 28px;
 }
 </style>

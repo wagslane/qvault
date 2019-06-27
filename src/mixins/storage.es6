@@ -160,7 +160,6 @@ export default {
         this.LoadSecrets(secrets);
         this.char_key = charKey;
         this.hashed_char_key = hashedCharKey;
-        this.loaded_vault = null;
       } catch (err) {
         throw "Invalid code";
       }

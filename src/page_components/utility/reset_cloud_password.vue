@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
+      <form @submit.prevent="$refs.loader.load(click_continue)">
         <div class="body center-text">
           <h1>Reset Cloud Password</h1>
           <h2>
@@ -59,10 +59,8 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      title="Registering"
-      :func="click_continue"
     />
   </div>
 </template>
@@ -70,8 +68,12 @@
 <script>
 import {DeriveCloudKey, ValidatePassword} from '../../lib/QVaultCrypto/QVaultCrypto';
 import {updateUserPasswordEmail, authenticate, emailPasswordCode} from '../../lib/CloudClient/CloudClient';
+import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   props: {
     donePath:{
       type: String,

@@ -81,24 +81,27 @@
         <button
           v-if="(password && !password_error) || (passphrase && !passphrase_error)"
           class="continue"
-          @click="$refs.loader.load"
+          @click="$refs.loader.load(save)"
         >
           <span>Continue</span>
           <div class="continue-arrow" />
         </button>
       </div>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="save"
     />
   </div>
 </template>
 
 <script>
 import {ValidatePassword, ValidatePassphrase, GeneratePassphrase} from '../../../lib/QVaultCrypto/QVaultCrypto';
+import timingOverlay from '../../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       passwordTabActive: true,

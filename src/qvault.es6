@@ -10,12 +10,10 @@ import QvaultApp from './qvault.vue';
 import HeaderBar from './components/header_bar.vue';
 import StepProgress from './components/step_progress.vue';
 import DecoratedTextInput from './components/decorated_text_input.vue';
-import LoadingOverlay from './components/loading_overlay.vue';
 
 Vue.component('HeaderBar', HeaderBar);
 Vue.component('StepProgress', StepProgress);
 Vue.component('DecoratedTextInput', DecoratedTextInput);
-Vue.component('LoadingOverlay', LoadingOverlay);
 
 // Open all http links in external browsers
 document.addEventListener('click', function (event) {

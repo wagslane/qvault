@@ -57,7 +57,7 @@ export async function resendRegistrationEmail(email, password) {
 
 export async function deleteUser() {
   if (!isLoggedIn()) {
-    return Promise.reject('Not logged in');
+    throw 'Not logged in';
   }
   const jwt = getToken();
 
@@ -74,7 +74,7 @@ export async function deleteUser() {
 
 export async function updateUserPassword(oldPassword, newPassword) {
   if (!isLoggedIn()) {
-    return Promise.reject('Not logged in');
+    throw 'Not logged in';
   }
   const jwt = getToken();
 

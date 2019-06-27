@@ -21,11 +21,19 @@
         </div>
       </div>
     </div>
+    <timingOverlay
+      ref="loader"
+    />
   </div>
 </template>
 
 <script>
+import timingOverlay from '../../components/timing_overlay.vue';
+
 export default {
+  components:{
+    timingOverlay
+  },
   mounted(){
     requestAnimationFrame(async () => {
       requestAnimationFrame(async () => {
@@ -34,14 +42,14 @@ export default {
     });
   },
   methods:{
-    open(){
+    async open(){
       try{
         this.$root.NewVaultDialog();
-        this.$root.CreateLocalVault();
-        this.$router.push({name: 'create_step_7'});
+        await this.$refs.loader.load(this.$root.CreateLocalVault);
       } catch (err) {
         this.error = err;
       }
+      this.$router.push({name: 'create_step_7'});
     }
   }
 };

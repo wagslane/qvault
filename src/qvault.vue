@@ -31,7 +31,7 @@ export default {
       box_types,
     };
   },
-  router: router,
+  router,
   computed:{
     titleHeight(){
       if (type() === 'Darwin'){
