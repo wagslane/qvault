@@ -86,6 +86,7 @@
 import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
 import {ipcRenderer} from 'electron';
+import { ClearLastUsedVault } from '../../../lib/LastUsedVaultPath';
 const sleep = require('util').promisify(setTimeout);
 
 export default {
@@ -204,7 +205,7 @@ export default {
     },
     back(){
       try{
-        this.$root.ClearLastUsedVaultCache();
+        ClearLastUsedVault();
       } catch (err) {
         // we don't care that much
       }
