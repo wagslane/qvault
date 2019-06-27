@@ -86,6 +86,7 @@ import QRScanner from '../../../components/qrcode_scanner.vue';
 import {ipcRenderer} from 'electron';
 import sleep from '../../../lib/sleep';
 import timingOverlay from '../../../components/timing_overlay.vue';
+import {ClearLastUsedVault} from '../../../lib/LastUsedVaultPath';
 
 export default {
   components:{
@@ -206,7 +207,7 @@ export default {
     },
     back(){
       try{
-        this.$root.ClearLastUsedVaultCache();
+        ClearLastUsedVault();
       } catch (err) {
         // we don't care that much
       }

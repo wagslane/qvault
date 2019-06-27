@@ -28,10 +28,18 @@
     "appId": "io.qvault.app",
     "afterSign": "scripts/afterSign.js",
     "productName": "QVault",
+    "fileAssociations": [
+      {
+        "ext": "qvault",
+        "name": "Qvault",
+        "mimeType": "application/qvault"
+      }
+    ],
     "files": [
       "main.js",
       "index.html",
       "dist/*",
+      "src/lib/LastUsedVaultPath.js",
       "scripts/preload.js"
     ],
     "directories": {
