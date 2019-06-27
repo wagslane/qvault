@@ -108,9 +108,12 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="change"
+    />
+    <timingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
     />
   </div>
 </template>
@@ -119,8 +122,12 @@
 import {ValidatePassword, ValidatePassphrase, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
 import {updateUserPassword} from '../../lib/CloudClient/CloudClient';
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       matched: false,
@@ -170,15 +177,9 @@ export default {
       }
 
       if (this.$root.email){
-        try{
-          let old_cloud_key = await DeriveCloudKey(this.old_password);
-          let new_cloud_key = await DeriveCloudKey(newPassword);
-          await updateUserPassword(old_cloud_key, new_cloud_key);
-        } catch (err){
-          this.reset();
-          this.error = err;
-          return;
-        }
+        let old_cloud_key = await DeriveCloudKey(this.old_password);
+        let new_cloud_key = await DeriveCloudKey(newPassword);
+        await updateUserPassword(old_cloud_key, new_cloud_key);
       }
 
       let rootPassword = this.$root.password;
@@ -187,11 +188,8 @@ export default {
         await this.$root.SaveBoth();
       } catch (err){
         this.$root.password = rootPassword;
-        this.reset();
-        this.error = err;
-        return;
+        throw err;
       }
-      this.$router.push({name: 'settings'});
     },
     async submit(){
       this.error = null;
@@ -205,7 +203,15 @@ export default {
         }
         return;
       }
-      this.$refs.loader.load();
+      try{
+        await this.$refs.loader.load(this.change);
+      } catch (err) {
+        this.reset();
+        this.error = err;
+        return;
+      }
+      await this.$refs.successOverlay.sleep(1200);
+      this.$router.push({name: 'settings'});
     },
     async generatePassphrase(){
       this.generated = await GeneratePassphrase(5);

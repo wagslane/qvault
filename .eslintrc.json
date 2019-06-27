@@ -4,6 +4,10 @@
         "plugin:vue/recommended"
     ],
     "rules": {
+        "linebreak-style":[
+            "error",
+            "unix"
+        ],
         "array-bracket-spacing": [
             "error",
             "always"

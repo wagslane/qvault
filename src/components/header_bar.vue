@@ -32,7 +32,7 @@
           :style="{marginRight: '20px'}"
           :disabled-status="$root.ConflictExists"
           :title-text="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : 'Save Vault'"
-          @click.native="$refs.loader.load"
+          @click.native="$refs.loader.load(save)"
         />
         <div
           v-else
@@ -40,8 +40,8 @@
           <checkmarkSvg
             class="img float-right"
             :style="{marginRight: '20px'}"
-            height="25"
-            width="25"
+            :height="25"
+            :width="25"
           />
           <span
             :style="{marginRight: '10px'}"
@@ -50,9 +50,8 @@
         </div>
       </div>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="save"
     />
   </div>
 </template>
@@ -61,12 +60,14 @@
 import gearSvg from '../img/gear-icon.svg.vue';
 import saveSvg from '../img/save.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
+import timingOverlay from '../components/timing_overlay.vue';
 
 export default {
   components:{
     gearSvg,
     saveSvg,
-    checkmarkSvg
+    checkmarkSvg,
+    timingOverlay
   },
   props: { 
     title: {

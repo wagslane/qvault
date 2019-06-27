@@ -1,11 +1,11 @@
 import fs from 'fs';
 import { remote } from 'electron';
 const dialog = remote.dialog;
-const app = remote.app;
 const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.es6';
 import parse from 'csv-parse/lib/sync';
+import { GetLastUsedVault, SetLastUsedVault } from '../lib/LastUsedVaultPath';
 import {
   PassKeyFromPassword,
   CipherSecrets,
@@ -160,7 +160,6 @@ export default {
         this.LoadSecrets(secrets);
         this.char_key = charKey;
         this.hashed_char_key = hashedCharKey;
-        this.loaded_vault = null;
       } catch (err) {
         throw "Invalid code";
       }
@@ -174,7 +173,7 @@ export default {
 
     async SaveVault(vault) {
       fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
-      fs.writeFileSync(this.GetLastUsedVaultPath(), this.local_vault_path);
+      SetLastUsedVault(this.local_vault_path);
     },
 
     async GetSavableVault(){
@@ -213,20 +212,8 @@ export default {
       }
     },
 
-    ClearLastUsedVaultCache(){
-      let filepath = this.GetLastUsedVaultPath();
-      if (fs.existsSync(filepath)) {
-        fs.unlinkSync(filepath);
-      }
-    },
-
     LoadLastUsedVault(){
-      let vault_path = fs.readFileSync(this.GetLastUsedVaultPath(), 'utf-8');
-      this.LoadVaultLocal(vault_path);
-    },
-
-    GetLastUsedVaultPath(){
-      return `${app.getPath('userData')}/last_used_vault`;
+      this.LoadVaultLocal(GetLastUsedVault());
     },
 
     async SaveBoth(){

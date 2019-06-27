@@ -2,13 +2,10 @@ const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
-const log = require('electron-log');
+const { SetLastUsedVault } = require('./src/lib/LastUsedVaultPath');
 
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
 autoUpdater.autoDownload = false;
 autoUpdater.allowPrerelease = true;
-log.info('App starting...');
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -16,6 +13,13 @@ log.info('App starting...');
 let mainWindow;
 
 function createWindow() {
+
+  // Allow users to open a qvault by clicking file on windows
+  if ((process.platform == 'win32' || process.platform == 'win64') && process.argv.length >= 2) {
+    const openFilePath = process.argv[1];
+    SetLastUsedVault(openFilePath);
+  }
+
   // Need to wait to require screen until app is ready
   const { screen } = require('electron');
   
@@ -79,6 +83,15 @@ function createWindow() {
 
   return mainWindow;
 }
+
+// Allow users to open a qvault by clicking file on mac
+// https://github.com/electron/electron/blob/master/docs/api/app.md#event-open-file-macos
+app.on('will-finish-launching', () => {
+  app.on('open-file', (event, path) => {
+    event.preventDefault();
+    SetLastUsedVault(path);
+  });
+});
 
 app.on('ready', function () {
   createWindow();

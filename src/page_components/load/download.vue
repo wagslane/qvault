@@ -2,8 +2,8 @@
   <div>
     <HeaderBar title="Load" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load">
-        <div class="body">
+      <form @submit.prevent="$refs.loader.load(download)">
+        <div class="body center-text">
           <h1>Load From Cloud</h1>
           <h2>Download your vault from the Qvault servers</h2>
           <DecoratedTextInput
@@ -23,6 +23,17 @@
             v-if="error"
             class="form-error"
           >{{ error }}</span>
+          <br>
+          <br>
+          <router-link
+            class="link"
+            :to="{
+              name: 'utility_reset_cloud_password', 
+              params: {donePath: 'load_download'}
+            }"
+          >
+            Trouble accessing cloud account?
+          </router-link>
         </div>
         <div class="footer">
           <div
@@ -41,15 +52,19 @@
         </div>
       </form>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="download"
     />
   </div>
 </template>
 
 <script>
+import timingOverlay from '../../components/timing_overlay.vue';
+
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       email: null,
@@ -59,8 +74,14 @@ export default {
   },
   methods: {
     async download(){
-      try {
+      try{
         await this.$root.Login(this.email, this.password);
+      } catch (err) {
+        this.error = `Unable to access cloud account: ${err}`;
+        this.$root.loaded_vault = null;
+        return;
+      }
+      try {
         await this.$root.DownloadVault();
         this.unlock();
       } catch (err) {

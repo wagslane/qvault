@@ -4,22 +4,22 @@
     <div class="options-box">
       <div class="body">
         <h1>Delete your cloud account</h1>
-        <h2 v-if="!deleted">
+        <h2>
           Are you sure? Account deletion is permanent
         </h2>
 
         <div
-          v-if="!deleted"
           class="btn"
           @click="load"
         >
           Yes, delete my account
         </div>
-        <div
-          v-else
-          class="checkmark"
-          v-html="checkmark_filled_svg"
-        />
+        <br>
+        <br>
+        <span
+          v-if="error"
+          class="form-error"
+        >{{ error }}</span>
       </div>
       <div class="footer">
         <div
@@ -30,64 +30,50 @@
         </div>
       </div>
     </div>
-    <LoadingOverlay
+    <timingOverlay
       ref="loader"
-      :func="delete_account"
+    />
+    <timingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
     />
   </div>
 </template>
 
 <script>
-import checkmark_filled_svg from '../../img/checkmark-filled.svg';
 import {deleteUser, isLoggedIn, deleteToken} from '../../lib/CloudClient/CloudClient';
+import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
-      deleted: false,
       error: null
     };
   },
-  computed:{
-    checkmark_filled_svg(){
-      return checkmark_filled_svg;
-    }
-  },
   methods:{
     async load(){
-      this.$refs.loader.load();
+      try{
+        await this.$refs.loader.load(this.deleteAccount);
+      } catch (err){
+        this.error = err;
+        return;
+      }
+      await this.$refs.successOverlay.sleep(1200);
+      this.$router.push({name: 'settings'});
     },
-    async delete_account(){
+    async deleteAccount(){
       this.error = null;
-      try{
-        if (!isLoggedIn()){
-          await this.$root.Login(this.$root.email, this.$root.password);
-        }
-      } catch (err){
-        this.error = err;
-        return;
+      if (!isLoggedIn()){
+        await this.$root.Login(this.$root.email, this.$root.password);
       }
-
-      try{
-        await deleteUser();
-      } catch (err){
-        this.error = err;
-        return;
-      }
-
+      await deleteUser();
       deleteToken();
       this.$root.email = '';
       await this.$root.SaveLocalVault();
-      this.deleted = true;
-      setTimeout(() => { this.$router.push({name: 'settings'}); }, 1200);
     }
   },
 };
 </script>
-
-<style lang="less" scoped>
-.checkmark{
-  margin: 0 auto;
-  width: 28px;
-}
-</style>
