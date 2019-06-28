@@ -110,12 +110,16 @@ export default {
       if(this.sort){
         sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
       }
-      if(!sorted_boxes.length){
+      return sorted_boxes;
+    },
+  },
+  watch: {
+    sorted_boxes(new_value){
+      if(!new_value.length){
         if(this.$router.currentRoute.fullPath === "/vault"){
           this.$router.push({name: 'add_box'});
         }
       }
-      return sorted_boxes;
     },
   },
   methods: {
