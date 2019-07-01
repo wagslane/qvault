@@ -114,15 +114,21 @@ export default {
     },
   },
   watch: {
-    sorted_boxes(new_value){
-      if(!new_value.length){
+    sorted_boxes(newBoxes){
+      this.addBoxIfNone(newBoxes);
+    },
+  },
+  mounted(){
+    this.addBoxIfNone(this.sorted_boxes);
+  },
+  methods: {
+    addBoxIfNone(boxes){
+      if(!boxes.length){
         if(this.$router.currentRoute.fullPath === "/vault"){
           this.$router.push({name: 'add_box'});
         }
       }
     },
-  },
-  methods: {
     box_matches_search(sorted_box){
       if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
         return true;
