@@ -8,7 +8,7 @@ https://qvault.io
 
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)]()
 
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/q_vault.svg?style=social&label=Follow%20%40Qvault)](https://twitter.com/q_vault)
+[![Twitter URL](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
 
 ## Features
 
