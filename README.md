@@ -8,7 +8,11 @@ https://qvault.io
 
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)]()
 
-[![Twitter URL](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
+[![Twitter Follow](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
+
+[![Discord Chat](https://img.shields.io/badge/Discord-Chat-blue.svg?logo=discord&logoColor=white)](https://discord.gg/EEkFwbv)
+
+[![Medium](https://img.shields.io/badge/Medium-Publication-blueviolet.svg?logo=medium)](https://medium.com/qvault)
 
 ## Features
 
@@ -30,9 +34,7 @@ https://qvault.io
 
 The best way to get in contact with the developers is on the public discord server.
 
-|   |   |   |   |
-|---|---|---|---|
-| <a href="https://discord.gg/EEkFwbv" style="margin: 30px" title="Join our Discord chat" target="_blank"><img src="doc_resources/discord.png" align="center" height="100"></a> | <a href="https://twitter.com/q_vault" style="margin: 30px" title="Follow us on twitter" target="_blank"><img src="doc_resources/twitter.png" align="center" height="100"></a> | <a href="https://www.facebook.com/qvault" style="margin: 30px" title="Follow us on facebook" target="_blank"><img src="doc_resources/facebook.png" align="center" height="100"></a> | <a href="https://www.instagram.com/qvault.io" style="margin: 30px" title="Follow us on instagram" target="_blank"><img src="doc_resources/instagram.png" align="center" height="100"></a> |
+[![Discord Chat](https://img.shields.io/badge/Discord-Chat-blue.svg?logo=discord&logoColor=white)](https://discord.gg/EEkFwbv)
 
 ## License
 
