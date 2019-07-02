@@ -11,7 +11,7 @@
       <dropdown_menu
         class="dropdown-menu"
         :actions="dropdown_menu_actions"
-        @delete_box="delete_box"
+        @showDeleteBoxModal="showDeleteBoxModal"
       />
       <button
         class="add_secret"
@@ -35,6 +35,11 @@
       :secret="box.secrets[secret_uuid]"
       :box-type="box_type"
     />
+    <confirm
+      ref="deleteBoxModal"
+      :on-confirm="deleteBox"
+      title="Are you sure you want to delete this box?"
+    />
   </div>
 </template>
 
@@ -44,12 +49,14 @@ import secret_preview from './secret_preview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import dropdown_menu from '../../components/dropdown_menu.vue';
 import trash_svg from '../../img/trash.svg';
+import confirm from '../../components/confirm.vue';
 
 export default {
   components: {
     secret_preview,
     PlusSolid,
-    dropdown_menu
+    dropdown_menu,
+    confirm
   },
   computed: {
     box_uuid() {
@@ -71,7 +78,7 @@ export default {
       return [
         {
           label: 'Delete Box',
-          method: 'delete_box',
+          method: 'showDeleteBoxModal',
           icon: trash_svg,
         }
       ];
@@ -113,7 +120,10 @@ export default {
         alert(err);
       }
     },
-    delete_box(){
+    showDeleteBoxModal(){
+      this.$refs.deleteBoxModal.show();
+    },
+    deleteBox(){
       try{
         this.$root.DeleteBox(this.box_uuid);
         this.$router.push({name: 'vault'});

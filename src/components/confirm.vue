@@ -3,23 +3,25 @@
     v-if="visible"
     class="screen"
   >
-    <div class="options-box">
-      <div class="body">
-        <h1>{{ title }}</h1>
-        <h2>{{ subtitle }}</h2>
+    <div class="center">
+      <div class="options-box">
+        <div class="body">
+          <h1>{{ title }}</h1>
+          <h2>{{ subtitle }}</h2>
 
-        <div
-          class="btn"
-          @click="confirm"
-        >
-          Confirm
-        </div>
+          <div
+            class="btn"
+            @click="confirm"
+          >
+            Confirm
+          </div>
 
-        <div
-          class="btn"
-          @click="visble = false"
-        >
-          Cancel
+          <div
+            class="link"
+            @click="visible = false"
+          >
+            Cancel
+          </div>
         </div>
       </div>
     </div>
@@ -53,8 +55,8 @@ export default {
       await this.onConfirm();
       this.visible = false;
     },
-    hide(){
-      this.visible = false;
+    show(){
+      this.visible = true;
     }
   }
 };
