@@ -37,7 +37,6 @@
     />
     <confirm
       ref="deleteBoxModal"
-      :on-confirm="deleteBox"
       title="Are you sure you want to delete this box?"
     />
   </div>
@@ -121,7 +120,7 @@ export default {
       }
     },
     showDeleteBoxModal(){
-      this.$refs.deleteBoxModal.show();
+      this.$refs.deleteBoxModal.show(this.deleteBox);
     },
     deleteBox(){
       try{

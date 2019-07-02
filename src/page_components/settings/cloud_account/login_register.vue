@@ -63,7 +63,7 @@
           <div v-if="!registerTabActive">
             <div
               class="link"
-              @click="$router.push({name: 'settings_cloud_account_reset_cloud_password_warning'});"
+              @click="showResetCloudPasswordModal"
             >
               Trouble accessing cloud account?
             </div>
@@ -112,6 +112,11 @@
       ref="successOverlay"
       overlay-screen="success"
     />
+    <confirm
+      ref="resetCloudPasswordModal"
+      title="Are You Sure?"
+      subtitle="If you reset your cloud password then your existing vault will be overwritten"
+    />
   </div>
 </template>
 
@@ -119,10 +124,12 @@
 import { DeriveCloudKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
 import {createUser, resendRegistrationEmail} from '../../../lib/CloudClient/CloudClient';
 import timingOverlay from '../../../components/timing_overlay.vue';
+import confirm from '../../../components/confirm.vue';
 
 export default {
   components:{
-    timingOverlay
+    timingOverlay,
+    confirm
   },
   data(){
     return {
@@ -135,6 +142,14 @@ export default {
     };
   },
   methods: {
+    showResetCloudPasswordModal(){
+      this.$refs.resetCloudPasswordModal.show(() => {
+        this.$router.push({
+          name: 'utility_reset_cloud_password', 
+          params: {donePath: 'settings_cloud_account_login_register'}
+        });
+      });
+    },
     async resend(){
       this.error = null;
       this.userCreated = false;

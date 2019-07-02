@@ -18,7 +18,7 @@
 
           <div
             class="link"
-            @click="visible = false"
+            @click="done"
           >
             Cancel
           </div>
@@ -39,23 +39,25 @@ export default {
       type: String,
       required: false,
       default: ''
-    },
-    onConfirm:{
-      type: Function,
-      required: true,
     }
   },
   data(){
     return {
-      visible: false
+      visible: false,
+      onConfirm: () => {},
     };
   },
   methods:{
     async confirm() {
       await this.onConfirm();
+      this.done();
+    },
+    done(){
+      this.onConfirm = () => {};
       this.visible = false;
     },
-    show(){
+    show(f){
+      this.onConfirm = f;
       this.visible = true;
     }
   }
