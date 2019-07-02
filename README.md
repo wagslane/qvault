@@ -8,6 +8,8 @@ https://qvault.io
 
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)]()
 
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/q_vault.svg?style=social&label=Follow%20%40Qvault)](https://twitter.com/q_vault)
+
 ## Features
 
 * Optional two factor encryption using physical Qvault cards (QR code contains a key that is scanned with a webcam to unlock vault)
