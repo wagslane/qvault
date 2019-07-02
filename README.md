@@ -6,6 +6,8 @@ https://qvault.io
 
 [![Build Status](https://travis-ci.org/Q-Vault/qvault.svg?branch=master)](https://travis-ci.org/Q-Vault/qvault)
 
+[![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)]()
+
 ## Features
 
 * Optional two factor encryption using physical Qvault cards (QR code contains a key that is scanned with a webcam to unlock vault)
