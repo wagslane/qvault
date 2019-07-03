@@ -131,13 +131,17 @@
             </div>
             <div
               class="trash"
-              @click="remove_from_sublist(field.name, k)"
+              @click="showDeleteSubfieldModal(field.name, k)"
               v-html="TrashSVG"
             />
           </div>
         </div>
       </div>
     </div>
+    <confirm
+      ref="deleteSubFieldModal"
+      title="Are you sure you want to delete this field?"
+    />
   </form>
 </template>
 
@@ -147,11 +151,13 @@ import Vue from 'vue';
 import box_types from '../../consts/box_types.es6';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import TrashSVG from '../../img/trash.svg';
+import confirm from '../../components/confirm.vue';
 
 export default {
   components: {
     PlusSolid,
-    TextInput
+    TextInput,
+    confirm
   },
   data(){
     return{
@@ -225,6 +231,9 @@ export default {
     }
   },
   methods: {
+    showDeleteSubfieldModal(name, index){
+      this.$refs.deleteSubFieldModal.show(() => {return this.removeFromSublist(name, index);});
+    },
     async apply(){
       this.apply_clicked = true;
       if (this.missing_fields.length > 0){
@@ -249,7 +258,7 @@ export default {
       }
       this.secret[field.name].push(new_value);
     },
-    remove_from_sublist(fieldname, i){
+    removeFromSublist(fieldname, i){
       Vue.delete(this.secret[fieldname], i);
     },
     resolve_conflicts(){

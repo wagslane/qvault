@@ -23,7 +23,6 @@ import settings from './page_components/settings/settings.vue';
 import settings_change_password from './page_components/settings/change_password.vue';
 import settings_delete_account from './page_components/settings/delete_account.vue';
 import settings_cloud_account_login_register from './page_components/settings/cloud_account/login_register.vue';
-import settings_cloud_account_reset_cloud_password_warning from './page_components/settings/cloud_account/reset_cloud_password_warning.vue';
 import settings_change_char_key from './page_components/settings/change_char_key.vue';
 import settings_qrcode_choose from './page_components/settings/qrcode/choose.vue';
 import settings_qrcode_add_or_change from './page_components/settings/qrcode/add_or_change.vue';
@@ -208,11 +207,6 @@ export default [
             path: 'login_register',
             component: settings_cloud_account_login_register,
             name: 'settings_cloud_account_login_register',
-          },
-          {
-            path: 'reset_cloud_password_warning',
-            component: settings_cloud_account_reset_cloud_password_warning,
-            name: 'settings_cloud_account_reset_cloud_password_warning',
           }
         ],
       },

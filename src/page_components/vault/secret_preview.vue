@@ -36,8 +36,12 @@
     <dropdown_menu
       class="dropdown-menu"
       :actions="dropdown_menu_actions"
-      @delete_secret="delete_secret"
+      @showDeleteSecretModal="showDeleteSecretModal"
       @show_hide_secret="show_hide_secret"
+    />
+    <confirm
+      ref="deleteSecretModal"
+      title="Are you sure you want to delete this secret?"
     />
   </div>
 </template>
@@ -47,10 +51,12 @@ import dropdown_menu from '../../components/dropdown_menu.vue';
 import trash_svg from '../../img/trash.svg';
 import hide_svg from '../../img/hide.svg';
 import { clipboard } from 'electron';
+import confirm from '../../components/confirm.vue';
 
 export default {
   components: {
     dropdown_menu,
+    confirm
   },
   props: {
     boxUuid:{
@@ -101,7 +107,7 @@ export default {
       let actions = [
         {
           label: 'Delete Secret',
-          method: 'delete_secret',
+          method: 'showDeleteSecretModal',
           icon: trash_svg,
         }
       ];
@@ -116,12 +122,15 @@ export default {
     },
   },
   methods: {
+    showDeleteSecretModal(){
+      this.$refs.deleteSecretModal.show(this.deleteSecret);
+    },
     copy(fieldname){
       clipboard.writeText(this.secret[fieldname]);
       this.copied = fieldname;
       setTimeout(() => {this.copied = '';}, 750);
     },
-    delete_secret(){
+    deleteSecret(){
       this.$root.DeleteSecret(this.boxUuid, this.secretUuid);
     },
     show_hide_secret(){
