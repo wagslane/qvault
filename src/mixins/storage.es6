@@ -41,7 +41,6 @@ export default {
 
   data(){
     return {
-      hashed_char_key: null,
       char_key: null,
       qr_key: null,
       qr_required: false,
@@ -57,7 +56,6 @@ export default {
 
   methods: {
     ResetStorageState(){
-      this.hashed_char_key = null;
       this.char_key = null;
       this.qr_key = null;
       this.password = null;
@@ -159,7 +157,6 @@ export default {
         }
         this.LoadSecrets(secrets);
         this.char_key = charKey;
-        this.hashed_char_key = hashedCharKey;
       } catch (err) {
         throw "Invalid code";
       }
@@ -180,20 +177,20 @@ export default {
       assert(this.secrets, 'No vault is open');
       assert(this.password, 'A password must exist to save your vault');
       assert(this.char_key, 'A char key must exist to save your vault');
-      assert(this.hashed_char_key, 'A hashed character key must exist to save your vault');
-      let newSalt = GenerateRandomSalt();
-      let passKey = await PassKeyFromPassword(this.password, newSalt);
-      let cipheredCharKey = await CipherCharKey(passKey, this.char_key);
-      let encrypted_secrets = await CipherSecrets(this.hashed_char_key, this.secrets);
+      const newSalt = GenerateRandomSalt();
+      const passKey = await PassKeyFromPassword(this.password, newSalt);
+      const cipheredCharKey = await CipherCharKey(passKey, this.char_key);
+      const hashedCharKey = await HashCharKey(this.char_key);
+      let encryptedSecrets = await CipherSecrets(hashedCharKey, this.secrets);
       if (this.qr_required){
         assert(this.qr_key, 'A QR key must exist to save your vault');
-        encrypted_secrets = await CipherSecretsQr(this.qr_key, encrypted_secrets);
+        encryptedSecrets = await CipherSecretsQr(this.qr_key, encryptedSecrets);
       }
       let vault = {
         salt: newSalt,
         version: VERSION,
         key: cipheredCharKey,
-        secrets: encrypted_secrets,
+        secrets: encryptedSecrets,
         qr_required: this.qr_required,
         email: this.email,
         cloud_vault_hash: this.cloud_vault_hash,
