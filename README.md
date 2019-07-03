@@ -6,7 +6,7 @@ https://qvault.io
 
 [![Build Status](https://travis-ci.org/Q-Vault/qvault.svg?branch=master)](https://travis-ci.org/Q-Vault/qvault)
 
-[![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)]()
+[![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)](https://github.com/Q-Vault/qvault/releases)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
 
