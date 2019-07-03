@@ -153,6 +153,7 @@ export default {
       margin-top: 5px;
       margin-bottom: 5px;
       padding-left: 8px;
+      outline: none;
     }
 
     .box_name_other{
