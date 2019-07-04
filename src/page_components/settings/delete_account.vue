@@ -36,6 +36,7 @@
     <timingOverlay
       ref="successOverlay"
       overlay-screen="success"
+      title="Vault Saved"
     />
   </div>
 </template>

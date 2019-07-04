@@ -8,7 +8,7 @@
 
         <div
           class="btn"
-          @click="delete_2fe"
+          @click="deleteDualEncryption"
         >
           Yes, remove dual encryption
         </div>
@@ -27,31 +27,41 @@
         </div>
       </div>
     </div>
+    <timingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
+      title="Vault Saved"
+    />
   </div>
 </template>
 
 <script>
+import timingOverlay from '../../../components/timing_overlay.vue';
+
 export default {
+  components:{
+    timingOverlay
+  },
   data(){
     return {
       error: null
     };
   },
   methods:{
-    async delete_2fe(){
-      let old_qr_required = this.$root.qr_required;
-      let old_qr_key = this.$root.qr_key;
+    async deleteDualEncryption(){
+      const oldQrRequired = this.$root.qr_required;
+      const oldQrKey = this.$root.qr_key;
       this.$root.qr_required = false;
       this.$root.qr_key = null;
 
       try{
         await this.$root.SaveBoth();
       } catch (err){
-        this.$root.qr_required = old_qr_required;
-        this.$root.qr_key = old_qr_key;
+        this.$root.qr_required = oldQrRequired;
+        this.$root.qr_key = oldQrKey;
         return;
       }
-
+      await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'settings'});
     }
   },

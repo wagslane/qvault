@@ -34,6 +34,7 @@
     </div>
     <timingOverlay
       ref="successOverlay"
+      title="Vault Saved"
       overlay-screen="success"
     />
   </div>
@@ -65,16 +66,16 @@ export default {
         return;
       }
 
-      let old_qr_required = this.$root.qr_required;
-      let old_qr_key = this.$root.qr_key;
+      const oldQrRequired = this.$root.qr_required;
+      const oldQrKey = this.$root.qr_key;
       this.$root.qr_required = true;
       this.$root.qr_key = qrKey;
       try{
         await this.$root.SaveBoth();
       } catch (err){
         this.error = err;
-        this.$root.qr_required = old_qr_required;
-        this.$root.qr_key = old_qr_key;
+        this.$root.qr_required = oldQrRequired;
+        this.$root.qr_key = oldQrKey;
         return;
       }
       await this.$refs.successOverlay.sleep(1200);

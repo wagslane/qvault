@@ -41,7 +41,7 @@
         </div>
         <div
           v-if="$root.char_key"
-          @click="click_continue"
+          @click="clickContinue"
         >
           <button class="continue">
             <span>Apply Change</span>
@@ -53,6 +53,7 @@
     <timingOverlay
       ref="successOverlay"
       overlay-screen="success"
+      title="Vault Saved"
     />
   </div>
 </template>
@@ -87,8 +88,23 @@ export default {
     this.charKey = await GenerateCharKey();
   },
   methods:{
-    async click_continue(){
-      this.$root.char_key = this.charKey;
+    async save(){
+      const oldCharKey = this.$root.charKey;
+      this.$root.charKey = this.charKey;
+      try{
+        await this.$root.SaveBoth();
+      } catch (err){
+        this.$root.charKey = oldCharKey;
+        throw err;
+      }
+    },
+    async clickContinue(){
+      try{
+        await this.$refs.loader.load(this.save);
+      } catch (err){
+        alert(err);
+        return;
+      }
       await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'settings'});
     }
