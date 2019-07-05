@@ -8,6 +8,8 @@ https://qvault.io
 
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg?logo=github&label=Downloads)](https://github.com/Q-Vault/qvault/releases)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/q-vault/qvault/badge.svg)](https://snyk.io/test/github/q-vault/qvault)
+
 ## Contact
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
