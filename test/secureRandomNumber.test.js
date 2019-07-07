@@ -1,4 +1,4 @@
-import secureRandomNumber from '../src/locked_dependencies/secureRandomNumber/secureRandomNumber';
+import secureRandomNumber from '../src/lib/secureRandomNumber';
 import { expect } from 'chai';
   
 it('secureRandomNumber', () => {

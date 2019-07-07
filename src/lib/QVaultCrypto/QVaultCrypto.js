@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import stringify from 'json-stable-stringify';
 import WordList from './WordList';
 
-import secureRandomNumber from '../../locked_dependencies/secureRandomNumber/secureRandomNumber';
+import secureRandomNumber from '../secureRandomNumber';
 
 const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
