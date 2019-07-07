@@ -8,7 +8,7 @@
 
         <div
           class="btn"
-          @click="load"
+          @click="openExisting"
         >
           Create New Vault
         </div>
@@ -21,20 +21,13 @@
         </router-link>
       </div>
     </div>
-    <timingOverlay
-      ref="loader"
-    />
   </div>
 </template>
 
 <script>
-import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import timingOverlay from '../../components/timing_overlay.vue';
+import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 
 export default {
-  components:{
-    timingOverlay
-  },
   mounted(){
     try{
       this.$root.LoadLastUsedVault();
@@ -44,12 +37,8 @@ export default {
     }
   },
   methods:{
-    async load(){
-      this.$refs.loader.load(this.open_existing);
-    },
-    async open_existing(){
+    async openExisting(){
       this.$root.char_key = await GenerateCharKey();
-      this.$root.hashed_char_key = await HashCharKey(this.$root.char_key);
       this.$router.push({name: 'create_step_2'});
     }
   }
