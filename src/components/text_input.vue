@@ -46,13 +46,13 @@
 </template>
 
 <script>
-import Keyboard from "../locked_dependencies/simple-keyboard/simple-keyboard";
+import Keyboard from "simple-keyboard";
 import dropdown_menu from './dropdown_menu.vue';
 import HideSVG from '../img/hide.svg';
 import KeyboardSVG from '../img/keyboard.svg';
 import ClipboardSVG from '../img/clipboard.svg';
 import LockSVG from '../img/lock.svg';
-import "../locked_dependencies/simple-keyboard/simple-keyboard.css";
+import "simple-keyboard/build/css/index.css";
 import { clipboard } from 'electron';
 import { GeneratePassword } from '../lib/QVaultCrypto/QVaultCrypto.js';
 
