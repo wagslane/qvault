@@ -4,6 +4,10 @@
     class="screen"
   >
     <div class="center">
+      <h1 class="title">
+        {{ title }}
+      </h1>
+
       <img
         v-if="overlayScreen === 'loading' "
         src="../img/q-vault-loader.gif"
@@ -30,6 +34,11 @@ export default {
     overlayScreen:{
       type: String,
       default: 'loading',
+      required: false,
+    },
+    title:{
+      type: String,
+      default: null,
       required: false,
     }
   },
@@ -71,8 +80,13 @@ export default {
 <style lang="less" scoped>
   @import '../styles/colors.less';
 
+  .title {
+    color: @gold-mid;
+    font-size: 42px;
+  }
+
   .screen {
-    background: rgba(0,0,0,0.50);
+    background: rgba(0,0,0,0.70);
     width: 100%;
     height: 100%;
     position: fixed;

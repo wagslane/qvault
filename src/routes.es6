@@ -26,7 +26,6 @@ import settings_cloud_account_login_register from './page_components/settings/cl
 import settings_change_char_key from './page_components/settings/change_char_key.vue';
 import settings_qrcode_choose from './page_components/settings/qrcode/choose.vue';
 import settings_qrcode_add_or_change from './page_components/settings/qrcode/add_or_change.vue';
-import settings_qrcode_delete from './page_components/settings/qrcode/delete.vue';
 
 import utility_reset_cloud_password from './page_components/utility/reset_cloud_password.vue';
 
@@ -229,11 +228,6 @@ export default [
             path: 'add_or_change',
             component: settings_qrcode_add_or_change,
             name: 'settings_qrcode_add_or_change',
-          },
-          {
-            path: 'delete',
-            component: settings_qrcode_delete,
-            name: 'settings_qrcode_delete',
           },
         ],
       },

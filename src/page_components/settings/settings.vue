@@ -40,7 +40,7 @@
           class="btn"
           :to="{name: 'settings_qrcode_choose'}"
         >
-          Manage Dual Encryption Card
+          Manage Key Card
         </router-link>
 
         <router-link
