@@ -51,6 +51,9 @@
       </div>
     </div>
     <timingOverlay
+      ref="loader"
+    />
+    <timingOverlay
       ref="successOverlay"
       overlay-screen="success"
       title="Vault Saved"
@@ -90,11 +93,11 @@ export default {
   methods:{
     async save(){
       const oldCharKey = this.$root.charKey;
-      this.$root.charKey = this.charKey;
+      this.$root.char_key = this.charKey;
       try{
         await this.$root.SaveBoth();
       } catch (err){
-        this.$root.charKey = oldCharKey;
+        this.$root.char_key = oldCharKey;
         throw err;
       }
     },
