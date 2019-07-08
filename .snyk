@@ -5,4 +5,4 @@ ignore: {}
 patch:
   SNYK-JS-LODASH-450202:
     - vue-qrcode-reader > lodash:
-        patched: '2019-07-05T17:18:04.228Z'
+        patched: '2019-07-08T20:40:18.742Z'

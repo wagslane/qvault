@@ -17,7 +17,7 @@
   "scripts": {
     "release": "yarn build-prod && build",
     "build-prod": "yarn build --env=production",
-    "build": "npx webpack --progress --config webpack.config.js",
+    "build": "yarn snyk-protect && npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
     "start": "electron .",
     "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill",
