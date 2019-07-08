@@ -92,17 +92,16 @@
     "less-loader": "^4.1.0",
     "mocha": "^5.2.0",
     "raw-loader": "^2.0.0",
+    "snyk": "^1.192.2",
     "url-loader": "^1.1.2",
     "vue-loader": "^15.5.1",
     "webpack": "^4.28.4",
-    "webpack-cli": "^3.3.0",
-    "snyk": "^1.192.2"
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {
     "csv-parse": "4.4.1",
     "electron-updater": "4.0.6",
     "electron-window-state": "5.0.3",
-    "es6-promise": "4.2.5",
     "json-stable-stringify": "1.0.1",
     "jwt-decode": "2.2.0",
     "moment": "2.24.0",
