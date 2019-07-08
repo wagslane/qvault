@@ -47,10 +47,11 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn lint && yarn test"
+        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn lint && yarn test && yarn build"
     else
       yarn lint
-      yarn test 
+      yarn test
+      yarn build
     fi
 
 deploy:
