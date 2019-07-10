@@ -103,7 +103,6 @@
     "electron-updater": "4.0.6",
     "electron-window-state": "5.0.3",
     "es6-promise": "4.2.5",
-    "json-stable-stringify": "1.0.1",
     "simple-keyboard": "2.21.0",
     "vue": "2.5.22",
     "vue-async-computed": "3.5.1",
