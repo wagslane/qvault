@@ -1,4 +1,4 @@
-import decode from 'jwt-decode';
+import decodeJWT from '../decodeJWT';
 
 var CLOUD_JWT = null;
 export const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
@@ -182,7 +182,7 @@ export function deleteToken() {
 
 function isTokenValid(token) {
   try {
-    const decoded = decode(token);
+    const decoded = decodeJWT(token);
     return decoded.exp > Date.now() / 1000 && decoded.email_verified;
   } catch (err) {
     return false;

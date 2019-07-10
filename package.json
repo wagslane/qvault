@@ -17,7 +17,7 @@
   "scripts": {
     "release": "yarn build-prod && build",
     "build-prod": "yarn build --env=production",
-    "build": "npx webpack --progress --config webpack.config.js",
+    "build": "yarn snyk-protect && npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
     "start": "electron .",
     "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill",
@@ -102,9 +102,6 @@
     "csv-parse": "4.4.1",
     "electron-updater": "4.0.6",
     "electron-window-state": "5.0.3",
-    "json-stable-stringify": "1.0.1",
-    "jwt-decode": "2.2.0",
-    "moment": "2.24.0",
     "simple-keyboard": "2.21.0",
     "vue": "2.5.22",
     "vue-async-computed": "3.5.1",

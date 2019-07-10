@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import stringify from 'json-stable-stringify';
+import jsonStableStringify from '../jsonStableStringify';
 import WordList from './WordList';
 
 import secureRandomNumber from '../secureRandomNumber';
@@ -105,7 +105,7 @@ export async function HashCharKey(charKey, salt) {
 }
 
 export async function HashCloudVault(vault) {
-  return crypto.createHash('sha256').update(stringify(vault)).digest('hex');
+  return crypto.createHash('sha256').update(jsonStableStringify(vault)).digest('hex');
 }
 
 export async function DeriveOldCloudKey(password) {
