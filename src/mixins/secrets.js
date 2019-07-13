@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
 import Vue from 'vue';
-import assert from '../lib/assert.es6';
+import assert from '../lib/assert';
 
 export default {
   data() {

@@ -55,8 +55,8 @@
 <script>
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
-import {heightMac, heightWin} from '../../consts/title_bar.es6';
-import box_types from '../../consts/box_types.es6';
+import {heightMac, heightWin} from '../../consts/title_bar';
+import box_types from '../../consts/box_types';
 
 function sort_box_by_key(key){
   return function(a, b){

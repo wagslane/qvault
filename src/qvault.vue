@@ -12,12 +12,12 @@
 
 <script>
 import VueRouter from 'vue-router';
-import routes from './routes.es6';
-import storage from './mixins/storage.es6';
+import routes from './routes';
+import storage from './mixins/storage';
 import TitleBar from './components/title_bar.vue';
-import {heightMac, heightWin} from './consts/title_bar.es6';
+import {heightMac, heightWin} from './consts/title_bar';
 import {type} from 'os';
-import box_types from './consts/box_types.es6';
+import box_types from './consts/box_types';
 
 export const router = new VueRouter({routes});
 

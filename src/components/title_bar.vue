@@ -38,7 +38,7 @@
 <script>
 import {remote} from 'electron';
 import {type} from 'os';
-import {heightMac, heightWin} from '../consts/title_bar.es6';
+import {heightMac, heightWin} from '../consts/title_bar';
 
 export default {
   computed:{

@@ -3,7 +3,7 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
-import assert from '../lib/assert.es6';
+import assert from '../lib/assert.js';
 import parse from 'csv-parse/lib/sync';
 import { GetLastUsedVault, SetLastUsedVault } from '../lib/LastUsedVaultPath';
 import {
@@ -21,7 +21,7 @@ import {
   GenerateRandomSalt,
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
-import secrets from './secrets.es6';
+import secrets from './secrets.js';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
 const VERSION = pjson.version;

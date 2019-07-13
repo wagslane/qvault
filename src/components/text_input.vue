@@ -54,7 +54,7 @@ import ClipboardSVG from '../img/clipboard.svg';
 import LockSVG from '../img/lock.svg';
 import "simple-keyboard/build/css/index.css";
 import { clipboard } from 'electron';
-import { GeneratePassword } from '../lib/QVaultCrypto/QVaultCrypto.js';
+import { GeneratePassword } from '../lib/QVaultCrypto/QVaultCrypto';
 
 export default{
   components:{

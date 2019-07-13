@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import box_types from '../../consts/box_types.es6';
+import box_types from '../../consts/box_types';
 import secret_preview from './secret_preview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import dropdown_menu from '../../components/dropdown_menu.vue';

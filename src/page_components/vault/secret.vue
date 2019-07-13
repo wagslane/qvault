@@ -148,7 +148,7 @@
 <script>
 import TextInput from "../../components/text_input.vue";
 import Vue from 'vue';
-import box_types from '../../consts/box_types.es6';
+import box_types from '../../consts/box_types';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import TrashSVG from '../../img/trash.svg';
 import confirm from '../../components/confirm.vue';
