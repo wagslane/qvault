@@ -65,6 +65,30 @@ export default [
         hidden: false,
       },
       {
+        name: 'Username',
+        type: String,
+        required: false,
+        hidden: false,
+      },
+      {
+        name: 'Password',
+        type: String,
+        required: false,
+        hidden: true,
+      },
+      {
+        name: 'Email',
+        type: String,
+        required: false,
+        hidden: false,
+      },
+      {
+        name: 'PIN',
+        type: String,
+        required: false,
+        hidden: true,
+      },
+      {
         name: 'Routing Number',
         type: String,
         required: false,
@@ -167,7 +191,7 @@ export default [
       },
     ],
     quick_access_name: "Institution Name",
-    quick_access_secrets: [ "Routing Number" ],
+    quick_access_secrets: [ "Email", "Password", "Routing Number" ],
     header_field: 'Institution Name',
     icon: {
       img: fin_svg,
@@ -254,6 +278,12 @@ export default [
       },
       {
         name: '2FA Secret',
+        type: String,
+        required: false,
+        hidden: true,
+      },
+      {
+        name: 'PIN',
         type: String,
         required: false,
         hidden: true,

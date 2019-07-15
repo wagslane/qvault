@@ -33,7 +33,11 @@
       </div>
     </div>
     <timingOverlay
+      ref="loader"
+    />
+    <timingOverlay
       ref="successOverlay"
+      title="Vault Saved"
       overlay-screen="success"
     />
   </div>
@@ -55,26 +59,31 @@ export default {
     };
   },
   methods:{
-    async handleQRKey(qrKey) {
+    async change(qrKey){
       if (qrKey.substring(0, 6) === 'ERROR:'){
-        this.error = "Couldn't find a camera on this device";
-        return;
+        throw "Couldn't find a camera on this device";
       }
       if (!ValidateQRKey(qrKey)){
-        this.error = `Not a valid QR key`;
-        return;
+        throw `Not a valid QR key`;
       }
 
-      let old_qr_required = this.$root.qr_required;
-      let old_qr_key = this.$root.qr_key;
+      const oldQrRequired = this.$root.qr_required;
+      const oldQrKey = this.$root.qr_key;
       this.$root.qr_required = true;
       this.$root.qr_key = qrKey;
       try{
         await this.$root.SaveBoth();
       } catch (err){
+        this.$root.qr_required = oldQrRequired;
+        this.$root.qr_key = oldQrKey;
+        throw err;
+      }
+    },
+    async handleQRKey(qrKey) {
+      try {
+        await this.$refs.loader.load(async () => await this.change(qrKey));
+      } catch (err){
         this.error = err;
-        this.$root.qr_required = old_qr_required;
-        this.$root.qr_key = old_qr_key;
         return;
       }
       await this.$refs.successOverlay.sleep(1200);

@@ -41,7 +41,7 @@
         </div>
         <div
           v-if="$root.char_key"
-          @click="click_continue"
+          @click="clickContinue"
         >
           <button class="continue">
             <span>Apply Change</span>
@@ -56,12 +56,13 @@
     <timingOverlay
       ref="successOverlay"
       overlay-screen="success"
+      title="Vault Saved"
     />
   </div>
 </template>
 
 <script>
-import {GenerateCharKey, HashCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 import timingOverlay from '../../components/timing_overlay.vue';
 
 export default {
@@ -70,34 +71,43 @@ export default {
   },
   data(){
     return {
-      char_key: null,
-      hashed_char_key: null
+      charKey: null
     };
   },
   computed:{
     split(){
-      if (!this.char_key){
+      if (!this.charKey){
         return [];
       }
       return [
-        this.char_key.slice(0, 4),
-        this.char_key.slice(4, 8),
-        this.char_key.slice(8, 12),
-        this.char_key.slice(12, 16)
+        this.charKey.slice(0, 4),
+        this.charKey.slice(4, 8),
+        this.charKey.slice(8, 12),
+        this.charKey.slice(12, 16)
       ];
     }
   },
-  mounted(){
-    this.$refs.loader.load(this.generate_key);
+  async mounted(){
+    this.charKey = await GenerateCharKey();
   },
   methods:{
-    async generate_key(){
-      this.char_key = await GenerateCharKey();
-      this.hashed_char_key = await HashCharKey(this.char_key);
+    async save(){
+      const oldCharKey = this.$root.charKey;
+      this.$root.char_key = this.charKey;
+      try{
+        await this.$root.SaveBoth();
+      } catch (err){
+        this.$root.char_key = oldCharKey;
+        throw err;
+      }
     },
-    async click_continue(){
-      this.$root.char_key = this.char_key;
-      this.$root.hashed_char_key = this.hashed_char_key;
+    async clickContinue(){
+      try{
+        await this.$refs.loader.load(this.save);
+      } catch (err){
+        alert(err);
+        return;
+      }
       await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'settings'});
     }

@@ -5,8 +5,6 @@ const { autoUpdater } = require("electron-updater");
 const { SetLastUsedVault } = require('./src/lib/LastUsedVaultPath');
 
 autoUpdater.autoDownload = false;
-autoUpdater.allowPrerelease = true;
-
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

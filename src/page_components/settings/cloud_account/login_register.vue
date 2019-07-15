@@ -111,6 +111,7 @@
     <timingOverlay
       ref="successOverlay"
       overlay-screen="success"
+      title="Vault Saved"
     />
     <confirm
       ref="resetCloudPasswordModal"
@@ -122,7 +123,7 @@
 
 <script>
 import { DeriveCloudKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, resendRegistrationEmail} from '../../../lib/CloudClient/CloudClient';
+import {createUser, resendRegistrationEmail, getToken, setToken} from '../../../lib/CloudClient/CloudClient';
 import timingOverlay from '../../../components/timing_overlay.vue';
 import confirm from '../../../components/confirm.vue';
 
@@ -176,6 +177,8 @@ export default {
         return true;
       }
       // login
+      const oldEmail = this.$root.email;
+      const oldToken = getToken();
       try{
         await this.$root.Login(this.emailLogin, this.$root.password);
       } catch (err) {
@@ -189,8 +192,18 @@ export default {
         this.$root.loaded_vault = null;
         // if there are no vaults that's okay
         if (err !== 'No vaults found on server'){
+          this.$root.email = oldEmail;
+          setToken(oldToken);
           throw err;
         }
+      }
+
+      try{
+        await this.$root.SaveBoth();
+      } catch (err){
+        this.$root.email = oldEmail;
+        setToken(oldToken);
+        throw `Unable to save vault: ${err}`;
       }
       return false;
     },

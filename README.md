@@ -4,9 +4,13 @@ An open source, fully transparent and extremely secure password manager
 
 https://qvault.io
 
-[![Build Status](https://travis-ci.org/Q-Vault/qvault.svg?branch=master)](https://travis-ci.org/Q-Vault/qvault)
+[![Build Status](https://img.shields.io/travis/q-vault/qvault/master.svg?logo=travis&label=Build)](https://travis-ci.org/Q-Vault/qvault)
 
-[![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg)]()
+[![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg?logo=github&label=Downloads)](https://github.com/Q-Vault/qvault/releases)
+
+[![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/q-vault/qvault.svg?logo=snyk&label=Vulnerabilities)](https://snyk.io/test/github/q-vault/qvault)
+
+## Contact
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
 

@@ -29,7 +29,7 @@
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>
-            <span class="created">{{ sorted_box.created.format('YYYY-MM-DD') }}</span>
+            <span class="created">{{ sorted_box.created }}</span>
           </router-link>
         </div>
         <router-link
@@ -53,11 +53,10 @@
 </template>
 
 <script>
-import moment from 'moment';
 import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
-import {heightMac, heightWin} from '../../consts/title_bar.es6';
-import box_types from '../../consts/box_types.es6';
+import {heightMac, heightWin} from '../../consts/title_bar';
+import box_types from '../../consts/box_types';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -96,7 +95,7 @@ export default {
           let box_type = box_types.find(box_type => box_type.name === box.type);
           sorted_boxes.push({
             uuid: key,
-            created: moment(box.created),
+            created: this.formatCreatedDate(box.created),
             name: box.name,
             icon: box_type && box_type.icon,
           });
@@ -122,6 +121,10 @@ export default {
     this.addBoxIfNone(this.sorted_boxes);
   },
   methods: {
+    formatCreatedDate(timestamp){
+      const d = new Date(timestamp);
+      return `${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`;
+    },
     addBoxIfNone(boxes){
       if(!boxes.length){
         if(this.$router.currentRoute.fullPath === "/vault"){

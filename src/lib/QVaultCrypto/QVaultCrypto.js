@@ -1,8 +1,8 @@
 import crypto from 'crypto';
-import stringify from 'json-stable-stringify';
+import jsonStableStringify from '../jsonStableStringify';
 import WordList from './WordList';
 
-import secureRandomNumber from '../../locked_dependencies/secureRandomNumber/secureRandomNumber';
+import secureRandomNumber from '../secureRandomNumber';
 
 const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
@@ -68,26 +68,19 @@ export async function GeneratePassphrase(phraseLength) {
 
 export async function GeneratePassword(passwordLength) {
   let password = '';
-  const lower = 'abcdefghijklmnopqrstuvwxyz';
-  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const chars = '@!#%';
-  for (let i = 0; i < passwordLength; i++) {
-    switch (i % 4) {
-    case 0:
-      password += lower[await secureRandomNumber(0, lower.length - 1)];
-      break;
-    case 1:
-      password += upper[await secureRandomNumber(0, upper.length - 1)];
-      break;
-    case 2:
-      password += chars[await secureRandomNumber(0, chars.length - 1)];
-      break;
-    case 3:
-      password += await secureRandomNumber(0, 9);
-      break;
-    }
+  const lower = 'abcdefghijkmnopqrstuvwxyz';
+  const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const chars = '@!#%[]^()-';
+  const numbers = '123456789';
+  const allPossible = lower + upper + chars + numbers;
+  password += lower[await secureRandomNumber(0, lower.length - 1)];
+  password += upper[await secureRandomNumber(0, upper.length - 1)];
+  password += chars[await secureRandomNumber(0, chars.length - 1)];
+  password += numbers[await secureRandomNumber(0, numbers.length - 1)];
+  for (let i = password.length; i < passwordLength; i++){
+    password += allPossible[await secureRandomNumber(0, allPossible.length - 1)];
   }
-  return password;
+  return password.split('').sort(() => 1 - secureRandomNumber(0, 1)).join('');
 }
 
 // () => Promise(string)
@@ -112,7 +105,7 @@ export async function HashCharKey(charKey, salt) {
 }
 
 export async function HashCloudVault(vault) {
-  return crypto.createHash('sha256').update(stringify(vault)).digest('hex');
+  return crypto.createHash('sha256').update(jsonStableStringify(vault)).digest('hex');
 }
 
 export async function DeriveOldCloudKey(password) {
