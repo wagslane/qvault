@@ -20,7 +20,6 @@
         class="img float-right pointer"
         height="25"
         width="25"
-        :style="{marginRight: '20px'}"
         @click.native="$router.push({name: 'settings'})"
       />
       <div v-if="saveButton">
@@ -29,7 +28,6 @@
           class="img float-right pointer"
           height="25"
           width="25"
-          :style="{marginRight: '20px'}"
           :disabled-status="$root.ConflictExists"
           :title-text="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : 'Save Vault'"
           @click.native="$refs.loader.load(save)"
@@ -39,14 +37,17 @@
         >
           <checkmarkSvg
             class="img float-right"
-            :style="{marginRight: '20px'}"
             :height="25"
             :width="25"
           />
           <span
-            :style="{marginRight: '10px'}"
             class="label float-right"
           >Vault Saved</span>
+        </div>
+        <div class="update-button float-right pointer">
+          <span><b> Update Available: </b></span>
+          <span> Click to Download </span>
+          <downloadSvg class="svg" />
         </div>
       </div>
     </div>
@@ -59,6 +60,7 @@
 <script>
 import gearSvg from '../img/gear-icon.svg.vue';
 import saveSvg from '../img/save.svg.vue';
+import downloadSvg from '../img/download.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
 import timingOverlay from '../components/timing_overlay.vue';
 
@@ -67,7 +69,8 @@ export default {
     gearSvg,
     saveSvg,
     checkmarkSvg,
-    timingOverlay
+    timingOverlay,
+    downloadSvg
   },
   props: { 
     title: {
@@ -112,7 +115,6 @@ export default {
     height: 55px;
     width: 100%;
     background-color: @black-darkest;
-    line-height: 55px;
     color: #FFFFFF;
     display: flex;
 
@@ -121,17 +123,45 @@ export default {
       font-weight: 300;
       letter-spacing: 0.7px;
       text-align: center;
+      line-height: 55px;
     }
 
     .box{
       flex: 1;
 
+      .update-button{
+        background: @gold-mid;
+        border-radius: 110px;
+        margin-right: 20px;
+        margin-top: 12px;
+        height: 30px;
+        min-width: 100px;
+        padding-left: 10px;
+        padding-right: 5px;
+        z-index: 10;
+
+        span{
+          color: #000;
+          font-size: 12px;
+          line-height: 30px;
+        }
+
+        .svg{
+          margin-top: 4px;
+          margin-right: 5px;
+          margin-left: 5px;
+          float: right;
+        }
+      }
+
       .label{
         font-size: 10px;
+        margin-right: 10px;
       }
 
       .img{
         margin-top: 16px;
+        margin-right: 20px;
       }
 
       .float-right{
