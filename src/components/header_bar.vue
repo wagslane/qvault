@@ -44,15 +44,22 @@
             class="label float-right"
           >Vault Saved</span>
         </div>
-        <div class="update-button float-right pointer">
-          <span><b> Update Available: </b></span>
-          <span> Click to Download </span>
-          <downloadSvg class="svg" />
-        </div>
+      </div>
+      <div
+        v-if="$root.updateReady"
+        class="update-button float-right pointer"
+        @click="$refs.loaderUpdate.load(updateVersion)"
+      >
+        <span><b> Update Available: </b></span>
+        <span> Click to Download </span>
+        <downloadSvg class="svg" />
       </div>
     </div>
     <timingOverlay
       ref="loader"
+    />
+    <timingOverlay
+      ref="loaderUpdate"
     />
   </div>
 </template>
@@ -63,6 +70,8 @@ import saveSvg from '../img/save.svg.vue';
 import downloadSvg from '../img/download.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
 import timingOverlay from '../components/timing_overlay.vue';
+import {ipcRenderer} from 'electron';
+import sleep from '../lib/sleep';
 
 export default {
   components:{
@@ -103,6 +112,11 @@ export default {
       } catch (err) {
         alert(err);
       }
+    },
+    async updateVersion(){
+      ipcRenderer.send('downloadUpdate');
+      await sleep(120000);
+      alert("Error downloading update");
     },
   }
 };

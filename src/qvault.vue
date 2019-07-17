@@ -17,7 +17,7 @@ import storage from './mixins/storage';
 import TitleBar from './components/title_bar.vue';
 import {heightMac, heightWin} from './consts/title_bar';
 import {type} from 'os';
-import box_types from './consts/box_types';
+import {ipcRenderer} from 'electron';
 
 export const router = new VueRouter({routes});
 
@@ -28,10 +28,9 @@ export default {
   mixins: [ storage ],
   data(){
     return {
-      box_types,
+      updateReady: false
     };
   },
-  router,
   computed:{
     titleHeight(){
       if (type() === 'Darwin'){
@@ -39,7 +38,13 @@ export default {
       }
       return heightWin;
     }
-  }
+  },
+  mounted(){
+    ipcRenderer.on('updateReady', () => {
+      this.updateReady = true;
+    });
+  },
+  router
 };
 </script>
 
