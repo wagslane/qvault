@@ -44,14 +44,6 @@
             >{{ error }}</span>
             <QRScanner @scanned="handleQRKey" />
           </div>
-          <br>
-          <div
-            v-if="updateReady"
-            class="link"
-            @click="$refs.loaderUpdate.load(updateVersion)"
-          >
-            Quit and install latest version
-          </div>
         </div>
         <div class="footer">
           <div
@@ -74,17 +66,12 @@
     <timingOverlay
       ref="loader"
     />
-    <timingOverlay
-      ref="loaderUpdate"
-    />
   </div>
 </template>
 
 <script>
 import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/qrcode_scanner.vue';
-import {ipcRenderer} from 'electron';
-import sleep from '../../../lib/sleep';
 import timingOverlay from '../../../components/timing_overlay.vue';
 import {ClearLastUsedVault} from '../../../lib/LastUsedVaultPath';
 
@@ -99,7 +86,6 @@ export default {
       password: null,
       qrRequired: false,
       qrKey: null,
-      updateReady: false,
       allowOverwrite: false,
       showDownload: false,
       originalLoadedVault: this.$root.loaded_vault,
@@ -109,16 +95,8 @@ export default {
   mounted(){
     this.vaultFileName = this.$root.local_vault_path.split('\\').pop().split('/').pop();
     this.qrRequired = this.$root.qr_required;
-    ipcRenderer.on('updateReady', ()=>{
-      this.updateReady = true;
-    });
   },
   methods: {
-    async updateVersion(){
-      ipcRenderer.send('downloadUpdate');
-      await sleep(120000);
-      alert("Error downloading update");
-    },
     toDownload(){
       this.$root.ResetStorageState();
       this.$router.push({name: 'load_download'});

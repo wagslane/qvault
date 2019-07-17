@@ -23,10 +23,12 @@
 </template>
 
 <script>
+import box_types from '../../consts/box_types';
+
 export default {
   computed: {
     filtered_box_types(){
-      return this.$root.box_types.filter(
+      return box_types.filter(
         box_type =>
           !(this.$root.HasBox(box_type.name))
       );
