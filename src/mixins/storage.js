@@ -3,8 +3,8 @@ import { remote } from 'electron';
 const dialog = remote.dialog;
 const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
-import assert from '../lib/assert.js';
-import parse from 'csv-parse/lib/sync';
+import assert from '../lib/assert.es6';
+import csvToJSON from '../lib/csvToJSON';
 import { GetLastUsedVault, SetLastUsedVault } from '../lib/LastUsedVaultPath';
 import {
   PassKeyFromPassword,
@@ -95,12 +95,9 @@ export default {
         return [];
       }
       assert(paths.length === 1, "Invalid number of paths selected");
-      assert(paths[0], 'A vault file must be selected');
+      assert(paths[0], 'A csv file must be selected');
       const data = fs.readFileSync(paths[0], 'utf-8');
-      const parsed = parse(data, {
-        columns: true,
-        skip_empty_lines: true
-      });
+      const parsed = csvToJSON(data);
       assert(parsed.length > 0, "No password data found");
       assert(parsed[0].name !== undefined, "Invalid password format");
       assert(parsed[0].url !== undefined, "Invalid password format");
