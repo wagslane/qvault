@@ -36,14 +36,12 @@
 </template>
 
 <script>
-import {remote} from 'electron';
-import {type} from 'os';
 import {heightMac, heightWin} from '../consts/title_bar';
 
 export default {
   computed:{
     is_mac(){
-      return type() === 'Darwin';
+      return window.nodeAPI.os.type() === 'Darwin';
     },
     heightMac(){
       return heightMac;
@@ -54,11 +52,11 @@ export default {
   },
   methods:{
     min(){
-      const window = remote.getCurrentWindow();
+      const window = window.nodeAPI.electron.remote.getCurrentWindow();
       window.minimize(); 
     },
     max(){
-      const window = remote.getCurrentWindow();
+      const window = window.nodeAPI.electron.remote.getCurrentWindow();
       if (!window.isMaximized()) {
         window.maximize();
       } else {
@@ -66,7 +64,7 @@ export default {
       }
     },
     close(){
-      const window = remote.getCurrentWindow();
+      const window = window.nodeAPI.electron.remote.getCurrentWindow();
       window.close();
     }
   }

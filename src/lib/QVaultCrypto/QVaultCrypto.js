@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import jsonStableStringify from '../jsonStableStringify';
 import WordList from './WordList';
 
@@ -105,7 +104,7 @@ export async function HashCharKey(charKey, salt) {
 }
 
 export async function HashCloudVault(vault) {
-  return crypto.createHash('sha256').update(jsonStableStringify(vault)).digest('hex');
+  return window.nodeAPI.crypto.createHash('sha256').update(jsonStableStringify(vault)).digest('hex');
 }
 
 export async function DeriveOldCloudKey(password) {
@@ -165,13 +164,13 @@ export async function DecipherSecretsQr(qrKey, cipheredSecrets) {
 
 
 export function ValidateQRKey(qrKey) {
-  const keyBuf = Buffer.from(qrKey, encodingFormat);
+  const keyBuf = window.nodeAPI.Buffer.from(qrKey, encodingFormat);
   // Allow 128 bit keys for legacy purposes
   return keyBuf.length === 16 || keyBuf.length === 32;
 }
 
 export function GenerateRandomSalt() {
-  return crypto.randomBytes(16).toString('base64');
+  return window.nodeAPI.crypto.randomBytes(16).toString('base64');
 }
 
 // The default salt is used in cases where rainbow tables are ineffective (keys not passwords)
@@ -185,26 +184,26 @@ async function hashString(data, difficulty, scryptSalt = defaultSalt) {
     blockSize: scryptBlockSize,
     maxmem: scryptCost * scryptBlockSize * 256
   };
-  const hash = crypto.scryptSync(data, scryptSalt, scryptKeyLenBytes, scryptOptions);
+  const hash = window.nodeAPI.crypto.scryptSync(data, scryptSalt, scryptKeyLenBytes, scryptOptions);
   return await hash.toString(encodingFormat);
 }
 
 function cipherString(key, data) {
-  const keyCopy = Buffer.from(key, textFormat).slice(0, 32);
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(cipherAlgo, keyCopy, iv);
-  const cipheredSecretSection = Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
+  const keyCopy = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
+  const iv = window.nodeAPI.crypto.randomBytes(16);
+  const cipher = window.nodeAPI.crypto.createCipheriv(cipherAlgo, keyCopy, iv);
+  const cipheredSecretSection = window.nodeAPI.Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
   const tag = cipher.getAuthTag();
-  return Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
+  return window.nodeAPI.Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
 function decipherString(key, cipheredData) {
-  const keyCopy = Buffer.from(key, textFormat).slice(0, 32);
-  const rawCiphered = Buffer.from(cipheredData, encodingFormat);
+  const keyCopy = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
+  const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
   const iv = rawCiphered.slice(0, 16);
   const tag = rawCiphered.slice(16, 32);
   const cipheredSecretSection = rawCiphered.slice(32);
-  const decipher = crypto.createDecipheriv(cipherAlgo, keyCopy, iv);
+  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyCopy, iv);
   decipher.setAuthTag(tag);
   return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
 }

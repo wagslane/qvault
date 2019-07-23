@@ -1,6 +1,3 @@
-import fs from 'fs';
-import { remote } from 'electron';
-const dialog = remote.dialog;
 const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert';
@@ -68,7 +65,7 @@ export default {
     },
 
     ExistingVaultDialog(){
-      let paths = dialog.showOpenDialog({
+      let paths = window.nodeAPI.electron.remote.dialog.showOpenDialog({
         filters: FILE_FILTERS
       });
       if (paths === undefined){
@@ -81,7 +78,7 @@ export default {
     },
 
     ReadCSVDialogue(){
-      let paths = dialog.showOpenDialog({
+      let paths = window.nodeAPI.electron.remote.dialog.showOpenDialog({
         filters: [
           {
             name: 'CSV',
@@ -96,7 +93,7 @@ export default {
       }
       assert(paths.length === 1, "Invalid number of paths selected");
       assert(paths[0], 'A csv file must be selected');
-      const data = fs.readFileSync(paths[0], 'utf-8');
+      const data = window.nodeAPI.fs.readFileSync(paths[0], 'utf-8');
       const parsed = csvToJSON(data);
       assert(parsed.length > 0, "No password data found");
       assert(parsed[0].name !== undefined, "Invalid password format");
@@ -107,7 +104,7 @@ export default {
     },
 
     NewVaultDialog(){
-      this.local_vault_path = dialog.showSaveDialog({
+      this.local_vault_path = window.nodeAPI.electron.remote.dialog.showSaveDialog({
         filters: FILE_FILTERS,
         defaultPath: `myvault.${QVAULT_FILE_EXTENSION}`
       });
@@ -166,7 +163,7 @@ export default {
     },
 
     async SaveVault(vault) {
-      fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
+      window.nodeAPI.fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
       SetLastUsedVault(this.local_vault_path);
     },
 
@@ -192,7 +189,7 @@ export default {
         email: this.email,
         cloud_vault_hash: this.cloud_vault_hash,
       };
-      this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(vault));
+      this.encrypted_vault_size = window.nodeAPI.Buffer.byteLength(JSON.stringify(vault));
       return vault;
     },
 
@@ -228,7 +225,7 @@ export default {
     LoadVaultLocal(vault_path) {
       this.local_vault_path = vault_path;
       try {
-        let data = fs.readFileSync(this.local_vault_path, 'utf-8');
+        let data = window.nodeAPI.fs.readFileSync(this.local_vault_path, 'utf-8');
         this.LoadVaultDetails(JSON.parse(data));
       } catch (err) {
         this.loaded_vault = null;
@@ -243,7 +240,7 @@ export default {
       assert(this.loaded_vault.version, 'Selected vault is corrupted');
       this.email = this.loaded_vault.email;
       this.qr_required = this.loaded_vault.qr_required;
-      this.encrypted_vault_size = Buffer.byteLength(JSON.stringify(this.loaded_vault));
+      this.encrypted_vault_size = window.nodeAPI.Buffer.byteLength(JSON.stringify(this.loaded_vault));
     },
 
     async Login(email, password) {

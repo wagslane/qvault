@@ -40,7 +40,6 @@
       "main.js",
       "index.html",
       "dist/*",
-      "src/lib/LastUsedVaultPath.js",
       "scripts/preload.js"
     ],
     "directories": {

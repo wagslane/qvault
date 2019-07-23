@@ -53,7 +53,6 @@ import KeyboardSVG from '../img/keyboard.svg';
 import ClipboardSVG from '../img/clipboard.svg';
 import LockSVG from '../img/lock.svg';
 import "simple-keyboard/build/css/index.css";
-import { clipboard } from 'electron';
 import { GeneratePassword } from '../lib/QVaultCrypto/QVaultCrypto';
 
 export default{
@@ -205,7 +204,7 @@ export default{
       this.$emit('input', this.$refs.input.value);
     },
     copy_to_clipboard(){
-      clipboard.writeText(this.value);
+      window.nodeAPI.electron.clipboard.writeText(this.value);
       this.copied = true;
       setTimeout(() => {this.copied = false;}, 750);
     },

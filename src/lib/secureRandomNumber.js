@@ -1,7 +1,5 @@
 // from https://github.com/joepie91/node-random-number-csprng
 
-import crypto from 'crypto';
-
 function calculateParameters(range) {
   /* This does the equivalent of:
    * 
@@ -41,7 +39,7 @@ function calculateParameters(range) {
 }
 
 export default async function secureRandomNumber(minimum, maximum) {
-  if (crypto == null || crypto.randomBytes == null) {
+  if (window.nodeAPI.crypto == null || window.nodeAPI.crypto.randomBytes == null) {
     throw "No suitable random number generator available. Ensure that your runtime is linked against OpenSSL (or an equivalent) correctly.";
   }
 
@@ -89,7 +87,7 @@ export default async function secureRandomNumber(minimum, maximum) {
 
   let {bytesNeeded, mask} = calculateParameters(range);
 
-  let randomBytes = crypto.randomBytes(bytesNeeded);
+  let randomBytes = window.nodeAPI.crypto.randomBytes(bytesNeeded);
 
   let randomValue = 0;
 

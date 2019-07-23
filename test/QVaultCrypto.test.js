@@ -71,7 +71,7 @@ it('Hashing', async () => {
 it('hash char key', async () => {
   const charKey = await GenerateCharKey();
   const hash = await HashCharKey(charKey);
-  const buf = Buffer.from(hash, 'base64');
+  const buf = window.nodeAPI.Buffer.from(hash, 'base64');
   expect(buf.length).equal(32);
 });
 

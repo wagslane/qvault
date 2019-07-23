@@ -1,31 +1,19 @@
-// main.js uses this file so all imports should use
-// require syntax
-const { app, remote } = require('electron');
-const fs = require('fs');
-
-function ClearLastUsedVault(){
+export function ClearLastUsedVault(){
   let filepath = GetLastUsedVaultPath();
-  if (fs.existsSync(filepath)) {
-    fs.unlinkSync(filepath);
+  if (window.nodeAPI.fs.existsSync(filepath)) {
+    window.nodeAPI.fs.unlinkSync(filepath);
   }
 }
 
-function SetLastUsedVault(path) {
-  fs.writeFileSync(GetLastUsedVaultPath(), path);
+export function SetLastUsedVault(path) {
+  window.nodeAPI.fs.writeFileSync(GetLastUsedVaultPath(), path);
 }
 
-function GetLastUsedVault(){
-  return fs.readFileSync(GetLastUsedVaultPath(), 'utf-8');
+export function GetLastUsedVault(){
+  return window.nodeAPI.fs.readFileSync(GetLastUsedVaultPath(), 'utf-8');
 }
 
 function GetLastUsedVaultPath() {
-  const configDir = (app || remote.app).getPath('userData');
+  const configDir = (window.nodeAPI.electron.app || window.nodeAPI.electron.remote.app).getPath('userData');
   return `${configDir}/last_used_vault`;
 }
-
-module.exports = {
-  ClearLastUsedVault,
-  SetLastUsedVault,
-  GetLastUsedVault
-};
-
