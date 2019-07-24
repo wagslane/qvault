@@ -4,7 +4,7 @@ const {type} = require('os');
 const electron = require('electron');
 
 // Expose select NodeJS functionality for the renderer process
-window.nodeAPI = {
+const nodeAPI = {
   Buffer: Buffer,
   fs: {
     existsSync: fs.existsSync,
@@ -29,4 +29,14 @@ window.nodeAPI = {
     app: electron.app,
     shell: electron.shell,
   }
+};
+
+// export to window global for app
+if (process && process.type === 'renderer'){
+  window.nodeAPI = nodeAPI;
+}
+
+// export for tests
+module.exports = {
+  nodeAPI
 };
