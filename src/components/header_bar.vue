@@ -42,7 +42,7 @@
           />
           <span
             class="label float-right"
-          >Vault Saved</span>
+          >Saved</span>
         </div>
       </div>
       <div
@@ -70,7 +70,6 @@ import saveSvg from '../img/save.svg.vue';
 import downloadSvg from '../img/download.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
 import timingOverlay from '../components/timing_overlay.vue';
-import {ipcRenderer} from 'electron';
 import sleep from '../lib/sleep';
 
 export default {
@@ -114,7 +113,7 @@ export default {
       }
     },
     async updateVersion(){
-      ipcRenderer.send('downloadUpdate');
+      window.nodeAPI.electron.ipcRenderer.send('downloadUpdate');
       await sleep(120000);
       alert("Error downloading update");
     },
@@ -171,6 +170,7 @@ export default {
       .label{
         font-size: 10px;
         margin-right: 10px;
+        margin-top: 22px;
       }
 
       .img{

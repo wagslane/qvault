@@ -1,8 +1,8 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, remote } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
-const { SetLastUsedVault } = require('./src/lib/LastUsedVaultPath');
+const fs = require('fs');
 
 autoUpdater.autoDownload = false;
 
@@ -10,12 +10,18 @@ autoUpdater.autoDownload = false;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+// should match logic in LastUsedVaulPath.js
+function setLastUsedVault(openFilePath){
+  const configDir = (app || remote.app).getPath('userData');
+  fs.writeFileSync(configDir + '/last_used_vault', openFilePath);
+}
+
 function createWindow() {
 
   // Allow users to open a qvault by clicking file on windows
   if ((process.platform == 'win32' || process.platform == 'win64') && process.argv.length >= 2) {
     const openFilePath = process.argv[1];
-    SetLastUsedVault(openFilePath);
+    setLastUsedVault(openFilePath);
   }
 
   // Need to wait to require screen until app is ready
@@ -87,7 +93,7 @@ function createWindow() {
 app.on('will-finish-launching', () => {
   app.on('open-file', (event, path) => {
     event.preventDefault();
-    SetLastUsedVault(path);
+    setLastUsedVault(path);
   });
 });
 

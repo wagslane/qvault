@@ -1,7 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  target: 'electron-main',
+  target: 'web',
   entry: {
     qvault: './src/qvault.js'
   },

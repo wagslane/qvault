@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const fs = require('fs');
 const path = require('path');
 var electron_notarize = require('electron-notarize');
 const pjson = require('../package.json');
@@ -15,7 +14,7 @@ module.exports = async function (params) {
   let appId = pjson.build.appId;
 
   let appPath = path.join(params.appOutDir, `${params.packager.appInfo.productFilename}.app`);
-  if (!fs.existsSync(appPath)) {
+  if (!window.nodeAPI.fs.existsSync(appPath)) {
     throw new Error(`Cannot find application at: ${appPath}`);
   }
 

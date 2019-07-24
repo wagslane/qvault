@@ -50,7 +50,6 @@
 import dropdown_menu from '../../components/dropdown_menu.vue';
 import trash_svg from '../../img/trash.svg';
 import hide_svg from '../../img/hide.svg';
-import { clipboard } from 'electron';
 import confirm from '../../components/confirm.vue';
 
 export default {
@@ -126,7 +125,7 @@ export default {
       this.$refs.deleteSecretModal.show(this.deleteSecret);
     },
     copy(fieldname){
-      clipboard.writeText(this.secret[fieldname]);
+      window.nodeAPI.electron.clipboard.writeText(this.secret[fieldname]);
       this.copied = fieldname;
       setTimeout(() => {this.copied = '';}, 750);
     },
