@@ -31,7 +31,7 @@
             <br v-if="showDownload">
             <router-link
               class="link"
-              :to="{name: 'load_unlock_step_2'}"
+              :to="{name: 'loadUnlockStep2'}"
             >
               Forgot password?
             </router-link>
@@ -99,7 +99,7 @@ export default {
   methods: {
     toDownload(){
       this.$root.ResetStorageState();
-      this.$router.push({name: 'load_download'});
+      this.$router.push({name: 'loadDownload'});
     },
     async unlock(){
       this.error = null;

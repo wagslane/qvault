@@ -27,7 +27,7 @@
         Import CSV
       </button>
     </div>
-    <secret_preview
+    <secretPreview
       v-for="secret_uuid in secret_uuids"
       :key="secret_uuid"
       :box-uuid="box_uuid"
@@ -44,7 +44,7 @@
 
 <script>
 import box_types from '../../consts/box_types';
-import secret_preview from './secret_preview.vue';
+import secretPreview from './secretPreview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import dropdown_menu from '../../components/dropdownMenu.vue';
 import trash_svg from '../../img/trash.svg';
@@ -52,7 +52,7 @@ import confirm from '../../components/confirm.vue';
 
 export default {
   components: {
-    secret_preview,
+    secretPreview,
     PlusSolid,
     dropdown_menu,
     confirm

@@ -145,7 +145,7 @@ export default {
       } else {
         this.$root.password = this.passphrase;
       }
-      this.$router.push({name: 'create_step_6'});
+      this.$router.push({name: 'createStep5'});
     },
     async generatePassphrase(){
       this.generated = await GeneratePassphrase(5);

@@ -33,7 +33,7 @@
           </router-link>
         </div>
         <router-link
-          :to="{name: 'add_box'}"
+          :to="{name: 'addBox'}"
           class="add-box"
         >
           <PlusBox />
@@ -127,7 +127,7 @@ export default {
     addBoxIfNone(boxes){
       if(!boxes.length){
         if(this.$router.currentRoute.fullPath === "/vault"){
-          this.$router.push({name: 'add_box'});
+          this.$router.push({name: 'addBox'});
         }
       }
     },

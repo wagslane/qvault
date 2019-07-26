@@ -15,7 +15,7 @@
 
         <router-link
           class="btn"
-          :to="{name: 'load_choose'}"
+          :to="{name: 'loadChoose'}"
         >
           Open Existing Vault
         </router-link>
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {GenerateCharKey} from '../lib/QVaultCrypto/QVaultCrypto';
 
 export default {
   mounted(){
     try{
       this.$root.LoadLastUsedVault();
-      this.$router.push({name: 'load_unlock_step_1'});
+      this.$router.push({name: 'loadUnlockStep1'});
     } catch (err){
       // do nothing if cache is empty
     }
@@ -39,7 +39,7 @@ export default {
   methods:{
     async openExisting(){
       this.$root.char_key = await GenerateCharKey();
-      this.$router.push({name: 'create_step_2'});
+      this.$router.push({name: 'createStep1'});
     }
   }
 };

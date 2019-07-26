@@ -8,7 +8,7 @@
 
         <router-link
           class="btn"
-          :to="{name: 'settings_qrcode_add_or_change'}"
+          :to="{name: 'settingsQrcodeAddOrChange'}"
         >
           <span v-if="($root.qr_required)">
             Change Key Card

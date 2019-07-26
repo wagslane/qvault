@@ -1,134 +1,141 @@
-import route_wrapper from './page_components/route_wrapper.vue';
-import create_step_1 from './page_components/create/step_1.vue';
-import create_step_2 from './page_components/create/step_2.vue';
-import create_step_3 from './page_components/create/step_3.vue';
-import create_step_4 from './page_components/create/step_4.vue';
-import create_step_5 from './page_components/create/step_5.vue';
-import create_step_6 from './page_components/create/step_6.vue';
-import create_step_7 from './page_components/create/step_7.vue';
+import routeWrapper from './pageComponents/routeWrapper.vue';
+import createOrLoad from './pageComponents/createOrLoad.vue';
+import createStep1 from './pageComponents/create/step1.vue';
+import createStep2 from './pageComponents/create/step2.vue';
+import createStep3 from './pageComponents/create/step3.vue';
+import createStep4 from './pageComponents/create/step4.vue';
+import createStep5 from './pageComponents/create/step5.vue';
+import createStep6 from './pageComponents/create/step6.vue';
 
-import load_unlock_step_1 from './page_components/load/unlock/step_1.vue';
-import load_unlock_step_2 from './page_components/load/unlock/step_2.vue';
-import load_unlock_step_3 from './page_components/load/unlock/step_3.vue';
-import load_choose from './page_components/load/choose.vue';
-import load_download from './page_components/load/download.vue';
+import loadUnlockStep1 from './pageComponents/load/unlock/step1.vue';
+import loadUnlockStep2 from './pageComponents/load/unlock/step2.vue';
+import loadUnlockStep3 from './pageComponents/load/unlock/step3.vue';
+import loadChoose from './pageComponents/load/choose.vue';
+import loadDownload from './pageComponents/load/download.vue';
 
-import vault from './page_components/vault/vault.vue';
-import box from './page_components/vault/box.vue';
-import add_box from './page_components/vault/add_box.vue';
-import secret from './page_components/vault/secret.vue';
-import secret_list from './page_components/vault/secret_list.vue';
+import vault from './pageComponents/vault/vault.vue';
+import box from './pageComponents/vault/box.vue';
+import addBox from './pageComponents/vault/addBox.vue';
+import secret from './pageComponents/vault/secret.vue';
+import secretList from './pageComponents/vault/secretList.vue';
 
-import settings from './page_components/settings/settings.vue';
-import settings_change_password from './page_components/settings/change_password.vue';
-import settings_delete_account from './page_components/settings/delete_account.vue';
-import settings_cloud_account_login_register from './page_components/settings/cloud_account/login_register.vue';
-import settings_change_char_key from './page_components/settings/change_char_key.vue';
-import settings_qrcode_choose from './page_components/settings/qrcode/choose.vue';
-import settings_qrcode_add_or_change from './page_components/settings/qrcode/add_or_change.vue';
+import settings from './pageComponents/settings/settings.vue';
+import settingsChangePassword from './pageComponents/settings/changePassword.vue';
+import settingsDeleteAccount from './pageComponents/settings/deleteAccount.vue';
+import settingsCloudAccountLoginRegister from './pageComponents/settings/cloudAccount/loginRegister.vue';
+import settingsChangeCharKey from './pageComponents/settings/changeCharKey.vue';
+import settingsQrcodeChoose from './pageComponents/settings/qrcode/choose.vue';
+import settingsQrcodeAddOrChange from './pageComponents/settings/qrcode/addOrChange.vue';
 
-import utility_reset_cloud_password from './page_components/utility/reset_cloud_password.vue';
+import utilityResetCloudPassword from './pageComponents/utility/resetCloudPassword.vue';
 
 export default [
   {
     path: '/',
-    redirect: {
-      name: 'create_step_1',
-    },
+    component: routeWrapper,
+    children: [
+      {
+        path: '',
+        name: 'root',
+        redirect: {
+          name: 'createOrLoad',
+        },
+      },
+      {
+        path: 'createOrLoad',
+        component: createOrLoad,
+        name: 'createOrLoad',
+      },
+    ]
   },
   {
     path: '/create',
-    component: route_wrapper,
+    component: routeWrapper,
     children: [
       {
         path: '',
         name: 'create',
         redirect: {
-          name: 'create_step_1',
+          name: 'createStep1',
         },
       },
       {
-        path: 'step_1',
-        component: create_step_1,
-        name: 'create_step_1',
+        path: 'step1',
+        component: createStep1,
+        name: 'createStep1',
       },
       {
-        path: 'step_2',
-        component: create_step_2,
-        name: 'create_step_2',
+        path: 'step2',
+        component: createStep2,
+        name: 'createStep2',
       },
       {
-        path: 'step_3',
-        component: create_step_3,
-        name: 'create_step_3',
+        path: 'step3',
+        component: createStep3,
+        name: 'createStep3',
       },
       {
-        path: 'step_4',
-        component: create_step_4,
-        name: 'create_step_4',
+        path: 'step4',
+        component: createStep4,
+        name: 'createStep4',
       },
       {
-        path: 'step_5',
-        component: create_step_5,
-        name: 'create_step_5',
+        path: 'step5',
+        component: createStep5,
+        name: 'createStep5',
       },
       {
-        path: 'step_6',
-        component: create_step_6,
-        name: 'create_step_6',
-      },
-      {
-        path: 'step_7',
-        component: create_step_7,
-        name: 'create_step_7',
+        path: 'step6',
+        component: createStep6,
+        name: 'createStep6',
       },
     ],
   },
   {
     path: '/load',
-    component: route_wrapper,
+    component: routeWrapper,
     children: [
       {
         path: '',
         name: 'load',
         redirect: {
-          name: 'load_choose',
+          name: 'loadChoose',
         },
       },
       {
         path: 'choose',
-        component: load_choose,
-        name: 'load_choose',
+        component: loadChoose,
+        name: 'loadChoose',
       },
       {
         path: 'download',
-        component: load_download,
-        name: 'load_download',
+        component: loadDownload,
+        name: 'loadDownload',
       },
       {
         path: 'unlock',
-        component: route_wrapper,
+        component: routeWrapper,
         children: [
           {
             path: '',
             redirect: {
-              name: 'step_1',
+              name: 'step1',
             },
           },
           {
-            path: 'step_1',
-            component: load_unlock_step_1,
-            name: 'load_unlock_step_1',
+            path: 'step1',
+            component: loadUnlockStep1,
+            name: 'loadUnlockStep1',
           },
           {
-            path: 'step_2',
-            component: load_unlock_step_2,
-            name: 'load_unlock_step_2',
+            path: 'step2',
+            component: loadUnlockStep2,
+            name: 'loadUnlockStep2',
           },
           {
-            path: 'step_3',
-            component: load_unlock_step_3,
-            name: 'load_unlock_step_3',
+            path: 'step3',
+            component: loadUnlockStep3,
+            name: 'loadUnlockStep3',
           },
         ],
       },
@@ -141,8 +148,8 @@ export default [
     children: [
       {
         path: 'add',
-        component: add_box,
-        name: 'add_box',
+        component: addBox,
+        name: 'addBox',
       },
       {
         path: 'box/:box_uuid',
@@ -150,7 +157,7 @@ export default [
         children: [
           {
             path: '',
-            component: secret_list,
+            component: secretList,
             name: 'box',
           },
           {
@@ -164,7 +171,7 @@ export default [
   },
   {
     path: '/settings',
-    component: route_wrapper,
+    component: routeWrapper,
     children: [
       {
         path: '',
@@ -178,40 +185,40 @@ export default [
         name: 'settings',
       },
       {
-        path: 'change_password',
-        component: settings_change_password,
-        name: 'settings_change_password',
+        path: 'changePassword',
+        component: settingsChangePassword,
+        name: 'settingsChangePassword',
       },
       {
-        path: 'delete_account',
-        component: settings_delete_account,
-        name: 'settings_delete_account',
+        path: 'deleteAccount',
+        component: settingsDeleteAccount,
+        name: 'settingsDeleteAccount',
       },
       {
-        path: 'change_char_key',
-        component: settings_change_char_key,
-        name: 'settings_change_char_key',
+        path: 'changeCharKey',
+        component: settingsChangeCharKey,
+        name: 'settingsChangeCharKey',
       },
       {
-        path: 'cloud_account',
-        component: route_wrapper,
+        path: 'cloudAccount',
+        component: routeWrapper,
         children: [
           {
             path: '',
             redirect: {
-              name: 'login_register',
+              name: 'loginRegister',
             },
           },
           {
-            path: 'login_register',
-            component: settings_cloud_account_login_register,
-            name: 'settings_cloud_account_login_register',
+            path: 'loginRegister',
+            component: settingsCloudAccountLoginRegister,
+            name: 'settingsCloudAccountLoginRegister',
           }
         ],
       },
       {
         path: 'qrcode',
-        component: route_wrapper,
+        component: routeWrapper,
         children: [
           {
             path: '',
@@ -221,13 +228,13 @@ export default [
           },
           {
             path: 'choose',
-            component: settings_qrcode_choose,
-            name: 'settings_qrcode_choose',
+            component: settingsQrcodeChoose,
+            name: 'settingsQrcodeChoose',
           },
           {
-            path: 'add_or_change',
-            component: settings_qrcode_add_or_change,
-            name: 'settings_qrcode_add_or_change',
+            path: 'addOrChange',
+            component: settingsQrcodeAddOrChange,
+            name: 'settingsQrcodeAddOrChange',
           },
         ],
       },
@@ -235,12 +242,12 @@ export default [
   },
   {
     path: '/utility',
-    component: route_wrapper,
+    component: routeWrapper,
     children: [
       {
-        path: 'reset_cloud_password/:donePath',
-        component: utility_reset_cloud_password,
-        name: 'utility_reset_cloud_password',
+        path: 'resetCloudPassword/:donePath',
+        component: utilityResetCloudPassword,
+        name: 'utilityResetCloudPassword',
         props: true
       }
     ],

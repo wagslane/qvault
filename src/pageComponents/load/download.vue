@@ -28,8 +28,8 @@
           <router-link
             class="link"
             :to="{
-              name: 'utility_reset_cloud_password', 
-              params: {donePath: 'load_download'}
+              name: 'utilityResetCloudPassword', 
+              params: {donePath: 'loadDownload'}
             }"
           >
             Trouble accessing cloud account?
@@ -95,7 +95,7 @@ export default {
           try{
             this.$root.NewVaultDialog();
             this.$root.SaveVault(this.$root.loaded_vault);
-            this.$router.push({name: 'load_unlock_step_1'});
+            this.$router.push({name: 'loadUnlockStep1'});
           } catch (err) {
             this.error = err;
           }

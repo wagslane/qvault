@@ -24,21 +24,21 @@
 
         <router-link
           class="btn"
-          :to="{name: 'settings_change_password'}"
+          :to="{name: 'settingsChangePassword'}"
         >
           Change Password
         </router-link>
 
         <router-link
           class="btn"
-          :to="{name: 'settings_change_char_key'}"
+          :to="{name: 'settingsChangeCharKey'}"
         >
           Manage Recovery Card
         </router-link>
 
         <router-link
           class="btn"
-          :to="{name: 'settings_qrcode_choose'}"
+          :to="{name: 'settingsQrcodeChoose'}"
         >
           Manage Key Card
         </router-link>
@@ -46,7 +46,7 @@
         <router-link
           v-if="(!$root.email)"
           class="btn"
-          :to="{name: 'settings_cloud_account_login_register'}"
+          :to="{name: 'settingsCloudAccountLoginRegister'}"
         >
           Add Cloud Storage
         </router-link>
@@ -54,7 +54,7 @@
         <router-link
           v-else
           class="btn"
-          :to="{name: 'settings_delete_account'}"
+          :to="{name: 'settingsDeleteAccount'}"
         >
           Delete Cloud Storage
         </router-link>

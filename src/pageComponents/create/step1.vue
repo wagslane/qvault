@@ -19,14 +19,14 @@
 
         <router-link
           class="btn"
-          :to="{name: 'create_step_3'}"
+          :to="{name: 'createStep2'}"
         >
           Yes, use my Qvault cards
         </router-link>
 
         <router-link
           class="link"
-          :to="{name: 'create_step_5'}"
+          :to="{name: 'createStep4'}"
         >
           Skip for now
         </router-link>
