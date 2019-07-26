@@ -124,7 +124,7 @@
 <script>
 import { DeriveCloudKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
 import {createUser, resendRegistrationEmail, getToken, setToken} from '../../../lib/CloudClient/CloudClient';
-import timingOverlay from '../../../components/timing_overlay.vue';
+import timingOverlay from '../../../components/timingOverlay.vue';
 import confirm from '../../../components/confirm.vue';
 
 export default {

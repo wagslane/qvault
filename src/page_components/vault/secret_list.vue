@@ -46,7 +46,7 @@
 import box_types from '../../consts/box_types';
 import secret_preview from './secret_preview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
-import dropdown_menu from '../../components/dropdown_menu.vue';
+import dropdown_menu from '../../components/dropdownMenu.vue';
 import trash_svg from '../../img/trash.svg';
 import confirm from '../../components/confirm.vue';
 

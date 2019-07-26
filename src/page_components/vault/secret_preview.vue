@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import dropdown_menu from '../../components/dropdown_menu.vue';
+import dropdown_menu from '../../components/dropdownMenu.vue';
 import trash_svg from '../../img/trash.svg';
 import hide_svg from '../../img/hide.svg';
 import confirm from '../../components/confirm.vue';

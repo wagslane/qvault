@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import timingOverlay from '../../../components/timing_overlay.vue';
+import timingOverlay from '../../../components/timingOverlay.vue';
 import confirm from '../../../components/confirm.vue';
 
 export default {

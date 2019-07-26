@@ -69,7 +69,7 @@ import gearSvg from '../img/gear-icon.svg.vue';
 import saveSvg from '../img/save.svg.vue';
 import downloadSvg from '../img/download.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
-import timingOverlay from '../components/timing_overlay.vue';
+import timingOverlay from '../components/timingOverlay.vue';
 import sleep from '../lib/sleep';
 
 export default {

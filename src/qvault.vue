@@ -14,7 +14,7 @@
 import VueRouter from 'vue-router';
 import routes from './routes';
 import storage from './mixins/storage';
-import TitleBar from './components/title_bar.vue';
+import TitleBar from './components/titleBar.vue';
 import {heightMac, heightWin} from './consts/title_bar';
 
 export const router = new VueRouter({routes});

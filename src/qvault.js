@@ -6,9 +6,9 @@ Vue.use(VueRouter);
 
 import QvaultApp from './qvault.vue';
 
-import HeaderBar from './components/header_bar.vue';
-import StepProgress from './components/step_progress.vue';
-import DecoratedTextInput from './components/decorated_text_input.vue';
+import HeaderBar from './components/headerBar.vue';
+import StepProgress from './components/stepProgress.vue';
+import DecoratedTextInput from './components/decoratedTextInput.vue';
 
 Vue.component('HeaderBar', HeaderBar);
 Vue.component('StepProgress', StepProgress);

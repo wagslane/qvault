@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import TextInput from "../../components/text_input.vue";
+import TextInput from "../../components/textInput.vue";
 import Vue from 'vue';
 import box_types from '../../consts/box_types';
 import PlusSolid from '../../img/plus-solid.svg.vue';

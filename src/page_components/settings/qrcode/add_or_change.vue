@@ -45,8 +45,8 @@
 
 <script>
 import {ValidateQRKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
-import QRScanner from '../../../components/qrcode_scanner.vue';
-import timingOverlay from '../../../components/timing_overlay.vue';
+import QRScanner from '../../../components/qrcodeScanner.vue';
+import timingOverlay from '../../../components/timingOverlay.vue';
 
 export default {
   components:{

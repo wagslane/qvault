@@ -41,7 +41,7 @@
 
 <script>
 import {ValidateQRKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import QRScanner from '../../components/qrcode_scanner.vue';
+import QRScanner from '../../components/qrcodeScanner.vue';
 
 export default {
   components:{

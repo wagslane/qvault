@@ -43,7 +43,7 @@
 
 <script>
 import {deleteUser, isLoggedIn, deleteToken} from '../../lib/CloudClient/CloudClient';
-import timingOverlay from '../../components/timing_overlay.vue';
+import timingOverlay from '../../components/timingOverlay.vue';
 
 export default {
   components:{

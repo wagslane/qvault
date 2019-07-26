@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import ProgressBar from '../../components/progress_bar.vue';
+import ProgressBar from '../../components/progressBar.vue';
 const pjson = require('../../../package.json');
 
 export default {

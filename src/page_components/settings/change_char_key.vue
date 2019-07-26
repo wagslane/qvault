@@ -63,7 +63,7 @@
 
 <script>
 import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import timingOverlay from '../../components/timing_overlay.vue';
+import timingOverlay from '../../components/timingOverlay.vue';
 
 export default {
   components:{
