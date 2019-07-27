@@ -52,20 +52,20 @@ export default {
   },
   methods:{
     min(){
-      const window = window.nodeAPI.electron.remote.getCurrentWindow();
-      window.minimize(); 
+      const win = window.nodeAPI.electron.remote.getCurrentWindow();
+      win.minimize(); 
     },
     max(){
-      const window = window.nodeAPI.electron.remote.getCurrentWindow();
-      if (!window.isMaximized()) {
-        window.maximize();
+      const win = window.nodeAPI.electron.remote.getCurrentWindow();
+      if (!win.isMaximized()) {
+        win.maximize();
       } else {
-        window.unmaximize();
+        win.unmaximize();
       }
     },
     close(){
-      const window = window.nodeAPI.electron.remote.getCurrentWindow();
-      window.close();
+      const win = window.nodeAPI.electron.remote.getCurrentWindow();
+      win.close();
     }
   }
 };
