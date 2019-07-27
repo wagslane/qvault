@@ -55,10 +55,10 @@
         <downloadSvg class="svg" />
       </div>
     </div>
-    <timingOverlay
+    <TimingOverlay
       ref="loader"
     />
-    <timingOverlay
+    <TimingOverlay
       ref="loaderUpdate"
     />
   </div>
@@ -69,7 +69,7 @@ import gearSvg from '../img/gear-icon.svg.vue';
 import saveSvg from '../img/save.svg.vue';
 import downloadSvg from '../img/download.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
-import timingOverlay from '../components/timingOverlay.vue';
+import TimingOverlay from '../components/TimingOverlay.vue';
 import sleep from '../lib/sleep';
 
 export default {
@@ -77,7 +77,7 @@ export default {
     gearSvg,
     saveSvg,
     checkmarkSvg,
-    timingOverlay,
+    TimingOverlay,
     downloadSvg
   },
   props: { 

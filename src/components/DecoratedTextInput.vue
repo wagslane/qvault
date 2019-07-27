@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import TextInput from "./textInput.vue";
+import TextInput from "./TextInput.vue";
 
 export default{
   components:{

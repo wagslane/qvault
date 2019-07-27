@@ -47,7 +47,7 @@
 
 <script>
 import Keyboard from "simple-keyboard";
-import dropdown_menu from './dropdownMenu.vue';
+import dropdown_menu from './DropdownMenu.vue';
 import HideSVG from '../img/hide.svg';
 import KeyboardSVG from '../img/keyboard.svg';
 import ClipboardSVG from '../img/clipboard.svg';
