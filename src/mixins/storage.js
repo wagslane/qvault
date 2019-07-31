@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { remote } from 'electron';
 const dialog = remote.dialog;
-const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert.js';
 import parse from 'csv-parse/lib/sync';
@@ -24,7 +23,7 @@ import {
 import secrets from './secrets.js';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
-const VERSION = pjson.version;
+const VERSION = "0.1.6";
 const FILE_FILTERS = [
   {
     name: 'Vaults',
