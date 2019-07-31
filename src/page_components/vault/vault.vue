@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import {type} from 'os';
 import PlusBox from '../../img/plus-box.svg.vue';
 import {heightMac, heightWin} from '../../consts/title_bar';
 import box_types from '../../consts/box_types';
@@ -82,7 +81,7 @@ export default {
     },
     content_height(){
       const header_bar_height = 55;
-      if (type() === 'Darwin'){
+      if (window.nodeAPI.os.type() === 'Darwin'){
         return header_bar_height + heightMac;
       }
       return header_bar_height + heightWin;

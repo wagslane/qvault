@@ -1,7 +1,6 @@
 import '@babel/polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import {shell} from 'electron';
  
 Vue.use(VueRouter);
 
@@ -19,7 +18,7 @@ Vue.component('DecoratedTextInput', DecoratedTextInput);
 document.addEventListener('click', function (event) {
   if (event.target.tagName === 'A' && event.target.href.startsWith('http')) {
     event.preventDefault();
-    shell.openExternal(event.target.href);
+    window.nodeAPI.electron.shell.openExternal(event.target.href);
   }
 });
 

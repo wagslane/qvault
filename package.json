@@ -1,6 +1,6 @@
 {
   "name": "qvault",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "A secure and open-source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
@@ -40,7 +40,6 @@
       "main.js",
       "index.html",
       "dist/*",
-      "src/lib/LastUsedVaultPath.js",
       "scripts/preload.js"
     ],
     "directories": {
@@ -100,7 +99,6 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
-    "csv-parse": "4.4.1",
     "electron-updater": "4.0.6",
     "electron-window-state": "5.0.3",
     "simple-keyboard": "2.21.0",

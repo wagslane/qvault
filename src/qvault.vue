@@ -16,8 +16,6 @@ import routes from './routes';
 import storage from './mixins/storage';
 import TitleBar from './components/title_bar.vue';
 import {heightMac, heightWin} from './consts/title_bar';
-import {type} from 'os';
-import {ipcRenderer} from 'electron';
 
 export const router = new VueRouter({routes});
 
@@ -33,14 +31,14 @@ export default {
   },
   computed:{
     titleHeight(){
-      if (type() === 'Darwin'){
+      if (window.nodeAPI.os.type() === 'Darwin'){
         return heightMac;
       }
       return heightWin;
     }
   },
   mounted(){
-    ipcRenderer.on('updateReady', () => {
+    window.nodeAPI.electron.ipcRenderer.on('updateReady', () => {
       this.updateReady = true;
     });
   },
