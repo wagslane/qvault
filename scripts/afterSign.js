@@ -4,7 +4,6 @@ var electron_notarize = require('electron-notarize');
 const pjson = require('../package.json');
 const fs = require('fs');
 
-
 module.exports = async function (params) {
   // Only notarize the app on Mac OS only.
   if (process.platform !== 'darwin') {
