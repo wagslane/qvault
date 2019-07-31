@@ -18,9 +18,10 @@ import {
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.js';
+import migrations from '../migrations/migrations';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
-const VERSION = "0.1.6";
+const VERSION = '0.2.0';
 const FILE_FILTERS = [
   {
     name: 'Vaults',
@@ -148,6 +149,10 @@ export default {
         } else {
           secrets = await DecipherSecrets(hashedCharKey, this.loaded_vault.secrets);
         }
+        while(this.loaded_vault.version in migrations){
+          [ this.loaded_vault, secrets ] = migrations[this.loaded_vault.version](this.loaded_vault, secrets);
+        }
+        assert(this.loaded_vault.version === VERSION, "Invalid vault version");
         this.LoadSecrets(secrets);
         this.char_key = charKey;
       } catch (err) {
