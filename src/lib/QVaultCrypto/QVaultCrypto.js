@@ -8,17 +8,14 @@ const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const cipherAlgo = 'aes-256-gcm';
 const encodingFormat = 'base64';
 const textFormat = 'utf8';
+// 12 bytes is the recommended iv size for aes-256-gcm, but using 16 bytes
+// results in no loss of security so making a backwards compatible change
+//isn't worth the trouble for now
+// see: https://crypto.stackexchange.com/questions/41601/aes-gcm-recommended-iv-size-why-12-bytes
+const ivLengthBytes = 16;
 
 const longHashDifficulty = 17;
 const shortHashDifficulty = 10;
-
-// QR Key (256 bit, base64) = Encoded in the QR Card, generated in QVault factory
-// Char Key (16 chars, base58) = Back of the Qvault recovery card, generated randomly by this app
-// Pass Key (256 bit, base64) = Hash(password, salt) or Hash(passphrase, salt), used to cipher the Char Key for easy access
-
-// Secrets are ciphered using Cipher(Hash(Char Key), data) 
-// Or
-// Cipher(Hash(QRKey), Cipher(Hash(CharKey), data))
 
 // (string) => string
 // log2(70^12) = 73.6 bits of entropy 
@@ -189,21 +186,42 @@ async function hashString(data, difficulty, scryptSalt = defaultSalt) {
 }
 
 function cipherString(key, data) {
-  const keyCopy = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
-  const iv = window.nodeAPI.crypto.randomBytes(16);
-  const cipher = window.nodeAPI.crypto.createCipheriv(cipherAlgo, keyCopy, iv);
+  const keyBytes = window.nodeAPI.Buffer.from(key, encodingFormat);
+  const iv = window.nodeAPI.crypto.randomBytes(ivLengthBytes);
+  const cipher = window.nodeAPI.crypto.createCipheriv(cipherAlgo, keyBytes, iv);
   const cipheredSecretSection = window.nodeAPI.Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
   const tag = cipher.getAuthTag();
   return window.nodeAPI.Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
 function decipherString(key, cipheredData) {
-  const keyCopy = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
+  // Try the old way, and if doesn't work try the new way
+  // TODO: remove this in next major update
+  try{
+    const deciphered = decipherStringDeprecated(key, cipheredData);
+    return deciphered;
+  } catch (err) {
+    // ignore
+  }
+
+  const keyBytes = window.nodeAPI.Buffer.from(key, encodingFormat);
   const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
-  const iv = rawCiphered.slice(0, 16);
-  const tag = rawCiphered.slice(16, 32);
+  const iv = rawCiphered.slice(0, ivLengthBytes);
+  const tag = rawCiphered.slice(ivLengthBytes, 32);
   const cipheredSecretSection = rawCiphered.slice(32);
-  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyCopy, iv);
+  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyBytes, iv);
+  decipher.setAuthTag(tag);
+  return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
+}
+
+// TODO: remove this in next major update
+function decipherStringDeprecated(key, cipheredData){
+  const keyBytes = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
+  const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
+  const iv = rawCiphered.slice(0, ivLengthBytes);
+  const tag = rawCiphered.slice(ivLengthBytes, 32);
+  const cipheredSecretSection = rawCiphered.slice(32);
+  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyBytes, iv);
   decipher.setAuthTag(tag);
   return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
 }
