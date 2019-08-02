@@ -85,7 +85,8 @@ it('cipher and decipher', async () => {
       }
     }
   };
-  const hashedCharKey = "fhdsbf7aisduifgsdifuagsdfgsdjhfgsdjhlfashdfg";
+  const charKey = await GenerateCharKey();
+  const hashedCharKey = await HashCharKey(charKey);
   const qrKey = "fhdsbf7aisduifgsjifuagsdfgsdjhfgsdjhlfashdfg";
   const ciphered = CipherSecrets(hashedCharKey, mySecrets);
   const deciphered = DecipherSecrets(hashedCharKey, ciphered);
