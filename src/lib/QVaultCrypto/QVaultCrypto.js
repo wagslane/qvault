@@ -186,9 +186,9 @@ function cipherString(key, data) {
   const keyBytes = window.nodeAPI.Buffer.from(key, encodingFormat);
   const iv = window.nodeAPI.crypto.randomBytes(ivLengthBytes);
   const cipher = window.nodeAPI.crypto.createCipheriv(cipherAlgo, keyBytes, iv);
-  const cipheredSecretSection = window.nodeAPI.Buffer.concat([cipher.update(data, textFormat), cipher.final()]);
+  const cipheredSecretSection = window.nodeAPI.Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
   const tag = cipher.getAuthTag();
-  return window.nodeAPI.Buffer.concat([iv, tag, cipheredSecretSection]).toString(encodingFormat);
+  return window.nodeAPI.Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
 function decipherString(key, cipheredData) {
