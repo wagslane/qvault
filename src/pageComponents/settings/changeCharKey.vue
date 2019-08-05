@@ -87,8 +87,8 @@ export default {
       ];
     }
   },
-  async mounted(){
-    this.charKey = await GenerateCharKey();
+  mounted(){
+    this.charKey = GenerateCharKey();
   },
   methods:{
     async save(){
