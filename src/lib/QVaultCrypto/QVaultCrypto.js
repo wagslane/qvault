@@ -8,11 +8,8 @@ const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const cipherAlgo = 'aes-256-gcm';
 const encodingFormat = 'base64';
 const textFormat = 'utf8';
-// 12 bytes is the recommended iv size for aes-256-gcm, but using 16 bytes
-// results in no loss of security so making a backwards compatible change
-//isn't worth the trouble for now
-// see: https://crypto.stackexchange.com/questions/41601/aes-gcm-recommended-iv-size-why-12-bytes
-const ivLengthBytes = 16;
+const ivLengthBytes = 12;
+const authTagLengthBytes = 16;
 
 const longHashDifficulty = 17;
 const shortHashDifficulty = 10;
@@ -73,7 +70,7 @@ export function GeneratePassword(passwordLength) {
   password += upper[secureRandomNumber(0, upper.length - 1)];
   password += chars[secureRandomNumber(0, chars.length - 1)];
   password += numbers[secureRandomNumber(0, numbers.length - 1)];
-  for (let i = password.length; i < passwordLength; i++){
+  for (let i = password.length; i < passwordLength; i++) {
     password += allPossible[secureRandomNumber(0, allPossible.length - 1)];
   }
   return password.split('').sort(() => 1 - secureRandomNumber(0, 1)).join('');
@@ -197,7 +194,7 @@ function cipherString(key, data) {
 function decipherString(key, cipheredData) {
   // Try the old way, and if doesn't work try the new way
   // TODO: remove this in next major update
-  try{
+  try {
     const deciphered = decipherStringDeprecated(key, cipheredData);
     return deciphered;
   } catch (err) {
@@ -207,19 +204,19 @@ function decipherString(key, cipheredData) {
   const keyBytes = window.nodeAPI.Buffer.from(key, encodingFormat);
   const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
   const iv = rawCiphered.slice(0, ivLengthBytes);
-  const tag = rawCiphered.slice(ivLengthBytes, 32);
-  const cipheredSecretSection = rawCiphered.slice(32);
+  const tag = rawCiphered.slice(ivLengthBytes, ivLengthBytes + authTagLengthBytes);
+  const cipheredSecretSection = rawCiphered.slice(ivLengthBytes + authTagLengthBytes);
   const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyBytes, iv);
   decipher.setAuthTag(tag);
   return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
 }
 
 // TODO: remove this in next major update
-function decipherStringDeprecated(key, cipheredData){
+function decipherStringDeprecated(key, cipheredData) {
   const keyBytes = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
   const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
-  const iv = rawCiphered.slice(0, ivLengthBytes);
-  const tag = rawCiphered.slice(ivLengthBytes, 32);
+  const iv = rawCiphered.slice(0, 16);
+  const tag = rawCiphered.slice(16, 32);
   const cipheredSecretSection = rawCiphered.slice(32);
   const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyBytes, iv);
   decipher.setAuthTag(tag);
