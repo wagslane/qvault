@@ -147,8 +147,8 @@ export default {
       }
       this.$router.push({name: 'createStep5'});
     },
-    async generatePassphrase(){
-      this.generated = await GeneratePassphrase(5);
+    generatePassphrase(){
+      this.generated = GeneratePassphrase(5);
     }
   },
 };

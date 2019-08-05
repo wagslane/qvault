@@ -197,9 +197,9 @@ export default{
     });
   },
   methods:{
-    async generate_password(){
+    generate_password(){
       const passwordLength = 15;
-      this.$refs.input.value = await GeneratePassword(passwordLength);
+      this.$refs.input.value = GeneratePassword(passwordLength);
       this.$refs.input.setSelectionRange(passwordLength, passwordLength);
       this.$emit('input', this.$refs.input.value);
     },

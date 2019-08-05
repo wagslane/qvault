@@ -53,40 +53,40 @@ export function ValidatePassphrase(passphrase) {
 // log2(20000 ^ 5) = 71.5 bits entropy
 // log2(20000 ^ 6) = 85.7 bits entropy
 // log2(20000 ^ 7) = 100 bits entropy
-export async function GeneratePassphrase(phraseLength) {
+export function GeneratePassphrase(phraseLength) {
   let phrase = [];
   for (let i = 0; i < phraseLength; i++) {
-    let index = await secureRandomNumber(0, WordList.length - 1);
+    let index = secureRandomNumber(0, WordList.length - 1);
     phrase.push(WordList[index]);
   }
   return phrase.join(" ");
 }
 
-export async function GeneratePassword(passwordLength) {
+export function GeneratePassword(passwordLength) {
   let password = '';
   const lower = 'abcdefghijkmnopqrstuvwxyz';
   const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
   const chars = '@!#%[]^()-';
   const numbers = '123456789';
   const allPossible = lower + upper + chars + numbers;
-  password += lower[await secureRandomNumber(0, lower.length - 1)];
-  password += upper[await secureRandomNumber(0, upper.length - 1)];
-  password += chars[await secureRandomNumber(0, chars.length - 1)];
-  password += numbers[await secureRandomNumber(0, numbers.length - 1)];
+  password += lower[secureRandomNumber(0, lower.length - 1)];
+  password += upper[secureRandomNumber(0, upper.length - 1)];
+  password += chars[secureRandomNumber(0, chars.length - 1)];
+  password += numbers[secureRandomNumber(0, numbers.length - 1)];
   for (let i = password.length; i < passwordLength; i++){
-    password += allPossible[await secureRandomNumber(0, allPossible.length - 1)];
+    password += allPossible[secureRandomNumber(0, allPossible.length - 1)];
   }
   return password.split('').sort(() => 1 - secureRandomNumber(0, 1)).join('');
 }
 
 // () => Promise(string)
-export async function GenerateCharKey() {
+export function GenerateCharKey() {
   // log2(58^16) = 93.7 bits entropy
   const length = 16;
 
   let key = '';
   for (let i = 0; i < length; i++) {
-    let index = await secureRandomNumber(0, BASE58.length - 1);
+    let index = secureRandomNumber(0, BASE58.length - 1);
     key += BASE58.charAt(index);
   }
   return key;
