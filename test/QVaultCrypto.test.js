@@ -40,22 +40,22 @@ it('validate qr key', () =>{
   expect(ValidateQRKey("3IlaK/wuwWQQXlK29YQsLj0=")).equal(false);
 });
 
-it('GeneratePassphrase', async () => {
-  let passphrase = await GeneratePassphrase(5);
+it('GeneratePassphrase', () => {
+  let passphrase = GeneratePassphrase(5);
   passphrase = passphrase.split(" ");
   expect(passphrase.length).equal(5);
   expect(passphrase[0] !== passphrase[1]);
   expect(passphrase[0] !== undefined);
-  let passphrase2 = await GeneratePassphrase(5);
+  let passphrase2 = GeneratePassphrase(5);
   passphrase2 = passphrase2.split(" ");
   expect(passphrase).not.equal(passphrase2);
 });
 
-it('GenerateCharKey', async () => {
+it('GenerateCharKey', () => {
   for (let i = 0; i < 25; i += 1) {
-    let charKey = await GenerateCharKey();
+    let charKey = GenerateCharKey();
     expect(charKey.length).equal(16);
-    let charKey2 = await GenerateCharKey();
+    let charKey2 = GenerateCharKey();
     expect(charKey).not.equal(charKey2);
   }
 });
@@ -69,7 +69,7 @@ it('Hashing', async () => {
 });
 
 it('hash char key', async () => {
-  const charKey = await GenerateCharKey();
+  const charKey = GenerateCharKey();
   const hash = await HashCharKey(charKey);
   const buf = window.nodeAPI.Buffer.from(hash, 'base64');
   expect(buf.length).equal(32);
@@ -85,7 +85,7 @@ it('cipher and decipher', async () => {
       }
     }
   };
-  const charKey = await GenerateCharKey();
+  const charKey = GenerateCharKey();
   const hashedCharKey = await HashCharKey(charKey);
   const qrKey = "fhdsbf7aisduifgsjifuagsdfgsdjhfgsdjhlfashdfg";
   const ciphered = CipherSecrets(hashedCharKey, mySecrets);
