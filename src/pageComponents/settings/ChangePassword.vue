@@ -214,8 +214,8 @@ export default {
       await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'settings'});
     },
-    async generatePassphrase(){
-      this.generated = await GeneratePassphrase(5);
+    generatePassphrase(){
+      this.generated = GeneratePassphrase(5);
     }
   },
 };

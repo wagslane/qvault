@@ -145,8 +145,8 @@ export default {
       }
       this.$router.push({name: 'vault'});
     },
-    async generatePassphrase(){
-      this.generated = await GeneratePassphrase(5);
+    generatePassphrase(){
+      this.generated = GeneratePassphrase(5);
     }
   },
 };
