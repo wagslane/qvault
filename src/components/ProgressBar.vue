@@ -39,6 +39,7 @@ export default {
 
 <style lang="less" scoped>
   @import '../styles/colors.less';
+  @import '../styles/z_indices.less';
   
   .bar {
     height: 30px;
@@ -54,7 +55,7 @@ export default {
       text-align: center;
       color: white;
       position: absolute;
-      z-index: 2;
+      z-index: @progressBarText;
       width: 100%;
       height: 100%;
       left: 0;
@@ -65,7 +66,7 @@ export default {
       left: 0;
       height: 100%;
       background-color: @gold-dark;
-      z-index: 1;
+      z-index: @zMin;
     }
   }
 </style>

@@ -65,7 +65,7 @@ export default {
     },
 
     ExistingVaultDialog(){
-      let paths = window.nodeAPI.electron.remote.dialog.showOpenDialog({
+      let paths = window.nodeAPI.electron.remote.dialog.showOpenDialogSync({
         filters: FILE_FILTERS
       });
       if (paths === undefined){
@@ -78,7 +78,7 @@ export default {
     },
 
     ReadCSVDialogue(){
-      let paths = window.nodeAPI.electron.remote.dialog.showOpenDialog({
+      let paths = window.nodeAPI.electron.remote.dialog.showOpenDialogSync({
         filters: [
           {
             name: 'CSV',
@@ -104,7 +104,7 @@ export default {
     },
 
     NewVaultDialog(){
-      this.local_vault_path = window.nodeAPI.electron.remote.dialog.showSaveDialog({
+      this.local_vault_path = window.nodeAPI.electron.remote.dialog.showSaveDialogSync({
         filters: FILE_FILTERS,
         defaultPath: `myvault.${QVAULT_FILE_EXTENSION}`
       });

@@ -272,6 +272,7 @@ export default{
 
 <style lang="less">
 @import '../styles/colors.less';
+@import '../styles/z_indices.less';
 
 .text-input-wrapper{
   position: relative;
@@ -318,7 +319,7 @@ export default{
 }
 
 .keyboardContainer {
-  z-index: 300;
+  z-index: @zKeyboard;
   background-color: @black-darkest;
   position: fixed;
   width: 100%;
