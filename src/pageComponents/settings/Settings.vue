@@ -31,7 +31,7 @@
 
         <router-link
           class="btn"
-          :to="{name: 'settingsChangeCharKey'}"
+          :to="{name: 'settingsCharKeyChoose'}"
         >
           Manage Recovery Card
         </router-link>

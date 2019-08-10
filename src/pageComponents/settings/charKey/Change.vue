@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import TimingOverlay from '../../components/TimingOverlay.vue';
+import {GenerateCharKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
+import TimingOverlay from '../../../components/TimingOverlay.vue';
 
 export default {
   components:{
@@ -92,7 +92,7 @@ export default {
   },
   methods:{
     async save(){
-      const oldCharKey = this.$root.charKey;
+      const oldCharKey = this.$root.char_key;
       this.$root.char_key = this.charKey;
       try{
         await this.$root.SaveBoth();
