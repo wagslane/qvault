@@ -108,7 +108,8 @@ app.on('ready', function () {
   const { powerMonitor } = require('electron');
   setInterval(function(){
     let idleSeconds = powerMonitor.getSystemIdleTime();
-    if (idleSeconds > 60){
+    const fiveMinutesInSeconds = 300;
+    if (idleSeconds > fiveMinutesInSeconds){
       mainWindow.webContents.send('systemIdle');
     }
   }, 5000);
