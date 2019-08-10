@@ -54,8 +54,6 @@
 </template>
 
 <script>
-import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-
 export default {
   data(){
     return{
@@ -68,7 +66,6 @@ export default {
     };
   },
   mounted(){
-    this.$root.char_key = GenerateCharKey();
     this.formattedCharKey = [
       this.$root.char_key.slice(0, 4),
       this.$root.char_key.slice(4, 8),

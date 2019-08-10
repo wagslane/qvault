@@ -43,3 +43,15 @@
     </div>
   </div>
 </template>
+
+<script>
+import {GenerateCharKey} from '../../lib/QVaultCrypto/QVaultCrypto';
+
+export default {
+  mounted(){
+    // We need to set the char key here in case the user
+    // skips the recovery card step
+    this.$root.char_key = GenerateCharKey();
+  }
+};
+</script>
