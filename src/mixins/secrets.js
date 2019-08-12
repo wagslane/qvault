@@ -52,13 +52,14 @@ export default {
     GetEmptySecret(box_type){
       let secret = {
         created: Date.now(),
+        fields: {},
       };
       for (let field of box_type.fields) {
         let value = null;
         if (field.type === Array) {
           value = [];
         }
-        Vue.set(secret, field.name, value);
+        Vue.set(secret.fields, field.name, value);
       }
       return secret;
     },
