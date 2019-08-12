@@ -63,6 +63,7 @@ export default {
   methods:{
     lock() {
       this.visible = true;
+      this.password = '';
       this.error = '';
     },
     unlock(){
