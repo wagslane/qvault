@@ -38,7 +38,7 @@ function calculateParameters(range) {
   return {bytesNeeded, mask};
 }
 
-export default async function secureRandomNumber(minimum, maximum) {
+export default function secureRandomNumber(minimum, maximum) {
   if (window.nodeAPI.crypto == null || window.nodeAPI.crypto.randomBytes == null) {
     throw "No suitable random number generator available. Ensure that your runtime is linked against OpenSSL (or an equivalent) correctly.";
   }

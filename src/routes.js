@@ -23,7 +23,9 @@ import settings from './pageComponents/settings/Settings.vue';
 import settingsChangePassword from './pageComponents/settings/ChangePassword.vue';
 import settingsDeleteAccount from './pageComponents/settings/DeleteAccount.vue';
 import settingsCloudAccountLoginRegister from './pageComponents/settings/cloudAccount/LoginRegister.vue';
-import settingsChangeCharKey from './pageComponents/settings/ChangeCharKey.vue';
+import settingsCharKeyChange from './pageComponents/settings/charKey/Change.vue';
+import settingsCharKeyView from './pageComponents/settings/charKey/View.vue';
+import settingsCharKeyChoose from './pageComponents/settings/charKey/Choose.vue';
 import settingsQrcodeChoose from './pageComponents/settings/qrcode/Choose.vue';
 import settingsQrcodeAddOrChange from './pageComponents/settings/qrcode/AddOrChange.vue';
 
@@ -195,11 +197,6 @@ export default [
         name: 'settingsDeleteAccount',
       },
       {
-        path: 'ChangeCharKey',
-        component: settingsChangeCharKey,
-        name: 'settingsChangeCharKey',
-      },
-      {
         path: 'cloudAccount',
         component: RouteWrapper,
         children: [
@@ -235,6 +232,33 @@ export default [
             path: 'AddOrChange',
             component: settingsQrcodeAddOrChange,
             name: 'settingsQrcodeAddOrChange',
+          },
+        ],
+      },
+      {
+        path: 'charKey',
+        component: RouteWrapper,
+        children: [
+          {
+            path: '',
+            redirect: {
+              name: 'Choose',
+            },
+          },
+          {
+            path: 'Choose',
+            component: settingsCharKeyChoose,
+            name: 'settingsCharKeyChoose',
+          },
+          {
+            path: 'Change',
+            component: settingsCharKeyChange,
+            name: 'settingsCharKeyChange',
+          },
+          {
+            path: 'View',
+            component: settingsCharKeyView,
+            name: 'settingsCharKeyView',
           },
         ],
       },

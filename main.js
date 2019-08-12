@@ -103,20 +103,30 @@ app.on('ready', function () {
   if (!devMode){
     autoUpdater.checkForUpdates();
   }
+
+  // emit systemIdle events
+  const { powerMonitor } = require('electron');
+  setInterval(function(){
+    let idleSeconds = powerMonitor.getSystemIdleTime();
+    const fiveMinutesInSeconds = 300;
+    if (idleSeconds > fiveMinutesInSeconds){
+      mainWindow.webContents.send('systemIdle');
+    }
+  }, 5000);
+  powerMonitor.on('lock-screen', () => {
+    mainWindow.webContents.send('systemIdle');
+  });
 });
 
-/*eslint-disable no-unused-vars*/
-autoUpdater.on("update-available", (event, arg) => {
+autoUpdater.on("update-available", () => {
   mainWindow.webContents.send('updateReady');
 });
 
-/*eslint-disable no-unused-vars*/
-ipcMain.on("downloadUpdate", (event, arg) => {
+ipcMain.on("downloadUpdate", () => {
   autoUpdater.downloadUpdate();
 });
 
-/*eslint-disable no-unused-vars*/
-autoUpdater.on('update-downloaded', (info) => {
+autoUpdater.on('update-downloaded', () => {
   autoUpdater.quitAndInstall();
 });
 

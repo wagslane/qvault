@@ -79,6 +79,7 @@ export default {
 
 <style lang="less" scoped>
   @import '../styles/colors.less';
+  @import '../styles/z_indices.less';
 
   .title {
     color: @gold-mid;
@@ -92,7 +93,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: @zTimingOverlay;
 
     .center{
       position: absolute;

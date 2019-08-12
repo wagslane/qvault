@@ -66,6 +66,7 @@ export default {
 
 <style lang="less" scoped>
   @import '../styles/colors.less';
+  @import '../styles/z_indices.less';
 
   .screen {
     background: rgba(0,0,0,0.50);
@@ -74,7 +75,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: @zConfirmModal;
 
     .center{
       position: absolute;

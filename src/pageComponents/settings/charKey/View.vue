@@ -1,15 +1,15 @@
 <template>
   <div>
-    <HeaderBar title="Setup" />
+    <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <StepProgress :filled="2" />
-        <h1>Qvault Recovery Card</h1>
+        <h1>Current Recovery Code</h1>
         <h2>
-          This recovery code is the ONLY WAY to restore access to your vault if you forget your password/passphrase
+          This recovery code can be used to reset your password if you forget it.
         </h2>
+
         <div class="highlight-box">
-          <span class="title">Write this code on the back of of your recovery card, and keep it in a safe place </span>
+          <span class="title">This is your current recovery code. Keep it in a safe place. </span>
           <div class="flex">
             <div
               v-for="(word, i) in split"
@@ -27,11 +27,11 @@
             </div>
           </div>
         </div>
-        <h3> The code is case-sensitive, use underlines for capital letters </h3>
-      </div>
+        <h3> The code is case-sensitive, underlines are used for capital letters </h3>
 
-      <br>
-      <br>
+        <br>
+        <br>
+      </div>
       <div class="footer">
         <div
           class="back"
@@ -39,15 +39,6 @@
         >
           <div class="icon" />
         </div>
-        <router-link
-          v-if="$root.char_key"
-          :to="{name: 'createStep3'}"
-        >
-          <button class="continue">
-            <span>Continue</span>
-            <div class="continue-arrow" />
-          </button>
-        </router-link>
       </div>
     </div>
   </div>
@@ -64,6 +55,6 @@ export default {
         this.$root.char_key.slice(12, 16)
       ];
     }
-  }
+  },
 };
 </script>

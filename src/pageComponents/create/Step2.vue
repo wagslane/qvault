@@ -12,7 +12,7 @@
           <span class="title">Write this code on the back of of your recovery card, and keep it in a safe place </span>
           <div class="flex">
             <div
-              v-for="(word, i) in split"
+              v-for="(word, i) in formattedCharKey"
               :key="i"
               class="character-code"
             >
@@ -55,15 +55,23 @@
 
 <script>
 export default {
-  computed:{
-    split(){
-      return [
-        this.$root.char_key.slice(0, 4),
-        this.$root.char_key.slice(4, 8),
-        this.$root.char_key.slice(8, 12),
-        this.$root.char_key.slice(12, 16)
-      ];
-    }
+  data(){
+    return{
+      formattedCharKey: [
+        [ '', '', '', '' ],
+        [ '', '', '', '' ],
+        [ '', '', '', '' ],
+        [ '', '', '', '' ],
+      ]
+    };
+  },
+  mounted(){
+    this.formattedCharKey = [
+      this.$root.char_key.slice(0, 4),
+      this.$root.char_key.slice(4, 8),
+      this.$root.char_key.slice(8, 12),
+      this.$root.char_key.slice(12, 16)
+    ];
   }
 };
 </script>

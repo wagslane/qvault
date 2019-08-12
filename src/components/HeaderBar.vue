@@ -123,6 +123,7 @@ export default {
 
 <style lang="less" scoped>
   @import '../styles/colors.less';
+  @import '../styles/z_indices.less';
 
   .header-bar {
     height: 55px;
@@ -151,7 +152,7 @@ export default {
         min-width: 100px;
         padding-left: 10px;
         padding-right: 5px;
-        z-index: 10;
+        z-index: @zMin;
 
         span{
           color: #000;

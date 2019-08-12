@@ -8,17 +8,11 @@ const BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const cipherAlgo = 'aes-256-gcm';
 const encodingFormat = 'base64';
 const textFormat = 'utf8';
+const ivLengthBytes = 12;
+const authTagLengthBytes = 16;
 
 const longHashDifficulty = 17;
 const shortHashDifficulty = 10;
-
-// QR Key (256 bit, base64) = Encoded in the QR Card, generated in QVault factory
-// Char Key (16 chars, base58) = Back of the Qvault recovery card, generated randomly by this app
-// Pass Key (256 bit, base64) = Hash(password, salt) or Hash(passphrase, salt), used to cipher the Char Key for easy access
-
-// Secrets are ciphered using Cipher(Hash(Char Key), data) 
-// Or
-// Cipher(Hash(QRKey), Cipher(Hash(CharKey), data))
 
 // (string) => string
 // log2(70^12) = 73.6 bits of entropy 
@@ -56,40 +50,40 @@ export function ValidatePassphrase(passphrase) {
 // log2(20000 ^ 5) = 71.5 bits entropy
 // log2(20000 ^ 6) = 85.7 bits entropy
 // log2(20000 ^ 7) = 100 bits entropy
-export async function GeneratePassphrase(phraseLength) {
+export function GeneratePassphrase(phraseLength) {
   let phrase = [];
   for (let i = 0; i < phraseLength; i++) {
-    let index = await secureRandomNumber(0, WordList.length - 1);
+    let index = secureRandomNumber(0, WordList.length - 1);
     phrase.push(WordList[index]);
   }
   return phrase.join(" ");
 }
 
-export async function GeneratePassword(passwordLength) {
+export function GeneratePassword(passwordLength) {
   let password = '';
   const lower = 'abcdefghijkmnopqrstuvwxyz';
   const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
   const chars = '@!#%[]^()-';
   const numbers = '123456789';
   const allPossible = lower + upper + chars + numbers;
-  password += lower[await secureRandomNumber(0, lower.length - 1)];
-  password += upper[await secureRandomNumber(0, upper.length - 1)];
-  password += chars[await secureRandomNumber(0, chars.length - 1)];
-  password += numbers[await secureRandomNumber(0, numbers.length - 1)];
-  for (let i = password.length; i < passwordLength; i++){
-    password += allPossible[await secureRandomNumber(0, allPossible.length - 1)];
+  password += lower[secureRandomNumber(0, lower.length - 1)];
+  password += upper[secureRandomNumber(0, upper.length - 1)];
+  password += chars[secureRandomNumber(0, chars.length - 1)];
+  password += numbers[secureRandomNumber(0, numbers.length - 1)];
+  for (let i = password.length; i < passwordLength; i++) {
+    password += allPossible[secureRandomNumber(0, allPossible.length - 1)];
   }
   return password.split('').sort(() => 1 - secureRandomNumber(0, 1)).join('');
 }
 
 // () => Promise(string)
-export async function GenerateCharKey() {
+export function GenerateCharKey() {
   // log2(58^16) = 93.7 bits entropy
   const length = 16;
 
   let key = '';
   for (let i = 0; i < length; i++) {
-    let index = await secureRandomNumber(0, BASE58.length - 1);
+    let index = secureRandomNumber(0, BASE58.length - 1);
     key += BASE58.charAt(index);
   }
   return key;
@@ -189,21 +183,42 @@ async function hashString(data, difficulty, scryptSalt = defaultSalt) {
 }
 
 function cipherString(key, data) {
-  const keyCopy = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
-  const iv = window.nodeAPI.crypto.randomBytes(16);
-  const cipher = window.nodeAPI.crypto.createCipheriv(cipherAlgo, keyCopy, iv);
+  const keyBytes = window.nodeAPI.Buffer.from(key, encodingFormat);
+  const iv = window.nodeAPI.crypto.randomBytes(ivLengthBytes);
+  const cipher = window.nodeAPI.crypto.createCipheriv(cipherAlgo, keyBytes, iv);
   const cipheredSecretSection = window.nodeAPI.Buffer.concat([ cipher.update(data, textFormat), cipher.final() ]);
   const tag = cipher.getAuthTag();
   return window.nodeAPI.Buffer.concat([ iv, tag, cipheredSecretSection ]).toString(encodingFormat);
 }
 
 function decipherString(key, cipheredData) {
-  const keyCopy = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
+  // Try the old way, and if doesn't work try the new way
+  // TODO: remove this in next major update
+  try {
+    const deciphered = decipherStringDeprecated(key, cipheredData);
+    return deciphered;
+  } catch (err) {
+    // ignore
+  }
+
+  const keyBytes = window.nodeAPI.Buffer.from(key, encodingFormat);
+  const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
+  const iv = rawCiphered.slice(0, ivLengthBytes);
+  const tag = rawCiphered.slice(ivLengthBytes, ivLengthBytes + authTagLengthBytes);
+  const cipheredSecretSection = rawCiphered.slice(ivLengthBytes + authTagLengthBytes);
+  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyBytes, iv);
+  decipher.setAuthTag(tag);
+  return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
+}
+
+// TODO: remove this in next major update
+function decipherStringDeprecated(key, cipheredData) {
+  const keyBytes = window.nodeAPI.Buffer.from(key, textFormat).slice(0, 32);
   const rawCiphered = window.nodeAPI.Buffer.from(cipheredData, encodingFormat);
   const iv = rawCiphered.slice(0, 16);
   const tag = rawCiphered.slice(16, 32);
   const cipheredSecretSection = rawCiphered.slice(32);
-  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyCopy, iv);
+  const decipher = window.nodeAPI.crypto.createDecipheriv(cipherAlgo, keyBytes, iv);
   decipher.setAuthTag(tag);
   return decipher.update(cipheredSecretSection, 'binary', textFormat) + decipher.final(textFormat);
 }

@@ -2,7 +2,7 @@
 const path = require('path');
 var electron_notarize = require('electron-notarize');
 const pjson = require('../package.json');
-
+const fs = require('fs');
 
 module.exports = async function (params) {
   // Only notarize the app on Mac OS only.
@@ -14,7 +14,7 @@ module.exports = async function (params) {
   let appId = pjson.build.appId;
 
   let appPath = path.join(params.appOutDir, `${params.packager.appInfo.productFilename}.app`);
-  if (!window.nodeAPI.fs.existsSync(appPath)) {
+  if (!fs.existsSync(appPath)) {
     throw new Error(`Cannot find application at: ${appPath}`);
   }
 
