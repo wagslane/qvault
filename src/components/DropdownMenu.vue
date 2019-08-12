@@ -85,6 +85,7 @@ export default {
 
 <style lang="less">
   @import '../styles/colors.less';
+  @import '../styles/z_indices.less';
 
   .dropdown_menu_wrapper {
     position: relative;
@@ -118,7 +119,7 @@ export default {
       box-shadow: 0 4px 24px #000000;
       border-radius: 6px;
       overflow: hidden;
-      z-index: 200;
+      z-index: @zDropdownMenu;
 
       &:not(.show){
         display: none;
