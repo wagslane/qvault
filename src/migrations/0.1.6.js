@@ -1,5 +1,4 @@
 export default function(loaded_vault, decrypted_secrets){
-  console.log(decrypted_secrets);
   for(let box of Object.values(decrypted_secrets)){
     for(let secret of Object.values(box.secrets)) {
       let fields = {};
@@ -13,6 +12,5 @@ export default function(loaded_vault, decrypted_secrets){
     }
   }
   loaded_vault.version = '0.2.0';
-  console.log(decrypted_secrets);
   return [ loaded_vault, decrypted_secrets ];
 }
