@@ -15,7 +15,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "release": "yarn build-prod && build",
+    "release": "yarn build-prod && electron-builder",
     "build-prod": "yarn build --env=production",
     "build": "yarn snyk-protect && npx webpack --progress --config webpack.config.js",
     "dev": "yarn build && yarn start",
@@ -83,7 +83,7 @@
     "chai": "^4.2.0",
     "css-loader": "^2.1.0",
     "electron": "^6.0.1",
-    "electron-builder": "^20.43.0",
+    "electron-builder": "^21.2.0",
     "electron-notarize": "^0.1.1",
     "eslint": "^5.15.3",
     "eslint-plugin-vue": "^5.2.2",
