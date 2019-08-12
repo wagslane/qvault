@@ -2,7 +2,7 @@
   <form @submit.prevent="apply">
     <div class="header">
       <input
-        v-model="secret[box_type.header_field]"
+        v-model="secret.fields[box_type.header_field]"
         placeholder="Name"
         class="secret_title"
         readonly
@@ -54,7 +54,7 @@
         >{{ field.name }}</label>
         <TextInput
           v-if="field.type === String"
-          v-model="secret[field.name]"
+          v-model="secret.fields[field.name]"
           class="secret_value"
           :type="field.hidden ? 'password' : 'text'"
           :keyboard-id="field.name.replace(/[\W_1-9]+/g,'')"
@@ -66,7 +66,7 @@
           v-if="field.type === String
             && secret.conflict
             && secret.conflict[field.name]
-            && secret.conflict[field.name] != secret[field.name]"
+            && secret.conflict[field.name] != secret.fields[field.name]"
           :type="field.hidden ? 'password' : 'text'"
           class="conflict"
           readonly
@@ -75,7 +75,7 @@
         </span>
         <TextInput
           v-if="field.type === 'textarea'"
-          v-model="secret[field.name]"
+          v-model="secret.fields[field.name]"
           type="textarea"
           :keyboard-id="field.name.replace(/[\W_1-9]+/g,'')"
           class="secret_value"
@@ -95,7 +95,7 @@
           class="array-secret"
         >
           <div
-            v-for="(subvalue, k) in secret[field.name]"
+            v-for="(subvalue, k) in secret.fields[field.name]"
             :key="k"
             class="subfields"
           >
@@ -203,7 +203,7 @@ export default {
     missing_fields(){
       let missing_fields = [];
       for (const field of Object.values(this.fields)){
-        if (field.required && !this.secret[field.name]){
+        if (field.required && !this.secret.fields[field.name]){
           missing_fields.push(field.name);
         }
         if (!('subfields' in field)){
@@ -213,7 +213,7 @@ export default {
           continue;
         }
         for (const subfield of Object.values(field.subfields)){
-          Object.entries(this.secret[field.name]).forEach(entry => {
+          Object.entries(this.secret.fields[field.name]).forEach(entry => {
             if (subfield.required && !entry[1][subfield.name] ){
               missing_fields.push(field.name + entry[0] + subfield.name);
             }
@@ -256,10 +256,10 @@ export default {
         }
         Vue.set(new_value, subfield.name, value);
       }
-      this.secret[field.name].push(new_value);
+      this.secret.fields[field.name].push(new_value);
     },
     removeFromSublist(fieldname, i){
-      Vue.delete(this.secret[fieldname], i);
+      Vue.delete(this.secret.fields[fieldname], i);
     },
     resolve_conflicts(){
       Vue.delete(this.secret, 'conflict');

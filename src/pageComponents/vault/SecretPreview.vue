@@ -23,7 +23,7 @@
         >Copied to Clipboard!</label>
       </div>
       <input
-        v-model="secret[fieldname]"
+        v-model="secret.fields[fieldname]"
         :type="fields_map[fieldname].hidden && hidden ? 'password' : 'text'"
         readonly
         @click="copy(fieldname)"
@@ -92,14 +92,14 @@ export default {
       return map;
     },
     quickAccessName(){
-      if(this.secret[this.boxType.quick_access_name]){
-        return this.secret[this.boxType.quick_access_name];
+      if(this.secret.fields[this.boxType.quick_access_name]){
+        return this.secret.fields[this.boxType.quick_access_name];
       }
       return "Unnamed Secret";
     },
     definedQuickAccessSecrets(){
       return this.boxType.quick_access_secrets.filter(
-        fieldname => this.secret[fieldname]
+        fieldname => this.secret.fields[fieldname]
       );
     },
     dropdown_menu_actions(){
@@ -125,7 +125,7 @@ export default {
       this.$refs.deleteSecretModal.show(this.deleteSecret);
     },
     copy(fieldname){
-      window.nodeAPI.electron.clipboard.writeText(this.secret[fieldname]);
+      window.nodeAPI.electron.clipboard.writeText(this.secret.fields[fieldname]);
       this.copied = fieldname;
       setTimeout(() => {this.copied = '';}, 750);
     },
