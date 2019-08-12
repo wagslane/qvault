@@ -1,5 +1,8 @@
 <template>
-  <form @submit.prevent="apply">
+  <form
+    v-if="secret"
+    @submit.prevent="apply"
+  >
     <div class="header">
       <input
         v-model="secret.fields[box_type.header_field]"
@@ -161,7 +164,7 @@ export default {
   },
   data(){
     return{
-      secret: {},
+      secret: null,
       apply_clicked: false
     };
   },
@@ -202,29 +205,31 @@ export default {
     },
     missing_fields(){
       let missing_fields = [];
-      for (const field of Object.values(this.fields)){
-        if (field.required && !this.secret.fields[field.name]){
-          missing_fields.push(field.name);
-        }
-        if (!('subfields' in field)){
-          continue;
-        }
-        if (!(field.name in this.secret)){
-          continue;
-        }
-        for (const subfield of Object.values(field.subfields)){
-          Object.entries(this.secret.fields[field.name]).forEach(entry => {
-            if (subfield.required && !entry[1][subfield.name] ){
-              missing_fields.push(field.name + entry[0] + subfield.name);
-            }
-          });
+      if(this.secret){
+        for (const field of Object.values(this.fields)){
+          if (field.required && !this.secret.fields[field.name]){
+            missing_fields.push(field.name);
+          }
+          if (!('subfields' in field)){
+            continue;
+          }
+          if (!(field.name in this.secret)){
+            continue;
+          }
+          for (const subfield of Object.values(field.subfields)){
+            Object.entries(this.secret.fields[field.name]).forEach(entry => {
+              if (subfield.required && !entry[1][subfield.name] ){
+                missing_fields.push(field.name + entry[0] + subfield.name);
+              }
+            });
+          }
         }
       }
       return missing_fields;
     }
   },
   mounted(){
-    if (this.secret_uuid === null){
+    if(this.secret_uuid === null){
       this.secret = this.$root.GetEmptySecret(this.box_type);
     } else{
       this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
