@@ -91,7 +91,7 @@ export default {
       for (let key in this.boxes) {
         if (this.boxes.hasOwnProperty(key)) {
           let box = this.boxes[key];
-          let box_type = box_types.find(box_type => box_type.name === box.type);
+          let box_type = box_types.find(box_type => box_type.key === box.type);
           sorted_boxes.push({
             uuid: key,
             created: this.formatCreatedDate(box.created),

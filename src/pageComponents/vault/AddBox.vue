@@ -8,7 +8,7 @@
     <div class="buttons">
       <div
         v-for="box_type in filtered_box_types"
-        :key="box_type.name"
+        :key="box_type.key"
         class="button"
         :class="(box_type.icon.fill ? 'button-fill' : 'button-stroke')"
         @click="add_box(box_type)"
@@ -30,14 +30,14 @@ export default {
     filtered_box_types(){
       return box_types.filter(
         box_type =>
-          !(this.$root.HasBox(box_type.name))
+          !(this.$root.HasBox(box_type.key))
       );
     },
   },
   methods: {
     add_box(box_type){
       let name = box_type.displayName;
-      let type = box_type.name;
+      let type = box_type.key;
       if(type === 'Other'){
         let rep = 1;
         while(this.$root.HasBox(name)){

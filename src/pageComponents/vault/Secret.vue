@@ -195,7 +195,7 @@ export default {
     box(){ return this.$parent.box; },
     box_uuid() { return this.$parent.box_uuid;},
     box_type(){
-      return box_types.find(box_type => box_type.name === this.box.type);
+      return box_types.find(box_type => box_type.key === this.box.type);
     },
     fields(){
       if(this.box_type){
