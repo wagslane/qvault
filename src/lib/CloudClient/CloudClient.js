@@ -1,7 +1,7 @@
 import decodeJWT from '../decodeJWT';
 
 var CLOUD_JWT = null;
-export const domain = 'https://opnsf17dt0.execute-api.us-east-1.amazonaws.com/prod';
+export const domain = 'https://api.qvault.io';
 
 // All API calls will return a rejected promise on non-200 response codes
 // The rejected promise contains a simple error message
