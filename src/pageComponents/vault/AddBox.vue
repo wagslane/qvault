@@ -15,7 +15,7 @@
       >
         <span v-html="box_type.icon.img" />
         <div>
-          {{ box_type.display_name || box_type.name }}
+          {{ box_type.displayName }}
         </div>
       </div>
     </div>
@@ -36,13 +36,12 @@ export default {
   },
   methods: {
     add_box(box_type){
-      let base_name = box_type.display_name || box_type.name;
-      let name = base_name;
+      let name = box_type.displayName;
       let type = box_type.name;
       if(type === 'Other'){
         let rep = 1;
         while(this.$root.HasBox(name)){
-          name = `${base_name} ${rep}`;
+          name = `${box_type.displayName} ${rep}`;
           rep++;
         }
       }
