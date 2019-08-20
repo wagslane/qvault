@@ -1,3 +1,4 @@
+const pjson = require('../../package.json');
 import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
 import assert from '../lib/assert';
 import csvToJSON from '../lib/csvToJSON';
@@ -21,7 +22,7 @@ import secrets from './secrets.js';
 import applyMigrations from '../migrations/applyMigrations';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
-const VERSION = '0.2.0';
+const VERSION = pjson.version;
 const FILE_FILTERS = [
   {
     name: 'Vaults',

@@ -1,4 +1,5 @@
 import m_0_1_6 from './0.1.6';
+import m_0_2_0 from './0.2.0';
 
 import semver from 'semver';
 
@@ -12,6 +13,7 @@ function getNullMigration(toVersion){
 let migrationMapping = {
   '<0.1.6': getNullMigration('0.1.6'),
   '0.1.6': m_0_1_6,
+  '0.2.0': m_0_2_0,
 };
 
 function nextMigration(version){
