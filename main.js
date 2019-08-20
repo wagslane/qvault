@@ -1,5 +1,5 @@
 const { app } = require('electron');
-const setupUpdater = require('./main/setupUpdater');
+const { checkForUpdates, setupUpdater } = require('./main/setupUpdater');
 const { openSelectedVaultWin, openSelectedVaultMac } = require('./main/openSelectedVault');
 const configureWindowDisplay = require('./main/configureWindowDisplay');
 const handleScreenLock = require('./main/handleScreenLock');
@@ -37,6 +37,7 @@ openSelectedVaultMac();
 
 app.on('ready', function () {
   createWindow();
+  checkForUpdates();
 });
 
 app.on('activate', function () {

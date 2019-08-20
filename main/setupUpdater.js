@@ -1,15 +1,17 @@
-const { app, ipcMain } = require('electron');
+const { ipcMain } = require('electron');
 const { autoUpdater } = require("electron-updater");
+
+// call after app is 'ready', setupUpdater has been called,
+// and mainWindow has been created
+function checkForUpdates(){
+  const devMode = process.defaultApp;
+  if (!devMode) {
+    autoUpdater.checkForUpdates();
+  }
+}
 
 function setupUpdater(mainWindow){
   autoUpdater.autoDownload = false;
-
-  app.on('ready', function () {
-    const devMode = process.defaultApp;
-    if (!devMode) {
-      autoUpdater.checkForUpdates();
-    }
-  });
 
   autoUpdater.on("update-available", () => {
     mainWindow.webContents.send('updateReady');
@@ -26,4 +28,7 @@ function setupUpdater(mainWindow){
   return mainWindow;
 }
 
-module.exports = setupUpdater;
+module.exports = {
+  setupUpdater,
+  checkForUpdates
+};
