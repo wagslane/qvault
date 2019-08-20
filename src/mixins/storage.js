@@ -150,7 +150,6 @@ export default {
           secrets = await DecipherSecrets(hashedCharKey, this.loaded_vault.secrets);
         }
         applyMigrations(this.loaded_vault, secrets);
-        assert(this.loaded_vault.version === pjson.version, "Invalid vault version");
         this.LoadSecrets(secrets);
         this.char_key = charKey;
       } catch (err) {
