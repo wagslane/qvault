@@ -19,6 +19,7 @@ import {
 } from '../lib/QVaultCrypto/QVaultCrypto';
 
 import secrets from './secrets.js';
+import applyMigrations from '../migrations/applyMigrations';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
 const VERSION = pjson.version;
@@ -149,6 +150,8 @@ export default {
         } else {
           secrets = await DecipherSecrets(hashedCharKey, this.loaded_vault.secrets);
         }
+        applyMigrations(this.loaded_vault, secrets);
+        assert(this.loaded_vault.version === VERSION, "Invalid vault version");
         this.LoadSecrets(secrets);
         this.char_key = charKey;
       } catch (err) {

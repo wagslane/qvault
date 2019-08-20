@@ -65,7 +65,7 @@ export default {
       return this.$parent.box;
     },
     box_type(){
-      return box_types.find(box_type => box_type.name === this.box.type);
+      return box_types.find(box_type => box_type.key === this.box.type);
     },
     secret_uuids(){
       if(this.box){

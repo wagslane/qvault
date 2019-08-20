@@ -8,7 +8,8 @@ import other_svg from '../img/other.svg';
 
 export default [
   {
-    name: 'Cryptocurrency',
+    key: 'cryptocurrency',
+    displayName: 'Cryptocurrency',
     fields: [
       {
         name: 'Wallet Name',
@@ -56,7 +57,8 @@ export default [
     }
   },
   {
-    name: 'Financial Institution',
+    key: 'financialInstitution',
+    displayName: 'Financial Institution',
     fields: [
       {
         name: 'Institution Name',
@@ -199,7 +201,8 @@ export default [
     }
   },
   {
-    name: 'Identification',
+    key: 'identification',
+    displayName: 'Identification',
     fields: [
       {
         name: 'Type',
@@ -243,7 +246,8 @@ export default [
     }
   },
   {
-    name: 'Passwords',
+    key: 'passwords',
+    displayName: 'Passwords',
     fields: [
       {
         name: 'Issuer',
@@ -304,7 +308,8 @@ export default [
     }
   },
   {
-    name: 'Server Connection',
+    key: 'serverConnection',
+    displayName: 'Server Connection',
     fields: [
       {
         name: 'Name',
@@ -383,7 +388,8 @@ export default [
     }
   },
   {
-    name: 'Notes',
+    key: 'notes',
+    displayName: 'Notes',
     fields: [
       {
         name: 'Name',
@@ -407,8 +413,8 @@ export default [
     }
   },
   {
-    name: 'Other',
-    display_name: 'Custom',
+    key: 'other',
+    displayName: 'Custom',
     fields: [
       {
         name: 'Name',
