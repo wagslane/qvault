@@ -1,3 +1,5 @@
+const pjson = require('../../package.json');
+
 const nameChanges = {
   'Cryptocurrency': 'cryptocurrency',
   'Financial Institution': 'financialInstitution',
@@ -12,6 +14,6 @@ export default function(loadedVault, decryptedSecrets){
   for(let box of Object.values(decryptedSecrets)){
     box['type'] = nameChanges[box['type']];
   }
-  loadedVault.version = '0.2.1';
+  loadedVault.version = pjson.version;
   return [ loadedVault, decryptedSecrets ];
 }

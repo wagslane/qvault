@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {deleteUser, isLoggedIn, deleteToken} from '../../lib/CloudClient/CloudClient';
+import {deleteUser, isLoggedIn, deleteToken} from '../../lib/cloudClient';
 import TimingOverlay from '../../components/TimingOverlay.vue';
 
 export default {

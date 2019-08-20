@@ -115,7 +115,7 @@
 
 <script>
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, resendRegistrationEmail} from '../../lib/CloudClient/CloudClient';
+import {createUser, resendRegistrationEmail} from '../../lib/cloudClient';
 import TimingOverlay from '../../components/TimingOverlay.vue';
 
 export default {

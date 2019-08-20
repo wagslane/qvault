@@ -1,4 +1,4 @@
-import decodeJWT from '../decodeJWT';
+import decodeJWT from './decodeJWT';
 
 var CLOUD_JWT = null;
 export const domain = 'https://api.qvault.io';

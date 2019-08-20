@@ -73,7 +73,7 @@
 import { ValidateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 import QRScanner from '../../../components/QrcodeScanner.vue';
 import TimingOverlay from '../../../components/TimingOverlay.vue';
-import {ClearLastUsedVault} from '../../../lib/LastUsedVaultPath';
+import {clearLastUsedVault} from '../../../lib/lastUsedVaultPath';
 
 export default {
   components:{
@@ -185,7 +185,7 @@ export default {
     },
     back(){
       try{
-        ClearLastUsedVault();
+        clearLastUsedVault();
       } catch (err) {
         // we don't care that much
       }

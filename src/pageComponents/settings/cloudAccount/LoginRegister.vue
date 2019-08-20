@@ -123,7 +123,7 @@
 
 <script>
 import { DeriveCloudKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
-import {createUser, resendRegistrationEmail, getToken, setToken} from '../../../lib/CloudClient/CloudClient';
+import {createUser, resendRegistrationEmail, getToken, setToken} from '../../../lib/cloudClient';
 import TimingOverlay from '../../../components/TimingOverlay.vue';
 import confirm from '../../../components/Confirm.vue';
 
