@@ -1,19 +1,11 @@
-import m_0_1_6 from './0.1.6';
-import m_0_2_0 from './0.2.0';
+import fieldsKey from './0001fieldsKey';
+import typeCamelCase from './0002typeCamelCase';
 
 import semver from 'semver';
 
-function getNullMigration(toVersion){
-  return function(loadedVault, decryptedSecrets){
-    loadedVault.version = toVersion;
-    return [ loadedVault, decryptedSecrets ];
-  };
-}
-
 let migrationMapping = {
-  '<0.1.6': getNullMigration('0.1.6'),
-  '0.1.6': m_0_1_6,
-  '0.2.0': m_0_2_0,
+  '<0.2.0': fieldsKey,
+  '0.2.0': typeCamelCase,
 };
 
 function nextMigration(version){
