@@ -40,7 +40,7 @@
       "main.js",
       "index.html",
       "dist/*",
-      "scripts/preload.js"
+      "main/*"
     ],
     "directories": {
       "output": "release"
