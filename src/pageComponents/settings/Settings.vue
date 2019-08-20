@@ -7,7 +7,7 @@
         <h2>Manage your vault and account</h2>
 
         <div
-          v-if="($root.email)"
+          v-if="$root.email"
         > 
           <h3 class="gold-mid">
             {{ $root.email }}
@@ -19,7 +19,7 @@
           <br>
         </div>
         <h3 v-else>
-          Offline - No Cloud Account
+          No Cloud Account
         </h3>
 
         <router-link
@@ -44,7 +44,7 @@
         </router-link>
 
         <router-link
-          v-if="(!$root.email)"
+          v-if="!$root.email"
           class="btn"
           :to="{name: 'settingsCloudAccountLoginRegister'}"
         >

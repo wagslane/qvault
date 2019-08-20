@@ -1,8 +1,8 @@
 const pjson = require('../../package.json');
-import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/CloudClient/CloudClient';
+import { authenticate, isLoggedIn, setToken, getVaults, upsertVault, updateUserPassword } from '../lib/cloudClient';
 import assert from '../lib/assert';
 import csvToJSON from '../lib/csvToJSON';
-import { GetLastUsedVault, SetLastUsedVault } from '../lib/LastUsedVaultPath';
+import { getLastUsedVault, setLastUsedVault } from '../lib/lastUsedVaultPath';
 import {
   PassKeyFromPassword,
   CipherSecrets,
@@ -22,7 +22,6 @@ import secrets from './secrets.js';
 import applyMigrations from '../migrations/applyMigrations';
 
 const QVAULT_FILE_EXTENSION = 'qvault';
-const VERSION = pjson.version;
 const FILE_FILTERS = [
   {
     name: 'Vaults',
@@ -151,7 +150,6 @@ export default {
           secrets = await DecipherSecrets(hashedCharKey, this.loaded_vault.secrets);
         }
         applyMigrations(this.loaded_vault, secrets);
-        assert(this.loaded_vault.version === VERSION, "Invalid vault version");
         this.LoadSecrets(secrets);
         this.char_key = charKey;
       } catch (err) {
@@ -167,7 +165,7 @@ export default {
 
     async SaveVault(vault) {
       window.nodeAPI.fs.writeFileSync(this.local_vault_path, JSON.stringify(vault));
-      SetLastUsedVault(this.local_vault_path);
+      setLastUsedVault(this.local_vault_path);
     },
 
     async GetSavableVault(){
@@ -185,7 +183,7 @@ export default {
       }
       let vault = {
         salt: newSalt,
-        version: VERSION,
+        version: pjson.version,
         key: cipheredCharKey,
         secrets: encryptedSecrets,
         qr_required: this.qr_required,
@@ -196,23 +194,23 @@ export default {
       return vault;
     },
 
-    async SaveCloudVaultIfEmail(){
-      if (this.email){
-        if (!isLoggedIn()){
-          await this.Login(this.email, this.password);
-        }
-        await upsertVault(await this.GetSavableVault());
-        await this.DownloadVault();
+    async SaveCloudVault(){
+      if (!isLoggedIn()){
+        await this.Login(this.email, this.password);
       }
+      await upsertVault(await this.GetSavableVault());
+      await this.DownloadVault();
     },
 
     LoadLastUsedVault(){
-      this.LoadVaultLocal(GetLastUsedVault());
+      this.LoadVaultLocal(getLastUsedVault());
     },
 
     async SaveBoth(){
       await this.SaveLocalVault();
-      await this.SaveCloudVaultIfEmail();
+      if (this.email){
+        await this.SaveCloudVault();
+      }
     },
 
     async DownloadVault(){

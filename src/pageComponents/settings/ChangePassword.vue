@@ -121,7 +121,7 @@
 
 <script>
 import {ValidatePassword, ValidatePassphrase, GeneratePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {updateUserPassword} from '../../lib/CloudClient/CloudClient';
+import {updateUserPassword} from '../../lib/cloudClient';
 import {DeriveCloudKey} from '../../lib/QVaultCrypto/QVaultCrypto';
 import TimingOverlay from '../../components/TimingOverlay.vue';
 

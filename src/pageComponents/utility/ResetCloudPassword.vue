@@ -67,7 +67,7 @@
 
 <script>
 import {DeriveCloudKey, ValidatePassword} from '../../lib/QVaultCrypto/QVaultCrypto';
-import {updateUserPasswordEmail, authenticate, emailPasswordCode} from '../../lib/CloudClient/CloudClient';
+import {updateUserPasswordEmail, authenticate, emailPasswordCode} from '../../lib/cloudClient';
 import TimingOverlay from '../../components/TimingOverlay.vue';
 
 export default {
