@@ -2,14 +2,14 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <form @submit.prevent="$refs.loader.load(click_continue)">
+      <form @submit.prevent="clickContinue">
         <div class="body center-text">
           <h1>Reset Cloud Password</h1>
           <h2>
             If you can't login to your cloud account you can reset your cloud password using your email address
           </h2>
           <h3>
-            Your cloud account password is calculated from your vault password.
+            Cloud servers never have access to your vault passwords or passphrases
           </h3>
 
           <DecoratedTextInput
@@ -23,7 +23,7 @@
             v-model="code"
             :style="{ display: emailSent ? 'block' : 'none'}"
             keyboard-id="code" 
-            description="Code from email" 
+            description="Code from Email" 
             type="text" 
           />
           <DecoratedTextInput
@@ -31,7 +31,7 @@
             v-model="password"
             :style="{ display: emailSent ? 'block' : 'none'}"
             keyboard-id="password"
-            description="New Password (must match vault password)" 
+            description="New Password" 
             type="password" 
           />
           <span
@@ -62,11 +62,16 @@
     <TimingOverlay
       ref="loader"
     />
+    <TimingOverlay
+      ref="successOverlay"
+      overlay-screen="success"
+      title="Cloud Password Updated"
+    />
   </div>
 </template>
 
 <script>
-import {DeriveCloudKey, ValidatePassword} from '../../lib/QVaultCrypto/QVaultCrypto';
+import {DeriveCloudKey, ValidatePassword, ValidatePassphrase} from '../../lib/QVaultCrypto/QVaultCrypto';
 import {updateUserPasswordEmail, authenticate, emailPasswordCode} from '../../lib/cloudClient';
 import TimingOverlay from '../../components/TimingOverlay.vue';
 
@@ -102,34 +107,38 @@ export default {
     }
   },
   methods: {
-    async click_continue(){
-      if (!this.emailSent){
-        this.emailSent = false;
-        this.error = null;
-        try{
-          await emailPasswordCode(this.email);
-        } catch (err) {
-          this.error = err;
-          return;
-        }
-        this.emailSent = true;
-      }else{
-        try{
-          let err = ValidatePassword(this.password);
-          if (err != ""){
-            this.error = err;
-            return;
-          }
-          let cloudKey = await DeriveCloudKey(this.password);
-          await updateUserPasswordEmail(this.code, cloudKey);
-          await authenticate(this.email, cloudKey);
-        } catch (err) {
-          this.error = err;
-          return;
-        }
-        alert('Cloud password changed successfully');
-        this.$router.push({name: this.donePath});
+    async sendEmail(){
+      await emailPasswordCode(this.email);
+      this.emailSent = true;
+    },
+    async resetPassword(){
+      let err1 = ValidatePassword(this.password);
+      let err2 = ValidatePassphrase(this.password);
+      if (err1 != "" && err2 != ""){
+        throw `${err1} or ${err2}`;
       }
+      let cloudKey = await DeriveCloudKey(this.password);
+      await updateUserPasswordEmail(this.code, cloudKey);
+      await authenticate(this.email, cloudKey);
+    },
+    async clickContinue(){
+      this.error = null;
+      if (!this.emailSent){
+        try{
+          await this.$refs.loader.load(this.sendEmail);
+        } catch (err){
+          this.error = err;
+        }
+        return;
+      }
+      try{
+        await this.$refs.loader.load(this.resetPassword);
+      } catch (err){
+        this.error = err;
+        return;
+      }
+      await this.$refs.successOverlay.sleep(1200);
+      this.$router.push({name: this.donePath});
     },
   }
 };
