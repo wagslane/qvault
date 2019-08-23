@@ -145,7 +145,7 @@ export default {
       } else {
         this.$root.password = this.passphrase;
       }
-      this.$router.push({name: 'createStep5'});
+      this.$router.push({name: 'CreateStep5'});
     },
     generatePassphrase(){
       this.generated = GeneratePassphrase(5);

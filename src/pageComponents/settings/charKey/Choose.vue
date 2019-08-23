@@ -15,7 +15,7 @@
 
         <router-link
           class="btn"
-          :to="{name: 'settingsCharKeyChange'}"
+          :to="{name: 'SettingsCharKeyChange'}"
         >
           Change Recovery Code
         </router-link>
@@ -23,7 +23,7 @@
       <div class="footer">
         <div
           class="back"
-          @click="$router.push({name: 'settings'})"
+          @click="$router.push({name: 'Settings'})"
         >
           <div class="icon" />
         </div>
@@ -46,7 +46,7 @@ export default {
   },
   methods:{
     viewRecoveryCode(){
-      this.$router.push({name: 'settingsCharKeyView'});
+      this.$router.push({name: 'SettingsCharKeyView'});
     },
     showViewRecoveryCodeModal(){
       this.$refs.viewRecoveryCodeModal.show(this.viewRecoveryCode);

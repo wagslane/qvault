@@ -20,7 +20,7 @@
         class="img float-right pointer"
         height="25"
         width="25"
-        @click.native="$router.push({name: 'settings'})"
+        @click.native="$router.push({name: 'Settings'})"
       />
       <div v-if="saveButton">
         <saveSvg

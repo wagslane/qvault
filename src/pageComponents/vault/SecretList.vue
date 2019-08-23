@@ -28,11 +28,11 @@
       </button>
     </div>
     <secretPreview
-      v-for="secret_uuid in secret_uuids"
-      :key="secret_uuid"
-      :box-uuid="box_uuid"
-      :secret-uuid="secret_uuid"
-      :secret="box.secrets[secret_uuid]"
+      v-for="secretUUID in secretUUIDs"
+      :key="secretUUID"
+      :box-uuid="boxUUID"
+      :secret-uuid="secretUUID"
+      :secret="box.secrets[secretUUID]"
       :box-type="box_type"
     />
     <confirm
@@ -58,8 +58,8 @@ export default {
     confirm
   },
   computed: {
-    box_uuid() {
-      return this.$parent.box_uuid;
+    boxUUID() {
+      return this.$parent.boxUUID;
     },
     box() {
       return this.$parent.box;
@@ -67,7 +67,7 @@ export default {
     box_type(){
       return box_types.find(box_type => box_type.key === this.box.type);
     },
-    secret_uuids(){
+    secretUUIDs(){
       if(this.box){
         return Object.keys(this.box.secrets);
       }
@@ -113,7 +113,7 @@ export default {
           }else{
             newSecret.Username = secret.username;
           }
-          this.$root.SetSecret(this.box_uuid, newSecret);
+          this.$root.SetSecret(this.boxUUID, newSecret);
         }
       } catch (err){
         alert(err);
@@ -124,8 +124,8 @@ export default {
     },
     deleteBox(){
       try{
-        this.$root.DeleteBox(this.box_uuid);
-        this.$router.push({name: 'vault'});
+        this.$root.DeleteBox(this.boxUUID);
+        this.$router.push({name: 'Vault'});
       } catch(err){
         alert(err);
       }

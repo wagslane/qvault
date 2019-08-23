@@ -60,7 +60,7 @@ export default {
       this.error = null;
       try{
         await this.$root.UnlockVaultCharKey(this.char_key);
-        this.$router.push({name: 'loadUnlockStep3'});
+        this.$router.push({name: 'LoadUnlockStep3'});
       } catch (err) {
         this.error = "Invalid Code";
       }

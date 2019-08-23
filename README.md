@@ -40,7 +40,7 @@ The best way to get in contact with the developers is on the public discord serv
 
 [MIT License](LICENSE)
 
-## Linting
+## Linting and Styling
 
 Qvault uses eslint and all pull requests must pass the eslint tests specified in travis.yml.
 To run the linting tests:
@@ -54,6 +54,11 @@ To try to autofix the repo:
 ```bash
 yarn lint-fix
 ```
+
+Some general rules that Qvault follows additionaly:
+
+* All javascript filenames, functions, and variables are camelCase
+* All vue filenames and components are PascalCase
 
 ## Node Version
 

@@ -31,7 +31,7 @@
             <br v-if="showDownload">
             <router-link
               class="link"
-              :to="{name: 'loadUnlockStep2'}"
+              :to="{name: 'LoadUnlockStep2'}"
             >
               Forgot password?
             </router-link>
@@ -99,7 +99,7 @@ export default {
   methods: {
     toDownload(){
       this.$root.ResetStorageState();
-      this.$router.push({name: 'loadDownload'});
+      this.$router.push({name: 'LoadDownload'});
     },
     async unlock(){
       this.error = null;
@@ -119,7 +119,7 @@ export default {
         }
 
         if (this.allowOverwrite){
-          this.$router.push({name: 'vault'});
+          this.$router.push({name: 'Vault'});
           return;
         }
 
@@ -161,7 +161,7 @@ export default {
           return;
         }
       }
-      this.$router.push({name: 'vault'});
+      this.$router.push({name: 'Vault'});
     },
     async handleQRKey(qrKey) {
       if (qrKey.substring(0, 6) === 'ERROR:'){

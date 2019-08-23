@@ -15,7 +15,7 @@
 
         <router-link
           class="link"
-          :to="{name: 'loadDownload'}"
+          :to="{name: 'LoadDownload'}"
         >
           Lost vault file? Download from cloud
         </router-link>
@@ -49,7 +49,7 @@ export default {
       try{
         const loaded = this.$root.ExistingVaultDialog();
         if (loaded){
-          this.$router.push({name: 'loadUnlockStep1'});
+          this.$router.push({name: 'LoadUnlockStep1'});
         }
       } catch (err) {
         this.error = err;

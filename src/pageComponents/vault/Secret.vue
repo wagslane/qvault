@@ -13,7 +13,7 @@
       <button
         class="back"
         type="button"
-        @click="$router.push({name: 'box', params: {box_uuid: box_uuid}})"
+        @click="$router.push({name: 'Box', params: {boxUUID: boxUUID}})"
       >
         Back
       </button>
@@ -186,14 +186,14 @@ export default {
       }
       return rows;
     },
-    secret_uuid(){ 
-      if ('secret_uuid' in this.$route.params){
-        return this.$route.params.secret_uuid;
+    secretUUID(){ 
+      if ('secretUUID' in this.$route.params){
+        return this.$route.params.secretUUID;
       } 
       return null;
     },
     box(){ return this.$parent.box; },
-    box_uuid() { return this.$parent.box_uuid;},
+    boxUUID() { return this.$parent.boxUUID;},
     box_type(){
       return box_types.find(box_type => box_type.key === this.box.type);
     },
@@ -229,10 +229,10 @@ export default {
     }
   },
   mounted(){
-    if(this.secret_uuid === null){
+    if(this.secretUUID === null){
       this.secret = this.$root.GetEmptySecret(this.box_type);
     } else{
-      this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secret_uuid]));
+      this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secretUUID]));
     }
   },
   methods: {
@@ -245,12 +245,12 @@ export default {
         setTimeout(() => this.apply_clicked = false, 2000);
         return;
       }
-      if (this.secret_uuid === null){
-        this.$root.SetSecret(this.box_uuid, this.secret);
+      if (this.secretUUID === null){
+        this.$root.SetSecret(this.boxUUID, this.secret);
       } else{
-        this.box.secrets[this.secret_uuid] = JSON.parse(JSON.stringify(this.secret));
+        this.box.secrets[this.secretUUID] = JSON.parse(JSON.stringify(this.secret));
       }
-      this.$router.push({name: 'box', params: {box_uuid: this.box_uuid}});
+      this.$router.push({name: 'Box', params: {boxUUID: this.boxUUID}});
     },
     add_to_sublist(field){
       let new_value = {};

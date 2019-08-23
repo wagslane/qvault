@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
  
 Vue.use(VueRouter);
 
-import QvaultApp from './qvault.vue';
+import App from './App.vue';
 
 import HeaderBar from './components/HeaderBar.vue';
 import StepProgress from './components/StepProgress.vue';
@@ -22,5 +22,5 @@ document.addEventListener('click', function (event) {
   }
 });
 
-window.QvaultApp = new Vue(QvaultApp);
-window.QvaultApp.$mount('#qvault');
+window.App = new Vue(App);
+window.App.$mount('#qvault');

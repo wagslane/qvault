@@ -114,7 +114,7 @@
       title="Vault Saved"
     />
     <confirm
-      ref="ResetCloudPassword.vueModal"
+      ref="ResetCloudPassword"
       title="Are You Sure?"
       subtitle="If you reset your cloud password then your existing vault will be overwritten"
     />
@@ -144,10 +144,10 @@ export default {
   },
   methods: {
     showResetCloudPasswordModal(){
-      this.$refs.ResetCloudPassword.vueModal.show(() => {
+      this.$refs.ResetCloudPassword.show(() => {
         this.$router.push({
-          name: 'utilityResetCloudPassword', 
-          params: {donePath: 'settingsCloudAccountLoginRegister'}
+          name: 'UtilityResetCloudPassword', 
+          params: {donePath: 'SettingsCloudAccountLoginRegister'}
         });
       });
     },
@@ -218,7 +218,7 @@ export default {
         return;
       }
       await this.$refs.successOverlay.sleep(1200);
-      this.$router.push({name: 'settings'});
+      this.$router.push({name: 'Settings'});
     }
   }
 };

@@ -9,17 +9,17 @@
 <script>
 export default {
   computed: {
-    box_uuid(){ return this.$route.params.box_uuid; },
+    boxUUID(){ return this.$route.params.boxUUID; },
     box(){
-      if(this.box_uuid){
-        return this.$root.GetBox(this.box_uuid);
+      if(this.boxUUID){
+        return this.$root.GetBox(this.boxUUID);
       }
       return {};
     },
   },
   methods: {
     add_secret(){
-      this.$router.push({name: 'secret', params: {box_uuid: this.box_uuid}});
+      this.$router.push({name: 'Secret', params: {boxUUID: this.boxUUID}});
     },
   }
 };

@@ -4,7 +4,7 @@
     :class="{'conflict': secret.conflict}"
   >
     <router-link
-      :to="{name: 'secret', params: {box_uuid: boxUuid, secret_uuid: secretUuid}}"
+      :to="{name: 'Secret', params: {boxUUID: boxUuid, secretUUID: secretUuid}}"
       class="secret-link"
     >
       <span class="name">{{ quickAccessName }}</span>

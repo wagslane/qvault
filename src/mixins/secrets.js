@@ -42,8 +42,8 @@ export default {
       );
     },
 
-    SetSecret(box_uuid, secret) {
-      let box = this.GetBox(box_uuid);
+    SetSecret(boxUUID, secret) {
+      let box = this.GetBox(boxUUID);
       let uuid = uuidv4();
       Vue.set(box.secrets, uuid, secret);
       return uuid;
@@ -64,14 +64,14 @@ export default {
       return secret;
     },
 
-    DeleteSecret(box_uuid, secret_uuid){
-      let box = this.GetBox(box_uuid);
-      Vue.delete(box.secrets, secret_uuid);
+    DeleteSecret(boxUUID, secretUUID){
+      let box = this.GetBox(boxUUID);
+      Vue.delete(box.secrets, secretUUID);
     },
 
-    DeleteBox(box_uuid){
-      this.GetBox(box_uuid);
-      Vue.delete(this.secrets, box_uuid);
+    DeleteBox(boxUUID){
+      this.GetBox(boxUUID);
+      Vue.delete(this.secrets, boxUUID);
     },
 
     LoadSecrets(new_secrets) {
@@ -103,10 +103,10 @@ export default {
       }
     },
 
-    BoxHasConflict(box_uuid){
-      let box = this.GetBox(box_uuid);
-      for(let secret_uuid of Object.keys(box.secrets)){
-        let secret = box.secrets[secret_uuid];
+    BoxHasConflict(boxUUID){
+      let box = this.GetBox(boxUUID);
+      for(let secretUUID of Object.keys(box.secrets)){
+        let secret = box.secrets[secretUUID];
         if(secret.conflict){
           return true;
         }

@@ -67,7 +67,7 @@
           <div
             v-if="registerTabActive"
             class="link"
-            @click="$router.push({name: 'vault'});"
+            @click="$router.push({name: 'Vault'});"
           >
             I don't want to store a backup in the cloud
           </div>
@@ -146,7 +146,7 @@ export default {
     },
     toDownload(){
       this.$root.ResetStorageState();
-      this.$router.push({name: 'loadDownload'});
+      this.$router.push({name: 'LoadDownload'});
     },
     async register(){
       let cloudKey = await DeriveCloudKey(this.$root.password);
@@ -197,7 +197,7 @@ export default {
         this.error = err;
         return;
       }
-      this.$router.push({name: 'vault'});
+      this.$router.push({name: 'Vault'});
     }
   }
 };

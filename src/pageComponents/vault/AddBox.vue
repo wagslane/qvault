@@ -45,11 +45,11 @@ export default {
           rep++;
         }
       }
-      let box_uuid = this.$root.CreateBox(
+      let boxUUID = this.$root.CreateBox(
         name,
         type,
       );
-      this.$router.push({name: 'box', params: {box_uuid: box_uuid}});
+      this.$router.push({name: 'Box', params: {boxUUID: boxUUID}});
     },
   },
 };

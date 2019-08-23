@@ -8,14 +8,14 @@
 
         <router-link
           class="btn"
-          :to="{name: 'createStep1'}"
+          :to="{name: 'CreateStep1'}"
         >
           Create New Vault
         </router-link>
 
         <router-link
           class="btn"
-          :to="{name: 'loadChoose'}"
+          :to="{name: 'LoadChoose'}"
         >
           Open Existing Vault
         </router-link>
@@ -29,7 +29,7 @@ export default {
   mounted(){
     try{
       this.$root.LoadLastUsedVault();
-      this.$router.push({name: 'loadUnlockStep1'});
+      this.$router.push({name: 'LoadUnlockStep1'});
     } catch (err){
       // do nothing if cache is empty
     }

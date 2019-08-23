@@ -20,7 +20,7 @@
 
         <router-link
           class="link"
-          :to="{name: 'createStep4'}"
+          :to="{name: 'CreateStep4'}"
         >
           Skip for now
         </router-link>
@@ -63,7 +63,7 @@ export default {
         return;
       }
       this.$root.CreateQrKey(qrKey);
-      this.$router.push({name: 'createStep4'});
+      this.$router.push({name: 'CreateStep4'});
     },
   }
 };

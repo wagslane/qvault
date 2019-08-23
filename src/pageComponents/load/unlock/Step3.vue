@@ -143,7 +143,7 @@ export default {
       } catch (err){
         this.saveError = err;
       }
-      this.$router.push({name: 'vault'});
+      this.$router.push({name: 'Vault'});
     },
     generatePassphrase(){
       this.generated = GeneratePassphrase(5);

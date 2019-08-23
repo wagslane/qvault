@@ -41,7 +41,7 @@
         </div>
         <router-link
           v-if="$root.char_key"
-          :to="{name: 'createStep3'}"
+          :to="{name: 'CreateStep3'}"
         >
           <button class="continue">
             <span>Continue</span>

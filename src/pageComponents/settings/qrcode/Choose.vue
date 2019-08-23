@@ -8,7 +8,7 @@
 
         <router-link
           class="btn"
-          :to="{name: 'settingsQrcodeAddOrChange'}"
+          :to="{name: 'SettingsQrcodeAddOrChange'}"
         >
           <span v-if="($root.qr_required)">
             Change Key Card
@@ -35,7 +35,7 @@
       <div class="footer">
         <div
           class="back"
-          @click="$router.push({name: 'settings'})"
+          @click="$router.push({name: 'Settings'})"
         >
           <div class="icon" />
         </div>
@@ -94,7 +94,7 @@ export default {
         return;
       }
       await this.$refs.successOverlay.sleep(1200);
-      this.$router.push({name: 'settings'});
+      this.$router.push({name: 'Settings'});
     },
     showDeleteDualEncryptionModal(){
       this.$refs.deleteDualEncryptionModal.show(this.deleteDualEncryption);

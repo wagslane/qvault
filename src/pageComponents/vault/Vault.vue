@@ -17,7 +17,7 @@
           <router-link
             v-for="sorted_box in sorted_boxes"
             :key="sorted_box.uuid"
-            :to="{name: 'box', params: {box_uuid: sorted_box.uuid}}"
+            :to="{name: 'Box', params: {boxUUID: sorted_box.uuid}}"
             class="box_link"
             :class="{
               'button-fill': sorted_box.icon.fill,
@@ -33,7 +33,7 @@
           </router-link>
         </div>
         <router-link
-          :to="{name: 'addBox'}"
+          :to="{name: 'AddBox'}"
           class="add-box"
         >
           <PlusBox />
@@ -127,7 +127,7 @@ export default {
     addBoxIfNone(boxes){
       if(!boxes.length){
         if(this.$router.currentRoute.fullPath === "/vault"){
-          this.$router.push({name: 'addBox'});
+          this.$router.push({name: 'AddBox'});
         }
       }
     },

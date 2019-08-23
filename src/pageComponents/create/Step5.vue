@@ -49,7 +49,7 @@ export default {
       } catch (err) {
         this.error = err;
       }
-      this.$router.push({name: 'createStep6'});
+      this.$router.push({name: 'CreateStep6'});
     }
   }
 };
