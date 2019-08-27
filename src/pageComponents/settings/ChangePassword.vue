@@ -177,7 +177,7 @@ export default {
         newPassword = this.passphrase;
       }
 
-      if (this.$root.email){
+      if (this.$root.email && this.$store.getters.isAppOnline){
         let old_cloud_key = await DeriveCloudKey(this.old_password);
         let new_cloud_key = await DeriveCloudKey(newPassword);
         await updateUserPassword(old_cloud_key, new_cloud_key);

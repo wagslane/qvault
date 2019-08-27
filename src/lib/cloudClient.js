@@ -2,9 +2,27 @@ import decodeJWT from './decodeJWT';
 
 var CLOUD_JWT = null;
 export const domain = 'https://api.qvault.io';
+const stablePingDomains = [ 'https://google.com', 'https://apple.com' ];
 
 // All API calls will return a rejected promise on non-200 response codes
 // The rejected promise contains a simple error message
+
+export async function internetAvailable() {
+  for (const domain of stablePingDomains) {
+    try {
+      const resp = await fetchWithError(domain, {
+        method: 'GET',
+      });
+      if (!resp.ok){
+        throw 'No connection found';
+      }
+      return true;
+    } catch (err) {
+      // if all requests error we will return false
+    }
+  }
+  return false;
+}
 
 export async function authenticate(email, password) {
   const resp = await fetchWithError(`${domain}/v1/auth`, {

@@ -18,6 +18,7 @@ import storage from './mixins/storage';
 import TitleBar from './components/TitleBar.vue';
 import {heightMac, heightWin} from './consts/title_bar';
 import LockScreen from './components/LockScreen.vue';
+import { store } from './store/store';
 
 export const router = new VueRouter({routes});
 
@@ -26,6 +27,7 @@ export default {
     TitleBar,
     LockScreen,
   },
+  store,
   mixins: [ storage ],
   data(){
     return {

@@ -17,7 +17,6 @@ import {
   HashCloudVault,
   GenerateRandomSalt,
 } from '../lib/QVaultCrypto/QVaultCrypto';
-
 import secrets from './secrets.js';
 import applyMigrations from '../migrations/applyMigrations';
 
@@ -208,7 +207,7 @@ export default {
 
     async SaveBoth(){
       await this.SaveLocalVault();
-      if (this.email){
+      if (this.email && this.$store.getters.isAppOnline){
         await this.SaveCloudVault();
       }
     },

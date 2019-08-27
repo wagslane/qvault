@@ -6,8 +6,14 @@
         <h1>Settings</h1>
         <h2>Manage your vault and account</h2>
 
+        <h3
+          v-if="!$store.getters.isAppOnline"
+          class="red-pink"
+        >
+          Offline Mode
+        </h3>
         <div
-          v-if="$root.email"
+          v-else-if="$root.email"
         > 
           <h3 class="gold-mid">
             {{ $root.email }}
@@ -44,7 +50,7 @@
         </router-link>
 
         <router-link
-          v-if="!$root.email"
+          v-if="!$root.email && $store.getters.isAppOnline"
           class="btn"
           :to="{name: 'SettingsCloudAccountLoginRegister'}"
         >
@@ -52,9 +58,9 @@
         </router-link>
 
         <router-link
-          v-else
+          v-else-if="$store.getters.isAppOnline"
           class="btn"
-          :to="{name: 'SettingsDeleteAccount'}"
+          :to="{name: 'SettingsCloudAccountDeleteAccount'}"
         >
           Delete Cloud Storage
         </router-link>
@@ -91,5 +97,8 @@ export default {
   @import '../../styles/colors.less';
   .gold-mid{
     color: @gold-mid
+  }
+  .red-pink{
+    color: @red-pink
   }
 </style>

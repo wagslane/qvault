@@ -21,7 +21,7 @@ import SecretList from './pageComponents/vault/SecretList.vue';
 
 import Settings from './pageComponents/settings/Settings.vue';
 import SettingsChangePassword from './pageComponents/settings/ChangePassword.vue';
-import SettingsDeleteAccount from './pageComponents/settings/DeleteAccount.vue';
+import SettingsCloudAccountDeleteAccount from './pageComponents/settings/cloudAccount/DeleteAccount.vue';
 import SettingsCloudAccountLoginRegister from './pageComponents/settings/cloudAccount/LoginRegister.vue';
 import SettingsCharKeyChange from './pageComponents/settings/charKey/Change.vue';
 import SettingsCharKeyView from './pageComponents/settings/charKey/View.vue';
@@ -196,8 +196,8 @@ export default [
       },
       {
         path: 'deleteAccount',
-        component: SettingsDeleteAccount,
-        name: 'SettingsDeleteAccount',
+        component: SettingsCloudAccountDeleteAccount,
+        name: 'SettingsCloudAccountDeleteAccount',
       },
       {
         path: 'cloudAccount',

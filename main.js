@@ -3,6 +3,8 @@ const { checkForUpdates, setupUpdater } = require('./main/setupUpdater');
 const { openSelectedVaultWin, openSelectedVaultMac } = require('./main/openSelectedVault');
 const configureWindowDisplay = require('./main/configureWindowDisplay');
 const handleScreenLock = require('./main/handleScreenLock');
+const setupWebRequests = require('./main/setupWebRequests');
+const isDev = require('./main/isDev');
 
 // keep reference to mainWindow globally
 let mainWindow;
@@ -21,13 +23,17 @@ function createWindow() {
   // emit systemIdle events
   mainWindow = handleScreenLock(mainWindow);
 
+  // setup filters for http requests
+  mainWindow = setupWebRequests(mainWindow);
+
   // Dereference the window object when the app closes
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  if (isDev){
+    mainWindow.webContents.openDevTools();
+  }
 
   return mainWindow;
 }

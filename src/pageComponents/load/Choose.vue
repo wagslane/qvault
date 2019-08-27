@@ -14,6 +14,7 @@
         </div>
 
         <router-link
+          v-if="this.$store.getters.isAppOnline"
           class="link"
           :to="{name: 'LoadDownload'}"
         >

@@ -5,7 +5,7 @@ const pjson = require('../package.json');
 const fs = require('fs');
 
 module.exports = async function (params) {
-  // Only notarize the app on Mac OS only.
+  // Only notarize the app on Mac OS
   if (process.platform !== 'darwin') {
     return;
   }

@@ -2,12 +2,15 @@
   <div class="header-bar">
     <div class="box">
       <img 
-        class="img" 
+        class="img float-left"
         :style="{marginLeft: '20px'}"
         height="25" 
         width="25" 
         src="../img/qvault-logo.png"
       >
+      <div class="offline-switch float-left">
+        <OnlineSwitch />
+      </div>
     </div>
 
     <div class="box title">
@@ -71,6 +74,7 @@ import downloadSvg from '../img/download.svg.vue';
 import checkmarkSvg from '../img/checkmark.svg.vue';
 import TimingOverlay from '../components/TimingOverlay.vue';
 import sleep from '../lib/sleep';
+import OnlineSwitch from '../components/OnlineSwitch.vue';
 
 export default {
   components:{
@@ -78,7 +82,8 @@ export default {
     saveSvg,
     checkmarkSvg,
     TimingOverlay,
-    downloadSvg
+    downloadSvg,
+    OnlineSwitch
   },
   props: { 
     title: {
@@ -177,6 +182,16 @@ export default {
       .img{
         margin-top: 16px;
         margin-right: 20px;
+      }
+
+      .offline-switch{
+        margin-top: 18px;
+        margin-left: 20px;
+        display: inline-block;
+      }
+
+      .float-left{
+        float: left;
       }
 
       .float-right{

@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import {deleteUser, isLoggedIn, deleteToken} from '../../lib/cloudClient';
-import TimingOverlay from '../../components/TimingOverlay.vue';
+import {deleteUser, isLoggedIn, deleteToken} from '../../../lib/cloudClient';
+import TimingOverlay from '../../../components/TimingOverlay.vue';
 
 export default {
   components:{

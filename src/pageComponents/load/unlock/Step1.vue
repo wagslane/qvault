@@ -110,7 +110,7 @@ export default {
         return;
       }
 
-      if (this.$root.email){
+      if (this.$root.email && this.$store.getters.isAppOnline){
         try{
           await this.$root.Login(this.$root.email, this.$root.password);
         } catch(err){

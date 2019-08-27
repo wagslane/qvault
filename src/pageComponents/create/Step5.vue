@@ -49,7 +49,11 @@ export default {
       } catch (err) {
         this.error = err;
       }
-      this.$router.push({name: 'CreateStep6'});
+      if (this.$store.getters.isAppOnline){
+        this.$router.push({name: 'CreateStep6'});
+      } else {
+        this.$router.push({name: 'Vault'});
+      }
     }
   }
 };
