@@ -8,7 +8,7 @@
         width="25" 
         src="../img/qvault-logo.png"
       >
-      <div class="offline-switch float-left">
+      <div class="online-switch float-left">
         <OnlineSwitch />
       </div>
     </div>
@@ -184,7 +184,7 @@ export default {
         margin-right: 20px;
       }
 
-      .offline-switch{
+      .online-switch{
         margin-top: 18px;
         margin-left: 20px;
         display: inline-block;
