@@ -1,7 +1,6 @@
 <template>
   <div
     class="secret-preview"
-    :class="{'conflict': secret.conflict}"
   >
     <router-link
       :to="{name: 'Secret', params: {boxUUID: boxUuid, secretUUID: secretUuid}}"
@@ -146,14 +145,6 @@ export default {
     display: flex;
     flex-direction: row;
     margin-top: 15px;
-
-    &.conflict {
-      .secret-link {
-        .name {
-          color: @red-pink !important;
-        }
-      }
-    }
 
     .secret-link {
       color: white;

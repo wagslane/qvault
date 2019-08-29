@@ -5,7 +5,7 @@ import assert from '../lib/assert';
 export default {
   data() {
     return {
-      secrets: null,
+      secrets: null
     };
   },
   methods: {
@@ -74,59 +74,83 @@ export default {
       Vue.delete(this.secrets, boxUUID);
     },
 
-    LoadSecrets(new_secrets) {
+    LoadSecrets(newSecrets) {
       if (!this.secrets) {
         this.secrets = {};
       }
-      for (const box_key of Object.keys(new_secrets)) {
-        if (!(box_key in this.secrets)) {
-          // Insert missing boxes
-          Vue.set(this.secrets, box_key, new_secrets[box_key]);
+      for (const boxKey of Object.keys(newSecrets)) {
+        // Insert missing boxes
+        if (!(boxKey in this.secrets)) {
+          Vue.set(this.secrets, boxKey, newSecrets[boxKey]);
           continue;
         }
-        for (const secret_key of Object.keys(new_secrets[box_key].secrets)) {
-          const new_secret = new_secrets[box_key].secrets[secret_key];
-          let current_box_secrets = this.secrets[box_key].secrets;
+        for (const secretKey of Object.keys(newSecrets[boxKey].secrets)) {
+          const newSecret = newSecrets[boxKey].secrets[secretKey];
+          let currentBoxSecrets = this.secrets[boxKey].secrets;
+          // Insert missing secrets
+          if (!(secretKey in currentBoxSecrets)) {
+            Vue.set(currentBoxSecrets, secretKey, newSecret);
+            continue;
+          }
 
-          if (!(secret_key in current_box_secrets)) {
-            // Insert missing secrets
-            Vue.set(current_box_secrets, secret_key, new_secret);
-          }
-          else if (JSON.stringify(current_box_secrets[secret_key]) === JSON.stringify(new_secret)) {
-            // Ignore identical secrets
-          }
-          else {
-            // Assign conflicts
-            Vue.set(current_box_secrets[secret_key], 'conflict', new_secret);
-          }
-        }
-      }
-    },
+          for (const fieldKey of Object.keys(newSecret.fields)) {
+            const newFieldVal = newSecret.fields[fieldKey];
+            let currentSecretFields = currentBoxSecrets[secretKey].fields;
 
-    BoxHasConflict(boxUUID){
-      let box = this.GetBox(boxUUID);
-      for(let secretUUID of Object.keys(box.secrets)){
-        let secret = box.secrets[secretUUID];
-        if(secret.conflict){
-          return true;
-        }
-      }
-      return false;
-    },
-  },
-  computed: {
-    ConflictExists(){
-      if(this.secrets){
-        for(const box_key of Object.keys(this.secrets)){
-          const box = this.secrets[box_key];
-          for (const secret_key of Object.keys(box.secrets)){
-            const secret = box.secrets[secret_key];
-            if(secret.conflict){
-              return true;
+            // Insert missing fields
+            if (!(fieldKey in currentSecretFields)) {
+              Vue.set(currentSecretFields, fieldKey, newFieldVal);
+              continue;
+            }
+
+            // handle normal fields
+            if (!Array.isArray(newFieldVal)){
+              if (newFieldVal !== currentSecretFields[fieldKey]){
+                this.$store.commit('pushConflict', {
+                  boxKey,
+                  secretKey,
+                  fieldKey,
+                  value: newFieldVal
+                });
+              }
+              continue;
+            }
+
+            // handle subfield groups
+            for (const i of newFieldVal.keys()) {
+              const newSubfieldGroup = newFieldVal[i];
+              let currentSubfieldGroupList = currentSecretFields[fieldKey];
+
+              // Insert missing subfield groups
+              if (i >= currentSecretFields[fieldKey].length) {
+                currentSubfieldGroupList.push(newSubfieldGroup);
+                continue;
+              }
+
+              for (const newSubFieldKey of Object.keys(newSubfieldGroup)) {
+                const newSubField = newSubfieldGroup[newSubFieldKey];
+                let currentSubfieldGroup = currentSubfieldGroupList[i];
+
+                // Insert missing subfields
+                if (!(newSubFieldKey in currentSubfieldGroup)) {
+                  Vue.set(currentSubfieldGroup, newSubFieldKey, newSubField);
+                  continue;
+                }
+
+                if (newSubField !== currentSubfieldGroup[newSubFieldKey]){
+                  this.$store.commit('pushConflict', {
+                    boxKey,
+                    secretKey,
+                    fieldKey,
+                    subfieldGroupIndex: i,
+                    subfieldKey: newSubFieldKey,
+                    value: newSubField
+                  });
+                }
+              }
             }
           }
         }
-        return false;
       }
     },
   }

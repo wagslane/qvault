@@ -9,7 +9,8 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    isAppOnline: true
+    isAppOnline: true,
+    conflicts: []
   },
   mutations: {
     setAppOnline(state, isOnline) {
@@ -19,9 +20,16 @@ export const store = new Vuex.Store({
       } else{
         window.nodeAPI.electron.ipcRenderer.send('setOffline');
       }
+    },
+    pushConflict(state, newConflict){
+      state.conflicts.push(newConflict);
+    },
+    popConflict(state){
+      state.conflicts.shift();
     }
   },
   getters: {
-    isAppOnline: state => state.isAppOnline
+    isAppOnline: state => state.isAppOnline,
+    getNextConflict: state => state.conflicts.length > 0 ? state.conflicts[0] : null
   }
 });

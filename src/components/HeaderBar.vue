@@ -31,8 +31,6 @@
           class="img float-right pointer"
           height="25"
           width="25"
-          :disabled-status="$root.ConflictExists"
-          :title-text="$root.ConflictExists ? 'Vault cannot be saved until all conflicts are resolved' : 'Save Vault'"
           @click.native="$refs.loader.load(save)"
         />
         <div

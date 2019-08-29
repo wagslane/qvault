@@ -21,8 +21,7 @@
             class="box_link"
             :class="{
               'button-fill': sorted_box.icon.fill,
-              'button-stroke': !(sorted_box.icon.fill),
-              'conflict': $root.BoxHasConflict(sorted_box.uuid),
+              'button-stroke': !(sorted_box.icon.fill)
             }"
           >
             <span v-html="sorted_box.icon.img" />
@@ -116,6 +115,11 @@ export default {
       this.addBoxIfNone(newBoxes);
     },
   },
+  created(){
+    if (this.$store.getters.getNextConflict){
+      this.$router.push({name: 'ResolveConflicts'});
+    }
+  },
   mounted(){
     this.addBoxIfNone(this.sorted_boxes);
   },
@@ -191,10 +195,6 @@ export default {
           &.router-link-active {
             color: @gold-mid;
             background-color: @black-dark;
-          }
-
-          &.conflict {
-            color: red!important;
           }
         }
 

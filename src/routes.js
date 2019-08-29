@@ -13,6 +13,8 @@ import LoadUnlockStep3 from './pageComponents/load/unlock/Step3.vue';
 import LoadChoose from './pageComponents/load/Choose.vue';
 import LoadDownload from './pageComponents/load/Download.vue';
 
+import ResolveConflicts from './pageComponents/resolveConflicts/ResolveConflicts.vue';
+
 import Vault from './pageComponents/vault/Vault.vue';
 import Box from './pageComponents/vault/Box.vue';
 import AddBox from './pageComponents/vault/AddBox.vue';
@@ -145,6 +147,11 @@ export default [
         ],
       },
     ],
+  },
+  {
+    path: '/resolveConflicts',
+    component: ResolveConflicts,
+    name: 'ResolveConflicts',
   },
   {
     path: '/vault',

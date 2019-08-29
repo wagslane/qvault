@@ -18,15 +18,6 @@
         Back
       </button>
       <button
-        v-if="secret.conflict"
-        type="button"
-        class="apply"
-        @click="resolve_conflicts"
-      >
-        Fix Conflicts
-      </button>
-      <button
-        v-else
         class="apply"
         type="submit"
       >
@@ -34,13 +25,6 @@
       </button>
     </div>
     <hr>
-    <h2
-      v-if="secret.conflict"
-    > 
-      There are conflicts between your local and cloud vaults.
-      Make changes if you want to keep anything from the cloud (red) versions, then click "Fix Changes"
-    </h2>
-    <hr v-if="secret.conflict">
     <div
       v-for="(row, i) in rows"
       :key="i"
@@ -65,18 +49,6 @@
           :is-missing="apply_clicked && missing_fields.includes(field.name)"
           :generate-password="field.name === 'Password'"
         />
-        <span
-          v-if="field.type === String
-            && secret.conflict
-            && secret.conflict.fields
-            && secret.conflict.fields[field.name]
-            && secret.conflict.fields[field.name] != secret.fields[field.name]"
-          :type="field.hidden ? 'password' : 'text'"
-          class="conflict"
-          readonly
-        >
-          {{ secret.conflict.fields[field.name] }}
-        </span>
         <TextInput
           v-if="field.type === 'textarea'"
           v-model="secret.fields[field.name]"
@@ -118,21 +90,6 @@
                 :placeholder="subfield.name"
                 :generate-password="subfield.name === 'Password'"
               />
-              <span
-                v-if="subfield.type === String
-                  && secret.conflict
-                  && secret.conflict.fields
-                  && secret.conflict.fields[field.name]
-                  && secret.conflict.fields[field.name][k]
-                  && secret.conflict.fields[field.name][k][subfield.name]
-                  && secret.conflict.fields[field.name][k][subfield.name] != subvalue[subfield.name]"
-                :type="subfield.hidden ? 'password' : 'text'"
-                :title="subfield.name"
-                class="conflict"
-                readonly
-              > 
-                {{ secret.conflict.fields[field.name][k][subfield.name] }}
-              </span>
             </div>
             <div
               class="trash"
@@ -268,9 +225,6 @@ export default {
     removeFromSublist(fieldname, i){
       Vue.delete(this.secret.fields[fieldname], i);
     },
-    resolve_conflicts(){
-      Vue.delete(this.secret, 'conflict');
-    },
   },
 };
 </script>
@@ -373,14 +327,6 @@ export default {
           border: 1px solid @gold-mid;
           outline: none;
         }
-      }
-
-      .conflict {
-        color: @red-pink;
-        font-size: 14px;
-        font-weight: 300;
-        margin-top: 15px;
-        display: block;
       }
 
       .add_to_sublist {
