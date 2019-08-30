@@ -33,7 +33,7 @@ https://qvault.io
 
 ## Contributing
 
-Feel free to contribute by forking the repo and opening pull requests. Please ensure that your code passes the existing tests, and write tests to test your changes if applicable.
+We love help! Contribute by forking the repo and opening pull requests. Please ensure that your code passes the existing tests, and write tests to test your changes if applicable.
 
 All pull requests should be submitted to the "master" branch. Code in the "prod" branch is live in the latest release.
 
@@ -48,6 +48,8 @@ cd qvault
 
 #### Install dependencies
 
+We use yarn as opposed to npm due it being recommended by most electron tools.
+
 ```bash
 yarn install
 ```
@@ -60,10 +62,12 @@ yarn dev
 
 ### Cloud Server
 
-The API that Qvault uses is hosted at https://api.qvault.io
+Users can choose to optionally store their encrypted vault on Qvault's servers. The API that Qvault uses is hosted at https://api.qvault.io
 
 The only version of Qvault at any moment that is guaranteed to work nicely with the cloud server is the latest release,
 although we do our best to maintain backwards compatibility. Please update accordingly.
+
+In the future we plan to open source the server code and allow users to change their host address within the app.
 
 ### Linting and Styling
 
@@ -86,9 +90,9 @@ Some general rules that Qvault follows additionaly:
 * All javascript filenames, functions, and variables are camelCase
 * All vue filenames and components are PascalCase
 
-### Node Version
+### Node Version - NVM
 
-If you are having strange node api errors, be
+NVM, or node version manager, is used to keep track of the supported node version. If you are having strange node api errors, be
 sure to set the correct node version:
 
 ```bash
