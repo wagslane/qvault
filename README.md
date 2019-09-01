@@ -115,6 +115,12 @@ Building from source is the best way to ensure code integrity, but keep in mind 
 yarn release --publish never
 ```
 
+## Compatibility
+
+The appimage build depends on the linux distro supporting unprivileged CLONE_NEWUSER, without that, the electron
+sandbox won't work. Since security is our #1 priority, we will not be disabling the sandbox; however, if you wish to
+run Q-Vault on an unsupported distro, you can use the `--no-sandbox` flag.
+
 ## Helpful VSCode settings
 
 These are the repo-level settings some of us use in vscode. We also recommend using the eslint plugin by Dirk Baeumer.
