@@ -1,11 +1,13 @@
 import fieldsKey from './0001fieldsKey';
 import typeCamelCase from './0002typeCamelCase';
+import updatedField from './0003updatedField';
 
 import semver from 'semver';
 
 let migrationMapping = {
   '<0.2.0': fieldsKey,
   '0.2.0': typeCamelCase,
+  '0.2.1 - 0.2.4': updatedField,
 };
 
 function nextMigration(version){

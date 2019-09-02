@@ -113,7 +113,7 @@ export default {
           }else{
             newSecret.Username = secret.username;
           }
-          this.$root.SetSecret(this.boxUUID, newSecret);
+          this.$root.CreateSecret(this.boxUUID, newSecret);
         }
       } catch (err){
         alert(err);
