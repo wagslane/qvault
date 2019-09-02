@@ -28,7 +28,7 @@
             <div class="aesthetic_rectangle" />
             {{ sorted_box.name }}
             <br>
-            <span class="created">{{ sorted_box.created }}</span>
+            <span class="updated">{{ sorted_box.updated }}</span>
           </router-link>
         </div>
         <router-link
@@ -93,7 +93,7 @@ export default {
           let box_type = box_types.find(box_type => box_type.key === box.type);
           sorted_boxes.push({
             uuid: key,
-            created: this.formatCreatedDate(box.created),
+            updated: this.formatCreatedDate(box.updated),
             name: box.name,
             icon: box_type && box_type.icon,
           });
@@ -180,7 +180,7 @@ export default {
           display: block;
           text-decoration: none;
 
-          .created {
+          .updated {
             color: @gray-dark;
             font-size: 10px;
           }

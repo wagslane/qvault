@@ -2,7 +2,7 @@
   <div>
     <HeaderBar title="Approve Changes" />
     <div class="options-box">
-      <div class="body center-text">
+      <div class="body">
         <h1>Changes Were Detected in Your Vault</h1>
         <h2>The vault stored in your cloud account has some differences from your local vault</h2>
 
@@ -50,18 +50,19 @@
             <span>to Keep</span>
           </div>
           <div class="btns">
+            <span class="label">Most Recent</span>
             <div
-              class="btn"
-              @click="acceptConflict"
+              class="btn recommended"
+              @click="conflictIsNewer ? acceptConflict() : acceptOriginal()"
             >
-              {{ nextConflict.value }}
+              {{ conflictIsNewer ? nextConflict.value : originalValue }}
             </div>
 
             <div
               class="btn"
-              @click="acceptOriginal"
+              @click="conflictIsNewer ? acceptOriginal() : acceptConflict()"
             >
-              {{ originalValue }}
+              {{ conflictIsNewer ? originalValue : nextConflict.value }}
             </div>
           </div>
         </div>
@@ -75,6 +76,9 @@ import boxTypes from '../../consts/box_types';
 
 export default {
   computed: {
+    conflictIsNewer(){
+      return this.nextConflict.updated > this.secret.updated;
+    },
     secretDisplayFields(){
       let res = {};
       for (const k of Object.keys(this.secret.fields)) {
@@ -111,13 +115,12 @@ export default {
       return res;
     },
     boxDefinition(){
-      return boxTypes.find(boxType => boxType.key === this.box.type);
-    },
-    box(){
-      return this.$root.secrets[this.nextConflict.boxKey];
+      return boxTypes.find(boxType => 
+        boxType.key === this.$root.GetBox(this.nextConflict.boxKey).type
+      );
     },
     secret(){
-      return this.box.secrets[this.nextConflict.secretKey];
+      return this.$root.GetSecretCopy(this.nextConflict.boxKey, this.nextConflict.secretKey);
     },
     isSubfield(){
       return this.nextConflict.hasOwnProperty('subfieldGroupIndex') && 
@@ -144,11 +147,13 @@ export default {
   methods:{
     acceptConflict(){
       const nc = this.nextConflict;
+      let newSecret = this.$root.GetSecretCopy(this.nextConflict.boxKey, this.nextConflict.secretKey);
       if (!this.isSubfield){
-        this.$root.secrets[nc.boxKey].secrets[nc.secretKey].fields[nc.fieldKey] = nc.value;
+        newSecret.fields[nc.fieldKey] = nc.value;
       } else {
-        this.$root.secrets[nc.boxKey].secrets[nc.secretKey].fields[nc.fieldKey][nc.subfieldGroupIndex][nc.subfieldKey] = nc.value;
+        newSecret.fields[nc.fieldKey][nc.subfieldGroupIndex][nc.subfieldKey] = nc.value;
       }
+      this.$root.UpsertSecret(this.nextConflict.boxKey, this.nextConflict.secretKey, newSecret);
       this.$store.commit("popConflict");
     },
     acceptOriginal(){
@@ -232,6 +237,19 @@ export default {
       width: 100%;
       flex-grow: 2;
       display: inline-block;
+
+      .btn{
+        text-align: center;
+        margin-top: 2px;
+      }
+
+      .label {
+        font-size: 12px;
+        padding-bottom: 12px;
+        border: none;
+        background: transparent;
+        color: #fff;
+      }
     }
   }
   

@@ -2,7 +2,7 @@ import fieldsKey from '../src/migrations/0001fieldsKey';
 import { expect } from 'chai';
 import jsonStableStringify from '../src/lib/jsonStableStringify';
 
-it('test migration <2.0.0 => 2.0.0', () => {
+it('test migration <0.2.0 => 0.2.0', () => {
   let vault = {
     "version":"0.1.6"
   };
@@ -41,7 +41,7 @@ it('test migration <2.0.0 => 2.0.0', () => {
       "created":1558668415593
     }
   };
-  fieldsKey(vault, secrets);
+  [ vault, secrets ] = fieldsKey(vault, secrets);
   expect(jsonStableStringify(vault)).equal(jsonStableStringify(migrated_vault));
   expect(jsonStableStringify(secrets)).equal(jsonStableStringify(migrated_secrets));
 });

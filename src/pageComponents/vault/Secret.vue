@@ -224,7 +224,7 @@ export default {
     if(this.secretUUID === null){
       this.secret = this.$root.GetEmptySecret(this.box_type);
     } else{
-      this.secret = JSON.parse(JSON.stringify(this.box.secrets[this.secretUUID]));
+      this.secret = this.$root.GetSecretCopy(this.boxUUID, this.secretUUID);
     }
   },
   methods: {
@@ -238,9 +238,9 @@ export default {
         return;
       }
       if (this.secretUUID === null){
-        this.$root.SetSecret(this.boxUUID, this.secret);
+        this.$root.CreateSecret(this.boxUUID, this.secret);
       } else{
-        this.box.secrets[this.secretUUID] = JSON.parse(JSON.stringify(this.secret));
+        this.$root.UpsertSecret(this.boxUUID, this.secretUUID, this.secret);
       }
       this.$router.push({name: 'Box', params: {boxUUID: this.boxUUID}});
     },

@@ -86,11 +86,21 @@ button.btn {
   text-decoration: none;
   cursor: pointer;
 
+  &.recommended {
+    background-color: @gold-mid;
+    border: 2px solid @gold-mid;
+    color: #000;
+    &:hover {
+      color: #000;
+      background-color: @gold-light;
+      border: 2px solid @gold-light;
+    }
+  }
+
   &:hover {
     background-color: @black-mid;
     border: 2px solid @gold-mid;
     color: @gold-mid;
-    text-decoration: none;
   }
 }
 

@@ -27,7 +27,7 @@ it('test migration 0.2.0 => 0.2.1', () => {
       "created":1558668415593
     }
   };
-  typeCamelCase(vault, secrets);
+  [ vault, secrets ] = typeCamelCase(vault, secrets);
   expect(jsonStableStringify(vault)).equal(jsonStableStringify(migrated_vault));
   expect(jsonStableStringify(secrets)).equal(jsonStableStringify(migrated_secrets));
 });

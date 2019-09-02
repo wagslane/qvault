@@ -16,22 +16,32 @@ export default {
     CreateBox(name, type) {
       assert(this.secrets, 'No vault is open');
       assert(!(this.HasBox(name)), 'A box with that name already exists');
-      let uuid = uuidv4();
-      assert(!(uuid in this.secrets), 'A box with that uuid already exists');
+      let newUUID = uuidv4();
+      assert(!(newUUID in this.secrets), 'A box with that uuid already exists');
       let box = {
         name,
         type,
         secrets: {},
-        created: Date.now(),
       };
-      Vue.set(this.secrets, uuid, box);
-      return uuid;
+      this.UpsertBox(newUUID, box);
+      return newUUID;
+    },
+
+    UpsertBox(boxUUID, box){
+      const boxCopy = JSON.parse(JSON.stringify(box));
+      boxCopy.updated = Date.now();
+      Vue.set(this.secrets, boxUUID, boxCopy);
     },
 
     GetBox(uuid) {
       assert(this.secrets, 'No vault is open');
       assert(uuid in this.secrets, `${uuid} is not a valid uuid`);
       return this.secrets[uuid];
+    },
+
+    DeleteBox(boxUUID) {
+      this.GetBox(boxUUID);
+      Vue.delete(this.secrets, boxUUID);
     },
 
     HasBox(name) {
@@ -42,19 +52,26 @@ export default {
       );
     },
 
-    SetSecret(boxUUID, secret) {
-      let box = this.GetBox(boxUUID);
-      let uuid = uuidv4();
-      Vue.set(box.secrets, uuid, secret);
-      return uuid;
+    CreateSecret(boxUUID, secret) {
+      let newUUID = uuidv4();
+      this.UpsertSecret(boxUUID, newUUID, secret);
+      return newUUID;
     },
 
-    GetEmptySecret(box_type){
+    UpsertSecret(boxUUID, secretUUID, secret){
+      const secretCopy = JSON.parse(JSON.stringify(secret));
+      secretCopy.updated = Date.now();
+      let box = this.GetBox(boxUUID);
+      Vue.set(box.secrets, secretUUID, secretCopy);
+      this.UpsertBox(boxUUID, box);
+    },
+
+    GetEmptySecret(boxType){
       let secret = {
-        created: Date.now(),
+        updated: Date.now(),
         fields: {},
       };
-      for (let field of box_type.fields) {
+      for (let field of boxType.fields) {
         let value = null;
         if (field.type === Array) {
           value = [];
@@ -69,9 +86,10 @@ export default {
       Vue.delete(box.secrets, secretUUID);
     },
 
-    DeleteBox(boxUUID){
-      this.GetBox(boxUUID);
-      Vue.delete(this.secrets, boxUUID);
+    GetSecretCopy(boxUUID, secretUUID){
+      const box = this.GetBox(boxUUID);
+      assert(secretUUID in box.secrets, `${secretUUID} is not a valid uuid`);
+      return JSON.parse(JSON.stringify(box.secrets[secretUUID]));
     },
 
     LoadSecrets(newSecrets) {
@@ -107,6 +125,7 @@ export default {
             if (!Array.isArray(newFieldVal)){
               if (newFieldVal !== currentSecretFields[fieldKey]){
                 this.$store.commit('pushConflict', {
+                  updated: newSecret.updated,
                   boxKey,
                   secretKey,
                   fieldKey,
@@ -139,6 +158,7 @@ export default {
 
                 if (newSubField !== currentSubfieldGroup[newSubFieldKey]){
                   this.$store.commit('pushConflict', {
+                    updated: newSecret.updated,
                     boxKey,
                     secretKey,
                     fieldKey,
