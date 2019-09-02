@@ -49,21 +49,6 @@
           :is-missing="apply_clicked && missing_fields.includes(field.name)"
           :generate-password="field.name === 'Password'"
         />
-<<<<<<< HEAD
-=======
-        <span
-          v-if="field.type === String
-            && secret.conflict
-            && secret.conflict.fields
-            && secret.conflict.fields[field.name]
-            && secret.conflict.fields[field.name] != secret.fields[field.name]"
-          :type="field.hidden ? 'password' : 'text'"
-          class="conflict"
-          readonly
-        >
-          {{ secret.conflict.fields[field.name] }}
-        </span>
->>>>>>> fix subfields
         <TextInput
           v-if="field.type === 'textarea'"
           v-model="secret.fields[field.name]"
@@ -105,24 +90,6 @@
                 :placeholder="subfield.name"
                 :generate-password="subfield.name === 'Password'"
               />
-<<<<<<< HEAD
-=======
-              <span
-                v-if="subfield.type === String
-                  && secret.conflict
-                  && secret.conflict.fields
-                  && secret.conflict.fields[field.name]
-                  && secret.conflict.fields[field.name][k]
-                  && secret.conflict.fields[field.name][k][subfield.name]
-                  && secret.conflict.fields[field.name][k][subfield.name] != subvalue[subfield.name]"
-                :type="subfield.hidden ? 'password' : 'text'"
-                :title="subfield.name"
-                class="conflict"
-                readonly
-              > 
-                {{ secret.conflict.fields[field.name][k][subfield.name] }}
-              </span>
->>>>>>> fix subfields
             </div>
             <div
               class="trash"
