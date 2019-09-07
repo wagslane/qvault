@@ -99,8 +99,11 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
+    "bip32": "2.0.4",
+    "bip39": "3.0.2",
     "electron-updater": "4.0.6",
     "electron-window-state": "5.0.3",
+    "qrcode": "1.4.1",
     "semver": "^6.3.0",
     "simple-keyboard": "2.21.0",
     "vue": "^2.5.22",

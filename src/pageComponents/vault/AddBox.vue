@@ -29,8 +29,7 @@ export default {
   computed: {
     filtered_box_types(){
       return box_types.filter(
-        box_type =>
-          !(this.$root.HasBox(box_type.key))
+        box_type => !this.$root.HasBoxType(box_type.key) || box_type.key === 'other'
       );
     },
   },
@@ -38,9 +37,9 @@ export default {
     add_box(box_type){
       let name = box_type.displayName;
       let type = box_type.key;
-      if(type === 'Other'){
+      if(type === 'other'){
         let rep = 1;
-        while(this.$root.HasBox(name)){
+        while(this.$root.HasBoxName(name)){
           name = `${box_type.displayName} ${rep}`;
           rep++;
         }

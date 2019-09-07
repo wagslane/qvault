@@ -5,7 +5,8 @@ it('csvToJSON valid', () => {
   // chrome format
   const csv = `name,url,username,password
 test.com,https://www.amazon.com,usernamne_test,dfsadfasdfsdfs
-example.co,https://angel.co/login,mail@gmail.com,ghfghffdsfdsf`;
+example.co,https://angel.co/login,,ghfghffdsfdsf
+,https://angel.co/login,,`;
 
   const jsonData = csvToJSON(csv);
   expect(jsonData).to.eql([
@@ -18,8 +19,14 @@ example.co,https://angel.co/login,mail@gmail.com,ghfghffdsfdsf`;
     {
       name: 'example.co',
       url: 'https://angel.co/login',
-      username: 'mail@gmail.com',
+      username: '',
       password: 'ghfghffdsfdsf',
+    },
+    {
+      name: '',
+      url: 'https://angel.co/login',
+      username: '',
+      password: '',
     }
   ]);
 });

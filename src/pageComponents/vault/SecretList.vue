@@ -2,40 +2,45 @@
   <div>
     <div id="box-header">
       <input
+        v-if="boxType.key === 'other'"
         v-model="box.name"
         placeholder="Name"
-        class="box_name"
-        :readonly="box.type != 'Other'"
-        :class="{box_name_other: box.type == 'Other'}"
+        class="box_name box_name_other"
       >
-      <dropdown_menu
+      <div
+        v-else
+        class="box_name"
+      >
+        {{ boxType.displayName }}
+      </div>
+      <DropdownMenu
         class="dropdown-menu"
         :actions="dropdown_menu_actions"
         @showDeleteBoxModal="showDeleteBoxModal"
       />
       <button
-        class="add_secret"
-        @click.prevent="$parent.add_secret"
+        class="add-secret"
+        @click.prevent="addSecret"
       >
         <PlusSolid />
       </button>
       <button
-        v-if="box.type === 'Passwords'"
+        v-if="boxType.key === 'passwords'"
         class="import"
         @click.prevent="importPasswordsCSV"
       >
         Import CSV
       </button>
     </div>
-    <secretPreview
+    <SecretPreview
       v-for="secretUUID in secretUUIDs"
       :key="secretUUID"
       :box-uuid="boxUUID"
       :secret-uuid="secretUUID"
       :secret="box.secrets[secretUUID]"
-      :box-type="box_type"
+      :box-type="boxType"
     />
-    <confirm
+    <Confirm
       ref="deleteBoxModal"
       title="Are you sure you want to delete this box?"
     />
@@ -43,19 +48,19 @@
 </template>
 
 <script>
-import box_types from '../../consts/box_types';
-import secretPreview from './SecretPreview.vue';
+import boxTypes from '../../consts/box_types';
+import SecretPreview from './SecretPreview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
-import dropdown_menu from '../../components/DropdownMenu.vue';
+import DropdownMenu from '../../components/DropdownMenu.vue';
 import trash_svg from '../../img/trash.svg';
-import confirm from '../../components/Confirm.vue';
+import Confirm from '../../components/Confirm.vue';
 
 export default {
   components: {
-    secretPreview,
+    SecretPreview,
     PlusSolid,
-    dropdown_menu,
-    confirm
+    DropdownMenu,
+    Confirm
   },
   computed: {
     boxUUID() {
@@ -64,8 +69,8 @@ export default {
     box() {
       return this.$parent.box;
     },
-    box_type(){
-      return box_types.find(box_type => box_type.key === this.box.type);
+    boxType(){
+      return boxTypes.find(boxType => boxType.key === this.box.type);
     },
     secretUUIDs(){
       if(this.box){
@@ -84,6 +89,16 @@ export default {
     },
   },
   methods: {
+    addSecret(){
+      if (this.boxType.key === "cryptoWallets"){
+        this.$router.push({
+          name: 'VaultCreateCryptoWalletStep1',
+          boxUUID: this.boxUUID
+        });
+        return; 
+      }
+      this.$router.push({name: 'Secret', params: {boxUUID: this.boxUUID}});
+    },
     emailValid(email){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
@@ -104,14 +119,16 @@ export default {
             continue;
           }
           let newSecret = {
-            Issuer: secret.name,
-            Password: secret.password,
-            Link: secret.url,
+            fields: {
+              Issuer: secret.name,
+              Password: secret.password,
+              Link: secret.url,
+            }
           };
           if (this.emailValid(secret.username)){
-            newSecret.Email = secret.username;
+            newSecret.fields.Email = secret.username;
           }else{
-            newSecret.Username = secret.username;
+            newSecret.fields.Username = secret.username;
           }
           this.$root.CreateSecret(this.boxUUID, newSecret);
         }
@@ -168,7 +185,7 @@ export default {
       }
     }
 
-    .add_secret {
+    .add-secret {
       border: none;
       background: transparent;
       float: right;

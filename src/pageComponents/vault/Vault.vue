@@ -26,7 +26,7 @@
           >
             <span v-html="sorted_box.icon.img" />
             <div class="aesthetic_rectangle" />
-            {{ sorted_box.name }}
+            {{ sorted_box.type === 'other' ? sorted_box.customName : sorted_box.displayName }}
             <br>
             <span class="updated">{{ sorted_box.updated }}</span>
           </router-link>
@@ -94,8 +94,10 @@ export default {
           sorted_boxes.push({
             uuid: key,
             updated: this.formatCreatedDate(box.updated),
-            name: box.name,
+            customName: box.name,
+            displayName: box_type.displayName,
             icon: box_type && box_type.icon,
+            type: box_type.key
           });
         }
       }

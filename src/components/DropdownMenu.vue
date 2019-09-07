@@ -17,14 +17,15 @@
         v-for="(action, index) in actions"
         :key="index"
         class="action"
+        :class="{fill: action.fill}"
         @click.prevent="$emit(action.method);"
       >
-        <span
+        <div
           v-if="action.icon"
-          :class="{fill: action.fill}"
+          class="svg-container"
           v-html="action.icon"
         />
-        {{ action.label }}
+        <span>{{ action.label }}</span>
       </div>
     </div>
   </div>
@@ -132,11 +133,21 @@ export default {
         cursor: pointer;
         text-align: left;
 
+        .svg-container{
+          display: inline;
+        }
+
         svg {
           path {
             stroke: @gray-darker;
           }
           line {
+            stroke: @gray-darker;
+          }
+          rect {
+            stroke: @gray-darker;
+          }
+          polygon {
             stroke: @gray-darker;
           }
         }
@@ -152,6 +163,12 @@ export default {
             line {
               stroke: white;
             }
+            rect {
+              stroke: white;
+            }
+            polygon {
+              stroke: white;
+            }
           }
         }
 
@@ -165,10 +182,22 @@ export default {
           path {
             fill: @gray-darker;
           }
+          rect {
+            fill: @gray-darker;
+          }
+          polygon {
+            fill: @gray-darker;
+          }
         }
         &:hover{
           svg {
             path {
+              fill: white;
+            }
+            rect {
+              fill: white;
+            }
+            polygon {
               fill: white;
             }
           }

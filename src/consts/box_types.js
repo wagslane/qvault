@@ -5,23 +5,105 @@ import password_svg from '../img/password.svg';
 import notes_svg from '../img/notes.svg';
 import server_connection_svg from '../img/server_connection.svg';
 import other_svg from '../img/other.svg';
+import { mnemonicToXPub, mnemonicToYPub, mnemonicToZPub } from '../lib/qvaultBitcoin';
 
 export default [
   {
-    key: 'cryptocurrency',
-    displayName: 'Cryptocurrency',
+    key: 'cryptoWallets',
+    displayName: 'Crypto Wallets',
     fields: [
       {
         name: 'Wallet Name',
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'Ticker',
         type: String,
-        required: false,
-        hidden: false,
+        required: true,
+        readonly: true
+      },
+      {
+        name: 'Seed',
+        type: String,
+        required: true,
+        hidden: true,
+        readonly: true
+      },
+      {
+        name: 'Password',
+        type: String,
+        hidden: true
+      },
+      {
+        name: 'XPub',
+        type: String,
+        readonly: true,
+        qrButton: true,
+        generated: {
+          func: mnemonicToXPub,
+          params: [
+            {
+              key: 'Seed'
+            }, {
+              value: 0
+            } 
+          ]
+        }
+      },
+      {
+        name: 'YPub',
+        type: String,
+        readonly: true,
+        qrButton: true,
+        generated: {
+          func: mnemonicToYPub,
+          params: [
+            {
+              key: 'Seed'
+            }, {
+              value: 0
+            } 
+          ]
+        }
+      },
+      {
+        name: 'ZPub',
+        type: String,
+        readonly: true,
+        qrButton: true,
+        generated: {
+          func: mnemonicToZPub,
+          params: [
+            {
+              key: 'Seed'
+            }, {
+              value: 0
+            } 
+          ]
+        }
+      },
+    ],
+    quick_access_name: "Wallet Name",
+    quick_access_secrets: [ "Ticker", "XPub" ],
+    header_field: 'Wallet Name',
+    icon: {
+      img: crypto_svg,
+      fill: true,
+    }
+  },
+  {
+    key: 'cryptocurrency',
+    displayName: 'Crypto Backups',
+    fields: [
+      {
+        name: 'Wallet Name',
+        type: String,
+        required: true,
+      },
+      {
+        name: 'Ticker',
+        type: String,
       },
       {
         name: 'Key/Seed',
@@ -32,20 +114,16 @@ export default [
       {
         name: 'PIN',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Password',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Notes',
         type: 'textarea',
-        required: false,
-        hidden: false,
       },
     ],
     quick_access_name: "Wallet Name",
@@ -64,132 +142,95 @@ export default [
         name: 'Institution Name',
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'Username',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Password',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Email',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'PIN',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Routing Number',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Payment Cards',
         type: Array,
-        required: false,
-        hidden: false,
         subfields: [
           {
             name: 'Expiration Date',
             type: String,
-            required: false,
-            hidden: false,
           },
           {
             name: 'CVC',
             type: String,
-            required: false,
-            hidden: false,
           },
           {
             name: 'Card Number',
             type: String,
-            required: true,
-            hidden: false,
           },
           {
             name: 'Notes',
             type: String,
-            required: false,
-            hidden: false,
           },
         ],
       },
       {
         name: 'Loans',
         type: Array,
-        required: false,
-        hidden: false,
         subfields: [
           {
             name: 'Name',
             type: String,
-            required: true,
-            hidden: false,
           },
           {
             name: 'Loan Number',
             type: String,
-            required: true,
-            hidden: false,
           },
           {
             name: 'Due Date',
             type: String,
-            required: false,
-            hidden: false,
           },
           {
             name: 'Notes',
             type: String,
-            required: false,
-            hidden: false,
           },
         ],
       },
       {
         name: 'Account Numbers',
         type: Array,
-        required: false,
         subfields: [
           {
             name: 'Name',
             type: String,
-            required: true,
-            hidden: false,
           },
           {
             name: 'Account Number',
             type: String,
-            required: true,
             hidden: true,
           },
           {
             name: 'Notes',
             type: String,
-            required: false,
-            hidden: false,
           },
         ],
       },
       {
         name: 'Notes',
         type: 'textarea',
-        required: false,
-        hidden: false,
       },
     ],
     quick_access_name: "Institution Name",
@@ -209,7 +250,6 @@ export default [
         help_text: "(Driver's License, Social security, Passport, etc.)",
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'ID Number',
@@ -221,20 +261,14 @@ export default [
         name: 'Issuer',
         help_text: "(Country, State, etc.)",
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Expiration Date',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Notes',
         type: 'textarea',
-        required: false,
-        hidden: false,
       },
     ],
     quick_access_name: "Type",
@@ -254,13 +288,10 @@ export default [
         help_text: '(Website, Wifi, Device)',
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'Username',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Password',
@@ -271,32 +302,24 @@ export default [
       {
         name: 'Email',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Link',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: '2FA Secret',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'PIN',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Notes',
         type: 'textarea',
-        required: false,
-        hidden: false,
       },
     ],
     quick_access_name: "Issuer",
@@ -315,68 +338,50 @@ export default [
         name: 'Name',
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'Type',
         help_text: '(Database, Bastion, ec2, etc.)',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Connection String',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Hostname',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Port',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Username',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Password',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Alias',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Public Key',
         type: String,
-        required: false,
-        hidden: false,
       },
       {
         name: 'Private Key',
         type: String,
-        required: false,
         hidden: true,
       },
       {
         name: 'Notes',
         type: 'textarea',
-        required: false,
-        hidden: false,
       },
     ],
     quick_access_name: "Name",
@@ -395,13 +400,11 @@ export default [
         name: 'Name',
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'Notes',
         type: 'textarea',
         required: true,
-        hidden: false,
       },
     ],
     quick_access_name: "Name",
@@ -420,7 +423,6 @@ export default [
         name: 'Name',
         type: String,
         required: true,
-        hidden: false,
       },
       {
         name: 'Secret',
@@ -431,8 +433,6 @@ export default [
       {
         name: 'Notes',
         type: 'textarea',
-        required: false,
-        hidden: false,
       },
     ],
     quick_access_name: "Name",

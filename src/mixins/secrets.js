@@ -15,7 +15,7 @@ export default {
 
     CreateBox(name, type) {
       assert(this.secrets, 'No vault is open');
-      assert(!(this.HasBox(name)), 'A box with that name already exists');
+      assert(!(this.HasBoxName(name)), 'A box with that name already exists');
       let newUUID = uuidv4();
       assert(!(newUUID in this.secrets), 'A box with that uuid already exists');
       let box = {
@@ -44,10 +44,18 @@ export default {
       Vue.delete(this.secrets, boxUUID);
     },
 
-    HasBox(name) {
+    HasBoxName(name) {
       return Boolean(
         Object.values(this.secrets).find(
-          box => box.name == name
+          box => box.name === name
+        )
+      );
+    },
+
+    HasBoxType(type) {
+      return Boolean(
+        Object.values(this.secrets).find(
+          box => box.type === type
         )
       );
     },

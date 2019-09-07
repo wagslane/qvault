@@ -39,25 +39,6 @@
           class="secret_name"
           :style="{display: field.type === Array ? 'inline-block' : 'block'}"
         >{{ field.name }}</label>
-        <TextInput
-          v-if="field.type === String"
-          v-model="secret.fields[field.name]"
-          class="secret_value"
-          :type="field.hidden ? 'password' : 'text'"
-          :keyboard-id="field.name.replace(/[\W_1-9]+/g,'')"
-          border-radius="6px"
-          :is-missing="apply_clicked && missing_fields.includes(field.name)"
-          :generate-password="field.name === 'Password'"
-        />
-        <TextInput
-          v-if="field.type === 'textarea'"
-          v-model="secret.fields[field.name]"
-          type="textarea"
-          :keyboard-id="field.name.replace(/[\W_1-9]+/g,'')"
-          class="secret_value"
-          :is-missing="apply_clicked && missing_fields.includes(field.name)"
-          border-radius="6px"
-        />
         <button
           v-if="field.type === Array"
           type="button"
@@ -66,8 +47,34 @@
         >
           <PlusSolid />
         </button>
+        <TextInputReadonly
+          v-if="field.readonly"
+          :content="field.generated ? generatedContent[getFieldID(field.name)] : secret.fields[field.name]"
+          :type="field.hidden ? 'password' : 'text'"
+          :qr-button="field.qrButton"
+          border-radius="6px"
+        />
+        <TextInput
+          v-else-if="field.type === String"
+          v-model="secret.fields[field.name]"
+          class="secret_value"
+          :type="field.hidden ? 'password' : 'text'"
+          :keyboard-id="getFieldID(field.name)"
+          border-radius="6px"
+          :is-missing="apply_clicked && missingFields.includes(getFieldID(field.name))"
+          :generate-password="field.name === 'Password'"
+        />
+        <TextInput
+          v-else-if="field.type === 'textarea'"
+          v-model="secret.fields[field.name]"
+          type="textarea"
+          :keyboard-id="getFieldID(field.name)"
+          class="secret_value"
+          :is-missing="apply_clicked && missingFields.includes(getFieldID(field.name))"
+          border-radius="6px"
+        />
         <div
-          v-if="field.type === Array"
+          v-else-if="field.type === Array"
           class="array-secret"
         >
           <div
@@ -80,12 +87,18 @@
               :key="subfield.name"
               class="subfield"
             >
-              <TextInput
-                v-if="subfield.type === String"
-                v-model="subvalue[subfield.name]"
-                :is-missing="apply_clicked && missing_fields.includes(field.name + j + subfield.name)"
+              <TextInputReadonly
+                v-if="subfield.readonly"
+                :content="subfield.generated ? generatedContent[getFieldID(field.name, j, subfield.name)] : subvalue[subfield.name]"
                 :type="subfield.hidden ? 'password' : 'text'"
-                :keyboard-id="(field.name + j + subfield.name).replace(/[\W_1-9]+/g,'')"
+                :qr-button="subfield.qrButton"
+                border-radius="6px"
+              />
+              <TextInput
+                v-else-if="subfield.type === String"
+                v-model="subvalue[subfield.name]"
+                :type="subfield.hidden ? 'password' : 'text'"
+                :keyboard-id="getFieldID(field.name, j, subfield.name)"
                 border-radius="6px"
                 :placeholder="subfield.name"
                 :generate-password="subfield.name === 'Password'"
@@ -109,6 +122,7 @@
 
 <script>
 import TextInput from "../../components/TextInput.vue";
+import TextInputReadonly from "../../components/TextInputReadonly.vue";
 import Vue from 'vue';
 import box_types from '../../consts/box_types';
 import PlusSolid from '../../img/plus-solid.svg.vue';
@@ -119,12 +133,16 @@ export default {
   components: {
     PlusSolid,
     TextInput,
+    TextInputReadonly,
     confirm
   },
   data(){
     return{
       secret: null,
-      apply_clicked: false
+      apply_clicked: false,
+      // re-generating all data on each input change
+      // is computationally expensive, so we do it async
+      generatedContent: {}
     };
   },
   computed: {
@@ -162,29 +180,16 @@ export default {
       }
       return {};
     },
-    missing_fields(){
-      let missing_fields = [];
+    missingFields(){
+      let missingFields = [];
       if(this.secret){
         for (const field of Object.values(this.fields)){
           if (field.required && !this.secret.fields[field.name]){
-            missing_fields.push(field.name);
-          }
-          if (!('subfields' in field)){
-            continue;
-          }
-          if (!(field.name in this.secret)){
-            continue;
-          }
-          for (const subfield of Object.values(field.subfields)){
-            Object.entries(this.secret.fields[field.name]).forEach(entry => {
-              if (subfield.required && !entry[1][subfield.name] ){
-                missing_fields.push(field.name + entry[0] + subfield.name);
-              }
-            });
+            missingFields.push(this.getFieldID(field.name));
           }
         }
       }
-      return missing_fields;
+      return missingFields;
     }
   },
   mounted(){
@@ -193,14 +198,45 @@ export default {
     } else{
       this.secret = this.$root.GetSecretCopy(this.boxUUID, this.secretUUID);
     }
+    for(const row of this.rows){
+      for(const field of row){
+        if(field.type === Array){
+          for(const k of Object.keys(this.secret.fields[field.name])){
+            for(const subfield of field.subfields){
+              this.setGeneratedContent(this.getFieldID(field.name, k, subfield.name), field);
+            }
+          }
+        } else {
+          this.setGeneratedContent(this.getFieldID(field.name), field);
+        }
+      }
+    }
   },
   methods: {
+    getFieldID(fieldName, subfieldIndex, subfieldName){
+      return `${fieldName}${subfieldIndex}${subfieldName}`.replace(/[\W_1-9]+/g,'');
+    },
+    async setGeneratedContent(id, field){
+      if (!field.generated){
+        return null;
+      }
+      let params = [];
+      for (const paramObj of field.generated.params){
+        if (paramObj.hasOwnProperty('value')){
+          params.push(paramObj.value);
+        }
+        if (paramObj.hasOwnProperty('key')){
+          params.push(this.secret.fields[paramObj.key]);
+        }
+      }
+      Vue.set(this.generatedContent, id, await field.generated.func(...params));
+    },
     showDeleteSubfieldModal(name, index){
       this.$refs.deleteSubFieldModal.show(() => {return this.removeFromSublist(name, index);});
     },
     async apply(){
       this.apply_clicked = true;
-      if (this.missing_fields.length > 0){
+      if (this.missingFields.length > 0){
         setTimeout(() => this.apply_clicked = false, 2000);
         return;
       }

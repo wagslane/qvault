@@ -21,6 +21,10 @@ import AddBox from './pageComponents/vault/AddBox.vue';
 import Secret from './pageComponents/vault/Secret.vue';
 import SecretList from './pageComponents/vault/SecretList.vue';
 
+import VaultCreateCryptoWalletStep1 from './pageComponents/vault/createCryptoWallet/Step1.vue';
+import VaultCreateCryptoWalletStep2 from './pageComponents/vault/createCryptoWallet/Step2.vue';
+import VaultCreateCryptoWalletStep3 from './pageComponents/vault/createCryptoWallet/Step3.vue';
+
 import Settings from './pageComponents/settings/Settings.vue';
 import SettingsChangePassword from './pageComponents/settings/ChangePassword.vue';
 import SettingsCloudAccountDeleteAccount from './pageComponents/settings/cloudAccount/DeleteAccount.vue';
@@ -176,6 +180,27 @@ export default [
             path: 'secret/:secretUUID?',
             component: Secret,
             name: 'Secret',
+          },
+        ],
+      },
+      {
+        path: 'createCryptoWallet',
+        component: RouteWrapper,
+        children: [
+          {
+            path: 'step1/:boxUUID',
+            component: VaultCreateCryptoWalletStep1,
+            name: 'VaultCreateCryptoWalletStep1',
+          },
+          {
+            path: 'step2/:boxUUID',
+            component: VaultCreateCryptoWalletStep2,
+            name: 'VaultCreateCryptoWalletStep2',
+          },
+          {
+            path: 'step2/:boxUUID/:seed',
+            component: VaultCreateCryptoWalletStep3,
+            name: 'VaultCreateCryptoWalletStep3',
           },
         ],
       },

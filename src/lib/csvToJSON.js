@@ -1,5 +1,6 @@
 // https://stackoverflow.com/questions/11456850/split-a-string-by-commas-but-ignore-commas-within-double-quotes-using-javascript
-const splitByUnquotedCommas = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
+// the extra |, is to match blank entries
+const splitByUnquotedCommas = /(".*?"|[^",\s]+|,)(?=\s*,|\s*$)/g;
 
 export default function csvToJSON(csv){
   const lines = csv.split("\n");
@@ -18,8 +19,7 @@ export default function csvToJSON(csv){
   for(const [ i, line ] of lines.entries()){
     let obj = {};
     // split by unquoted commas
-    // https://stackoverflow.com/questions/11456850/split-a-string-by-commas-but-ignore-commas-within-double-quotes-using-javascript
-    const currentline = line.match(splitByUnquotedCommas);
+    let currentline = line.match(splitByUnquotedCommas);
 
     // final newline is ingored if its blank
     if (currentline === null && i === lines.length - 1) {
@@ -31,6 +31,18 @@ export default function csvToJSON(csv){
     // final newline is ingored if its blank
     if (currentline.length === 1 && currentline[0] === '' && i === lines.length -1){
       continue;
+    }
+
+    // remove single commas (these are really blank lines but format strange from the regex)
+    for (let i = 0; i < currentline.length; i++) {
+      if (currentline[i] === ',') {
+        currentline[i] = '';
+      }
+    }
+
+    // if the first character was a comma then add a blank value for the first comma
+    if (line.length > 0 && line[0] === ',') {
+      currentline.unshift('');
     }
 
     if (currentline.length !== headers.length){

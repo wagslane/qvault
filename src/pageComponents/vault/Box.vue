@@ -16,11 +16,6 @@ export default {
       }
       return {};
     },
-  },
-  methods: {
-    add_secret(){
-      this.$router.push({name: 'Secret', params: {boxUUID: this.boxUUID}});
-    },
   }
 };
 </script>
