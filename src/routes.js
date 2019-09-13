@@ -193,12 +193,12 @@ export default [
             name: 'VaultCreateCryptoWalletStep1',
           },
           {
-            path: 'step2/:boxUUID',
+            path: 'step2/:boxUUID/:ticker',
             component: VaultCreateCryptoWalletStep2,
             name: 'VaultCreateCryptoWalletStep2',
           },
           {
-            path: 'step2/:boxUUID/:seed',
+            path: 'step2/:boxUUID/:seed/:ticker',
             component: VaultCreateCryptoWalletStep3,
             name: 'VaultCreateCryptoWalletStep3',
           },

@@ -5,8 +5,8 @@
         <div class="body">
           <h1>Extended Public Keys</h1>
           <p>
-            The keys below can be imported into a watch-only wallet in order to create
-            addresses and view balances.
+            The public keys below can be imported into a watch-only wallet in order to create
+            new addresses and view balances.
           </p>
           <p>
             We recommend
@@ -21,26 +21,22 @@
             >Electrum.</a>
           </p>
           <p>
-            If an attacker gains access to one of these public keys they can't steal funds, but all anonymity
+            If an attacker gains access to these public keys, funds are still safe but all anonymity
             for this wallet will be lost.
           </p>
-          <div
-            class="btn"
-            @click="$refs.viewXPub.show()"
-          >
-            View Xpub - Legacy
-          </div>
-          <div
-            class="btn"
-            @click="$refs.viewYPub.show()"
-          >
-            View Ypub - Backwards Compatible Segwit
-          </div>
-          <div
-            class="btn"
-            @click="$refs.viewZPub.show()"
-          >
-            View Zpub - Pure Segwit
+          <SelectDropdown
+            :options="options"
+            @input="selection = $event"
+          />
+          <div class="qrWrapper">
+            <QrcodeViewer
+              v-if="qrValue"
+              :value="qrValue"
+              class="qrcode"
+            />
+            <div class="qrText">
+              {{ qrValue }}
+            </div>
           </div>
           <DecoratedTextInput
             v-model="walletName" 
@@ -70,21 +66,6 @@
         </div>
       </form>
     </div>
-    <AlertMessage
-      ref="viewXPub"
-      :content="xpub"
-      :qr-value="xpub"
-    />
-    <AlertMessage
-      ref="viewYPub"
-      :content="ypub"
-      :qr-value="ypub"
-    />
-    <AlertMessage
-      ref="viewZPub"
-      :content="zpub"
-      :qr-value="zpub"
-    />
     <TimingOverlay
       ref="loader"
     />
@@ -98,13 +79,15 @@
 
 <script>
 import { mnemonicToXPub, mnemonicToYPub, mnemonicToZPub } from '../../../lib/qvaultBitcoin';
-import AlertMessage from '../../../components/AlertMessage.vue';
 import TimingOverlay from '../../../components/TimingOverlay.vue';
+import SelectDropdown from '../../../components/SelectDropdown.vue';
+import QrcodeViewer from '../../../components/QrcodeViewer.vue';
 
 export default {
   components:{
-    AlertMessage,
-    TimingOverlay
+    TimingOverlay,
+    SelectDropdown,
+    QrcodeViewer
   },
   data(){
     return {
@@ -112,8 +95,24 @@ export default {
       err: null,
       xpub: null,
       ypub: null,
-      zpub: null
+      zpub: null,
+      options: [ 'View Xpub', 'View Ypub', 'View Zpub' ],
+      selection: null
     };
+  },
+  computed:{
+    qrValue(){
+      if(this.options.length !== 3){
+        return '';
+      }
+      if (this.selection === this.options[0]){
+        return this.xpub;
+      }
+      if (this.selection === this.options[1]){
+        return this.ypub;
+      }
+      return this.zpub;
+    }
   },
   async mounted(){
     this.xpub = await mnemonicToXPub(this.$route.params.seed, 0);
@@ -132,7 +131,7 @@ export default {
       const newSecret = {
         fields:{
           'Wallet Name': this.walletName,
-          'Ticker': 'BTC',
+          'Ticker': this.$route.params.ticker,
           'Seed': this.$route.params.seed
         }
       };
@@ -158,5 +157,17 @@ export default {
 
   p{
     color: #fff;
+  }
+
+  .qrWrapper{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow-wrap: break-word;
+    color: #fff;
+
+    .qrText{
+      margin-top: 10px;
+    }
   }
 </style>

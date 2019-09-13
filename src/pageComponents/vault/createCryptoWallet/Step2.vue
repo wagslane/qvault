@@ -31,7 +31,7 @@
         <div
           @click="$router.push({
             name: 'VaultCreateCryptoWalletStep3', 
-            params: {seed, boxUUID: $route.params.boxUUID}
+            params: {seed, boxUUID: $route.params.boxUUID, ticker: $route.params.ticker}
           });"
         >
           <button class="continue">
