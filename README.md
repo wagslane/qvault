@@ -6,7 +6,7 @@ https://qvault.io
 
 [![Build Status](https://img.shields.io/travis/q-vault/qvault/master.svg?logo=travis&label=Build)](https://travis-ci.org/Q-Vault/qvault)
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg?logo=github&label=Downloads)](https://github.com/Q-Vault/qvault/releases)
-[![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/q-vault/qvault.svg?logo=snyk&label=Vulnerabilities)](https://snyk.io/test/github/q-vault/qvault)
+[![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/q-vault/qvault.svg?logo=snyk&label=Known%20Vulnerabilities)](https://snyk.io/test/github/q-vault/qvault)
 
 ## Contact Qvault
 
