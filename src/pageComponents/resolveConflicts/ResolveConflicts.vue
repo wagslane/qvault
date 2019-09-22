@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import boxTypes from '../../consts/box_types';
+import boxDefinitions from '../../consts/boxDefinitions';
 
 export default {
   computed: {
@@ -115,9 +115,7 @@ export default {
       return res;
     },
     boxDefinition(){
-      return boxTypes.find(boxType => 
-        boxType.key === this.$root.GetBox(this.nextConflict.boxKey).type
-      );
+      return boxDefinitions.find(def => def.key === this.$root.GetBoxType(this.nextConflict.boxKey));
     },
     secret(){
       return this.$root.GetSecretCopy(this.nextConflict.boxKey, this.nextConflict.secretKey);

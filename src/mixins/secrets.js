@@ -35,12 +35,24 @@ export default {
 
     GetBox(uuid) {
       assert(this.secrets, 'No vault is open');
-      assert(uuid in this.secrets, `${uuid} is not a valid uuid`);
+      assert(uuid in this.secrets, `${uuid} is not a valid box uuid`);
       return this.secrets[uuid];
     },
 
+    GetBoxType(uuid) {
+      assert(this.secrets, 'No vault is open');
+      assert(uuid in this.secrets, `${uuid} is not a valid box uuid`);
+      return this.secrets[uuid].type;
+    },
+
+    GetBoxSecretUUIDs(uuid){
+      assert(this.secrets, 'No vault is open');
+      assert(uuid in this.secrets, `${uuid} is not a valid box uuid`);
+      return Object.keys(this.secrets[uuid].secrets);
+    },
+
     DeleteBox(boxUUID) {
-      this.GetBox(boxUUID);
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid uuid`);
       Vue.delete(this.secrets, boxUUID);
     },
 
@@ -69,17 +81,18 @@ export default {
     UpsertSecret(boxUUID, secretUUID, secret){
       const secretCopy = JSON.parse(JSON.stringify(secret));
       secretCopy.updated = Date.now();
-      let box = this.GetBox(boxUUID);
-      Vue.set(box.secrets, secretUUID, secretCopy);
-      this.UpsertBox(boxUUID, box);
+      assert(this.secrets, 'No vault is open');
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid uuid`);
+      Vue.set(this.secrets[boxUUID].secrets, secretUUID, secretCopy);
+      this.UpsertBox(boxUUID, this.secrets[boxUUID]);
     },
 
-    GetEmptySecret(boxType){
+    GetEmptySecret(boxDefinition){
       let secret = {
         updated: Date.now(),
         fields: {},
       };
-      for (let field of boxType.fields) {
+      for (let field of boxDefinition.fields) {
         let value = null;
         if (field.type === Array) {
           value = [];
@@ -90,14 +103,16 @@ export default {
     },
 
     DeleteSecret(boxUUID, secretUUID){
-      let box = this.GetBox(boxUUID);
-      Vue.delete(box.secrets, secretUUID);
+      assert(this.secrets, 'No vault is open');
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
+      Vue.delete(this.secrets[boxUUID].secrets, secretUUID);
     },
 
     GetSecretCopy(boxUUID, secretUUID){
-      const box = this.GetBox(boxUUID);
-      assert(secretUUID in box.secrets, `${secretUUID} is not a valid uuid`);
-      return JSON.parse(JSON.stringify(box.secrets[secretUUID]));
+      assert(this.secrets, 'No vault is open');
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
+      assert(secretUUID in this.secrets[boxUUID].secrets, `${secretUUID} is not a valid secret uuid`);
+      return JSON.parse(JSON.stringify(this.secrets[boxUUID].secrets[secretUUID]));
     },
 
     LoadSecrets(newSecrets) {

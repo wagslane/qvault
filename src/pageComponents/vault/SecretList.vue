@@ -2,7 +2,7 @@
   <div>
     <div id="box-header">
       <input
-        v-if="boxType.key === 'other'"
+        v-if="boxDefinition.key === 'other'"
         v-model="box.name"
         placeholder="Name"
         class="box_name box_name_other"
@@ -11,7 +11,7 @@
         v-else
         class="box_name"
       >
-        {{ boxType.displayName }}
+        {{ boxDefinition.displayName }}
       </div>
       <DropdownMenu
         class="dropdown-menu"
@@ -25,7 +25,7 @@
         <PlusSolid />
       </button>
       <button
-        v-if="boxType.key === 'passwords'"
+        v-if="boxDefinition.key === 'passwords'"
         class="import"
         @click.prevent="importPasswordsCSV"
       >
@@ -33,12 +33,12 @@
       </button>
     </div>
     <SecretPreview
-      v-for="secretUUID in secretUUIDs"
+      v-for="secretUUID in $root.GetBoxSecretUUIDs($parent.boxUUID)"
       :key="secretUUID"
-      :box-uuid="boxUUID"
+      :box-uuid="$parent.boxUUID"
       :secret-uuid="secretUUID"
       :secret="box.secrets[secretUUID]"
-      :box-type="boxType"
+      :box-definition="boxDefinition"
     />
     <Confirm
       ref="deleteBoxModal"
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import boxTypes from '../../consts/box_types';
+import boxDefinitions from '../../consts/boxDefinitions';
 import SecretPreview from './SecretPreview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import DropdownMenu from '../../components/DropdownMenu.vue';
@@ -63,20 +63,11 @@ export default {
     Confirm
   },
   computed: {
-    boxUUID() {
-      return this.$parent.boxUUID;
-    },
     box() {
       return this.$parent.box;
     },
-    boxType(){
-      return boxTypes.find(boxType => boxType.key === this.box.type);
-    },
-    secretUUIDs(){
-      if(this.box){
-        return Object.keys(this.box.secrets);
-      }
-      return [];
+    boxDefinition(){
+      return boxDefinitions.find(def => def.key === this.$root.GetBoxType(this.$parent.boxUUID));
     },
     dropdown_menu_actions(){
       return [
@@ -90,14 +81,14 @@ export default {
   },
   methods: {
     addSecret(){
-      if (this.boxType.key === "cryptoWallets"){
+      if (this.boxDefinition.key === "cryptoWallets"){
         this.$router.push({
           name: 'VaultCreateCryptoWalletStep1',
-          boxUUID: this.boxUUID
+          boxUUID: this.$parent.boxUUID
         });
         return; 
       }
-      this.$router.push({name: 'Secret', params: {boxUUID: this.boxUUID}});
+      this.$router.push({name: 'Secret', params: {boxUUID: this.$parent.boxUUID}});
     },
     emailValid(email){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -130,7 +121,7 @@ export default {
           }else{
             newSecret.fields.Username = secret.username;
           }
-          this.$root.CreateSecret(this.boxUUID, newSecret);
+          this.$root.CreateSecret(this.$parent.boxUUID, newSecret);
         }
       } catch (err){
         alert(err);
@@ -141,7 +132,7 @@ export default {
     },
     deleteBox(){
       try{
-        this.$root.DeleteBox(this.boxUUID);
+        this.$root.DeleteBox(this.$parent.boxUUID);
         this.$router.push({name: 'Vault'});
       } catch(err){
         alert(err);

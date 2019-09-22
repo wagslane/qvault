@@ -69,7 +69,7 @@ export default {
       type: Object,
       required: true
     },
-    boxType:{
+    boxDefinition:{
       type: Object,
       required: true
     }
@@ -83,21 +83,21 @@ export default {
   computed: {
     fields_map(){
       let map = {};
-      if(this.boxType){
-        for (let i = 0; i < this.boxType.fields.length; i++){
-          map[this.boxType.fields[i].name] = this.boxType.fields[i];
+      if(this.boxDefinition){
+        for (let i = 0; i < this.boxDefinition.fields.length; i++){
+          map[this.boxDefinition.fields[i].name] = this.boxDefinition.fields[i];
         }
       }
       return map;
     },
     quickAccessName(){
-      if(this.secret.fields[this.boxType.quick_access_name]){
-        return this.secret.fields[this.boxType.quick_access_name];
+      if(this.secret.fields[this.boxDefinition.quick_access_name]){
+        return this.secret.fields[this.boxDefinition.quick_access_name];
       }
       return "Unnamed Secret";
     },
     definedQuickAccessSecrets(){
-      return this.boxType.quick_access_secrets.filter(
+      return this.boxDefinition.quick_access_secrets.filter(
         fieldname => this.secret.fields[fieldname]
       );
     },

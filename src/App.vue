@@ -16,7 +16,7 @@ import VueRouter from 'vue-router';
 import routes from './routes';
 import storage from './mixins/storage';
 import TitleBar from './components/TitleBar.vue';
-import {heightMac, heightWin} from './consts/title_bar';
+import {heightMac, heightWin} from './consts/titleBar';
 import LockScreen from './components/LockScreen.vue';
 import { store } from './store/store';
 

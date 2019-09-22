@@ -7,15 +7,15 @@
     <p>A box is a group of secrets stored in your vault</p>
     <div class="buttons">
       <div
-        v-for="box_type in filtered_box_types"
-        :key="box_type.key"
+        v-for="boxDefinition in filteredBoxDefinitions"
+        :key="boxDefinition.key"
         class="button"
-        :class="(box_type.icon.fill ? 'button-fill' : 'button-stroke')"
-        @click="add_box(box_type)"
+        :class="(boxDefinition.icon.fill ? 'button-fill' : 'button-stroke')"
+        @click="add_box(boxDefinition)"
       >
-        <span v-html="box_type.icon.img" />
+        <span v-html="boxDefinition.icon.img" />
         <div>
-          {{ box_type.displayName }}
+          {{ boxDefinition.displayName }}
         </div>
       </div>
     </div>
@@ -23,24 +23,24 @@
 </template>
 
 <script>
-import box_types from '../../consts/box_types';
+import boxDefinitions from '../../consts/boxDefinitions';
 
 export default {
   computed: {
-    filtered_box_types(){
-      return box_types.filter(
-        box_type => !this.$root.HasBoxType(box_type.key) || box_type.key === 'other'
+    filteredBoxDefinitions(){
+      return boxDefinitions.filter(
+        boxDefinition => !this.$root.HasBoxType(boxDefinition.key) || boxDefinition.key === 'other'
       );
     },
   },
   methods: {
-    add_box(box_type){
-      let name = box_type.displayName;
-      let type = box_type.key;
+    add_box(boxDefinition){
+      let name = boxDefinition.displayName;
+      let type = boxDefinition.key;
       if(type === 'other'){
         let rep = 1;
         while(this.$root.HasBoxName(name)){
-          name = `${box_type.displayName} ${rep}`;
+          name = `${boxDefinition.displayName} ${rep}`;
           rep++;
         }
       }

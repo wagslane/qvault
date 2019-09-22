@@ -5,7 +5,7 @@
   >
     <div class="header">
       <input
-        v-model="secret.fields[box_type.header_field]"
+        v-model="secret.fields[boxDefinition.header_field]"
         placeholder="Name"
         class="secret_title"
         readonly
@@ -124,7 +124,7 @@
 import TextInput from "../../components/TextInput.vue";
 import TextInputReadonly from "../../components/TextInputReadonly.vue";
 import Vue from 'vue';
-import box_types from '../../consts/box_types';
+import boxDefinitions from '../../consts/boxDefinitions';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import TrashSVG from '../../img/trash.svg';
 import confirm from '../../components/Confirm.vue';
@@ -171,12 +171,12 @@ export default {
     },
     box(){ return this.$parent.box; },
     boxUUID() { return this.$parent.boxUUID;},
-    box_type(){
-      return box_types.find(box_type => box_type.key === this.box.type);
+    boxDefinition(){
+      return boxDefinitions.find(def => def.key === this.box.type);
     },
     fields(){
-      if(this.box_type){
-        return this.box_type.fields;
+      if(this.boxDefinition){
+        return this.boxDefinition.fields;
       }
       return {};
     },
@@ -194,7 +194,7 @@ export default {
   },
   mounted(){
     if(this.secretUUID === null){
-      this.secret = this.$root.GetEmptySecret(this.box_type);
+      this.secret = this.$root.GetEmptySecret(this.boxDefinition);
     } else{
       this.secret = this.$root.GetSecretCopy(this.boxUUID, this.secretUUID);
     }
