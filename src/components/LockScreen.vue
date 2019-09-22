@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import {heightMac, heightWin} from '../consts/title_bar';
+import {heightMac, heightWin} from '../consts/titleBar';
 
 export default {
   data(){

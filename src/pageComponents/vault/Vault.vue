@@ -53,8 +53,8 @@
 
 <script>
 import PlusBox from '../../img/plus-box.svg.vue';
-import {heightMac, heightWin} from '../../consts/title_bar';
-import box_types from '../../consts/box_types';
+import {heightMac, heightWin} from '../../consts/titleBar';
+import boxDefinitions from '../../consts/boxDefinitions';
 
 function sort_box_by_key(key){
   return function(a, b){
@@ -90,14 +90,14 @@ export default {
       for (let key in this.boxes) {
         if (this.boxes.hasOwnProperty(key)) {
           let box = this.boxes[key];
-          let box_type = box_types.find(box_type => box_type.key === box.type);
+          let boxDefinition = boxDefinitions.find(def => def.key === box.type);
           sorted_boxes.push({
             uuid: key,
             updated: this.formatCreatedDate(box.updated),
             customName: box.name,
-            displayName: box_type.displayName,
-            icon: box_type && box_type.icon,
-            type: box_type.key
+            displayName: boxDefinition.displayName,
+            icon: boxDefinition.icon,
+            type: boxDefinition.key
           });
         }
       }

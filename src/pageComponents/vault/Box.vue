@@ -1,5 +1,5 @@
 <template>
-  <div v-if="box">
+  <div v-if="boxUUID">
     <div class="wrapper">
       <router-view />
     </div>
