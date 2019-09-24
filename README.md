@@ -30,6 +30,20 @@ An open source, fully transparent, and extremely secure password manager
     <img src="doc_resources/crypto.png" alt="cryptocurrency bitcoin password manager">
 </p>
 
+## Compatibility
+
+Pre-built one-click releases can be found on our [releases](https://github.com/Q-Vault/qvault/releases) page. We officially support:
+
+* Windows - .exe NSIS installer
+* Mac OS - .dmg installer
+* Linux - .AppImage
+
+We also want to give a special thanks to [XDaemonX](https://github.com/XdaemonX) for maintaining the Arch Linux (AUR) package which can be found at: https://aur.archlinux.org/packages/qvault/
+
+Some linux distros don't support unprivileged CLONE_NEWUSER, without that, the electron
+sandbox won't work. Since security is our #1 priority, we will not be disabling the sandbox; however, if you wish to
+run Qvault on an unsupported distro, you can use the `--no-sandbox` flag.
+
 ## Contributing
 
 We love help! Contribute by forking the repo and opening pull requests. Please ensure that your code passes the existing tests, and write tests to test your changes if applicable.
@@ -113,12 +127,6 @@ Building from source is the best way to ensure code integrity, but keep in mind 
 ```bash
 yarn release --publish never
 ```
-
-## Compatibility
-
-The appimage build depends on the linux distro supporting unprivileged CLONE_NEWUSER, without that, the electron
-sandbox won't work. Since security is our #1 priority, we will not be disabling the sandbox; however, if you wish to
-run Q-Vault on an unsupported distro, you can use the `--no-sandbox` flag.
 
 ## Helpful VSCode settings
 
