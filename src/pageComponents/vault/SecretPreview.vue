@@ -10,26 +10,26 @@
       <div class="arrow" />
     </router-link>
     <div
-      v-for="(fieldname, i) in definedQuickAccessSecrets"
+      v-for="(fieldDefinition, i) in definedQuickAccessDefinitions"
       :key="i"
       class="field"
     >
       <div class="label">
-        <label class="name">{{ fieldname }}</label>
+        <label class="name">{{ fieldDefinition.displayName }}</label>
         <label
-          v-if="copied === fieldname"
+          v-if="copied === fieldDefinition.key"
           class="copied"
         >Copied to Clipboard!</label>
       </div>
       <input
-        v-model="secret.fields[fieldname]"
-        :type="fields_map[fieldname].hidden && hidden ? 'password' : 'text'"
+        v-model="secret.fields[fieldDefinition.key]"
+        :type="fields_map[fieldDefinition.key].hidden && hidden ? 'password' : 'text'"
         readonly
-        @click="copy(fieldname)"
+        @click="copy(fieldDefinition.key)"
       >
     </div>
     <div
-      v-if="definedQuickAccessSecrets.length === 0"
+      v-if="definedQuickAccessDefinitions.length === 0"
       class="spacer"
     />
     <dropdown_menu
@@ -85,7 +85,7 @@ export default {
       let map = {};
       if(this.boxDefinition){
         for (let i = 0; i < this.boxDefinition.fields.length; i++){
-          map[this.boxDefinition.fields[i].name] = this.boxDefinition.fields[i];
+          map[this.boxDefinition.fields[i].key] = this.boxDefinition.fields[i];
         }
       }
       return map;
@@ -96,9 +96,12 @@ export default {
       }
       return "Unnamed Secret";
     },
-    definedQuickAccessSecrets(){
-      return this.boxDefinition.quick_access_secrets.filter(
-        fieldname => this.secret.fields[fieldname]
+    definedQuickAccessDefinitions(){
+      const existingQuickAccessSecrets = this.boxDefinition.quick_access_secrets.filter(
+        key => this.secret.fields[key]
+      );
+      return this.boxDefinition.fields.filter(
+        fieldObj => existingQuickAccessSecrets.includes(fieldObj.key)
       );
     },
     dropdown_menu_actions(){
@@ -109,7 +112,7 @@ export default {
           icon: trash_svg,
         }
       ];
-      if (this.definedQuickAccessSecrets.find((fieldname) => {return this.fields_map[fieldname].hidden;})){
+      if (this.definedQuickAccessDefinitions.find((fieldDef) => {return this.fields_map[fieldDef.key].hidden;})){
         actions.push({
           label: 'Show / Hide',
           method: 'show_hide_secret',
@@ -123,9 +126,9 @@ export default {
     showDeleteSecretModal(){
       this.$refs.deleteSecretModal.show(this.deleteSecret);
     },
-    copy(fieldname){
-      window.nodeAPI.electron.clipboard.writeText(this.secret.fields[fieldname]);
-      this.copied = fieldname;
+    copy(fieldKey){
+      window.nodeAPI.electron.clipboard.writeText(this.secret.fields[fieldKey]);
+      this.copied = fieldKey;
       setTimeout(() => {this.copied = '';}, 750);
     },
     deleteSecret(){

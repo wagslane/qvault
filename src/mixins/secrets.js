@@ -97,7 +97,7 @@ export default {
         if (field.type === Array) {
           value = [];
         }
-        Vue.set(secret.fields, field.name, value);
+        Vue.set(secret.fields, field.key, value);
       }
       return secret;
     },

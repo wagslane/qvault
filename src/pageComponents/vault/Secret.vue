@@ -38,7 +38,7 @@
         <label
           class="secret_name"
           :style="{display: field.type === Array ? 'inline-block' : 'block'}"
-        >{{ field.name }}</label>
+        >{{ field.displayName }}</label>
         <button
           v-if="field.type === Array"
           type="button"
@@ -49,28 +49,28 @@
         </button>
         <TextInputReadonly
           v-if="field.readonly"
-          :content="field.generated ? generatedContent[getFieldID(field.name)] : secret.fields[field.name]"
+          :content="field.generated ? generatedContent[getFieldID(field.key)] : secret.fields[field.key]"
           :type="field.hidden ? 'password' : 'text'"
           :qr-button="field.qrButton"
           border-radius="6px"
         />
         <TextInput
           v-else-if="field.type === String"
-          v-model="secret.fields[field.name]"
+          v-model="secret.fields[field.key]"
           class="secret_value"
           :type="field.hidden ? 'password' : 'text'"
-          :keyboard-id="getFieldID(field.name)"
+          :keyboard-id="getFieldID(field.key)"
           border-radius="6px"
-          :is-missing="apply_clicked && missingFields.includes(getFieldID(field.name))"
-          :generate-password="field.name === 'Password'"
+          :is-missing="apply_clicked && missingFields.includes(getFieldID(field.key))"
+          :generate-password="field.key === 'password'"
         />
         <TextInput
           v-else-if="field.type === 'textarea'"
-          v-model="secret.fields[field.name]"
+          v-model="secret.fields[field.key]"
           type="textarea"
-          :keyboard-id="getFieldID(field.name)"
+          :keyboard-id="getFieldID(field.key)"
           class="secret_value"
-          :is-missing="apply_clicked && missingFields.includes(getFieldID(field.name))"
+          :is-missing="apply_clicked && missingFields.includes(getFieldID(field.key))"
           border-radius="6px"
         />
         <div
@@ -78,35 +78,35 @@
           class="array-secret"
         >
           <div
-            v-for="(subvalue, k) in secret.fields[field.name]"
+            v-for="(subvalue, k) in secret.fields[field.key]"
             :key="k"
             class="subfields"
           >
             <div
               v-for="subfield in field.subfields"
-              :key="subfield.name"
+              :key="subfield.key"
               class="subfield"
             >
               <TextInputReadonly
                 v-if="subfield.readonly"
-                :content="subfield.generated ? generatedContent[getFieldID(field.name, j, subfield.name)] : subvalue[subfield.name]"
+                :content="subfield.generated ? generatedContent[getFieldID(field.key, j, subfield.key)] : subvalue[subfield.key]"
                 :type="subfield.hidden ? 'password' : 'text'"
                 :qr-button="subfield.qrButton"
                 border-radius="6px"
               />
               <TextInput
                 v-else-if="subfield.type === String"
-                v-model="subvalue[subfield.name]"
+                v-model="subvalue[subfield.key]"
                 :type="subfield.hidden ? 'password' : 'text'"
-                :keyboard-id="getFieldID(field.name, j, subfield.name)"
+                :keyboard-id="getFieldID(field.key, j, subfield.key)"
                 border-radius="6px"
-                :placeholder="subfield.name"
-                :generate-password="subfield.name === 'Password'"
+                :placeholder="subfield.displayName"
+                :generate-password="subfield.key === 'password'"
               />
             </div>
             <div
               class="trash"
-              @click="showDeleteSubfieldModal(field.name, k)"
+              @click="showDeleteSubfieldModal(field.key, k)"
               v-html="TrashSVG"
             />
           </div>
@@ -184,8 +184,8 @@ export default {
       let missingFields = [];
       if(this.secret){
         for (const field of Object.values(this.fields)){
-          if (field.required && !this.secret.fields[field.name]){
-            missingFields.push(this.getFieldID(field.name));
+          if (field.required && !this.secret.fields[field.key]){
+            missingFields.push(this.getFieldID(field.key));
           }
         }
       }
@@ -201,20 +201,20 @@ export default {
     for(const row of this.rows){
       for(const field of row){
         if(field.type === Array){
-          for(const k of Object.keys(this.secret.fields[field.name])){
+          for(const k of Object.keys(this.secret.fields[field.key])){
             for(const subfield of field.subfields){
-              this.setGeneratedContent(this.getFieldID(field.name, k, subfield.name), field);
+              this.setGeneratedContent(this.getFieldID(field.key, k, subfield.key), field);
             }
           }
         } else {
-          this.setGeneratedContent(this.getFieldID(field.name), field);
+          this.setGeneratedContent(this.getFieldID(field.key), field);
         }
       }
     }
   },
   methods: {
-    getFieldID(fieldName, subfieldIndex, subfieldName){
-      return `${fieldName}${subfieldIndex}${subfieldName}`.replace(/[\W_1-9]+/g,'');
+    getFieldID(fieldKey, subfieldIndex, subfieldKey){
+      return `${fieldKey}${subfieldIndex}${subfieldKey}`.replace(/[\W_1-9]+/g,'');
     },
     async setGeneratedContent(id, field){
       if (!field.generated){
@@ -231,8 +231,8 @@ export default {
       }
       Vue.set(this.generatedContent, id, await field.generated.func(...params));
     },
-    showDeleteSubfieldModal(name, index){
-      this.$refs.deleteSubFieldModal.show(() => {return this.removeFromSublist(name, index);});
+    showDeleteSubfieldModal(key, index){
+      this.$refs.deleteSubFieldModal.show(() => {return this.removeFromSublist(key, index);});
     },
     async apply(){
       this.apply_clicked = true;
@@ -254,12 +254,12 @@ export default {
         if(subfield.type === Array){
           value = [];
         }
-        Vue.set(new_value, subfield.name, value);
+        Vue.set(new_value, subfield.key, value);
       }
-      this.secret.fields[field.name].push(new_value);
+      this.secret.fields[field.key].push(new_value);
     },
-    removeFromSublist(fieldname, i){
-      Vue.delete(this.secret.fields[fieldname], i);
+    removeFromSublist(fieldKey, i){
+      Vue.delete(this.secret.fields[fieldKey], i);
     },
   },
 };

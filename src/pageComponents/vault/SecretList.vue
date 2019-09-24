@@ -111,9 +111,9 @@ export default {
           }
           let newSecret = {
             fields: {
-              Issuer: secret.name,
-              Password: secret.password,
-              Link: secret.url,
+              issuer: secret.name,
+              password: secret.password,
+              link: secret.url,
             }
           };
           if (this.emailValid(secret.username)){

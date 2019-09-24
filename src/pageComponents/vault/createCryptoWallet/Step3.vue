@@ -130,9 +130,9 @@ export default {
       }
       const newSecret = {
         fields:{
-          'Wallet Name': this.walletName,
-          'Ticker': this.$route.params.ticker,
-          'Seed': this.$route.params.seed
+          'walletName': this.walletName,
+          'ticker': this.$route.params.ticker,
+          'seed': this.$route.params.seed
         }
       };
       const secretUUID = this.$root.CreateSecret(this.$route.params.boxUUID, newSecret);

@@ -11,24 +11,24 @@
     >
       <div
         class="sidebar"
-        :style="{ height: `calc(100vh - ${content_height}px)` }"
+        :style="{ height: `calc(100vh - ${contentHeight}px)` }"
       >
         <div class="boxes">
           <router-link
-            v-for="sorted_box in sorted_boxes"
-            :key="sorted_box.uuid"
-            :to="{name: 'Box', params: {boxUUID: sorted_box.uuid}}"
+            v-for="sortedBox in sortedBoxes"
+            :key="sortedBox.uuid"
+            :to="{name: 'Box', params: {boxUUID: sortedBox.uuid}}"
             class="box_link"
             :class="{
-              'button-fill': sorted_box.icon.fill,
-              'button-stroke': !(sorted_box.icon.fill)
+              'button-fill': sortedBox.icon.fill,
+              'button-stroke': !(sortedBox.icon.fill)
             }"
           >
-            <span v-html="sorted_box.icon.img" />
+            <span v-html="sortedBox.icon.img" />
             <div class="aesthetic_rectangle" />
-            {{ sorted_box.type === 'other' ? sorted_box.customName : sorted_box.displayName }}
+            {{ sortedBox.type === 'other' ? sortedBox.customName : sortedBox.displayName }}
             <br>
-            <span class="updated">{{ sorted_box.updated }}</span>
+            <span class="updated">{{ sortedBox.updated }}</span>
           </router-link>
         </div>
         <router-link
@@ -43,7 +43,7 @@
       </div>
       <div
         class="content"
-        :style="{ height: `calc(100vh - ${content_height}px)` }"
+        :style="{ height: `calc(100vh - ${contentHeight}px)` }"
       >
         <router-view />
       </div>
@@ -56,42 +56,28 @@ import PlusBox from '../../img/plus-box.svg.vue';
 import {heightMac, heightWin} from '../../consts/titleBar';
 import boxDefinitions from '../../consts/boxDefinitions';
 
-function sort_box_by_key(key){
-  return function(a, b){
-    if(a[key] < b[key]) return -1;
-    if(a[key] > b[key]) return 1;
-    return 0;
-  };
-}
-
 export default {
   components:{
     PlusBox
-  },
-  data(){
-    return {
-      'sort': 'name',
-      'search': null,
-    };
   },
   computed: {
     boxes(){
       return this.$root.secrets;
     },
-    content_height(){
+    contentHeight(){
       const header_bar_height = 55;
       if (window.nodeAPI.os.type() === 'Darwin'){
         return header_bar_height + heightMac;
       }
       return header_bar_height + heightWin;
     },
-    sorted_boxes(){
-      let sorted_boxes = [];
+    sortedBoxes(){
+      let sortedBoxes = [];
       for (let key in this.boxes) {
         if (this.boxes.hasOwnProperty(key)) {
           let box = this.boxes[key];
           let boxDefinition = boxDefinitions.find(def => def.key === box.type);
-          sorted_boxes.push({
+          sortedBoxes.push({
             uuid: key,
             updated: this.formatCreatedDate(box.updated),
             customName: box.name,
@@ -101,19 +87,11 @@ export default {
           });
         }
       }
-      if(this.search){
-        sorted_boxes = sorted_boxes.filter(
-          sorted_box => this.box_matches_search(sorted_box)
-        );
-      }
-      if(this.sort){
-        sorted_boxes = sorted_boxes.sort(sort_box_by_key(this.sort));
-      }
-      return sorted_boxes;
+      return sortedBoxes.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
     },
   },
   watch: {
-    sorted_boxes(newBoxes){
+    sortedBoxes(newBoxes){
       this.addBoxIfNone(newBoxes);
     },
   },
@@ -123,7 +101,7 @@ export default {
     }
   },
   mounted(){
-    this.addBoxIfNone(this.sorted_boxes);
+    this.addBoxIfNone(this.sortedBoxes);
   },
   methods: {
     formatCreatedDate(timestamp){
@@ -137,20 +115,6 @@ export default {
         }
       }
     },
-    box_matches_search(sorted_box){
-      if(sorted_box.name.toLowerCase().includes(this.search.toLowerCase())){
-        return true;
-      }
-      let box = this.boxes[sorted_box.uuid];
-      for (let key in box.secrets) {
-        if (box.secrets.hasOwnProperty(key)) {
-          let secret = box.secrets[key];
-          if(secret.name.toLowerCase().includes(this.search.toLowerCase())){
-            return true;
-          }
-        }
-      }
-    }
   },
 };
 </script>
