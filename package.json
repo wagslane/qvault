@@ -4,6 +4,7 @@
   "description": "A secure and open-source secret store",
   "homepage": "https://qvault.io",
   "repository": "https://github.com/Q-Vault/Qvault",
+  "license": "SEE LICENSE IN <LICENSE>",
   "keywords": [
     "Qvault",
     "passwords",
@@ -23,7 +24,8 @@
     "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill",
     "lint": "eslint ./ --ext .js --ext .vue --ext .es6",
     "lint-fix": "eslint --fix ./ --ext .js --ext .vue --ext .es6",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "release-arch-linux": "(cd scripts && ./archLinuxRelease.sh)"
   },
   "build": {
     "appId": "io.qvault.app",
