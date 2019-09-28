@@ -53,6 +53,7 @@ export default {
 
 <style lang="less" scoped>
 @import '../styles/colors.less';
+@import '../styles/z_indices.less';
 
 .custom-select {
   position: relative;
@@ -99,6 +100,7 @@ export default {
     background-color: @black-darkest;
     left: 0;
     right: 0;
+    z-index: @zDropdownMenu;
 
     div{
       color: #ffffff;

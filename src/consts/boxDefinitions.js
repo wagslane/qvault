@@ -5,7 +5,12 @@ import password_svg from '../img/password.svg';
 import notes_svg from '../img/notes.svg';
 import server_connection_svg from '../img/server_connection.svg';
 import other_svg from '../img/other.svg';
-import { mnemonicToXPub, mnemonicToYPub, mnemonicToZPub } from '../lib/qvaultBitcoin';
+import { 
+  mnemonicToXPubBTC,
+  mnemonicToYPubBTC,
+  mnemonicToZPubBTC,
+  mnemonicToXPubBCH 
+} from '../lib/qvaultBitcoin';
 
 export default [
   {
@@ -41,12 +46,20 @@ export default [
       },
       {
         key: 'xpub',
-        displayName: 'XPub',
+        displayName: 'XPub BTC',
         type: String,
         readonly: true,
         qrButton: true,
+        shouldShow: {
+          func: ticker => ticker === 'BTC',
+          params: [
+            {
+              key: 'ticker'
+            }
+          ]
+        },
         generated: {
-          func: mnemonicToXPub,
+          func: mnemonicToXPubBTC,
           params: [
             {
               key: 'seed'
@@ -58,12 +71,20 @@ export default [
       },
       {
         key: 'ypub',
-        displayName: 'YPub',
+        displayName: 'YPub BTC',
         type: String,
         readonly: true,
         qrButton: true,
+        shouldShow: {
+          func: ticker => ticker === 'BTC',
+          params: [
+            {
+              key: 'ticker'
+            }
+          ]
+        },
         generated: {
-          func: mnemonicToYPub,
+          func: mnemonicToYPubBTC,
           params: [
             {
               key: 'seed'
@@ -75,18 +96,51 @@ export default [
       },
       {
         key: 'zpub',
-        displayName: 'ZPub',
+        displayName: 'ZPub BTC',
         type: String,
         readonly: true,
         qrButton: true,
+        shouldShow: {
+          func: ticker => ticker === 'BTC',
+          params: [
+            {
+              key: 'ticker'
+            }
+          ]
+        },
         generated: {
-          func: mnemonicToZPub,
+          func: mnemonicToZPubBTC,
           params: [
             {
               key: 'seed'
             }, {
               value: 0
             } 
+          ]
+        }
+      },
+      {
+        key: 'xpubBCH',
+        displayName: 'XPub BCH',
+        type: String,
+        readonly: true,
+        qrButton: true,
+        shouldShow: {
+          func: ticker => ticker === 'BCH',
+          params: [
+            {
+              key: 'ticker'
+            }
+          ]
+        },
+        generated: {
+          func: mnemonicToXPubBCH,
+          params: [
+            {
+              key: 'seed'
+            }, {
+              value: 0
+            }
           ]
         }
       },

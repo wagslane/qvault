@@ -64,19 +64,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.fade-leave-active {
-  transition: opacity 2s;
-}
+  @import '../styles/z_indices.less';
 
-.fade-leave-to {
-  opacity: 0;
-}
+  .fade-leave-active {
+    transition: opacity 2s;
+  }
 
-p{
-  font-size: 18px;
-  position: absolute;
-  z-index: 100;
-  margin-top: 5px;
-  margin-left: 5px;
-}
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  p{
+    font-size: 18px;
+    position: absolute;
+    z-index: @zMax;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
 </style>
