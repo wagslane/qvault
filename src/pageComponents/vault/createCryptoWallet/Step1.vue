@@ -13,7 +13,7 @@
           for maximum security you may consider using an offline and secure device to generate wallets.
         </p>
         <SelectDropdown
-          :options="['BTC']"
+          :options="['BTC', 'BCH']"
           @input="ticker = $event"
         />
       </div>

@@ -9,23 +9,23 @@
             new addresses and view balances.
           </p>
           <p>
-            We recommend
-            <a
-              href="https://samouraiwallet.com/sentinel"
-              class="link"
-            >Samourai's Sentinel</a>
-            or 
-            <a
-              href="http://docs.electrum.org/en/latest/coldstorage.html?highlight=watch%20only#create-a-watching-only-version-of-your-wallet"
-              class="link"
-            >Electrum.</a>
+            We recommend:
           </p>
+          <ul
+            v-for="(recommendation, i) in recommendations"
+            :key="i"
+          >
+            <a
+              :href="recommendation.link"
+              class="link"
+            >{{ recommendation.title }}</a>
+          </ul>
           <p>
             If an attacker gains access to these public keys, funds are still safe but all anonymity
             for this wallet will be lost.
           </p>
           <SelectDropdown
-            :options="options"
+            :options="optionsDisplayNames"
             @input="selection = $event"
           />
           <div class="qrWrapper">
@@ -78,7 +78,12 @@
 </template>
 
 <script>
-import { mnemonicToXPub, mnemonicToYPub, mnemonicToZPub } from '../../../lib/qvaultBitcoin';
+import { 
+  mnemonicToXPubBTC,
+  mnemonicToYPubBTC,
+  mnemonicToZPubBTC,
+  mnemonicToXPubBCH,
+} from '../../../lib/qvaultBitcoin';
 import TimingOverlay from '../../../components/TimingOverlay.vue';
 import SelectDropdown from '../../../components/SelectDropdown.vue';
 import QrcodeViewer from '../../../components/QrcodeViewer.vue';
@@ -93,31 +98,79 @@ export default {
     return {
       walletName: '',
       err: null,
-      xpub: null,
-      ypub: null,
-      zpub: null,
-      options: [ 'View Xpub', 'View Ypub', 'View Zpub' ],
+      xpubBTC: null,
+      ypubBTC: null,
+      zpubBTC: null,
+      xpubBCH: null,
       selection: null
     };
   },
   computed:{
+    recommendations(){
+      if (this.$route.params.ticker == 'BTC'){
+        return [
+          {
+            title: "Samourai's Sentinel",
+            link: 'https://samouraiwallet.com/sentinel'
+          },
+          {
+            title: 'Electrum',
+            link: 'http://docs.electrum.org/en/latest/coldstorage.html?highlight=watch%20only#create-a-watching-only-version-of-your-wallet'
+          },
+        ];
+      }
+      if (this.$route.params.ticker == 'BCH'){
+        return [
+          {
+            title: 'Electron Cash',
+            link: 'https://electroncash.org/'
+          },
+        ];
+      }
+      return [];
+    },
+    options(){
+      if (this.$route.params.ticker == 'BTC'){
+        return [ 
+          {
+            displayName: 'View Xpub',
+            val: this.xpubBTC,
+          },
+          {
+            displayName: 'View Ypub',
+            val: this.ypubBTC,
+          },
+          {
+            displayName: 'View Zpub',
+            val: this.zpubBTC,
+          }
+        ];
+      }
+      if (this.$route.params.ticker == 'BCH'){
+        return [ 
+          {
+            displayName: 'View Xpub',
+            val: this.xpubBCH,
+          },
+        ];
+      }
+      return [];
+    },
+    optionsDisplayNames(){
+      return this.options.map(option => option.displayName);
+    },
     qrValue(){
-      if(this.options.length !== 3){
+      if (!this.selection){
         return '';
       }
-      if (this.selection === this.options[0]){
-        return this.xpub;
-      }
-      if (this.selection === this.options[1]){
-        return this.ypub;
-      }
-      return this.zpub;
+      return this.options.find((option) => option.displayName === this.selection).val;
     }
   },
   async mounted(){
-    this.xpub = await mnemonicToXPub(this.$route.params.seed, 0);
-    this.ypub = await mnemonicToYPub(this.$route.params.seed, 0);
-    this.zpub = await mnemonicToZPub(this.$route.params.seed, 0);
+    this.xpubBTC = await mnemonicToXPubBTC(this.$route.params.seed, 0);
+    this.ypubBTC = await mnemonicToYPubBTC(this.$route.params.seed, 0);
+    this.zpubBTC = await mnemonicToZPubBTC(this.$route.params.seed, 0);
+    this.xpubBCH = await mnemonicToXPubBCH(this.$route.params.seed, 0);
   },
   methods:{
     async save(){

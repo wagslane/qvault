@@ -150,16 +150,28 @@ export default {
       return TrashSVG;
     },
     rows(){
+      const shouldShow = (field) => {
+        if (!field.shouldShow){
+          return true;
+        }
+        return field.shouldShow.func(...this.getParams(field.shouldShow.params));
+      };
+
       let rows = [];
       for (let i = 0; i < this.fields.length; i++){
+        if (!shouldShow(this.fields[i])){
+          continue;
+        }
         if (this.fields[i].type === Array){
           rows.push([ this.fields[i] ]);
-        }else if (i + 1 < this.fields.length){
+          continue;
+        }
+        if (i + 1 < this.fields.length && shouldShow(this.fields[i+1])){
           rows.push([ this.fields[i], this.fields[i+1] ]);
           i++;
-        } else{
-          rows.push([ this.fields[i] ]);
+          continue;
         }
+        rows.push([ this.fields[i] ]);
       }
       return rows;
     },
@@ -216,19 +228,23 @@ export default {
     getFieldID(fieldKey, subfieldIndex, subfieldKey){
       return `${fieldKey}${subfieldIndex}${subfieldKey}`.replace(/[\W_1-9]+/g,'');
     },
+    getParams(paramDefinitions){
+      let paramVals = [];
+      for (const paramObj of paramDefinitions){
+        if (paramObj.hasOwnProperty('value')){
+          paramVals.push(paramObj.value);
+        }
+        if (paramObj.hasOwnProperty('key')){
+          paramVals.push(this.secret.fields[paramObj.key]);
+        }
+      }
+      return paramVals;
+    },
     async setGeneratedContent(id, field){
       if (!field.generated){
         return null;
       }
-      let params = [];
-      for (const paramObj of field.generated.params){
-        if (paramObj.hasOwnProperty('value')){
-          params.push(paramObj.value);
-        }
-        if (paramObj.hasOwnProperty('key')){
-          params.push(this.secret.fields[paramObj.key]);
-        }
-      }
+      let params = this.getParams(field.generated.params);
       Vue.set(this.generatedContent, id, await field.generated.func(...params));
     },
     showDeleteSubfieldModal(key, index){

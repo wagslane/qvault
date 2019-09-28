@@ -24,7 +24,7 @@ export function generateMnemonic() {
   return bip39.generateMnemonic(256, window.nodeAPI.crypto.randomBytes);
 }
 
-export async function mnemonicToXPub(mnemonic,  account) {
+export async function mnemonicToXPubBTC(mnemonic,  account) {
   validateAccountNumber(account);
   validateMnemonic(mnemonic);
   const seed = await bip39.mnemonicToSeed(mnemonic);
@@ -32,7 +32,7 @@ export async function mnemonicToXPub(mnemonic,  account) {
   return hd.derivePath(`m/44'/0'/${account}'`).neutered().toBase58();
 }
 
-export async function mnemonicToYPub(mnemonic, account) {
+export async function mnemonicToYPubBTC(mnemonic, account) {
   validateAccountNumber(account);
   validateMnemonic(mnemonic);
   const seed = await bip39.mnemonicToSeed(mnemonic);
@@ -40,12 +40,20 @@ export async function mnemonicToYPub(mnemonic, account) {
   return hd.derivePath(`m/49'/0'/${account}'`).neutered().toBase58();
 }
 
-export async function mnemonicToZPub(mnemonic, account) {
+export async function mnemonicToZPubBTC(mnemonic, account) {
   validateAccountNumber(account);
   validateMnemonic(mnemonic);
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const hd = bip32.fromSeed(seed, zpubNetwork);
   return hd.derivePath(`m/84'/0'/${account}'`).neutered().toBase58();
+}
+
+export async function mnemonicToXPubBCH(mnemonic, account) {
+  validateAccountNumber(account);
+  validateMnemonic(mnemonic);
+  const seed = await bip39.mnemonicToSeed(mnemonic);
+  const hd = bip32.fromSeed(seed);
+  return hd.derivePath(`m/44'/145'/${account}'`).neutered().toBase58();
 }
 
 // throws an error if the account number isn't valid
