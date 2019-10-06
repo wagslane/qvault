@@ -1,12 +1,37 @@
 import uuidv4 from 'uuid/v4';
 import Vue from 'vue';
 import assert from '../lib/assert';
+import boxDefinitions from '../consts/boxDefinitions';
+import { timestampToFormatted } from '../lib/formatDate';
 
 export default {
   data() {
     return {
       secrets: null
     };
+  },
+  computed:{
+    boxesMetadata() {
+      let sortedBoxes = [];
+      if (!this.secrets) {
+        return sortedBoxes;
+      }
+      for (let key in this.secrets) {
+        if (this.secrets.hasOwnProperty(key)) {
+          const box = this.secrets[key];
+          const boxDefinition = boxDefinitions.find(def => def.key === box.type);
+          sortedBoxes.push({
+            uuid: key,
+            updated: timestampToFormatted(box.updated),
+            customName: box.name,
+            displayName: boxDefinition.displayName,
+            icon: boxDefinition.icon,
+            type: boxDefinition.key
+          });
+        }
+      }
+      return sortedBoxes.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
+    },
   },
   methods: {
     InitializeSecrets() {

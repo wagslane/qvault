@@ -6,7 +6,7 @@
       save-button
     />
     <div
-      v-if="boxes"
+      v-if="boxesMetadata"
       class="container"
     >
       <div
@@ -15,20 +15,20 @@
       >
         <div class="boxes">
           <router-link
-            v-for="sortedBox in sortedBoxes"
-            :key="sortedBox.uuid"
-            :to="{name: 'Box', params: {boxUUID: sortedBox.uuid}}"
+            v-for="boxMetadata in boxesMetadata"
+            :key="boxMetadata.uuid"
+            :to="{name: 'Box', params: {boxUUID: boxMetadata.uuid}}"
             class="box_link"
             :class="{
-              'button-fill': sortedBox.icon.fill,
-              'button-stroke': !(sortedBox.icon.fill)
+              'button-fill': boxMetadata.icon.fill,
+              'button-stroke': !(boxMetadata.icon.fill)
             }"
           >
-            <span v-html="sortedBox.icon.img" />
+            <span v-html="boxMetadata.icon.img" />
             <div class="aesthetic_rectangle" />
-            {{ sortedBox.type === 'other' ? sortedBox.customName : sortedBox.displayName }}
+            {{ boxMetadata.type === 'other' ? boxMetadata.customName : boxMetadata.displayName }}
             <br>
-            <span class="updated">{{ sortedBox.updated }}</span>
+            <span class="updated">{{ boxMetadata.updated }}</span>
           </router-link>
         </div>
         <router-link
@@ -54,16 +54,12 @@
 <script>
 import PlusBox from '../../img/plus-box.svg.vue';
 import {heightMac, heightWin} from '../../consts/titleBar';
-import boxDefinitions from '../../consts/boxDefinitions';
 
 export default {
   components:{
     PlusBox
   },
   computed: {
-    boxes(){
-      return this.$root.secrets;
-    },
     contentHeight(){
       const header_bar_height = 55;
       if (window.nodeAPI.os.type() === 'Darwin'){
@@ -71,28 +67,13 @@ export default {
       }
       return header_bar_height + heightWin;
     },
-    sortedBoxes(){
-      let sortedBoxes = [];
-      for (let key in this.boxes) {
-        if (this.boxes.hasOwnProperty(key)) {
-          let box = this.boxes[key];
-          let boxDefinition = boxDefinitions.find(def => def.key === box.type);
-          sortedBoxes.push({
-            uuid: key,
-            updated: this.formatCreatedDate(box.updated),
-            customName: box.name,
-            displayName: boxDefinition.displayName,
-            icon: boxDefinition.icon,
-            type: boxDefinition.key
-          });
-        }
-      }
-      return sortedBoxes.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
+    boxesMetadata(){
+      return this.$root.boxesMetadata;
     },
   },
   watch: {
-    sortedBoxes(newBoxes){
-      this.addBoxIfNone(newBoxes);
+    boxesMetadata(){
+      this.addBoxIfNone();
     },
   },
   created(){
@@ -101,15 +82,11 @@ export default {
     }
   },
   mounted(){
-    this.addBoxIfNone(this.sortedBoxes);
+    this.addBoxIfNone();
   },
   methods: {
-    formatCreatedDate(timestamp){
-      const d = new Date(timestamp);
-      return `${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`;
-    },
-    addBoxIfNone(boxes){
-      if(!boxes.length){
+    addBoxIfNone(){
+      if(this.boxesMetadata.length === 0){
         if(this.$router.currentRoute.fullPath === "/vault"){
           this.$router.push({name: 'AddBox'});
         }
