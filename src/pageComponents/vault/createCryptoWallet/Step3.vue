@@ -60,7 +60,7 @@
             type="submit"
             class="continue"
           >
-            <span>Continue</span>
+            <span>Create and Save</span>
             <div class="continue-arrow" />
           </button>
         </div>
