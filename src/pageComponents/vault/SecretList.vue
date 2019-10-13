@@ -15,7 +15,7 @@
       </div>
       <DropdownMenu
         class="dropdown-menu"
-        :actions="dropdown_menu_actions"
+        :actions="dropdownMenuActions"
         @showDeleteBoxModal="showDeleteBoxModal"
       />
       <button
@@ -35,10 +35,8 @@
     <SecretPreview
       v-for="secretUUID in $root.GetBoxSecretUUIDs($parent.boxUUID)"
       :key="secretUUID"
-      :box-uuid="$parent.boxUUID"
-      :secret-uuid="secretUUID"
-      :secret="box.secrets[secretUUID]"
-      :box-definition="boxDefinition"
+      :box-u-u-i-d="$parent.boxUUID"
+      :secret-u-u-i-d="secretUUID"
     />
     <Confirm
       ref="deleteBoxModal"
@@ -48,11 +46,10 @@
 </template>
 
 <script>
-import boxDefinitions from '../../consts/boxDefinitions';
 import SecretPreview from './SecretPreview.vue';
 import PlusSolid from '../../img/plus-solid.svg.vue';
 import DropdownMenu from '../../components/DropdownMenu.vue';
-import trash_svg from '../../img/trash.svg';
+import TrashSVG from '../../img/trash.svg';
 import Confirm from '../../components/Confirm.vue';
 
 export default {
@@ -67,14 +64,14 @@ export default {
       return this.$parent.box;
     },
     boxDefinition(){
-      return boxDefinitions.find(def => def.key === this.$root.GetBoxType(this.$parent.boxUUID));
+      return this.$root.GetBoxDefinition(this.$parent.boxUUID);
     },
-    dropdown_menu_actions(){
+    dropdownMenuActions(){
       return [
         {
           label: 'Delete Box',
           method: 'showDeleteBoxModal',
-          icon: trash_svg,
+          icon: TrashSVG,
         }
       ];
     },
