@@ -3,14 +3,14 @@
     class="secret-preview"
   >
     <router-link
-      :to="{name: 'Secret', params: {boxUUID: boxUuid, secretUUID: secretUuid}}"
+      :to="{name: 'Secret', params: {boxUUID: boxUUID, secretUUID: secretUUID}}"
       class="secret-link"
     >
       <span class="name">{{ quickAccessName }}</span>
       <div class="arrow" />
     </router-link>
     <div
-      v-for="(fieldDefinition, i) in definedQuickAccessDefinitions"
+      v-for="(fieldDefinition, i) in existingQuickAccessDefinitions"
       :key="i"
       class="field"
     >
@@ -22,21 +22,21 @@
         >Copied to Clipboard!</label>
       </div>
       <input
-        v-model="secret.fields[fieldDefinition.key]"
-        :type="fields_map[fieldDefinition.key].hidden && hidden ? 'password' : 'text'"
+        :value="$root.GetFieldValue(boxUUID, secretUUID, fieldDefinition.key)"
+        :type="fieldsMap[fieldDefinition.key].hidden && hidden ? 'password' : 'text'"
         readonly
         @click="copy(fieldDefinition.key)"
       >
     </div>
     <div
-      v-if="definedQuickAccessDefinitions.length === 0"
+      v-if="existingQuickAccessDefinitions.length === 0"
       class="spacer"
     />
-    <dropdown_menu
+    <DropdownMenu
       class="dropdown-menu"
-      :actions="dropdown_menu_actions"
+      :actions="DropdownMenuActions"
       @showDeleteSecretModal="showDeleteSecretModal"
-      @show_hide_secret="show_hide_secret"
+      @showHideSecret="showHideSecret"
     />
     <confirm
       ref="deleteSecretModal"
@@ -46,31 +46,23 @@
 </template>
 
 <script>
-import dropdown_menu from '../../components/DropdownMenu.vue';
-import trash_svg from '../../img/trash.svg';
-import hide_svg from '../../img/hide.svg';
+import DropdownMenu from '../../components/DropdownMenu.vue';
+import TrashSVG from '../../img/trash.svg';
+import HideSVG from '../../img/hide.svg';
 import confirm from '../../components/Confirm.vue';
 
 export default {
   components: {
-    dropdown_menu,
+    DropdownMenu,
     confirm
   },
   props: {
-    boxUuid:{
+    boxUUID:{
       type: String,
       required: true
     },
-    secretUuid:{
+    secretUUID:{
       type: String,
-      required: true
-    },
-    secret:{
-      type: Object,
-      required: true
-    },
-    boxDefinition:{
-      type: Object,
       required: true
     }
   },
@@ -81,7 +73,10 @@ export default {
     };
   },
   computed: {
-    fields_map(){
+    boxDefinition(){
+      return this.$root.GetBoxDefinition(this.boxUUID);
+    },
+    fieldsMap(){
       let map = {};
       if(this.boxDefinition){
         for (let i = 0; i < this.boxDefinition.fields.length; i++){
@@ -91,32 +86,24 @@ export default {
       return map;
     },
     quickAccessName(){
-      if(this.secret.fields[this.boxDefinition.quick_access_name]){
-        return this.secret.fields[this.boxDefinition.quick_access_name];
-      }
-      return "Unnamed Secret";
+      return this.$root.GetSecretQuickAccessName(this.boxUUID, this.secretUUID);
     },
-    definedQuickAccessDefinitions(){
-      const existingQuickAccessSecrets = this.boxDefinition.quick_access_secrets.filter(
-        key => this.secret.fields[key]
-      );
-      return this.boxDefinition.fields.filter(
-        fieldObj => existingQuickAccessSecrets.includes(fieldObj.key)
-      );
+    existingQuickAccessDefinitions(){
+      return this.$root.GetExistingQuickAccessDefinitions(this.boxUUID, this.secretUUID);
     },
-    dropdown_menu_actions(){
+    DropdownMenuActions(){
       let actions = [
         {
           label: 'Delete Secret',
           method: 'showDeleteSecretModal',
-          icon: trash_svg,
+          icon: TrashSVG,
         }
       ];
-      if (this.definedQuickAccessDefinitions.find((fieldDef) => {return this.fields_map[fieldDef.key].hidden;})){
+      if (this.existingQuickAccessDefinitions.find((fieldDef) => {return this.fieldsMap[fieldDef.key].hidden;})){
         actions.push({
           label: 'Show / Hide',
-          method: 'show_hide_secret',
-          icon: hide_svg,
+          method: 'showHideSecret',
+          icon: HideSVG,
         });
       }
       return actions;
@@ -127,14 +114,15 @@ export default {
       this.$refs.deleteSecretModal.show(this.deleteSecret);
     },
     copy(fieldKey){
-      window.nodeAPI.electron.clipboard.writeText(this.secret.fields[fieldKey]);
+      const text = this.$root.GetFieldValue(this.boxUUID, this.secretUUID, fieldKey);
+      window.nodeAPI.electron.clipboard.writeText(text);
       this.copied = fieldKey;
       setTimeout(() => {this.copied = '';}, 750);
     },
     deleteSecret(){
-      this.$root.DeleteSecret(this.boxUuid, this.secretUuid);
+      this.$root.DeleteSecret(this.boxUUID, this.secretUUID);
     },
-    show_hide_secret(){
+    showHideSecret(){
       this.hidden = !this.hidden;
     }
   },

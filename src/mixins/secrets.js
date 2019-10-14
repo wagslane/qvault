@@ -16,12 +16,12 @@ export default {
       if (!this.secrets) {
         return sortedBoxes;
       }
-      for (let key in this.secrets) {
-        if (this.secrets.hasOwnProperty(key)) {
-          const box = this.secrets[key];
-          const boxDefinition = boxDefinitions.find(def => def.key === box.type);
+      for (let uuid in this.secrets) {
+        if (this.secrets.hasOwnProperty(uuid)) {
+          const box = this.secrets[uuid];
+          const boxDefinition = this.GetBoxDefinition(uuid);
           sortedBoxes.push({
-            uuid: key,
+            uuid,
             updated: timestampToFormatted(box.updated),
             customName: box.name,
             displayName: boxDefinition.displayName,
@@ -50,6 +50,11 @@ export default {
       };
       this.UpsertBox(newUUID, box);
       return newUUID;
+    },
+
+    GetBoxDefinition(boxUUID){
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
+      return boxDefinitions.find(def => def.key === this.GetBoxType(boxUUID));
     },
 
     UpsertBox(boxUUID, box){
@@ -138,6 +143,43 @@ export default {
       assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
       assert(secretUUID in this.secrets[boxUUID].secrets, `${secretUUID} is not a valid secret uuid`);
       return JSON.parse(JSON.stringify(this.secrets[boxUUID].secrets[secretUUID]));
+    },
+
+    GetSecretQuickAccessName(boxUUID, secretUUID){
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
+      const box = this.secrets[boxUUID];
+      assert(secretUUID in box.secrets, `${secretUUID} is not a valid secret uuid`);
+      const secret = box.secrets[secretUUID];
+
+      const boxDefinition = this.GetBoxDefinition(boxUUID);
+      if (secret.fields[boxDefinition.quick_access_name]) {
+        return secret.fields[boxDefinition.quick_access_name];
+      }
+      return "Unnamed Secret";
+    },
+
+    GetExistingQuickAccessDefinitions(boxUUID, secretUUID){
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
+      const box = this.secrets[boxUUID];
+      assert(secretUUID in box.secrets, `${secretUUID} is not a valid secret uuid`);
+      const secret = box.secrets[secretUUID];
+
+      const boxDefinition = this.GetBoxDefinition(boxUUID);
+      const existingQuickAccessSecrets = boxDefinition.quick_access_secrets.filter(
+        key => secret.fields[key]
+      );
+      return boxDefinition.fields.filter(
+        fieldObj => existingQuickAccessSecrets.includes(fieldObj.key)
+      );
+    },
+
+    GetFieldValue(boxUUID, secretUUID, fieldDefKey){
+      assert(boxUUID in this.secrets, `${boxUUID} is not a valid box uuid`);
+      const box = this.secrets[boxUUID];
+      assert(secretUUID in box.secrets, `${secretUUID} is not a valid secret uuid`);
+      const secret = box.secrets[secretUUID];
+      assert(fieldDefKey in secret.fields, `${secretUUID} is not a valid field key`);
+      return secret.fields[fieldDefKey];
     },
 
     LoadSecrets(newSecrets) {
