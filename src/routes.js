@@ -16,10 +16,10 @@ import LoadDownload from './pageComponents/load/Download.vue';
 import ResolveConflicts from './pageComponents/resolveConflicts/ResolveConflicts.vue';
 
 import Vault from './pageComponents/vault/Vault.vue';
+import VaultView from './pageComponents/vault/VaultView.vue';
 import Box from './pageComponents/vault/Box.vue';
 import AddBox from './pageComponents/vault/AddBox.vue';
 import Secret from './pageComponents/vault/Secret.vue';
-import SecretList from './pageComponents/vault/SecretList.vue';
 
 import VaultCreateCryptoWalletStep1 from './pageComponents/vault/createCryptoWallet/Step1.vue';
 import VaultCreateCryptoWalletStep2 from './pageComponents/vault/createCryptoWallet/Step2.vue';
@@ -169,11 +169,11 @@ export default [
       },
       {
         path: 'box/:boxUUID',
-        component: Box,
+        component: VaultView,
         children: [
           {
             path: '',
-            component: SecretList,
+            component: Box,
             name: 'Box',
           },
           {

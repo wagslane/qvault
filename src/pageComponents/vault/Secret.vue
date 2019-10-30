@@ -181,7 +181,9 @@ export default {
       } 
       return null;
     },
-    box(){ return this.$parent.box; },
+    box() {
+      return this.$root.GetBox(this.$parent.boxUUID);
+    },
     boxUUID() { return this.$parent.boxUUID;},
     boxDefinition(){
       return boxDefinitions.find(def => def.key === this.box.type);
