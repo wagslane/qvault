@@ -1,6 +1,6 @@
 # [Qvault (qvault.io)](https://qvault.io)
 
-An open source, fully transparent, and extremely secure password manager
+An open source, Bitcoin friendly, and extremely secure password manager
 
 [![Build Status](https://img.shields.io/travis/q-vault/qvault/master.svg?logo=travis&label=Build)](https://travis-ci.org/Q-Vault/qvault)
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg?logo=github&label=Total%20Downloads)](https://github.com/Q-Vault/qvault/releases)
