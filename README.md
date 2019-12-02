@@ -6,13 +6,13 @@ An open source, Bitcoin friendly, and extremely secure password manager
 [![Github All Releases](https://img.shields.io/github/downloads/q-vault/qvault/total.svg?logo=github&label=Total%20Downloads)](https://github.com/Q-Vault/qvault/releases)
 [![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/q-vault/qvault.svg?logo=snyk&label=Known%20Vulnerabilities)](https://snyk.io/test/github/q-vault/qvault)
 
-## Contact Qvault
+## 💬 Contact Qvault
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/q_vault.svg?label=Follow%20Qvault&style=social)](https://twitter.com/intent/follow?screen_name=q_vault)
 [![Discord Chat](https://img.shields.io/badge/Discord-Chat-blue.svg?logo=discord&logoColor=white)](https://discord.gg/EEkFwbv)
 [![Medium](https://img.shields.io/badge/Medium-Publication-blueviolet.svg?logo=medium)](https://medium.com/qvault)
 
-## Features
+## 🌟 Features
 
 * Open source - as all password managers should be
 * Generate Bitcoin cold wallets from within the app
@@ -30,7 +30,7 @@ An open source, Bitcoin friendly, and extremely secure password manager
     <img src="doc_resources/crypto.png" alt="cryptocurrency bitcoin password manager">
 </p>
 
-## Compatibility
+## ⚙️ Compatibility
 
 Pre-built one-click releases can be found on our [releases](https://github.com/Q-Vault/qvault/releases) page. We officially support:
 
@@ -44,7 +44,7 @@ Some linux distros don't support unprivileged CLONE_NEWUSER, without that, the e
 sandbox won't work. Since security is our #1 priority, we will not be disabling the sandbox; however, if you wish to
 run Qvault on an unsupported distro, you can use the `--no-sandbox` flag.
 
-## Contributing
+## 👏 Contributing
 
 We love help! Contribute by forking the repo and opening pull requests. Please ensure that your code passes the existing tests, and write tests to test your changes if applicable.
 
@@ -73,7 +73,7 @@ yarn install
 yarn dev
 ```
 
-### Cloud Server
+### ☁️ Cloud Server
 
 Users can choose to optionally store their encrypted vault on Qvault's servers. The API that Qvault uses is hosted at https://api.qvault.io
 
@@ -112,7 +112,7 @@ sure to set the correct node version:
 nvm use
 ```
 
-### Run Tests
+### 🧪 Run Tests
 
 Mocha Chai
 
@@ -120,7 +120,7 @@ Mocha Chai
 yarn test
 ```
 
-## Build from source
+## 🔨 Build from source
 
 Building from source is the best way to ensure code integrity, but keep in mind auto-updates will not work.
 
@@ -150,7 +150,7 @@ These are the repo-level settings some of us use in vscode. We also recommend us
 }
 ```
 
-## Contact the Devs
+## 🗨️ Contact the Devs
 
 The best way to get in contact with the developers is on the public discord server.
 
