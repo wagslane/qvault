@@ -43,7 +43,7 @@ export default {
       width: 450,
       fillColor: "#CE9B2C",
       emptyColor: "#7E8A95",
-      total: 6
+      total: 5
     };
   },
 

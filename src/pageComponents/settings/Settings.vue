@@ -39,14 +39,14 @@
           class="btn"
           :to="{name: 'SettingsCharKeyChoose'}"
         >
-          Manage Recovery Card
+          Manage Recovery Code
         </router-link>
 
         <router-link
           class="btn"
           :to="{name: 'SettingsQrcodeChoose'}"
         >
-          Manage Key Card
+          Manage Key Code
         </router-link>
 
         <router-link

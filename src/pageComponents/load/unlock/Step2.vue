@@ -5,7 +5,7 @@
       <form @submit.prevent="$refs.loader.load(unlock)">
         <div class="body">
           <h1>Recover Vault with Qvault Card</h1>
-          <h2>Please enter the code from the back of your recovery card</h2>
+          <h2>Please enter the recovery code you wrote down when you created your vault</h2>
           <DecoratedTextInput
             v-model="char_key"
             :active="true"

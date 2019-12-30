@@ -3,13 +3,13 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body">
-        <h1>Add/Change Qvault Recovery Card</h1>
+        <h1>Add/Change Qvault Recovery Code</h1>
         <h2>
           This recovery code is the ONLY WAY to restore access to your vault if you forget your password/passphrase.
         </h2>
 
         <div class="highlight-box">
-          <span class="title">Write this code on the back of of your recovery card, and keep it in a safe place. </span>
+          <span class="title">Write this code in a safe place. </span>
           <div class="flex">
             <div
               v-for="(word, i) in split"

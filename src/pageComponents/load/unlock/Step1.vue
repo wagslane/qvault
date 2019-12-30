@@ -37,7 +37,7 @@
             </router-link>
           </div>
           <div v-else>
-            <h2>Please scan your key card</h2>
+            <h2>Please scan your key code</h2>
             <span
               v-if="error"
               class="form-error"

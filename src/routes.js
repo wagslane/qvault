@@ -5,7 +5,6 @@ import CreateStep2 from './pageComponents/create/Step2.vue';
 import CreateStep3 from './pageComponents/create/Step3.vue';
 import CreateStep4 from './pageComponents/create/Step4.vue';
 import CreateStep5 from './pageComponents/create/Step5.vue';
-import CreateStep6 from './pageComponents/create/Step6.vue';
 
 import LoadUnlockStep1 from './pageComponents/load/unlock/Step1.vue';
 import LoadUnlockStep2 from './pageComponents/load/unlock/Step2.vue';
@@ -94,11 +93,6 @@ export default [
         path: 'step5',
         component: CreateStep5,
         name: 'CreateStep5',
-      },
-      {
-        path: 'step6',
-        component: CreateStep6,
-        name: 'CreateStep6',
       },
     ],
   },
