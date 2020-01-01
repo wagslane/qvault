@@ -5,9 +5,9 @@
       <div class="body center-text">
         <StepProgress :filled="2" />
         <h1>Dual Encryption Code</h1>
-        <h2>Save a picture of this QR Code</h2>
+        <h2>Take and save a picture of this QR Code</h2>
         <h3>
-          Keep your key code handy, it will be used each time you open your vault
+          Keep the code handy, it will be used each time you open your vault
         </h3>
         <h3>
           Backup several copies of the picture in different locations. If you lose 
