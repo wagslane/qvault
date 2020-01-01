@@ -67,7 +67,7 @@
           </span>
         </div>
         <span
-          v-if="error"
+          v-if="saveError"
           class="form-error"
         >{{ saveError }}</span>
       </div>

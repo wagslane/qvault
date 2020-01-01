@@ -4,24 +4,23 @@
     <div class="options-box">
       <div class="body">
         <h1 v-if="($root.qr_required)">
-          Change Dual Encryption Card
+          Change Dual Encryption Code
         </h1>
         <h1 v-else>
-          Add Dual Encryption Card
+          Add Dual Encryption Code
         </h1>
-        <h2>Manage your card's dual encryption QR code</h2>
+        <h2>Manage your dual encryption QR code</h2>
 
-        <QRScanner
-          @scanned="handleQRKey"
-        />
-        <br>
-        <br>
-        <span
-          v-if="error"
-          class="form-error"
-        >{{ error }}</span>
-        <br>
-        <br>
+        <div class="qrWrapper">
+          <QrcodeViewer
+            v-if="qrKey"
+            :value="qrKey"
+            class="qrcode"
+          />
+          <div class="qrText">
+            {{ qrKey }}
+          </div>
+        </div>
       </div>
       <div class="footer">
         <div
@@ -30,6 +29,14 @@
         >
           <div class="icon" />
         </div>
+        <button
+          v-if="qrKey"
+          class="continue"
+          @click="clickContinue"
+        >
+          <span>Continue</span>
+          <div class="continue-arrow" />
+        </button>
       </div>
     </div>
     <TimingOverlay
@@ -44,51 +51,29 @@
 </template>
 
 <script>
-import {ValidateQRKey} from '../../../lib/QVaultCrypto/QVaultCrypto';
-import QRScanner from '../../../components/QrcodeScanner.vue';
 import TimingOverlay from '../../../components/TimingOverlay.vue';
+import QrcodeViewer from '../../../components/QrcodeViewer.vue';
+import { GenerateQRKey } from '../../../lib/QVaultCrypto/QVaultCrypto';
 
 export default {
   components:{
-    QRScanner,
     TimingOverlay,
+    QrcodeViewer,
   },
   data(){
     return {
-      error: null
+      qrKey: null
     };
   },
-  methods:{
-    async change(qrKey){
-      if (qrKey.substring(0, 6) === 'ERROR:'){
-        throw "Couldn't find a camera on this device";
-      }
-      if (!ValidateQRKey(qrKey)){
-        throw `Not a valid QR key`;
-      }
-
-      const oldQrRequired = this.$root.qr_required;
-      const oldQrKey = this.$root.qr_key;
-      this.$root.qr_required = true;
-      this.$root.qr_key = qrKey;
-      try{
-        await this.$root.SaveBoth();
-      } catch (err){
-        this.$root.qr_required = oldQrRequired;
-        this.$root.qr_key = oldQrKey;
-        throw err;
-      }
-    },
-    async handleQRKey(qrKey) {
-      try {
-        await this.$refs.loader.load(async () => await this.change(qrKey));
-      } catch (err){
-        this.error = err;
-        return;
-      }
+  mounted(){
+    this.qrKey = GenerateQRKey();
+  },
+  methods: {
+    async clickContinue(){
+      this.$root.CreateQrKey(this.qrKey);
       await this.$refs.successOverlay.sleep(1200);
       this.$router.push({name: 'Settings'});
-    },
+    }
   }
 };
 </script>
@@ -96,5 +81,18 @@ export default {
 <style lang="less" scoped>
 .body{
   text-align: center;
+
+  .qrWrapper{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow-wrap: break-word;
+    color: #fff;
+
+    .qrText{
+      margin-top: 10px;
+    }
+  }
+
 }
 </style>

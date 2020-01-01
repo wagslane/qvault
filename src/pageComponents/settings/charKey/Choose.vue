@@ -3,7 +3,7 @@
     <HeaderBar title="Settings" />
     <div class="options-box">
       <div class="body center-text">
-        <h1>Manage Recovery Card</h1>
+        <h1>Manage Recovery Code</h1>
         <h2>View or change the recovery code for your vault</h2>
 
         <div

@@ -156,11 +156,14 @@ export async function DecipherSecretsQr(qrKey, cipheredSecrets) {
   }
 }
 
-
 export function ValidateQRKey(qrKey) {
   const keyBuf = window.nodeAPI.Buffer.from(qrKey, encodingFormat);
   // Allow 128 bit keys for legacy purposes
   return keyBuf.length === 16 || keyBuf.length === 32;
+}
+
+export function GenerateQRKey() {
+  return window.nodeAPI.crypto.randomBytes(32).toString('base64');
 }
 
 export function GenerateRandomSalt() {

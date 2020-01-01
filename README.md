@@ -17,7 +17,7 @@ An open source, Bitcoin friendly, and extremely secure password manager
 * Open source - as all password managers should be
 * Generate Bitcoin cold wallets from within the app
 * Offline mode - optional
-* Dual encryption using physical Qvault cards - optional
+* Dual encryption using Qr Codes - optional
 * Recovery code in case master password is forgotten - optional
 * Simple - all encrypted vaults are stored locally in .qvault files
 * Free cloud backup storage - optional

@@ -3,6 +3,7 @@ import {
   ValidatePassphrase,
   GeneratePassphrase,
   GenerateCharKey,
+  GenerateQRKey,
   GenerateRandomSalt,
   PassKeyFromPassword,
   CipherSecrets,
@@ -51,11 +52,21 @@ it('GeneratePassphrase', () => {
   expect(passphrase).not.equal(passphrase2);
 });
 
+it('GenerateQRKey', () => {
+  for (let i = 0; i < 25; i += 1) {
+    const qrKey = GenerateQRKey();
+    const buf = window.nodeAPI.Buffer.from(qrKey, 'base64');
+    expect(buf.length).equal(32);
+    const qrKey2 = GenerateQRKey();
+    expect(qrKey).not.equal(qrKey2);
+  }
+});
+
 it('GenerateCharKey', () => {
   for (let i = 0; i < 25; i += 1) {
-    let charKey = GenerateCharKey();
+    const charKey = GenerateCharKey();
     expect(charKey.length).equal(16);
-    let charKey2 = GenerateCharKey();
+    const charKey2 = GenerateCharKey();
     expect(charKey).not.equal(charKey2);
   }
 });

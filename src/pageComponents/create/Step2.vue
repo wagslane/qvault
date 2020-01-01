@@ -2,36 +2,38 @@
   <div>
     <HeaderBar title="Setup" />
     <div class="options-box">
-      <div class="body">
+      <div class="body center-text">
         <StepProgress :filled="2" />
-        <h1>Qvault Recovery Card</h1>
-        <h2>
-          This recovery code is the ONLY WAY to restore access to your vault if you forget your password/passphrase
-        </h2>
-        <div class="highlight-box">
-          <span class="title">Write this code on the back of of your recovery card, and keep it in a safe place </span>
-          <div class="flex">
-            <div
-              v-for="(word, i) in formattedCharKey"
-              :key="i"
-              class="character-code"
-            >
-              <span
-                v-for="(char, j) in word"
-                :key="j"
-                class="spacing"
-              >
-                <u v-if="/[A-Z]/.test(char)">{{ char }}</u>
-                <span v-else>{{ char }}</span>
-              </span>
-            </div>
+        <h1>Dual Encryption Code</h1>
+        <h2>Take and save a picture of this QR Code</h2>
+        <h3>
+          Keep the code handy, it will be used each time you open your vault
+        </h3>
+        <h3>
+          Backup several copies of the picture in different locations. If you lose 
+          the code you will be unable to access your vault
+        </h3>
+
+        <div class="qrWrapper">
+          <QrcodeViewer
+            v-if="qrKey"
+            :value="qrKey"
+            class="qrcode"
+          />
+          <div class="qrText">
+            {{ qrKey }}
           </div>
         </div>
-        <h3> The code is case-sensitive, use underlines for capital letters </h3>
-      </div>
 
-      <br>
-      <br>
+        <router-link
+          class="link"
+          :to="{name: 'CreateStep3'}"
+        >
+          Or skip dual encrpytion
+        </router-link>
+        <br>
+        <br>
+      </div>
       <div class="footer">
         <div
           class="back"
@@ -39,39 +41,55 @@
         >
           <div class="icon" />
         </div>
-        <router-link
-          v-if="$root.char_key"
-          :to="{name: 'CreateStep3'}"
+
+        <button
+          v-if="qrKey"
+          class="continue"
+          @click="clickContinue"
         >
-          <button class="continue">
-            <span>Continue</span>
-            <div class="continue-arrow" />
-          </button>
-        </router-link>
+          <span>Continue</span>
+          <div class="continue-arrow" />
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import QrcodeViewer from '../../components/QrcodeViewer.vue';
+import { GenerateQRKey } from '../../lib/QVaultCrypto/QVaultCrypto';
+
 export default {
+  components:{
+    QrcodeViewer,
+  },
   data(){
-    return{
-      formattedCharKey: [
-        [ '', '', '', '' ],
-        [ '', '', '', '' ],
-        [ '', '', '', '' ],
-        [ '', '', '', '' ],
-      ]
+    return {
+      qrKey: null
     };
   },
   mounted(){
-    this.formattedCharKey = [
-      this.$root.char_key.slice(0, 4),
-      this.$root.char_key.slice(4, 8),
-      this.$root.char_key.slice(8, 12),
-      this.$root.char_key.slice(12, 16)
-    ];
+    this.qrKey = GenerateQRKey();
+  },
+  methods: {
+    clickContinue(){
+      this.$root.CreateQrKey(this.qrKey);
+      this.$router.push({name: 'CreateStep3'});
+    }
   }
 };
 </script>
+
+<style lang="less" scoped>
+  .qrWrapper{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    overflow-wrap: break-word;
+    color: #fff;
+
+    .qrText{
+      margin-top: 10px;
+    }
+  }
+</style>

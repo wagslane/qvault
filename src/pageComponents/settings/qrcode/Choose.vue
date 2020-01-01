@@ -11,10 +11,10 @@
           :to="{name: 'SettingsQrcodeAddOrChange'}"
         >
           <span v-if="($root.qr_required)">
-            Change Key Card
+            Change Key Code
           </span>
           <span v-else>
-            Add Key Card
+            Add Key Code
           </span>
         </router-link>
 
