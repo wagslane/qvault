@@ -13,18 +13,18 @@ export function writeToPreferenceFile(key, value){
   window.nodeAPI.fs.writeFileSync(path, JSON.stringify(preferences));
 }
 
-export function preferenceFileExists () {
+export function preferenceFileExists() {
   return window.nodeAPI.fs.existsSync(getPreferenceFilePath());
 }
 
-export function createPreferenceFile () {
+export function createPreferenceFile() {
   const defaultPreferences = require('../consts/defaultPreferences.json');
   const path = getPreferenceFilePath();
   window.nodeAPI.fs.writeFileSync(path, JSON.stringify(defaultPreferences));
 }
 
 function getPreferences(path){
-  const file = window.nodeAPI.fs.readFileSync(path,'utf-8');
+  const file = window.nodeAPI.fs.readFileSync(path, 'utf-8');
   return JSON.parse(file);
 }
 
