@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {writeToPreferenceFile} from '../lib/appPreferences';
 
 Vue.use(Vuex);
 
@@ -17,8 +18,10 @@ export const store = new Vuex.Store({
       state.isAppOnline = isOnline;
       if (isOnline){
         window.nodeAPI.electron.ipcRenderer.send('setOnline');
+        writeToPreferenceFile('onlineMode',true);
       } else{
         window.nodeAPI.electron.ipcRenderer.send('setOffline');
+        writeToPreferenceFile('onlineMode',false);
       }
     },
     pushConflict(state, newConflict){

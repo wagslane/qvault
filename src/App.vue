@@ -19,6 +19,7 @@ import TitleBar from './components/TitleBar.vue';
 import {heightMac, heightWin} from './consts/titleBar';
 import LockScreen from './components/LockScreen.vue';
 import { store } from './store/store';
+import {preferenceFileExists, createPreferenceFile} from './lib/appPreferences';
 
 export const router = new VueRouter({routes});
 
@@ -53,6 +54,9 @@ export default {
     window.nodeAPI.electron.ipcRenderer.on('updateReady', () => {
       this.updateReady = true;
     });
+    if (!preferenceFileExists()){
+      createPreferenceFile();
+    }
   },
   router
 };

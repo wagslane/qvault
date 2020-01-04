@@ -13,6 +13,7 @@
 import ToggleSwitch from './ToggleSwitch.vue';
 import { internetAvailable } from '../lib/cloudClient';
 import sleep from '../lib/sleep';
+import { getPreferenceFromFile } from '../lib/appPreferences';
 
 export default {
   components:{
@@ -56,7 +57,7 @@ export default {
   },
   async beforeCreate(){
     // show we are offine if we have no connection
-    if(!await internetAvailable()){
+    if(!await internetAvailable() || !getPreferenceFromFile('onlineMode')){
       this.$store.commit('setAppOnline', false);
     }
   }
