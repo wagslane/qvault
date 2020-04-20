@@ -1,4 +1,4 @@
-# DEPRECTAED - [Qvault (qvault.io)](https://qvault.io)
+# DEPRECATED - [Qvault (qvault.io)](https://qvault.io)
 
 An open source, Bitcoin friendly, and extremely secure password manager
 
